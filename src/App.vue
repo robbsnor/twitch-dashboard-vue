@@ -11,26 +11,26 @@ const session = ref<Session>()
 const loading = ref(false)
 
 onMounted(() => {
-  supabase.auth.getSession().then(({ data }) => {
-    session.value = data.session ?? undefined
-  })
+    supabase.auth.getSession().then(({ data }) => {
+        session.value = data.session ?? undefined
+    })
 
-  supabase.auth.onAuthStateChange((_, _session) => {
-    session.value = _session ?? undefined
-  })
+    supabase.auth.onAuthStateChange((_, _session) => {
+        session.value = _session ?? undefined
+    })
 })
 
 const signInWithTwitch = async () => {
-  try {
-    loading.value = true
-    await supabase.auth.signInWithOAuth({
-      provider: 'twitch',
-    })
-  } catch (error) {
-    console.log(error)
-  } finally {
-    loading.value = false;
-  }
+    try {
+        loading.value = true
+        await supabase.auth.signInWithOAuth({
+            provider: 'twitch',
+        })
+    } catch (error) {
+        console.log(error)
+    } finally {
+        loading.value = false;
+    }
 }
 </script>
 
@@ -41,12 +41,12 @@ const signInWithTwitch = async () => {
         <RouterLink to="/about">About</RouterLink>
   </header> -->
 
-  <main class="app__main">
-    <Button class="auth__button" @click="signInWithTwitch">Sign in with Twitch</Button>
-    <hr>
-    {{ session }}
-    <RouterView />
-  </main>
+    <main class="app__main">
+        <Button class="auth__button" @click="signInWithTwitch">Sign in with Twitch</Button>
+        <hr>
+        {{ session }}
+        <RouterView />
+    </main>
 </template>
 
 <style scoped lang="scss">
