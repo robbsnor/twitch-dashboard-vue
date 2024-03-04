@@ -1,0 +1,21 @@
+$c-black:            #000000;
+$c-white:            #FFFFFF;
+
+$c-primary:          #8EFD02;
+$c-primary--light:   lighten($c-primary, 20);
+$c-primary--darkest: darken($c-primary, 45);
+
+$c-black:            #000000;
+$c-black--light:     #1F1F1F;
+$c-black--lighter:   #333333;
+
+$c-gray:             #666666;
+
+$c-white:            #FFFFFF;
+$c-white--dark:      #CCCCCC;
+
+$c-yellow:           #FFC700;
+$c-orange:           #e67e22;
+$c-red:              #e74c3c;
+$c-purple:           #8e44ad;
+$c-blue:             #3498db;

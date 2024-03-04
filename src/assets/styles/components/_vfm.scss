@@ -1,0 +1,16 @@
+.vfm {
+    &__overlay {
+        background-color: rgba($c-black, 0.9) !important;
+    }
+
+    &__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    // &__content {
+
+    // }
+
+}

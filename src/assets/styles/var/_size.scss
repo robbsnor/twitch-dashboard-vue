@@ -1,0 +1,13 @@
+@import '../functions/rem';
+
+$padding: 20px;
+
+// container
+$container-default-width: 1840px;
+$container-smaller-width: 1440px;
+
+// header
+$header-height: rem(80px);
+
+// bottom navigation
+$bottom-navigation-height: rem(70px);
