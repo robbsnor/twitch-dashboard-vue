@@ -3,12 +3,14 @@ import type { Session } from '@supabase/supabase-js';
 import { onMounted, ref, type Ref } from 'vue';
 import { RouterView } from 'vue-router';
 import { supabase } from './supabase';
+import { useMouse } from './composables/use-mouse.composable'
 
 import Header from './components/layout/Header.vue';
 import Button from './components/shared/Button.vue';
 
 const session = ref<Session>()
 const loading = ref(false)
+const { x, y } = useMouse()
 
 onMounted(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -32,6 +34,10 @@ const signInWithTwitch = async () => {
         loading.value = false;
     }
 }
+
+const signOut = async () => {
+    await supabase.auth.signOut()
+}
 </script>
 
 <template>
@@ -42,10 +48,19 @@ const signInWithTwitch = async () => {
   </header> -->
 
     <main class="app__main">
-        <Button to="http://localhost:5173/" class="auth__button" @click="signInWithTwitch">Sign in with Twitch</Button>
-        <Button to="/about" class="auth__button">About</Button>
+        <Button v-if="!session" type="a" to="http://localhost:5173/" @click="signInWithTwitch">Sign in with Twitch</Button>
+        <Button v-else type="button" @click="signOut">Sign out</Button>
+
         <hr>
-        {{ session }}
+
+        <code>
+            <pre>
+                {{ session }}
+            </pre>
+        </code>
+
+        <hr>
+
         <RouterView />
     </main>
 </template>

@@ -28,7 +28,10 @@ const props = defineProps<{
             <div class="header__right">
                 <button class="header__user">
                     <span class="sr-only">Username</span>
-                    <HeaderAvatar :image="props.session?.user.user_metadata.avatar_url"/>
+                    <HeaderAvatar
+                        v-if="props.session"
+                        :image="props.session.user.user_metadata.avatar_url"
+                    />
                 </button>
             </div>
         </div>

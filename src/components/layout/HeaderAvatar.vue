@@ -4,10 +4,6 @@ import { onMounted, ref } from 'vue';
 const props = defineProps<{
   image: string;
 }>()
-
-onMounted(() => {
-    console.log(props)
-})
 </script>
 
 <template>
