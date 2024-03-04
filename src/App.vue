@@ -42,7 +42,8 @@ const signInWithTwitch = async () => {
   </header> -->
 
     <main class="app__main">
-        <Button class="auth__button" @click="signInWithTwitch">Sign in with Twitch</Button>
+        <Button to="http://localhost:5173/" class="auth__button" @click="signInWithTwitch">Sign in with Twitch</Button>
+        <Button to="/about" class="auth__button">About</Button>
         <hr>
         {{ session }}
         <RouterView />

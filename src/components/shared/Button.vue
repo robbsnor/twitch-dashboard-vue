@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <component is="a" to="http://localhost:5173/" class="button button--primary">
+    <component :is="props.type" :to="props.to" class="button button--primary">
         <slot></slot>
     </component>
 </template>
