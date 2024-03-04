@@ -51,6 +51,7 @@ const signOut = async () => {
         <Button v-if="!session" type="a" to="http://localhost:5173/" @click="signInWithTwitch">Sign in with Twitch</Button>
         <Button v-else type="button" @click="signOut">Sign out</Button>
 
+        <Button type="button" color="secondary" @click="signOut">Sign out</Button>
         <hr>
 
         <code>

@@ -1,17 +1,37 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 interface Props {
-    type: 'button' | 'a' | 'RouterLink';
+    type?: 'button' | 'a' | 'RouterLink';
+    stroke?: boolean;
+    color?: 'primary' | 'secondary',
+    iconAlign?: 'left' | 'right';
     to?: string;
+    icon?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     type: 'RouterLink',
-    to: '/about'
+    color: 'primary',
+    iconAlign: 'right',
+    stroke: false,
+})
+
+const classes = computed(() => {
+    const strokeClass = props.stroke ? 'button--stroke' : '';
+    const iconClass = props.icon
+        ? `button--icon button--icon-${props.icon}`
+        : '';
+    const iconAlignclass = props.icon
+        ? `button--icon-align-${props.iconAlign}`
+        : '';
+
+    return `button button--${props.color} ${strokeClass} ${iconClass} ${iconAlignclass}`;
 })
 </script>
 
 <template>
-    <component :is="props.type" :to="props.to" class="button button--primary">
+    <component :is="props.type" :to="props.to" class="button button--primary" :class="classes">
         <slot></slot>
     </component>
 </template>
