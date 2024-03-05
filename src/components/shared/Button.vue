@@ -2,35 +2,29 @@
 import { computed } from 'vue';
 
 interface Props {
-    type?: 'button' | 'a' | 'RouterLink';
-    stroke?: boolean;
     color?: 'primary' | 'secondary',
     iconAlign?: 'left' | 'right';
-    to?: string;
     icon?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    type: 'RouterLink',
     color: 'primary',
     iconAlign: 'right',
-    stroke: false,
 })
 
 const classes = computed(() => {
-    const strokeClass = props.stroke ? 'button--stroke' : '';
     const iconClass = props.icon ? `button--icon button--icon-${props.icon}` : '';
     const iconAlignclass = props.icon ? `button--icon-align-${props.iconAlign}` : '';
 
-    return `button button--${props.color} ${strokeClass} ${iconClass} ${iconAlignclass}`;
+    return `button button--${props.color} ${iconAlignclass} ${iconClass}`;
 })
 </script>
 
 <template>
-    <component :is="props.type" :to="props.to" :class="classes">
+    <button :class="classes">
         <slot></slot>
         <vue-feather v-if="icon" :type="icon" size="1.2rem" stroke-width="2.2" class="button__icon"></vue-feather>
-    </component>
+    </button>
 </template>
 
 <style scoped lang="scss">
@@ -72,13 +66,12 @@ const classes = computed(() => {
 
     &__icon { }
 
-    &:hover,
-    &:focus-within {
-        scale: 1.03;
+    &:hover {
+        scale: 1.04;
     }
 
     &:focus {
-        scale: .98;
+        // scale: .96;
     }
 
     // color
@@ -86,8 +79,7 @@ const classes = computed(() => {
         color: $c-black;
         background-color: $c-primary;
 
-        &:hover,
-        &:focus-within {
+        &:hover {
             background-color: $c-primary--light;
         }
     }
@@ -96,8 +88,7 @@ const classes = computed(() => {
         color: $c-black;
         background-color: $c-black-10;
 
-        &:hover,
-        &:focus-within {
+        &:hover {
             background-color: $c-white--dark;
         }
     }

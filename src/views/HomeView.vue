@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ButtonGroup from '@/components/shared/ButtonGroup.vue';
-import Logo from '@/components/shared/Logo.vue';
+import Button from '@/components/shared/Button.vue';
 </script>
 
 <template>
@@ -14,13 +14,10 @@ import Logo from '@/components/shared/Logo.vue';
                     <p>Organize and filter your favourite streamers, easily re-watch previous streams in a clean presentable UI.</p>
                 </div>
 
-                <div class="splash__buttons">
-                    <ButtonGroup>
-                        <div class="wow">wow</div>
-                        <div class="wow">wow</div>
-                    </ButtonGroup>
-                    <Logo></Logo>
-                </div>
+                <ButtonGroup class="splash__buttons">
+                    <Button color="secondary">Features</Button>
+                    <Button icon="twitch">Log in</Button>
+                </ButtonGroup>
             </div>
 
             <div class="splash__image-container">
