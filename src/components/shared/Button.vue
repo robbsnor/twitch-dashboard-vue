@@ -67,7 +67,7 @@ const classes = computed(() => {
     &__icon { }
 
     &:hover {
-        scale: 1.04;
+        // scale: 1.04;
     }
 
     &:focus {
@@ -80,7 +80,7 @@ const classes = computed(() => {
         background-color: $c-primary;
 
         &:hover {
-            background-color: $c-primary--light;
+            background-color: $c-primary--lighter;
         }
     }
 

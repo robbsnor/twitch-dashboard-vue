@@ -1,30 +1,31 @@
 // black
-$c-black:            #000000;
-$c-black-2:          #111111;
-$c-black-3:          #222222;
-$c-black-4:          #333333;
-$c-black-5:          #444444;
-$c-black-6:          #555555;
-$c-black-7:          #666666;
-$c-black-8:          #777777;
-$c-black-9:          #888888;
-$c-black-10:         #999999;
+$c-black:               #000000;
+$c-black-2:             #111111;
+$c-black-3:             #222222;
+$c-black-4:             #333333;
+$c-black-5:             #444444;
+$c-black-6:             #555555;
+$c-black-7:             #666666;
+$c-black-8:             #777777;
+$c-black-9:             #888888;
+$c-black-10:            #999999;
 
 // gray
-$c-gray:             #666666;
+$c-gray:                #666666;
 
 // white
-$c-white:            #FFFFFF;
-$c-white--dark:      #CCCCCC;
+$c-white:               #FFFFFF;
+$c-white--dark:         #CCCCCC;
 
 // colors
-$c-primary:          #8EFD02; // original
-$c-primary:          #cdf620;
-$c-primary--light:   lighten($c-primary, 20);
-$c-primary--darkest: darken($c-primary, 45);
+$c-primary:             #8EFD02; // original
+$c-primary:             #cdf620; // valorant style
+$c-primary--light:        lighten($c-primary, 20);
+$c-primary--lighter:      lighten($c-primary, 30);
+$c-primary--darkest:      darken($c-primary, 45);
 
-$c-yellow:           #FFC700;
-$c-orange:           #e67e22;
-$c-red:              #e74c3c;
-$c-purple:           #8e44ad;
-$c-blue:             #3498db;
+$c-yellow:              #FFC700;
+$c-orange:              #e67e22;
+$c-red:                 #e74c3c;
+$c-purple:              #8e44ad;
+$c-blue:                #3498db;

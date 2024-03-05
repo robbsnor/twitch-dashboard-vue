@@ -7,7 +7,7 @@ import Button from '@/components/shared/Button.vue';
     <section class="splash">
         <div class="splash__container">
             <div class="splash__copy">
-                <h1 class="splash__title">Your Custom Twitch Dashboard</h1>
+                <h1 class="splash__title">Twitch Dashboard</h1>
                 <h3 class="splash__subtitle">Manage your favourite streamers</h3>
 
                 <div class="splash__description">
@@ -16,7 +16,7 @@ import Button from '@/components/shared/Button.vue';
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
-                    <Button icon="twitch">Log in</Button>
+                    <Button icon="twitch">Log in with Twitch</Button>
                 </ButtonGroup>
             </div>
 
