@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Session } from '@supabase/supabase-js';
-import { onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 import { supabase } from './supabase';
 
 import Header from './components/layout/Header.vue';
 import Button from './components/shared/Button.vue';
+import ButtonGroup from './components/shared/ButtonGroup.vue'
 
 const session = ref<Session>()
 const loading = ref(false)
@@ -41,9 +42,10 @@ const signOut = async () => {
 <template>
   <Header :session="session" />
     <main class="app__main">
-
-        <Button type="a" to="/" >Home</Button>
-        <Button type="a" to="/about" color="secondary">About</Button>
+        <ButtonGroup>
+            <Button to="/" color="secondary">Home</Button>
+            <Button to="/about" color="secondary">About</Button>
+        </ButtonGroup>
 
         <RouterView />
     </main>

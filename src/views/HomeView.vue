@@ -1,10 +1,10 @@
 <script setup lang="ts">
-// import Button from '../components/shared/Button.vue';
+import ButtonGroup from '@/components/shared/ButtonGroup.vue';
+import Logo from '@/components/shared/Logo.vue';
 </script>
 
 <template>
     <section class="splash">
-        <h1>home</h1>
         <div class="splash__container">
             <div class="splash__copy">
                 <h1 class="splash__title">Your Custom Twitch Dashboard</h1>
@@ -15,14 +15,16 @@
                 </div>
 
                 <div class="splash__buttons">
-                    <!-- <Button icon="twitch">wow</Button> -->
-                    <!-- <Button v-if="!session" type="a" @click="signInWithTwitch" icon="twitch">Sign in</Button> -->
-                    <!-- <Button v-else type="button" @click="signOut">Sign out</Button> -->
+                    <ButtonGroup>
+                        <Button>xdd</Button>
+                        <div class="w">www</div>
+                        <div class="w">www</div>
+                    </ButtonGroup>
+                    <Logo></Logo>
                 </div>
             </div>
 
             <div class="splash__image-container">
-                <!-- <img src="/assets/images/arcade.png" alt="" class="splash__image"> -->
             </div>
         </div>
     </section>
