@@ -48,10 +48,12 @@ const signOut = async () => {
   </header> -->
 
     <main class="app__main">
-        <Button v-if="!session" type="a" to="http://localhost:5173/" @click="signInWithTwitch">Sign in with Twitch</Button>
+        <Button v-if="!session" type="a" @click="signInWithTwitch">Sign in with Twitch</Button>
         <Button v-else type="button" @click="signOut">Sign out</Button>
 
-        <Button type="button" color="secondary">Test</Button>
+        <hr>
+        <Button type="a" to="/" >Home</Button>
+        <Button type="a" to="/about" color="secondary">About</Button>
         <hr>
 
         <code>

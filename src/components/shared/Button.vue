@@ -18,13 +18,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const classes = computed(() => {
-    const strokeClass = props.stroke ? 'button--stroke' : '';
-    const iconClass = props.icon
-        ? `button--icon button--icon-${props.icon}`
-        : '';
-    const iconAlignclass = props.icon
-        ? `button--icon-align-${props.iconAlign}`
-        : '';
+    const strokeClass = props.stroke ?? 'button--stroke';
+    const iconClass = props.icon ?? `button--icon button--icon-${props.icon}`
+    const iconAlignclass = props.icon ?? `button--icon-align-${props.iconAlign}`;
 
     return `button button--${props.color} ${strokeClass} ${iconClass} ${iconAlignclass}`;
 })
