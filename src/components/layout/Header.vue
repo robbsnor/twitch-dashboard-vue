@@ -21,8 +21,8 @@ const props = defineProps<{
                 </button>
             </div>
 
-            <a href="/">
-                <Logo class="header__logo" />
+            <a href="/" class="header__logo">
+                <Logo />
             </a>
 
             <div class="header__right">
