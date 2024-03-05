@@ -18,17 +18,18 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const classes = computed(() => {
-    const strokeClass = props.stroke ?? 'button--stroke';
-    const iconClass = props.icon ?? `button--icon button--icon-${props.icon}`
-    const iconAlignclass = props.icon ?? `button--icon-align-${props.iconAlign}`;
+    const strokeClass = props.stroke ? 'button--stroke' : '';
+    const iconClass = props.icon ? `button--icon button--icon-${props.icon}` : '';
+    const iconAlignclass = props.icon ? `button--icon-align-${props.iconAlign}` : '';
 
     return `button button--${props.color} ${strokeClass} ${iconClass} ${iconAlignclass}`;
 })
 </script>
 
 <template>
-    <component :is="props.type" :to="props.to" class="button button--primary" :class="classes">
+    <component :is="props.type" :to="props.to" :class="classes">
         <slot></slot>
+        <vue-feather v-if="icon" :type="icon" size="1.2rem" stroke-width="2.2" class="button__icon"></vue-feather>
     </component>
 </template>
 
@@ -47,9 +48,11 @@ const classes = computed(() => {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    cursor: pointer;
     text-decoration: none;
     flex-shrink: 0;
-    padding: rem(12px) rem(20px);
+    height: rem(40px);
+    padding: 0 rem(18px);
 
     border-radius: $border-radius-normal;
 
@@ -67,14 +70,7 @@ const classes = computed(() => {
         }
     }
 
-    // need to do it this way to overwrite feather-icon's styling
-    .button__icon {
-        position: relative;
-        z-index: 1;
-        line-height: 1;
-        width: 20px;
-        height: 20px;
-    }
+    &__icon { }
 
     &:hover,
     &:focus-within {
@@ -98,7 +94,7 @@ const classes = computed(() => {
 
     &--secondary {
         color: $c-black;
-        background-color: $c-gray;
+        background-color: $c-black-10;
 
         &:hover,
         &:focus-within {
