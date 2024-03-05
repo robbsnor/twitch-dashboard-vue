@@ -16,9 +16,8 @@ import Logo from '@/components/shared/Logo.vue';
 
                 <div class="splash__buttons">
                     <ButtonGroup>
-                        <Button>xdd</Button>
-                        <div class="w">www</div>
-                        <div class="w">www</div>
+                        <div class="wow">wow</div>
+                        <div class="wow">wow</div>
                     </ButtonGroup>
                     <Logo></Logo>
                 </div>
