@@ -1,6 +1,29 @@
 <script setup lang="ts">
 import ButtonGroup from '@/components/shared/ButtonGroup.vue';
 import Button from '@/components/shared/Button.vue';
+import { supabase } from '@/supabase';
+import { ref } from 'vue';
+import { useAuthStore } from '@/stores/auth.store';
+
+const loading = ref(false)
+const authStore = useAuthStore()
+
+const signInWithTwitch = async () => {
+    try {
+        loading.value = true
+        await supabase.auth.signInWithOAuth({
+            provider: 'twitch',
+        })
+    } catch (error) {
+        console.log(error)
+    } finally {
+        loading.value = false;
+    }
+}
+
+const signOut = async () => {
+    await supabase.auth.signOut()
+}
 </script>
 
 <template>
@@ -16,11 +39,15 @@ import Button from '@/components/shared/Button.vue';
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
-                    <Button icon="twitch">Log in with Twitch</Button>
+                    <Button v-if="authStore.session" @click="signOut">Log out</Button>
+                    <Button v-else icon="twitch" @click="signInWithTwitch">Log in with Twitch</Button>
                 </ButtonGroup>
             </div>
 
             <div class="splash__image-container">
+                <code>
+                    {{ authStore.session }}
+                </code>
             </div>
         </div>
     </section>

@@ -5,41 +5,14 @@ import { RouterView } from 'vue-router';
 import { supabase } from './supabase';
 
 import Header from './components/layout/Header.vue';
-import ButtonGroup from './components/shared/ButtonGroup.vue'
+import { useAuthStore } from './stores/auth.store';
 
-const session = ref<Session>()
-const loading = ref(false)
-
-onMounted(() => {
-    supabase.auth.getSession().then(({ data }) => {
-        session.value = data.session ?? undefined
-    })
-
-    supabase.auth.onAuthStateChange((_, _session) => {
-        session.value = _session ?? undefined
-    })
-})
-
-const signInWithTwitch = async () => {
-    try {
-        loading.value = true
-        await supabase.auth.signInWithOAuth({
-            provider: 'twitch',
-        })
-    } catch (error) {
-        console.log(error)
-    } finally {
-        loading.value = false;
-    }
-}
-
-const signOut = async () => {
-    await supabase.auth.signOut()
-}
+const authStore = useAuthStore()
 </script>
 
 <template>
-  <Header :session="session" />
+    <Header :session="authStore.session" />
+
     <main class="app__main">
         <RouterView />
     </main>

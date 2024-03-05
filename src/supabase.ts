@@ -1,20 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
+import { useAuthStore } from './stores/auth.store';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-// supabase.auth.onAuthStateChange((event, session) => {
-//     if (session && session.provider_token) {
-//         window.localStorage.setItem('oauth_provider_token', session.provider_token);
-//     }
-//
-//     if (session && session.provider_refresh_token) {
-//         window.localStorage.setItem('oauth_provider_refresh_token', session.provider_refresh_token);
-//     }
-//
-//     if (event === 'SIGNED_OUT') {
-//         window.localStorage.removeItem('oauth_provider_token');
-//         window.localStorage.removeItem('oauth_provider_refresh_token');
-//     }
-// });
+
+supabase.auth.getSession().then(({ data }) => {
+    const authStore = useAuthStore();
+    authStore.setSession(data.session ?? undefined);
+});
+
+supabase.auth.onAuthStateChange((_, session) => {
+    const authStore = useAuthStore();
+    authStore.setSession(session ?? undefined);
+});
