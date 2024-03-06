@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import type { Session } from '@supabase/supabase-js';
 
 import HeaderAvatar from '../layout/HeaderAvatar.vue';
+import Button from '../shared/Button.vue';
 import Logo from '../shared/Logo.vue';
 
 const props = defineProps<{
-  session?: Session;
+  user?: any;
 }>()
-
+const emit = defineEmits(['signOut'])
+const signOut = () => emit('signOut');
 </script>
 
 <template>
@@ -26,11 +27,11 @@ const props = defineProps<{
             </a>
 
             <div class="header__right">
-                <button class="header__user">
+                <button @click="signOut" class="header__user">
                     <span class="sr-only">Username</span>
                     <HeaderAvatar
-                        v-if="props.session"
-                        :image="props.session.user.user_metadata.avatar_url"
+                        v-if="props.user"
+                        :image="props.user.profile_image_url"
                     />
                 </button>
             </div>

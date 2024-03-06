@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import ButtonGroup from '@/components/shared/ButtonGroup.vue';
 import Button from '@/components/shared/Button.vue';
+import ButtonGroup from '@/components/shared/ButtonGroup.vue';
 import { useAuthStore } from '@/stores/auth.store';
+import { computed } from 'vue';
 
 const authStore = useAuthStore();
 
-const signInWithTwitch = () => authStore.signInWithTwitch();
-const signOut = () => authStore.signOut();
+const singInUrl = computed(() => {
+    const url = new URL('https://id.twitch.tv/oauth2/authorize');
+    url.searchParams.append('client_id', 'bpjttmchlxdfo9t47z8g3b7snhr9h4')
+    url.searchParams.append('redirect_uri', 'http://localhost:5173/')
+    url.searchParams.append('force_verify', 'false')
+    url.searchParams.append('response_type', 'token')
+    url.searchParams.append('scope', 'user:read:follows')
+
+    return url.href;
+})
 </script>
 
 <template>
@@ -22,14 +31,18 @@ const signOut = () => authStore.signOut();
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
-                    <Button v-if="authStore.session" @click="signOut">Log out</Button>
-                    <Button v-else icon="twitch" @click="signInWithTwitch">Log in with Twitch</Button>
+                    <RouterLink v-if="authStore.user" to="/live">
+                        <Button>Dashboard</Button>
+                    </RouterLink>
+                    <a v-else :href="singInUrl">
+                        <Button icon="twitch">Log in with Twitch</Button>
+                    </a>
                 </ButtonGroup>
             </div>
 
             <div class="splash__image-container">
                 <code>
-                    {{ authStore.session }}
+                    {{  authStore.user }}
                 </code>
             </div>
         </div>

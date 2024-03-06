@@ -1,40 +1,51 @@
-import { createClient, type Session } from '@supabase/supabase-js';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { LocalStorageService } from '../services/localstorage.service';
+import { TwitchService } from '../services/twitch.service';
 
 export const useAuthStore = defineStore('auth', () => {
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    const accessToken = ref<string | null>(null);
+    const user = ref<any>();
 
-    const session = ref<Session>();
-
-    supabase.auth.onAuthStateChange((event, session) => {
-        setSession(session ?? undefined);
-    });
-
-    const setSession = (_session?: Session) => {
-        session.value = _session;
-    };
-
-    const signInWithTwitch = async () => {
-        try {
-            return await supabase.auth.signInWithOAuth({
-                provider: 'twitch',
-            });
-        } catch (error) {
-            console.log(error);
-        }
+    const signIn = async () => {
+        accessToken.value = getAccesToken();
+        const { login } = await TwitchService.validateToken();
+        user.value = (await TwitchService.getUser([login])).data[0];
     };
 
     const signOut = async () => {
-        return await supabase.auth.signOut();
+        accessToken.value = null;
+        user.value = null;
+        localStorage.removeItem('access_token');
     };
 
+    const getAccesToken = () => {
+        return getTokenFromUrl() ?? LocalStorageService.getItem('access_token');
+    };
+
+    const getTokenFromUrl = () => {
+        const hashes = window.location.hash.substring(1).split('&').map(hash => hash.split('='));
+        const tokens: any = {};
+
+        hashes.forEach(hash => {
+            const [key, val] = hash;
+            tokens[key] = val;
+        });
+
+        Object.entries(tokens).forEach(([key, value]) => {
+            LocalStorageService.setItem(key, value);
+        });
+
+        removeHashFromURL();
+
+        return tokens.access_token as string;
+    };
+
+    const removeHashFromURL = () => history.pushState("", document.title, window.location.pathname + window.location.search);
+
     return {
-        session,
-        setSession,
-        signInWithTwitch,
+        user,
+        signIn,
         signOut,
     };
 });
