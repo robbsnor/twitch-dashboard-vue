@@ -44,4 +44,20 @@ export class TwitchService {
 
         return await res.json();
     }
+
+
+    public static async getVideos(userId: number) {
+        const token = LocalStorageService.getItem('access_token');
+        const url = new URL('https://api.twitch.tv/helix/videos');
+        url.searchParams.append('user_id', userId.toString());
+
+        const res = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Client-Id': 'bpjttmchlxdfo9t47z8g3b7snhr9h4',
+            }
+        });
+
+        return await res.json();
+    }
 }

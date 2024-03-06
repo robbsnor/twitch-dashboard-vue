@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { TwitchService } from '@/services/twitch.service';
+import { onMounted } from 'vue';
+
+onMounted(async ()=> {
+    const bob = await TwitchService.getVideos(52385053)
+    console.log(bob)
+})
 </script>
 
 <template>
