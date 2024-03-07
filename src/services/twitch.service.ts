@@ -1,12 +1,14 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { LocalStorageService } from "./localstorage.service";
+import { useAuthStore } from "../stores/auth.store";
 
 export class TwitchService {
+    private authStore = useAuthStore();
     private http = axios.create();
-    private token?: string;
+    private accessToken?: string;
 
     constructor() {
-        this.token = LocalStorageService.getItem('access_token');
+        this.accessToken = LocalStorageService.getItem('access_token');
         this.http.interceptors.request.use((config) => this.authInterceptorFunction(config));
     }
 
@@ -44,8 +46,8 @@ export class TwitchService {
 
     // interceptors
     private authInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
-        if (!this.token) return config;
-        config.headers.set('Authorization', `Bearer ${this.token}`);
+        if (!this.accessToken) return config;
+        config.headers.set('Authorization', `Bearer ${this.accessToken}`);
         return config;
     };
 
