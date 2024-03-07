@@ -1,36 +1,45 @@
+import axios, { type InternalAxiosRequestConfig } from "axios";
 import { LocalStorageService } from "./localstorage.service";
 
 export class TwitchService {
-    public static async validateToken() {
-        const token = LocalStorageService.getItem('access_token');
+    private http = axios.create();
+    private token?: string;
 
-        const res = await fetch('https://id.twitch.tv/oauth2/validate', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        });
+    private authInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
+        if (!this.token) return config;
+        config.headers.set('Authorization', `Bearer ${this.token}`);
+        return config;
+    };
+    private clientIdInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
+        config.headers.set('Client-Id', `bpjttmchlxdfo9t47z8g3b7snhr9h4`);
+        return config;
+    }
+    private clientIdInterceptor = this.http.interceptors.request.use((config) => this.clientIdInterceptorFunction(config));
 
-        return await res.json();
+    constructor() {
+        this.token = LocalStorageService.getItem('access_token');
+        this.http.interceptors.request.use((config) => this.authInterceptorFunction(config));
     }
 
-    public static async getUser(userLogins: string[]) {
-        const token = LocalStorageService.getItem('access_token');
+    public async validateToken() {
+        this.http.interceptors.request.eject(this.clientIdInterceptor);
+        const res = await this.http.get('https://id.twitch.tv/oauth2/validate');
+        console.log(res.data);
+        this.http.interceptors.request.use((config) => this.clientIdInterceptorFunction(config));
+        return res.data;
+    }
+
+    public async getUser(userLogins: string[]) {
         const url = new URL('https://api.twitch.tv/helix/users');
         userLogins.forEach(user => {
             url.searchParams.append('login', user);
         });
-
-        const res = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Client-Id': 'bpjttmchlxdfo9t47z8g3b7snhr9h4',
-            }
-        });
-
-        return await res.json();
+        const res = await this.http.get(url.toString());
+        console.log(res);
+        return res.data;
     }
 
-    public static async getFollowedStreams() {
+    public async getFollowedStreams() {
         const token = LocalStorageService.getItem('access_token');
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
         url.searchParams.append('user_id', '23611469');
@@ -45,19 +54,13 @@ export class TwitchService {
         return await res.json();
     }
 
-
-    public static async getVideos(userId: number) {
-        const token = LocalStorageService.getItem('access_token');
+    public async getVideos(userId: number) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
 
-        const res = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Client-Id': 'bpjttmchlxdfo9t47z8g3b7snhr9h4',
-            }
-        });
+        const res = await this.http.get(url.toString());
+        console.log(res);
 
-        return await res.json();
+        return res.data.data;
     }
 }

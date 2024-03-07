@@ -8,7 +8,7 @@ import { onMounted } from 'vue';
 const authStore = useAuthStore()
 
 onMounted(async () => {
-    authStore.signIn()
+    authStore.attemptToSignIn()
 })
 </script>
 
@@ -23,6 +23,10 @@ onMounted(async () => {
             <RouterLink to="/" color="secondary">home</RouterLink>
             <RouterLink to="/live" color="secondary">live</RouterLink>
         </ButtonGroup>
+
+        <code>
+            {{ authStore.accessToken }}
+        </code>
 
         <RouterView />
     </main>

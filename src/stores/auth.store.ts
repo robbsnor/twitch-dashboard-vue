@@ -1,16 +1,20 @@
+import { TwitchService } from './../services/twitch.service';
 import { defineStore } from 'pinia';
 import { onMounted, ref } from 'vue';
 import { LocalStorageService } from '../services/localstorage.service';
-import { TwitchService } from '../services/twitch.service';
 
 export const useAuthStore = defineStore('auth', () => {
     const accessToken = ref<string | null>(null);
     const user = ref<any>();
 
-    const signIn = async () => {
+    const twitchService = new TwitchService();
+
+    const attemptToSignIn = async () => {
         accessToken.value = getAccesToken();
-        const { login } = await TwitchService.validateToken();
-        user.value = (await TwitchService.getUser([login])).data[0];
+        if (!accessToken.value) return;
+
+        const res = await twitchService.validateToken();
+        const _user = await twitchService.getUser([res.login]);
     };
 
     const signOut = async () => {
@@ -24,28 +28,15 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     const getTokenFromUrl = () => {
-        const hashes = window.location.hash.substring(1).split('&').map(hash => hash.split('='));
-        const tokens: any = {};
-
-        hashes.forEach(hash => {
-            const [key, val] = hash;
-            tokens[key] = val;
-        });
-
-        Object.entries(tokens).forEach(([key, value]) => {
-            LocalStorageService.setItem(key, value);
-        });
-
-        removeHashFromURL();
-
-        return tokens.access_token as string;
+        const _accessToken = window.location.hash.substring(1).split('&').map(hash => hash.split('='))[0][1];
+        LocalStorageService.setItem('access_token', _accessToken);
+        return _accessToken;
     };
-
-    const removeHashFromURL = () => history.pushState("", document.title, window.location.pathname + window.location.search);
 
     return {
         user,
-        signIn,
+        accessToken,
+        attemptToSignIn,
         signOut,
     };
 });

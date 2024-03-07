@@ -3,10 +3,11 @@ export class LocalStorageService {
         const item = localStorage.getItem('access_token');
         if (!item) return;
 
-        return JSON.parse(item);
+        return JSON.parse(item) as string;
     }
 
-    public static setItem(name: string, data: any) {
+    public static setItem(name: string, data?: any) {
+        if (!data) return;
         localStorage.setItem(name, JSON.stringify(data));
     }
 
