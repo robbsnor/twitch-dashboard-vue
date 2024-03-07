@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
         if (!accessToken.value) return;
 
         const res = await twitchService.validateToken();
-        const _user = await twitchService.getUser([res.login]);
+        user.value = (await twitchService.getUser([res.login])).data[0];
     };
 
     const signOut = async () => {
