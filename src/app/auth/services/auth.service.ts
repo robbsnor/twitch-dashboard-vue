@@ -19,7 +19,7 @@ export class AuthService {
 
         // else, get user and store credentials
         const userId = await this.validateToken(accessToken);
-        currentUser = await this.getCurrentUser(userId);
+        currentUser = await this.getCurrentUser(accessToken, userId);
 
         return currentUser;
     }
@@ -41,8 +41,8 @@ export class AuthService {
         return Number(userId as string);
     }
 
-    private static async getCurrentUser(userId: number) {
-        const twitchService = new TwitchService();
+    private static async getCurrentUser(accessToken: string, userId: number) {
+        const twitchService = new TwitchService(accessToken);
         const currentUser = (await twitchService.getUsers([userId]))[0];
         LocalStorageService.setItem(LS_KEYS.USER, currentUser);
 

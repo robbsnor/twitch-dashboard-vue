@@ -1,13 +1,16 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
-import { AuthService } from "../../auth/services/auth.service";
 import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
+import { useAuthStore } from "../../auth/stores/auth.store";
 
 export class TwitchService {
     private http = axios.create();
-    private accessToken = AuthService.getAccessToken();
+    private accessToken: string;
+    private authStore = useAuthStore();
 
-    constructor() {
+    constructor(accessToken?: string) {
+        this.accessToken = accessToken ?? this.authStore.accessToken!;
+
         this.http.interceptors.request.use((config) => {
             this.authInterceptorFunction(config);
             this.clientIdInterceptorFunction(config);
@@ -23,18 +26,20 @@ export class TwitchService {
         });
         const res = await this.http.get<TwitchGetUsers>(url.toString());
         const unorderedUsers = res.data.data;
-        const orderedUsers = userIds.map((userId) => {
-            // will allways return true
+
+        // @ts-ignore
+        const orderedUsers: TwitchUser[] = userIds.map((userId) => {
+            // will allways return one
             return unorderedUsers.find(unorderedUser => Number(unorderedUser.id) === userId);
         });
 
-        // @ts-ignore
-        return orderedUsers as TwitchUser[];
+        return orderedUsers;
     }
 
     public async getFollowedStreams() {
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
-        url.searchParams.append('user_id', '23611469');
+        const userId = this.authStore.user.id;
+        url.searchParams.append('user_id', userId);
         const res = await this.http.get<TwitchGetFollowedStreams>(url.toString());
 
         return res.data.data;
