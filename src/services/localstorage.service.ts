@@ -3,7 +3,7 @@ export class LocalStorageService {
         const item = localStorage.getItem(key);
         if (!item) return;
 
-        return JSON.parse(item) as string;
+        return JSON.parse(item);
     }
 
     public static setItem(key: string, data?: any) {
