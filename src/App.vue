@@ -13,27 +13,28 @@ const menuOpen = ref(false)
 onMounted(async () => {
     authStore.signIn()
 })
+
+const toggleMenu = () => {
+    menuOpen.value = !menuOpen.value
+}
+
 </script>
 
 <template>
     <Header
         class="app__header"
         :user="authStore.user"
-        @sign-out="authStore.signOut"
-        @toggle-menu="menuOpen = !menuOpen"
+        @click-profile="authStore.signOut"
+        @click-hamburger="toggleMenu"
     />
 
     <Dropdown
         class="app__dropdown"
         :open="menuOpen"
+        @closeMenu="toggleMenu"
     />
 
     <main class="app__main">
-        <ButtonGroup>
-            <RouterLink to="/" color="secondary">home</RouterLink>
-            <RouterLink to="/live" color="secondary">live</RouterLink>
-        </ButtonGroup>
-
         <RouterView />
     </main>
 </template>

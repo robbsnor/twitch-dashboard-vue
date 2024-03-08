@@ -1,12 +1,5 @@
 <script setup lang="ts">
-
-export interface Menu {
-    title: string;
-    items: {
-        text: string;
-        url: string;
-    }[]
-}
+import type { Menu } from '../models/menu.model';
 
 const menus: Menu[] = [
     {
@@ -26,26 +19,26 @@ const menus: Menu[] = [
             },
         ]
     }
-]
+];
 
 const props = defineProps<{
-  open2: any;
-}>()
+  open: any;
+}>();
+const emit = defineEmits(['closeMenu'])
 </script>
 
 <template>
-    <div class="dropdown dropdown--open">
-        <button class="dropdown__background"><span class="sr-only">Close menu</span></button>
+    <div class="dropdown" :class="{'dropdown--open': props.open}">
+        <button @click="emit('closeMenu')" class="dropdown__background"><span class="sr-only">Close menu</span></button>
 
         <div class="dropdown__menu-container">
             <div class="dropdown__container">
                 <div class="dropdown__navs">
                     <nav v-for="menu of menus" class="nav dropdown__nav">
                         <h2 class="nav__title">{{ menu.title }}</h2>
-
                         <ul>
                             <li v-for="item in menu.items">
-                                <a :href="item.url">{{ item.text }}</a>
+                                <RouterLink @click="emit('closeMenu')" :to="item.url">{{ item.text }}</RouterLink>
                             </li>
                         </ul>
                     </nav>
@@ -78,7 +71,6 @@ const props = defineProps<{
         position: relative;
         top: 0;
         background-color: $c-black;
-        background-color: red;
         padding-top: $header-height;
         padding: ($header-height + rem(35px)) 0 rem(35px);
         max-height: 100vh;

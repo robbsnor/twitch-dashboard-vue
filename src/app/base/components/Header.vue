@@ -7,15 +7,14 @@ import Logo from '../../shared/components/Logo.vue';
 const props = defineProps<{
   user?: any;
 }>()
-const emit = defineEmits(['signOut'])
-const signOut = () => emit('signOut');
+const emit = defineEmits(['clickProfile', 'clickHamburger'])
 </script>
 
 <template>
     <header class="header">
         <div class="header__container">
             <div class="header__left">
-                <button class="header__hamburger hamburger">
+                <button @click="emit('clickHamburger')" class="header__hamburger hamburger">
                     <span class="sr-only">Menu</span>
                     <div class="hamburger__stroke"></div>
                     <div class="hamburger__stroke"></div>
@@ -27,7 +26,7 @@ const signOut = () => emit('signOut');
             </a>
 
             <div class="header__right">
-                <button @click="signOut" class="header__user">
+                <button @click="emit('clickProfile')" class="header__user">
                     <span class="sr-only">Username</span>
                     <HeaderAvatar
                         v-if="props.user"

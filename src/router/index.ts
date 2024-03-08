@@ -19,7 +19,7 @@ const router = createRouter({
         {
             path: '/live',
             name: 'live',
-            component: LiveView,
+            component: () => import('../views/LiveView.vue'),
         },
     ]
 });
