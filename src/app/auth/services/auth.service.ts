@@ -10,7 +10,7 @@ enum LS_KEYS {
 
 export class AuthService {
     public static async signIn() {
-        const accessToken = this.saveAccessToken();
+        const accessToken = this.getAccessToken();
         if (!accessToken) return;
 
         // if we already have a user, don't try getting credentials again
@@ -19,7 +19,7 @@ export class AuthService {
 
         // else, get user and store credentials
         const userId = await this.validateToken(accessToken);
-        currentUser = await this.saveCurrentUser(userId);
+        currentUser = await this.getCurrentUser(userId);
 
         return currentUser;
     }
@@ -29,6 +29,10 @@ export class AuthService {
         keysToRemove.forEach(key => LocalStorageService.removeItem(key));
     }
 
+    public static getAccessToken() {
+        return this.getAccessTokenFromUrl() ?? LocalStorageService.getItem(LS_KEYS.ACCESS_TOKEN);
+    };
+
     private static async validateToken(accessToken: string) {
         const { userId, userLogin } = await TwitchService.validateToken(accessToken);
         LocalStorageService.setItem(LS_KEYS.USER_ID, userId);
@@ -37,16 +41,13 @@ export class AuthService {
         return Number(userId as string);
     }
 
-    private static async saveCurrentUser(userId: number) {
-        const currentUser = (await TwitchService.getUsers([userId]))[0];
+    private static async getCurrentUser(userId: number) {
+        const twitchService = new TwitchService();
+        const currentUser = (await twitchService.getUsers([userId]))[0];
         LocalStorageService.setItem(LS_KEYS.USER, currentUser);
 
         return currentUser;
     }
-
-    private static saveAccessToken() {
-        return this.getAccessTokenFromUrl() ?? LocalStorageService.getItem(LS_KEYS.ACCESS_TOKEN);
-    };
 
     private static getAccessTokenFromUrl() {
         const accessToken = window.location.hash.substring(1).split('&').map(hash => hash.split('='))[0][1];

@@ -1,13 +1,16 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
-import { LocalStorageService } from "./localstorage.service";
+import { AuthService } from "../../auth/services/auth.service";
 
 export class TwitchService {
     private http = axios.create();
-    private token?: string;
+    private accessToken = AuthService.getAccessToken();
 
     constructor() {
-        this.token = LocalStorageService.getItem('access_token');
-        this.http.interceptors.request.use((config) => this.authInterceptorFunction(config));
+        this.http.interceptors.request.use((config) => {
+            this.authInterceptorFunction(config);
+            this.clientIdInterceptorFunction(config);
+            return config;
+        });
     }
 
     public static async validateToken(accessToken: string) {
@@ -23,19 +26,12 @@ export class TwitchService {
         };
     }
 
-    public static async getUsers(userIds: number[]) {
-        const token = LocalStorageService.getItem('access_token');
+    public async getUsers(userIds: number[]) {
         const url = new URL('https://api.twitch.tv/helix/users');
         userIds.forEach(id => {
             url.searchParams.append('id', id.toString());
         });
-
-        const res = await axios.get(url.toString(), {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Client-Id': `bpjttmchlxdfo9t47z8g3b7snhr9h4`,
-            }
-        });
+        const res = await this.http.get(url.toString());
 
         return res.data.data;
     }
@@ -58,8 +54,7 @@ export class TwitchService {
 
     // interceptors
     private authInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
-        if (!this.token) return config;
-        config.headers.set('Authorization', `Bearer ${this.token}`);
+        config.headers.set('Authorization', `Bearer ${this.accessToken}`);
         return config;
     };
 
@@ -67,7 +62,5 @@ export class TwitchService {
         config.headers.set('Client-Id', `bpjttmchlxdfo9t47z8g3b7snhr9h4`);
         return config;
     }
-
-    private clientIdInterceptor = this.http.interceptors.request.use((config) => this.clientIdInterceptorFunction(config));
     // end interceptors
 }

@@ -3,6 +3,7 @@ import Button from '../app/shared/components/Button.vue';
 import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import { computed } from 'vue';
 import { useAuthStore } from '../app/auth/stores/auth.store';
+import Section from '../app/shared/components/Section.vue';
 
 const authStore = useAuthStore();
 
@@ -19,7 +20,7 @@ const singInUrl = computed(() => {
 </script>
 
 <template>
-    <section class="splash">
+    <Section class="splash">
         <div class="splash__container">
             <div class="splash__copy">
                 <h1 class="splash__title">Twitch Dashboard</h1>
@@ -46,7 +47,7 @@ const singInUrl = computed(() => {
                 </code>
             </div>
         </div>
-    </section>
+    </Section>
 </template>
 
 <style scoped lang="scss">

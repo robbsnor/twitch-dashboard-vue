@@ -3,17 +3,22 @@ import { onMounted } from 'vue';
 import { TwitchService } from '../app/shared/services/twitch.service';
 
 import Section from '@/app/shared/components/Section.vue';
+import { useAuthStore } from '../app/auth/stores/auth.store';
 
-onMounted(async ()=> {
-    const twitchSerive = new TwitchService()
-    const bob = await twitchSerive.getFollowedStreams()
-    console.log(bob)
+const twitchService = new TwitchService();
+const authStore = useAuthStore()
+onMounted(async () => {
+    const streams = await twitchService.getFollowedStreams()
+    console.log(streams)
 })
 </script>
 
 <template>
     <div class="live">
         <Section title="Favourites">
+            <code>
+                {{ authStore.accessToken }}
+            </code>
         </Section>
 
         <Section title="Live channels"></Section>

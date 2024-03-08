@@ -4,10 +4,11 @@ import { AuthService } from '../services/auth.service';
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<any>();
+    const accessToken = ref<string>();
 
     const signIn = async () => {
-        const currentUser = await AuthService.signIn();
-        user.value = currentUser;
+        user.value = await AuthService.signIn();
+        accessToken.value = AuthService.getAccessToken();
     };
 
     const signOut = async () => {
@@ -16,6 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     return {
         user,
+        accessToken,
         signIn,
         signOut,
     };
