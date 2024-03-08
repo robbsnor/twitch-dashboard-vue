@@ -26,4 +26,4 @@ onMounted(async () => {
 
         <RouterView />
     </main>
-</template>./app/base/components/Header.vue./app/auth/stores/auth.store
+</template>
