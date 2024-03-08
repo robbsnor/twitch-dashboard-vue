@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Favourites from '@/app/live/containers/Favourites.vue';
-import Other from '@/app/live/containers/Other.vue';
+import FavouriteCards from '@/app/live/containers/FavouriteCards.vue';
+import OtherCards from '@/app/live/containers/OtherCards.vue';
 import { onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import { TwitchService } from '../app/shared/services/twitch.service';
@@ -23,8 +23,8 @@ onMounted(async () => {
 
 <template>
     <div class="live">
-        <Favourites :streams="favouriteStreams" />
-        <Other :streams="otherStreams" />
+        <FavouriteCards :streams="favouriteStreams" />
+        <OtherCards :streams="otherStreams" />
     </div>
 </template>
 
