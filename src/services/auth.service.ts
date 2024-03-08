@@ -52,6 +52,7 @@ export class AuthService {
     private static getAccessTokenFromUrl() {
         const accessToken = window.location.hash.substring(1).split('&').map(hash => hash.split('='))[0][1];
         LocalStorageService.setItem(LS_KEYS.ACCESS_TOKEN, accessToken);
+
         return accessToken;
     };
 }
