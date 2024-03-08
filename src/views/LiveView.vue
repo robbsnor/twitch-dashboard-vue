@@ -8,9 +8,9 @@ import { MOCK_FAVOURITES } from '@/app/shared/mock-data/favourites.mock';
 
 const twitchService = new TwitchService();
 
-const allStreams = ref<TwitchFollowedStreamWithUser[]>([])
-const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>([])
-const otherStreams = ref<TwitchFollowedStreamWithUser[]>([])
+const allStreams = ref<TwitchFollowedStreamWithUser[]>()
+const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>()
+const otherStreams = ref<TwitchFollowedStreamWithUser[]>()
 
 const favourites = ref(MOCK_FAVOURITES);
 
@@ -23,8 +23,8 @@ onMounted(async () => {
 
 <template>
     <div class="live">
-        <FavouriteCards :favouriteStreams="favouriteStreams" />
-        <OtherCards :otherStreams="otherStreams" />
+        <FavouriteCards :streams="favouriteStreams" />
+        <OtherCards :streams="otherStreams" />
     </div>
 </template>
 

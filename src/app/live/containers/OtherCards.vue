@@ -6,19 +6,19 @@ import Card from '../components/Card.vue';
 import { CardFactory } from '../factories/card.factory';
 
 const props = defineProps<{
-    otherStreams: TwitchFollowedStreamWithUser[];
+    streams?: TwitchFollowedStreamWithUser[];
 }>()
 
 const cards = computed(() => {
-    return CardFactory.mapToCardLive(props.otherStreams)
+    if (!props.streams) return;
+    return CardFactory.mapToCardLive(props.streams)
 })
-
 </script>
 
 <template>
     <Section title="Live channels">
         <div class="other">
-            <div class="other__cards">
+            <div v-if="cards" class="other__cards">
                 <div v-for="card in cards" :key="card.name" class="other__card">
                     <Card :card="card" size="small"></Card>
                 </div>
