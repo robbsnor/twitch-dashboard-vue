@@ -1,0 +1,49 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+
+interface Props {
+  modifier?: string;
+  title?: string;
+  first?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {})
+
+const emit = defineEmits([])
+
+const classes = computed(() => {
+    const firstClass = props.first ? 'section--first' : '';
+    const modifierClass = props.modifier ? `seciton--${props.modifier}` : '';
+
+    return `section ${firstClass} ${modifierClass}`
+})
+</script>
+
+<template>
+    <section :class="classes">
+        <div class="section__container">
+            <h2 class="section__title">{{ props.title }}</h2>
+            <div class="section__body">
+                <slot></slot>
+            </div>
+        </div>
+    </section>
+</template>
+
+<style scoped lang="scss">
+@import '/src/assets/styles/var/size';
+@import '/src/assets/styles/functions/rem';
+@import '/src/assets/styles/mixins/container';
+
+.section {
+    padding: rem(50px) 0;
+
+    &__container {
+        @include container();
+    }
+
+    &--first {
+        margin-top: $header-height
+    }
+}
+</style>

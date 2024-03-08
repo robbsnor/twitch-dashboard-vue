@@ -2,6 +2,8 @@
 import { onMounted } from 'vue';
 import { TwitchService } from '../app/shared/services/twitch.service';
 
+import Section from '@/app/shared/components/Section.vue';
+
 onMounted(async ()=> {
     const twitchSerive = new TwitchService()
     const bob = await twitchSerive.getVideos(52385053)
@@ -10,9 +12,13 @@ onMounted(async ()=> {
 </script>
 
 <template>
-    <section class="live">
-        <h1>Live</h1>
-    </section>
+    <div class="live">
+        <Section title="Favourites">
+        </Section>
+
+        <Section title="Live channels"></Section>
+        <Section title="Continue watching"></Section>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -22,5 +28,6 @@ onMounted(async ()=> {
 @import '/src/assets/styles/functions/rem';
 
 .live {
+    padding-top: $header-height;
 }
 </style>

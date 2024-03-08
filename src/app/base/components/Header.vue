@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import HeaderAvatar from './HeaderAvatar.vue';
 import Button from '../../shared/components/Button.vue';
 import Logo from '../../shared/components/Logo.vue';
@@ -21,9 +20,9 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
                 </button>
             </div>
 
-            <a href="/" class="header__logo">
+            <RouterLink to="/" class="header__logo">
                 <Logo />
-            </a>
+            </RouterLink>
 
             <div class="header__right">
                 <button @click="emit('clickProfile')" class="header__user">
@@ -46,7 +45,8 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
 
 .header {
     height: $header-height;
-    background-image: linear-gradient(180deg, $c-black 0%, rgba($c-black, 0) 100%);
+    // background-image: linear-gradient(180deg, $c-black 0%, rgba($c-black, 0) 100%);
+    background-color: red;
 
     &__container {
         @include container();
