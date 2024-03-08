@@ -1,5 +1,5 @@
-import { TwitchMutedSegment } from './muted-segment.model';
-import { TwitchPagination } from './pagination.model';
+import type { TwitchMutedSegment } from "./muted-segment.model";
+import type { TwitchPagination } from "./pagination.model";
 
 // https://dev.twitch.tv/docs/api/reference#get-videos
 export interface TwitchGetVideos {

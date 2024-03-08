@@ -1,4 +1,4 @@
-import { TwitchPagination } from './pagination.model';
+import type { TwitchPagination } from "./pagination.model";
 
 export interface TwitchSearchChannels {
     data: TwitchSearchChannel[];
