@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Section from '@/app/shared/components/Section.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import { CardFactory } from '../factories/card.factory';
 import type { CardLive } from '../models/card.model';
@@ -10,10 +10,8 @@ const props = defineProps<{
     streams: TwitchFollowedStreamWithUser[];
 }>()
 
-const cards = ref<CardLive[]>()
-
-onMounted(() => {
-    cards.value = CardFactory.mapToCardLive(props.streams)
+const cards = computed(() => {
+    return CardFactory.mapToCardLive(props.streams)
 })
 
 </script>

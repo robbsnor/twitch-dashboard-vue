@@ -9,75 +9,72 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 'normal'
+    size: 'normal',
 })
 
 const classes = computed(() => {
-    console.log('Computing classes...')
-
-    const colorClass = props.card.color ? `card-live-${props.size}--${props.card.color}` : '';
-
+    const colorClass = props.card.color ? `card-${props.size}--${props.card.color}` : '';
     return `${colorClass}`;
 })
 </script>
 
 <template>
     <!-- small -->
-    <div v-if="size === 'small'" :class="classes" class="card-live-small">
-        <div class="card-live-small__thumbnail-container">
-            <div class="card-live-small__gradient"></div>
-            <div class="card-live-small__viewers">{{ props.card.viewers }}</div>
-            <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-live-small__options"></button> -->
-            <img :src="card.thumbnail" class="card-live-small__thumbnail">
+    <div v-if="size === 'small'" :class="classes" class="card-small">
+        <div class="card-small__thumbnail-container">
+            <div class="card-small__gradient"></div>
+            <div class="card-small__viewers">{{ props.card.viewers }}</div>
+            <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-small__options"></button> -->
+            <img :src="card.thumbnail" class="card-small__thumbnail">
         </div>
-        <div class="card-live-small__info">
-            <div class="card-live-small__title">{{ card.title }}</div>
-            <div class="card-live-small__game">{{ card.game }}</div>
-            <div class="card-live-small__user">
-                <a :href="'xxxxxxxxxxxxxxx'" class="card-live-small__user-link">
-                    <img v-if="card.avatar" :src="card.avatar" class="card-live-small__avatar">
+        <div class="card-small__info">
+            <div class="card-small__title">{{ card.title }}</div>
+            <div class="card-small__game">{{ card.game }}</div>
+            <div class="card-small__user">
+                <a :href="'xxxxxxxxxxxxxxx'" class="card-small__user-link">
+                    <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar">
                 </a>
-                <div class="card-live-small__username">{{ card.name }}</div>
+                <div class="card-small__username">{{ card.name }}</div>
             </div>
         </div>
-        <a :href="card.link" target="_blank" class="card-live-small__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a :href="card.link" target="_blank" class="card-small__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
 
     <!-- normal -->
-    <div v-if="size === 'normal'" :class="classes" class="card-live-normal">
-        <a :href="card.link" target="_blank" class="card-live-normal__thumbnail-container">
+    <div v-if="size === 'normal'" :class="classes" class="card-normal">
+        <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-live-normal__thumbnail">
-            <div class="card-live-normal__thumbnail-overlay"></div>
-            <div class="card-live-normal__arrow">(icon)</div>
-            <div class="card-live-normal__viewers">{{ props.card.viewers }}</div>
+            <img :src="card.thumbnail" class="card-normal__thumbnail">
+            <div class="card-normal__thumbnail-overlay"></div>
+            <div class="card-normal__arrow">(icon)</div>
+            <div class="card-normal__viewers">{{ props.card.viewers }}</div>
         </a>
-        <div class="card-live-normal__title">{{ card.title }}</div>
-        <div class="card-live-normal__game">{{ card.game }}</div>
-        <div class="card-live-normal__footer">
-            <a :href="'xxxxxxxxxxxxxxx'" class="card-live-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-live-normal__avatar">
-                <div class="card-live-normal__username">{{ card.name }}</div>
+        <div class="card-normal__title">{{ card.title }}</div>
+        <div class="card-normal__game">{{ card.game }}</div>
+        <div class="card-normal__footer">
+            <a :href="'xxxxxxxxxxxxxxx'" class="card-normal__user">
+                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar">
+                <div class="card-normal__username">{{ card.name }}</div>
             </a>
-            <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" class="card-live-normal__options"></button> -->
+            <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" class="card-normal__options"></button> -->
         </div>
     </div>
 
     <!-- fancy -->
-    <div v-if="size === 'fancy'" :class="classes" class="card-live-fancy">
-        <div class="card-live-fancy__header">
-            <a :href="'xxxxxxxxxxxxxxx'" class="card-live-fancy__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-live-fancy__avatar">
-                <div href="" class="card-live-fancy__username">{{ card.name }}</div>
+    <div v-if="size === 'fancy'" :class="classes" class="card-fancy">
+        <div class="card-fancy__header">
+            <a :href="'xxxxxxxxxxxxxxx'" class="card-fancy__user">
+                <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar">
+                <div href="" class="card-fancy__username">{{ card.name }}</div>
             </a>
-            <div class="card-live-fancy__viewers">{{ props.card.viewers }}</div>
-            <!-- <app-myIcon icon="arrow" class="card-live-fancy__arrow"></app-myIcon> -->
+            <div class="card-fancy__viewers">{{ props.card.viewers }}</div>
+            <!-- <app-myIcon icon="arrow" class="card-fancy__arrow"></app-myIcon> -->
         </div>
-        <div class="card-live-fancy__game">{{ card.game }}</div>
-        <div class="card-live-fancy__title">{{ card.title }}</div>
-        <img :src="card.thumbnail" class="card-live-fancy__thumbnail">
-        <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-live-fancy__options"></button> -->
-        <a :href="card.link" target="_blank" class="card-live-fancy__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <div class="card-fancy__game">{{ card.game }}</div>
+        <div class="card-fancy__title">{{ card.title }}</div>
+        <img :src="card.thumbnail" class="card-fancy__thumbnail">
+        <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
+        <a :href="card.link" target="_blank" class="card-fancy__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
 </template>
 
@@ -88,7 +85,7 @@ const classes = computed(() => {
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/var/color';
 
-.card-live-small {
+.card-small {
     $self: &;
 
     position: relative;
@@ -233,7 +230,7 @@ const classes = computed(() => {
     }
 }
 
-.card-live-normal {
+.card-normal {
     $self: &;
 
     &__thumbnail-container {
@@ -394,7 +391,7 @@ const classes = computed(() => {
     }
 }
 
-.card-live-fancy {
+.card-fancy {
     $self: &;
 
     position: relative;
