@@ -57,6 +57,8 @@ const singInUrl = computed(() => {
 @import '/src/assets/styles/functions/rem';
 
 .splash {
+    padding-top: $header-height;
+
     &__container {
         @include container(rem($container-smaller-width));
         display: flex;

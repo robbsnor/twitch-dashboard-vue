@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { TwitchService } from '../app/shared/services/twitch.service';
 
 import Section from '@/app/shared/components/Section.vue';
+import type { TwitchFollowedStream, TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
+import FavouriteCards from '../app/live/containers/FavouriteCards.vue';
 
 const twitchService = new TwitchService();
 
+const streams = ref<TwitchFollowedStreamWithUser[]>()
+
 onMounted(async () => {
-    const streams = await twitchService.getFollowedStreams()
-    console.log(streams)
+    streams.value = await twitchService.getFollowedStreamsWithUsers()
 })
 </script>
 
 <template>
-    <div class="live">
-        <Section title="Favourites">
-        </Section>
+    <div v-if="streams" class="live">
+        <FavouriteCards :streams="streams" />
 
         <Section title="Live channels"></Section>
         <Section title="Continue watching"></Section>
@@ -31,4 +33,4 @@ onMounted(async () => {
 .live {
     padding-top: $header-height;
 }
-</style>
+</style>../app/live/components/FavouriteCards.vue
