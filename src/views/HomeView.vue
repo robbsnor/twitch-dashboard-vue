@@ -31,8 +31,10 @@ const singInUrl = computed(() => {
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
-                    <Button @click="authStore.signOut" color="secondary">Sign out</Button>
-                    <a :href="singInUrl">
+                    <RouterLink v-if="authStore.user" to="/live">
+                        <Button >Dashboard</Button>
+                    </RouterLink>
+                    <a v-else :href="singInUrl">
                         <Button icon="twitch">Log in with Twitch</Button>
                     </a>
                 </ButtonGroup>

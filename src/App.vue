@@ -14,6 +14,8 @@ onMounted(async () => {
 
 <template>
     <Header
+        :user="authStore.user"
+        @sign-out="authStore.signOut"
     />
 
     <main class="app__main">
