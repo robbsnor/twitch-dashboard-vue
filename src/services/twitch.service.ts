@@ -10,20 +10,34 @@ export class TwitchService {
         this.http.interceptors.request.use((config) => this.authInterceptorFunction(config));
     }
 
-    public async validateToken() {
-        this.http.interceptors.request.eject(this.clientIdInterceptor);
-        const res = await this.http.get('https://id.twitch.tv/oauth2/validate');
-        this.http.interceptors.request.use((config) => this.clientIdInterceptorFunction(config));
-        return res.data;
+    public static async validateToken(accessToken: string) {
+        const res = await axios.get('https://id.twitch.tv/oauth2/validate', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        return {
+            userId: res.data.user_id,
+            userLogin: res.data.login,
+        };
     }
 
-    public async getUser(userLogins: string[]) {
+    public static async getUsers(userIds: number[]) {
+        const token = LocalStorageService.getItem('access_token');
         const url = new URL('https://api.twitch.tv/helix/users');
-        userLogins.forEach(user => {
-            url.searchParams.append('login', user);
+        userIds.forEach(id => {
+            url.searchParams.append('id', id.toString());
         });
-        const res = await this.http.get(url.toString());
-        return res.data;
+
+        const res = await axios.get(url.toString(), {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Client-Id': `bpjttmchlxdfo9t47z8g3b7snhr9h4`,
+            }
+        });
+
+        return res.data.data;
     }
 
     public async getFollowedStreams() {

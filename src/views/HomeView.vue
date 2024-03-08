@@ -9,7 +9,7 @@ const authStore = useAuthStore();
 const singInUrl = computed(() => {
     const url = new URL('https://id.twitch.tv/oauth2/authorize');
     url.searchParams.append('client_id', 'bpjttmchlxdfo9t47z8g3b7snhr9h4')
-    url.searchParams.append('redirect_uri', 'http://localhost:5173/')
+    url.searchParams.append('redirect_uri', window.location.origin)
     url.searchParams.append('force_verify', 'true')
     url.searchParams.append('response_type', 'token')
     url.searchParams.append('scope', 'user:read:follows')
@@ -31,6 +31,7 @@ const singInUrl = computed(() => {
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
+                    <Button @click="authStore.signOut" color="secondary">Sign out</Button>
                     <a :href="singInUrl">
                         <Button icon="twitch">Log in with Twitch</Button>
                     </a>
@@ -38,6 +39,9 @@ const singInUrl = computed(() => {
             </div>
 
             <div class="splash__image-container">
+                <code>
+                    {{ authStore.user }}
+                </code>
             </div>
         </div>
     </section>

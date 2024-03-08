@@ -1,14 +1,14 @@
 export class LocalStorageService {
-    public static getItem(name: string) {
-        const item = localStorage.getItem('access_token');
+    public static getItem(key: string) {
+        const item = localStorage.getItem(key);
         if (!item) return;
 
         return JSON.parse(item) as string;
     }
 
-    public static setItem(name: string, data?: any) {
+    public static setItem(key: string, data?: any) {
         if (!data) return;
-        localStorage.setItem(name, JSON.stringify(data));
+        localStorage.setItem(key, JSON.stringify(data));
     }
 
     public static removeItem(name: string) {

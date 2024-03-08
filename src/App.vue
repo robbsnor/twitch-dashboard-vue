@@ -8,6 +8,7 @@ import { onMounted } from 'vue';
 const authStore = useAuthStore()
 
 onMounted(async () => {
+    authStore.signIn()
 })
 </script>
 
