@@ -10,11 +10,16 @@ enum AUTH_KEYS {
 
 export class AuthService {
     public static async signIn() {
-        const accessToken = this.getAccesToken();
+        const accessToken = this.saveAccessToken();
         if (!accessToken) return;
 
+        // if we already have a user, don't try getting credentials again
+        let currentUser = LocalStorageService.getItem(AUTH_KEYS.USER);
+        if (currentUser) return currentUser;
+
+        // else, get user and store credentials
         const userId = await this.validateToken(accessToken);
-        const currentUser = await this.storeCurrentUser(userId);
+        currentUser = await this.saveCurrentUser(userId);
 
         return currentUser;
     }
@@ -32,14 +37,14 @@ export class AuthService {
         return Number(userId as string);
     }
 
-    private static async storeCurrentUser(userId: number) {
+    private static async saveCurrentUser(userId: number) {
         const currentUser = await TwitchService.getUsers([userId]);
         LocalStorageService.setItem(AUTH_KEYS.USER, currentUser);
 
         return currentUser;
     }
 
-    private static getAccesToken() {
+    private static saveAccessToken() {
         return this.getAccessTokenFromUrl() ?? LocalStorageService.getItem(AUTH_KEYS.ACCESS_TOKEN);
     };
 
