@@ -7,7 +7,6 @@ import { TwitchService } from '../app/shared/services/twitch.service';
 import { MOCK_FAVOURITES } from '@/app/shared/mock-data/favourites.mock';
 
 const twitchService = new TwitchService();
-
 const allStreams = ref<TwitchFollowedStreamWithUser[]>([])
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>([])
 const otherStreams = ref<TwitchFollowedStreamWithUser[]>([])
