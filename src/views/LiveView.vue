@@ -8,21 +8,16 @@ import { MOCK_FAVOURITES } from '@/app/shared/mock-data/favourites.mock';
 
 const twitchService = new TwitchService();
 
+const allStreams = ref<TwitchFollowedStreamWithUser[]>([])
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>([])
 const otherStreams = ref<TwitchFollowedStreamWithUser[]>([])
-const streams = ref<TwitchFollowedStreamWithUser[]>([])
+
+const favourites = ref(MOCK_FAVOURITES);
 
 onMounted(async () => {
-    const streams = await twitchService.getFollowedStreamsWithUsers()
-    favouriteStreams.value = streams.filter(stream => {
-        // if stream.id is in MOCK_FAVOURITES, return stream
-        return MOCK_FAVOURITES.includes(Number(stream.id))
-    })
-
-    otherStreams.value = streams.filter(stream => {
-        // if stream.id is not in MOCK_FAVOURITES, return stream
-        return !MOCK_FAVOURITES.includes(Number(stream.id))
-    })
+    allStreams.value= await twitchService.getFollowedStreamsWithUsers()
+    favouriteStreams.value = allStreams.value.filter(stream => favourites.value.includes(Number(stream.id)))
+    otherStreams.value = allStreams.value.filter(stream => !favourites.value.includes(Number(stream.id)))
 })
 </script>
 
