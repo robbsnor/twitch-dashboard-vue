@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Button from '@/components/shared/Button.vue';
-import ButtonGroup from '@/components/shared/ButtonGroup.vue';
-import { useAuthStore } from '@/stores/auth.store';
+import Button from '../app/shared/components/Button.vue';
+import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import { computed } from 'vue';
+import { useAuthStore } from '../app/auth/stores/auth.store';
 
 const authStore = useAuthStore();
 

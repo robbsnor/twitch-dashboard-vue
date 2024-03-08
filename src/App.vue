@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import Header from './components/layout/Header.vue';
-import { useAuthStore } from './stores/auth.store';
-import ButtonGroup from './components/shared/ButtonGroup.vue';
 import { onMounted } from 'vue';
+import { RouterView } from 'vue-router';
+import { useAuthStore } from './app/auth/stores/auth.store';
+import Header from './app/base/components/Header.vue';
+import ButtonGroup from './app/shared/components/ButtonGroup.vue';
 
 const authStore = useAuthStore()
 
@@ -26,4 +26,4 @@ onMounted(async () => {
 
         <RouterView />
     </main>
-</template>
+</template>./app/base/components/Header.vue./app/auth/stores/auth.store

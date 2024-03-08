@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LiveView from '../views/LiveView.vue';
-import { useAuthStore } from '../stores/auth.store';
+import { useAuthStore } from '../app/auth/stores/auth.store';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

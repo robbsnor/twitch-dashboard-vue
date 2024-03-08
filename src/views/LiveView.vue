@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TwitchService } from '@/services/twitch.service';
 import { onMounted } from 'vue';
+import { TwitchService } from '../app/shared/services/twitch.service';
 
 onMounted(async ()=> {
     const twitchSerive = new TwitchService()

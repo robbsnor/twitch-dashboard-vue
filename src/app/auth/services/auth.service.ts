@@ -1,5 +1,5 @@
-import { LocalStorageService } from "./localstorage.service";
-import { TwitchService } from "./twitch.service";
+import { LocalStorageService } from "../../shared/services/localstorage.service";
+import { TwitchService } from "../../shared/services/twitch.service";
 
 enum LS_KEYS {
     ACCESS_TOKEN = 'access_token',

@@ -36,5 +36,4 @@ const props = defineProps<{
         border-radius: 999px;
     }
 }
-
 </style>

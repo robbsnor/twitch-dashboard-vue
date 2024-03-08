@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import HeaderAvatar from '../layout/HeaderAvatar.vue';
-import Button from '../shared/Button.vue';
-import Logo from '../shared/Logo.vue';
+import HeaderAvatar from './HeaderAvatar.vue';
+import Button from '../../shared/components/Button.vue';
+import Logo from '../../shared/components/Logo.vue';
 
 const props = defineProps<{
   user?: any;
