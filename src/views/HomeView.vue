@@ -23,7 +23,7 @@ const singInUrl = computed(() => {
         <div class="splash__container">
             <div class="splash__copy">
                 <h1 class="splash__title">Twitch Dashboard</h1>
-                <h3 class="splash__subtitle">Manage your favourite streamers</h3>
+                <!-- <h3 class="splash__subtitle">Manage your favourite streamers</h3> -->
 
                 <div class="splash__description">
                     <p>Organize and filter your favourite streamers, easily re-watch previous streams in a clean presentable UI.</p>
