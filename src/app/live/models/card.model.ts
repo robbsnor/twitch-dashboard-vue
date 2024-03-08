@@ -1,4 +1,5 @@
 export interface CardLive {
+    userId: number;
     link: string;
     thumbnail: string;
     title: string;

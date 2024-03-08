@@ -3,14 +3,12 @@ import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/fo
 import type { CardLive } from "../models/card.model";
 
 export class CardFactory {
-    public static mapToCardLive(
-        streams: TwitchFollowedStreamWithUser[],
-        thumbnailWidth?: number
-    ): CardLive[] {
-        return streams.map((stream) => {
+    public static mapToCardLive(streams: TwitchFollowedStreamWithUser[]) {
+        return streams.map<CardLive>((stream) => {
             return {
+                userId: Number(stream.user_id),
                 link: `https://www.twitch.tv/${stream.user_login}`,
-                thumbnail: ImageService.craftImage(stream.thumbnail_url, thumbnailWidth),
+                thumbnail: ImageService.craftImage(stream.thumbnail_url),
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,

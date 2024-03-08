@@ -23,8 +23,8 @@ onMounted(async () => {
 
 <template>
     <div class="live">
-        <FavouriteCards :streams="favouriteStreams" />
-        <OtherCards :streams="otherStreams" />
+        <FavouriteCards :favouriteStreams="favouriteStreams" />
+        <OtherCards :otherStreams="otherStreams" />
     </div>
 </template>
 

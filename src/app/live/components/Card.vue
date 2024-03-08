@@ -37,7 +37,7 @@ const classes = computed(() => {
                 <div class="card-small__username">{{ card.name }}</div>
             </div>
         </div>
-        <a :href="card.link" target="_blank" class="card-small__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a :href="card.link" target="_blank" class="card-small__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
 
     <!-- normal -->
@@ -74,7 +74,7 @@ const classes = computed(() => {
         <div class="card-fancy__title">{{ card.title }}</div>
         <img :src="card.thumbnail" class="card-fancy__thumbnail">
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
-        <a :href="card.link" target="_blank" class="card-fancy__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a :href="card.link" target="_blank" class="card-fancy__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
 </template>
 

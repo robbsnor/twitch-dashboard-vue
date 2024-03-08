@@ -6,11 +6,11 @@ import Card from '../components/Card.vue';
 import { CardFactory } from '../factories/card.factory';
 
 const props = defineProps<{
-    streams: TwitchFollowedStreamWithUser[];
+    otherStreams: TwitchFollowedStreamWithUser[];
 }>()
 
 const cards = computed(() => {
-    return CardFactory.mapToCardLive(props.streams)
+    return CardFactory.mapToCardLive(props.otherStreams)
 })
 
 </script>
