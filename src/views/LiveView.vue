@@ -6,7 +6,7 @@ import Section from '@/app/shared/components/Section.vue';
 
 onMounted(async ()=> {
     const twitchSerive = new TwitchService()
-    const bob = await twitchSerive.getVideos(52385053)
+    const bob = await twitchSerive.getFollowedStreams()
     console.log(bob)
 })
 </script>
