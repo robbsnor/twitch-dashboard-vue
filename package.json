@@ -11,8 +11,10 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@types/luxon": "^3.4.2",
     "axios": "^1.6.7",
     "feather-icons": "^4.29.1",
+    "luxon": "^3.4.4",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-feather": "^2.0.0",
