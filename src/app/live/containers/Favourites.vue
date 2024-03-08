@@ -2,8 +2,8 @@
 import Section from '@/app/shared/components/Section.vue';
 import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
-import Card from '../components/Card.vue';
 import { CardFactory } from '../factories/card.factory';
+import Card from '../components/Card.vue';
 
 const props = defineProps<{
     streams: TwitchFollowedStreamWithUser[];
@@ -12,16 +12,15 @@ const props = defineProps<{
 const cards = computed(() => {
     return CardFactory.mapToCardLive(props.streams)
 })
-
 </script>
 
 <template>
     <Section title="Favourites">
         <div class="favourites">
             <div class="favourites__cards">
-                <!-- <div v-for="card in cards" :key="card.name" class="favourites__card">
+                <div v-for="card in cards" :key="card.name" class="favourites__card">
                     <Card :card="card" size="fancy"></Card>
-                </div> -->
+                </div>
             </div>
         </div>
     </Section>
