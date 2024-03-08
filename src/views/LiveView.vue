@@ -3,8 +3,8 @@ import { onMounted, ref } from 'vue';
 import { TwitchService } from '../app/shared/services/twitch.service';
 
 import Section from '@/app/shared/components/Section.vue';
-import type { TwitchFollowedStream, TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import FavouriteCards from '../app/live/containers/FavouriteCards.vue';
+import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 
 const twitchService = new TwitchService();
 
@@ -33,4 +33,4 @@ onMounted(async () => {
 .live {
     padding-top: $header-height;
 }
-</style>../app/live/components/FavouriteCards.vue
+</style>
