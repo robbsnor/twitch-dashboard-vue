@@ -16,12 +16,12 @@ const cards = computed(() => {
 </script>
 
 <template>
-    <Section title="Favourites">
-        <div class="favourites">
-            <div class="favourites__cards">
-                <!-- <div v-for="card in cards" :key="card.name" class="favourites__card">
-                    <Card :card="card" size="fancy"></Card>
-                </div> -->
+    <Section title="Live channels">
+        <div class="other">
+            <div class="other__cards">
+                <div v-for="card in cards" :key="card.name" class="other__card">
+                    <Card :card="card" size="small"></Card>
+                </div>
             </div>
         </div>
     </Section>
@@ -33,36 +33,7 @@ const cards = computed(() => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.favourites {
-    &__cards {
-        display: grid;
-        gap: rem(50px);
-    }
-
-    &__card {
-        width: 100%;
-    }
-
-    @include screen(800px) {
-        &__cards {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @include screen(1200px) {
-        &__cards {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        &__card {
-            &:nth-child(3n - 1) {
-                margin-top: rem(50px);
-            }
-        }
-    }
-}
-
-.other-cards {
+.other {
     &__acctions {
         padding-bottom: rem(20px);
     }
@@ -94,18 +65,4 @@ const cards = computed(() => {
         }
     }
 }
-
-.other-cards-actions {
-    @include screen($desktop) {
-        &__filter {
-            width: 336px;
-        }
-    }
-}
-
-.empty {
-    padding: rem(25px) 0;
-    text-align: center;
-}
-
 </style>

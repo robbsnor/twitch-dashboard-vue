@@ -226,7 +226,7 @@ const classes = computed(() => {
     }
 
     &:hover {
-        background-color: $c-black-10;
+        background-color: $c-black-2;
     }
 }
 
