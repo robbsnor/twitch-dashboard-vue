@@ -1,27 +1,26 @@
 <script setup lang="ts">
 import Section from '@/app/shared/components/Section.vue';
-import type { TwitchFollowedStream } from '../../shared/models/twitch/followed-streams.model';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import { CardFactory } from '../factories/card.factory';
-
+import type { CardLive } from '../models/card.model';
+import Card from '../components/Card.vue';
 
 const props = defineProps<{
-  streams: TwitchFollowedStream[];
+    streams: TwitchFollowedStreamWithUser[];
 }>()
 
-// const streams = CardFactory.mapToCardLive(props.streams)
+const cards = ref<CardLive[]>()
 
 onMounted(() => {
-
+    cards.value = CardFactory.mapToCardLive(props.streams)
 })
 
 </script>
 
 <template>
     <Section title="Favourites">
-        <code>
-            {{ props.streams }}
-        </code>
+        <Card v-for="card in cards" :card="card" size="fancy"></Card>
     </Section>
 </template>
 

@@ -5,7 +5,7 @@ import type { CardLive } from '../models/card.model';
 
 interface Props {
   card: CardLive;
-  size: CardLiveSize;
+  size?: CardLiveSize;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -19,7 +19,6 @@ const classes = computed(() => {
 
     return `${colorClass}`;
 })
-
 </script>
 
 <template>
@@ -29,35 +28,35 @@ const classes = computed(() => {
             <div class="card-live-small__gradient"></div>
             <div class="card-live-small__viewers">{{ props.card.viewers }}</div>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-live-small__options"></button> -->
-            <img src="{{ card.thumbnail }}" alt="{{ card.name }}'s stream thumbnail" class="card-live-small__thumbnail">
+            <img :src="card.thumbnail" class="card-live-small__thumbnail">
         </div>
         <div class="card-live-small__info">
             <div class="card-live-small__title">{{ card.title }}</div>
             <div class="card-live-small__game">{{ card.game }}</div>
             <div class="card-live-small__user">
-                <a routerLink="{{ profileUrl }}" class="card-live-small__user-link">
-                    <img v-if="card.avatar" :src="card.avatar" alt="{{ card.name }}'s profile picture" class="card-live-small__avatar">
+                <a :href="'xxxxxxxxxxxxxxx'" class="card-live-small__user-link">
+                    <img v-if="card.avatar" :src="card.avatar" class="card-live-small__avatar">
                 </a>
                 <div class="card-live-small__username">{{ card.name }}</div>
             </div>
         </div>
-        <a href="{{ card.link }}" target="_blank" class="card-live-small__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a :href="card.link" target="_blank" class="card-live-small__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
 
     <!-- normal -->
     <div v-if="size === 'normal'" :class="classes" class="card-live-normal">
-        <a href="{{ card.link }}" target="_blank" class="card-live-normal__thumbnail-container">
+        <a :href="card.link" target="_blank" class="card-live-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img src="{{ card.thumbnail }}" alt="{{ card.name }}'s stream thumbnail" class="card-live-normal__thumbnail">
+            <img :src="card.thumbnail" class="card-live-normal__thumbnail">
             <div class="card-live-normal__thumbnail-overlay"></div>
-            <div class="card-live-normal__arrow"><app-myIcon icon="arrow"></app-myIcon></div>
+            <div class="card-live-normal__arrow">(icon)</div>
             <div class="card-live-normal__viewers">{{ props.card.viewers }}</div>
         </a>
         <div class="card-live-normal__title">{{ card.title }}</div>
         <div class="card-live-normal__game">{{ card.game }}</div>
         <div class="card-live-normal__footer">
-            <a routerLink="{{ profileUrl }}" class="card-live-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" alt="{{ card.name }}'s profile picture" class="card-live-normal__avatar">
+            <a :href="'xxxxxxxxxxxxxxx'" class="card-live-normal__user">
+                <img v-if="card.avatar" :src="card.avatar" class="card-live-normal__avatar">
                 <div class="card-live-normal__username">{{ card.name }}</div>
             </a>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" class="card-live-normal__options"></button> -->
@@ -67,22 +66,22 @@ const classes = computed(() => {
     <!-- fancy -->
     <div v-if="size === 'fancy'" :class="classes" class="card-live-fancy">
         <div class="card-live-fancy__header">
-            <a routerLink="{{ profileUrl }}" class="card-live-fancy__user">
-                <img v-if="card.avatar" :src="card.avatar" alt="{{ card.name }}'s profile picture" class="card-live-fancy__avatar">
+            <a :href="'xxxxxxxxxxxxxxx'" class="card-live-fancy__user">
+                <img v-if="card.avatar" :src="card.avatar" class="card-live-fancy__avatar">
                 <div href="" class="card-live-fancy__username">{{ card.name }}</div>
             </a>
             <div class="card-live-fancy__viewers">{{ props.card.viewers }}</div>
-            <app-myIcon icon="arrow" class="card-live-fancy__arrow"></app-myIcon>
+            <!-- <app-myIcon icon="arrow" class="card-live-fancy__arrow"></app-myIcon> -->
         </div>
         <div class="card-live-fancy__game">{{ card.game }}</div>
         <div class="card-live-fancy__title">{{ card.title }}</div>
-        <img src="{{ card.thumbnail }}" alt="{{ card.name }}'s stream thumbnail" class="card-live-fancy__thumbnail">
+        <img :src="card.thumbnail" class="card-live-fancy__thumbnail">
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-live-fancy__options"></button> -->
-        <a href="{{ card.link }}" target="_blank" class="card-live-fancy__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a :href="card.link" target="_blank" class="card-live-fancy__link"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
 </template>
 
-<stype scoped lang="scss">
+<style scoped lang="scss">
 @import '/src/assets/styles/functions/rem';
 @import '/src/assets/styles/mixins/screen';
 @import '/src/assets/styles/mixins/line-clamp';
@@ -230,7 +229,7 @@ const classes = computed(() => {
     }
 
     &:hover {
-        background-color: $c-black--light;
+        background-color: $c-black-10;
     }
 }
 
@@ -512,4 +511,4 @@ const classes = computed(() => {
         }
     }
 }
-</stype>
+</style>

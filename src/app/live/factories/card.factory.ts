@@ -1,3 +1,4 @@
+import { ImageService } from './../../shared/services/image.service';
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
 import type { CardLive } from "../models/card.model";
 
@@ -9,8 +10,7 @@ export class CardFactory {
         return streams.map((stream) => {
             return {
                 link: `https://www.twitch.tv/${stream.user_login}`,
-                // thumbnail: craftImage(stream.thumbnail_url, thumbnailWidth),
-                thumbnail: 'image.png',
+                thumbnail: ImageService.craftImage(stream.thumbnail_url, thumbnailWidth),
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,

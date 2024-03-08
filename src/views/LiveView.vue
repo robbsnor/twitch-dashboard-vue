@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue';
 import { TwitchService } from '../app/shared/services/twitch.service';
 
 import Section from '@/app/shared/components/Section.vue';
-import FavouriteCards from '../app/live/containers/FavouriteCards.vue';
+import Favourites from '@/app/live/containers/Favourites.vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 
 const twitchService = new TwitchService();
@@ -17,7 +17,7 @@ onMounted(async () => {
 
 <template>
     <div v-if="streams" class="live">
-        <FavouriteCards :streams="streams" />
+        <Favourites :streams="streams" />
 
         <Section title="Live channels"></Section>
         <Section title="Continue watching"></Section>
@@ -33,4 +33,4 @@ onMounted(async () => {
 .live {
     padding-top: $header-height;
 }
-</style>
+</style>../app/live/containers/Favourites.vue
