@@ -8,7 +8,7 @@ export class TimeService {
      * @returns The formatted time string.
      */
     public static formatTime(time: string): string {
-        const timeArray = time.split(/[hms]/);
+        const timeArray = time.replace('h', ':').replace('m', ':').replace('s', '').split(':');
         const formattedTime = timeArray.map((timeUnit) => NumberService.singleToDoubleDigits(parseInt(timeUnit))).join(':');
 
         return formattedTime;

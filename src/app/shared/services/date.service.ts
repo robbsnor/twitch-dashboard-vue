@@ -10,17 +10,40 @@ export class DateService {
      * @returns A formatted string representing the time between the given date and the current date.
      */
     public static getFormattedTimeBetweenDates(oldDate: Date): string {
-        const minutesAgo = this.getTimeBetweenDates(oldDate, undefined, 'minutes');
-        const hoursAgo = this.getTimeBetweenDates(oldDate, undefined, 'hours');
-        const daysAgo = this.getTimeBetweenDates(oldDate);
-        const monthsAgo = this.getTimeBetweenDates(oldDate, undefined, 'months');
-        const yearsAgo = this.getTimeBetweenDates(oldDate, undefined, 'years');
 
-        if (minutesAgo < 60) return `${TextService.singleOrPlural(minutesAgo, `${minutesAgo} minute ago`, `${minutesAgo} minutes ago`)}`;
-        if (hoursAgo < 24) return `${TextService.singleOrPlural(hoursAgo, `${hoursAgo} hour ago`, `${hoursAgo} hours ago`)}`;
-        if (daysAgo < 31) return `${TextService.singleOrPlural(daysAgo, `${daysAgo} day ago`, `${daysAgo} days ago`)}`;
-        if (monthsAgo < 11.5) return TextService.singleOrPlural(monthsAgo, `${monthsAgo} month ago`, `${monthsAgo} months ago`);
-        return TextService.singleOrPlural(yearsAgo, `${yearsAgo} year ago`, `${yearsAgo} years ago`);
+        // minutes
+        let minsAgo = DateService.getTimeBetweenDates(oldDate, undefined, 'minutes');
+        if (minsAgo < 60) {
+            minsAgo = Math.floor(minsAgo);
+            return `${TextService.singleOrPlural(minsAgo, `${minsAgo} minute ago`, `${minsAgo} minutes ago`)}`;
+        }
+
+        // hours
+        let hoursAgo = DateService.getTimeBetweenDates(oldDate, undefined, 'hours');
+        if (hoursAgo < 24) {
+            hoursAgo = Math.floor(hoursAgo);
+            return `${TextService.singleOrPlural(hoursAgo, `${hoursAgo} hour ago`, `${hoursAgo} hours ago`)}`;
+        }
+
+        // days
+        let daysAgo = DateService.getTimeBetweenDates(oldDate);
+        if (daysAgo < 31) {
+            daysAgo = Math.round(daysAgo);
+            return `${TextService.singleOrPlural(daysAgo, `${daysAgo} day ago`, `${daysAgo} days ago`)}`;
+        }
+
+        // months
+        let monthsAgo = DateService.getTimeBetweenDates(oldDate, undefined, 'months');
+        if (monthsAgo < 11.5) {
+            monthsAgo = Math.round(monthsAgo);
+            return TextService.singleOrPlural(monthsAgo, `${monthsAgo} month ago`, `${monthsAgo} months ago`);
+        }
+
+        // years
+        else {
+            const yearsAgo = Math.round(DateService.getTimeBetweenDates(oldDate, undefined, 'years'));
+            return TextService.singleOrPlural(yearsAgo, `${yearsAgo} year ago`, `${yearsAgo} years ago`);
+        }
     }
 
     /**
