@@ -46,9 +46,9 @@ onMounted(async () => {
             <div class="cards" v-auto-animate>
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
+
             <Spinner v-if="loading"/>
             <Button v-if="!loading" @click="getVideos">Load more</Button>
-
         </Section>
 
         <Spinner v-else />
