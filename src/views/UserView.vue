@@ -8,6 +8,7 @@ import { TwitchService } from '../app/shared/services/twitch.service';
 import type { CardVideo as CardVideoType } from '../app/user/models/card-video.model';
 import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import CardVideo from '../app/user/components/CardVideo.vue';
+import StreamType from '../app/user/components/StreamTypePicker.vue';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -27,6 +28,7 @@ onMounted(async () => {
 
 <template>
     <div class="user">
+        <!-- <StreamType></StreamType> -->
         <CardVideo v-for="card in cards" :card="card" :key="card.id" />
     </div>
 </template>

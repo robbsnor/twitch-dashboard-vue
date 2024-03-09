@@ -34,6 +34,12 @@ const router = createRouter({
             name: 'user',
             component: () => import('../views/UserView.vue'),
             beforeEnter: [isLoggedTwitch],
+            // children: [
+            //     {
+            //         path: '/highlights',
+            //         component: () => import('../views/HighlightsView.vue'),
+            //     },
+            // ]
         },
     ]
 });
