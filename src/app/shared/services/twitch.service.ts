@@ -1,7 +1,13 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
+import { useAuthStore } from "../../auth/stores/auth.store";
 import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
-import { useAuthStore } from "../../auth/stores/auth.store";
+import type { TwitchGetVideos } from './../models/twitch/videos.model';
+
+export interface User {
+    ids?: number[];
+    logins?: string[];
+}
 
 export class TwitchService {
     private http = axios.create();
@@ -19,19 +25,30 @@ export class TwitchService {
     }
 
     // api calls
-    public async getUsers(userIds: number[]) {
+    public async getUsers(user: User) {
         const url = new URL('https://api.twitch.tv/helix/users');
-        userIds.forEach(id => {
-            url.searchParams.append('id', id.toString());
-        });
+        if (user.ids) user.ids.forEach(id => url.searchParams.append('id', id.toString()));
+        if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login.toString()));
+
         const res = await this.http.get<TwitchGetUsers>(url.toString());
         const unorderedUsers = res.data.data;
 
-        // @ts-ignore
-        const orderedUsers: TwitchUser[] = userIds.map((userId) => {
-            // will allways return one
-            return unorderedUsers.find(unorderedUser => Number(unorderedUser.id) === userId);
-        });
+        let orderedUsers: TwitchUser[] = [];
+
+        // it will find one
+        if (user.ids) {
+            // @ts-ignore
+            orderedUsers = user.ids.map((userId) => {
+                return unorderedUsers.find(unorderedUser => Number(unorderedUser.id) === userId);
+            });
+        }
+
+        if (user.logins) {
+            // @ts-ignore
+            orderedUsers = user.logins.map((user) => {
+                return unorderedUsers.find(unorderedUser => unorderedUser.login === user);
+            });
+        }
 
         return orderedUsers;
     }
@@ -48,7 +65,7 @@ export class TwitchService {
     public async getVideos(userId: number) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
-        const res = await this.http.get(url.toString());
+        const res = await this.http.get<TwitchGetVideos>(url.toString());
 
         return res.data.data;
     }
@@ -57,7 +74,7 @@ export class TwitchService {
         const followedStreams = await this.getFollowedStreams();
         const userIds = followedStreams.map(stream => Number(stream.user_id));
 
-        const users = await this.getUsers(userIds);
+        const users = await this.getUsers({ ids: userIds });
 
         const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
             return {

@@ -27,7 +27,13 @@ const router = createRouter({
             path: '/live',
             name: 'live',
             component: () => import('../views/LiveView.vue'),
-            beforeEnter: [isLoggedTwitch]
+            beforeEnter: [isLoggedTwitch],
+        },
+        {
+            path: '/user/:userLogin',
+            name: 'user',
+            component: () => import('../views/UserView.vue'),
+            beforeEnter: [isLoggedTwitch],
         },
     ]
 });

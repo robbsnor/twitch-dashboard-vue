@@ -43,7 +43,7 @@ export class AuthService {
 
     private static async getCurrentUser(accessToken: string, userId: number) {
         const twitchService = new TwitchService(accessToken);
-        const currentUser = (await twitchService.getUsers([userId]))[0];
+        const currentUser = (await twitchService.getUsers({ ids: [userId] }))[0];
         LocalStorageService.setItem(LS_KEYS.USER, currentUser);
 
         return currentUser;
