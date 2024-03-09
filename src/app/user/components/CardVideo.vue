@@ -18,7 +18,7 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
 
 <template>
     <div class="card-video">
-        <a href="{{ card.link }}" target="_blank" class="card-video__thumbnail-container">
+        <a :href="card.link" target="_blank" class="card-video__thumbnail-container">
             <span class="sr-only">Watch {{ card.title }} video</span>
             <img :src="card.thumbnail" class="card-video__thumbnail" />
             <div class="card-video__thumbnail-overlay"></div>
