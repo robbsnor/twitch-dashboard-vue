@@ -1,17 +1,19 @@
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue';
 import './assets/styles/main.scss';
 
-import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import { createApp } from 'vue';
 
+import VueFeather from 'vue-feather';
 import App from './App.vue';
 import router from './router';
-import VueFeather from 'vue-feather';
 
 const app = createApp(App);
 const pinia = createPinia();
 
 app.use(pinia);
 app.use(router);
+app.use(autoAnimatePlugin);
 
 app.component(VueFeather.name, VueFeather);
 

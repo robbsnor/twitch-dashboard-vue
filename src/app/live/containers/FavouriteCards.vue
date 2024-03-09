@@ -7,7 +7,6 @@ import { CardLiveFactory } from '../factories/card-live.factory';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
-    favourites?: number[];
 }>()
 
 const cards = computed(() => {
