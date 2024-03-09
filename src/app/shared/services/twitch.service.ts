@@ -2,7 +2,7 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../../auth/stores/auth.store";
 import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
-import type { TwitchGetVideos } from './../models/twitch/videos.model';
+import type { TwitchGetVideos, TwitchGetVideosOptions } from './../models/twitch/videos.model';
 
 export interface User {
     ids?: number[];
@@ -33,8 +33,6 @@ export class TwitchService {
         const res = await this.http.get<TwitchGetUsers>(url.toString());
         const unorderedUsers = res.data.data;
 
-        console.log(res.data.data);
-
         let orderedUsers: TwitchUser[] = [];
 
         // it will find one
@@ -64,12 +62,18 @@ export class TwitchService {
         return res.data.data;
     }
 
-    public async getVideos(userId: number) {
+    public async getVideos(
+        userId: number,
+        after?: string, // cursor
+        // options?: TwitchGetVideosOptions,
+    ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
+        if (after) url.searchParams.append('after', after);
+
         const res = await this.http.get<TwitchGetVideos>(url.toString());
 
-        return res.data.data;
+        return res.data;
     }
 
     public async getFollowedStreamsWithUsers() {
