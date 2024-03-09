@@ -35,7 +35,7 @@ const viewers = computed(() => {
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game">{{ card.game }}</div>
             <div class="card-small__user">
-                <a :href="'xxxxxxxxxxxxxxx'" class="card-small__user-link">
+                <a :href="`/user/${card.name}`" class="card-small__user-link">
                     <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar">
                 </a>
                 <div class="card-small__username">{{ card.name }}</div>
@@ -56,7 +56,7 @@ const viewers = computed(() => {
         <div class="card-normal__title">{{ card.title }}</div>
         <div class="card-normal__game">{{ card.game }}</div>
         <div class="card-normal__footer">
-            <a :href="'xxxxxxxxxxxxxxx'" class="card-normal__user">
+            <a :href="`/user/${card.name}`" class="card-normal__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar">
                 <div class="card-normal__username">{{ card.name }}</div>
             </a>
@@ -67,7 +67,7 @@ const viewers = computed(() => {
     <!-- fancy -->
     <div v-if="size === 'fancy'" :class="classes" class="card-fancy">
         <div class="card-fancy__header">
-            <a :href="'xxxxxxxxxxxxxxx'" class="card-fancy__user">
+            <a :href="`/user/${card.name}`" class="card-fancy__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar">
                 <div href="" class="card-fancy__username">{{ card.name }}</div>
             </a>

@@ -18,6 +18,7 @@ const cards = ref<CardVideoType[]>()
 
 onMounted(async () => {
     const userLogin = route.params.userLogin as string;
+    console.log(userLogin)
     user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
     videos.value = await twitchService.getVideos(Number(user.value.id));
     cards.value = CardVideoFactory.mapToCardVideo(videos.value);

@@ -18,7 +18,16 @@ const menus: Menu[] = [
             //     url: '/channels'
             // },
         ]
-    }
+    },
+    {
+        title: 'Favourites',
+        items: [
+            {
+                text: 'Lekker spelen',
+                url: '/user/lekkerspelen'
+            },
+        ]
+    },
 ];
 
 const props = defineProps<{

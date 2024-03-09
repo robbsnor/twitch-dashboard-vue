@@ -33,6 +33,8 @@ export class TwitchService {
         const res = await this.http.get<TwitchGetUsers>(url.toString());
         const unorderedUsers = res.data.data;
 
+        console.log(res.data.data);
+
         let orderedUsers: TwitchUser[] = [];
 
         // it will find one
@@ -46,7 +48,7 @@ export class TwitchService {
         if (user.logins) {
             // @ts-ignore
             orderedUsers = user.logins.map((user) => {
-                return unorderedUsers.find(unorderedUser => unorderedUser.login === user);
+                return unorderedUsers.find(unorderedUser => unorderedUser.login === user.toLocaleLowerCase());
             });
         }
 
