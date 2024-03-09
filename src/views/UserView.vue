@@ -10,6 +10,8 @@ import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import CardVideo from '../app/user/components/CardVideo.vue';
 import StreamType from '../app/user/components/StreamTypePicker.vue';
 import Section from '../app/shared/components/Section.vue';
+import Button from '../app/shared/components/Button.vue';
+import Spinner from '@/app/shared/components/Spinner.vue';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -27,14 +29,16 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Section :title="user?.display_name">
-        <div class="user">
+    <div  class="user">
+        <Section v-if="cards" :title="user?.display_name" class="user__section">
             <!-- <StreamType></StreamType> -->
-            <div class="user__cards" v-auto-animate>
-                <CardVideo v-for="card in cards" :card="card" :key="card.id" class="user__card" />
+            <div class="cards" v-auto-animate>
+                <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
-        </div>
-    </Section>
+        </Section>
+
+        <Spinner v-else />
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -43,30 +47,21 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.user {
-
-    &__cards {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: rem(35px);
-    }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: rem(35px);
 
     @include screen($desktop) {
-        &__cards {
-            grid-template-columns: repeat(3, 1fr);
-        }
+        grid-template-columns: repeat(3, 1fr);
     }
 
     @include screen(1200px) {
-        &__cards {
             grid-template-columns: repeat(4, 1fr);
-        }
     }
 
     @include screen(1400px) {
-        &__cards {
-            grid-template-columns: repeat(5, 1fr);
-        }
+        grid-template-columns: repeat(5, 1fr);
     }
 }
 </style>
