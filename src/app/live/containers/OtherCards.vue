@@ -1,19 +1,32 @@
 <script setup lang="ts">
 import Section from '@/app/shared/components/Section.vue';
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { CardLiveFactory } from '../factories/card-live.factory';
 import Spinner from '@/app/shared/components/Spinner.vue';
+import type { CardLiveSize } from '../models/card-live.model';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>()
 
+const cardSize = ref<CardLiveSize>('small');
 const cards = computed(() => {
     if (!props.streams) return;
     return CardLiveFactory.mapToCardLive(props.streams)
 })
+
+const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'normal' : 'small';
+
+onMounted(() => {
+    determineCardSize()
+    window.addEventListener('resize', determineCardSize);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', determineCardSize);
+});
 </script>
 
 <template>
@@ -21,7 +34,7 @@ const cards = computed(() => {
         <div class="other">
             <div v-if="cards" class="other__cards">
                 <div v-for="card in cards" :key="card.name" class="other__card">
-                    <CardLive :card="card" size="small"></CardLive>
+                    <CardLive :card="card" :size="cardSize"></CardLive>
                 </div>
             </div>
 

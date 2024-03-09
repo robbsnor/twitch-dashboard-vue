@@ -10,5 +10,5 @@ export interface CardLive {
     color?: string;
 }
 
-export type CardLiveSize = 'normal' | 'small' | 'fancy';
+export type CardLiveSize = 'small' | 'normal' | 'fancy';
 
