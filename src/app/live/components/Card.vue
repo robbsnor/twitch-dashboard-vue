@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import type { CardLiveSize } from '../models/card-size.model';
 import type { CardLive } from '../models/card.model';
+import { NumberService } from '@/app/shared/services/number.service';
 
 interface Props {
   card: CardLive;
@@ -16,6 +17,10 @@ const classes = computed(() => {
     const colorClass = props.card.color ? `card-${props.size}--${props.card.color}` : '';
     return `${colorClass}`;
 })
+
+const viewers = computed(() => {
+    return NumberService.formatThousands(props.card.viewers);
+})
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const classes = computed(() => {
     <div v-if="size === 'small'" :class="classes" class="card-small">
         <div class="card-small__thumbnail-container">
             <div class="card-small__gradient"></div>
-            <div class="card-small__viewers">{{ props.card.viewers }}</div>
+            <div class="card-small__viewers">{{ viewers }}</div>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-small__options"></button> -->
             <img :src="card.thumbnail" class="card-small__thumbnail">
         </div>
@@ -47,7 +52,7 @@ const classes = computed(() => {
             <img :src="card.thumbnail" class="card-normal__thumbnail">
             <div class="card-normal__thumbnail-overlay"></div>
             <div class="card-normal__arrow">(icon)</div>
-            <div class="card-normal__viewers">{{ props.card.viewers }}</div>
+            <div class="card-normal__viewers">{{ viewers }}</div>
         </a>
         <div class="card-normal__title">{{ card.title }}</div>
         <div class="card-normal__game">{{ card.game }}</div>
@@ -67,7 +72,7 @@ const classes = computed(() => {
                 <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar">
                 <div href="" class="card-fancy__username">{{ card.name }}</div>
             </a>
-            <div class="card-fancy__viewers">{{ props.card.viewers }}</div>
+            <div class="card-fancy__viewers">{{ viewers }}</div>
             <!-- <app-myIcon icon="arrow" class="card-fancy__arrow"></app-myIcon> -->
         </div>
         <div class="card-fancy__game">{{ card.game }}</div>

@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import Card from '../components/Card.vue';
 import { CardFactory } from '../factories/card.factory';
+import Spinner from '@/app/shared/components/Spinner.vue';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -23,6 +24,8 @@ const cards = computed(() => {
                     <Card :card="card" size="small"></Card>
                 </div>
             </div>
+
+            <Spinner v-else></Spinner>
         </div>
     </Section>
 </template>
