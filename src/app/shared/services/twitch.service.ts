@@ -69,6 +69,7 @@ export class TwitchService {
     ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
+        url.searchParams.append('first', '100'); // temp
         if (after) url.searchParams.append('after', after);
 
         const res = await this.http.get<TwitchGetVideos>(url.toString());

@@ -17,15 +17,18 @@ const twitchService = new TwitchService();
 const route = useRoute();
 
 const user = ref<TwitchUser>()
+const loading = ref(false)
 const videos = ref<TwitchVideo[]>([])
 const cursor = ref<string>()
 
 const cards = computed(() => CardVideoFactory.mapToCardVideo(videos.value))
 
 const getVideos = async () => {
+    loading.value = true;
     const res = await twitchService.getVideos(Number(user.value?.id), cursor.value);
     videos.value = [...videos.value, ...res.data];
     cursor.value = res.pagination.cursor;
+    loading.value = false;
 }
 
 onMounted(async () => {
@@ -43,7 +46,9 @@ onMounted(async () => {
             <div class="cards" v-auto-animate>
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
-            <Button @click="getVideos">Load more</Button>
+            <Spinner v-if="loading"/>
+            <Button v-if="!loading" @click="getVideos">Load more</Button>
+
         </Section>
 
         <Spinner v-else />
