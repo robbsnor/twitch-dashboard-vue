@@ -9,3 +9,6 @@ export interface CardLive {
     game: string;
     color?: string;
 }
+
+export type CardLiveSize = 'normal' | 'small' | 'fancy';
+

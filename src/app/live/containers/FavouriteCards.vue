@@ -2,9 +2,8 @@
 import Section from '@/app/shared/components/Section.vue';
 import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
-import Card from '../components/Card.vue';
-import { CardFactory } from '../factories/card.factory';
-import Spinner from '@/app/shared/components/Spinner.vue';
+import CardLive from '../components/CardLive.vue';
+import { CardLiveFactory } from '../factories/card-live.factory';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -13,7 +12,7 @@ const props = defineProps<{
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return CardFactory.mapToCardLive(props.streams)
+    return CardLiveFactory.mapToCardLive(props.streams)
 })
 </script>
 
@@ -22,7 +21,7 @@ const cards = computed(() => {
         <div class="favourites">
             <div v-if="cards" class="favourites__cards">
                 <div v-for="card in cards" :key="card.name" class="favourites__card">
-                    <Card :card="card" size="fancy"></Card>
+                    <CardLive :card="card" size="fancy"></CardLive>
                 </div>
             </div>
         </div>
@@ -110,4 +109,4 @@ const cards = computed(() => {
     text-align: center;
 }
 
-</style>
+</style>../components/CardLive.vue../factories/card-live.factory

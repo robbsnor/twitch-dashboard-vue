@@ -4,23 +4,29 @@ import type { TwitchVideo } from '@/app/shared/models/twitch/videos.model';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { TwitchService } from '../app/shared/services/twitch.service';
+// TODO: naming conflicts
+import type { CardVideo as CardVideoType } from '../app/user/models/card-video.model';
+import { CardVideoFactory } from '../app/user/factories/card-video.factory';
+import CardVideo from '../app/user/components/CardVideo.vue';
 
 const twitchService = new TwitchService();
 const route = useRoute();
 
 const user = ref<TwitchUser>()
 const videos = ref<TwitchVideo[]>()
+const cards = ref<CardVideoType[]>()
 
 onMounted(async () => {
     const userLogin = route.params.userLogin as string;
     user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
     videos.value = await twitchService.getVideos(Number(user.value.id));
+    cards.value = CardVideoFactory.mapToCardVideo(videos.value);
 })
 </script>
 
 <template>
     <div class="user">
-        <code>{{ videos }}</code>
+        <CardVideo v-for="card in cards" :card="card" :key="card.id" />
     </div>
 </template>
 

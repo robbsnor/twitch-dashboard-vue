@@ -1,8 +1,8 @@
-import { ImageService } from './../../shared/services/image.service';
+import { ImageService } from '../../shared/services/image.service';
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
-import type { CardLive } from "../models/card.model";
+import type { CardLive } from "../models/card-live.model";
 
-export class CardFactory {
+export class CardLiveFactory {
     public static mapToCardLive(streams: TwitchFollowedStreamWithUser[]) {
         return streams.map<CardLive>((stream) => {
             return {

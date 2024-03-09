@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { CardLiveSize } from '../models/card-size.model';
-import type { CardLive } from '../models/card.model';
 import { NumberService } from '@/app/shared/services/number.service';
+import { computed } from 'vue';
+import type { CardLive, CardLiveSize } from '../models/card-live.model';
 
 interface Props {
   card: CardLive;
@@ -514,3 +513,4 @@ const viewers = computed(() => {
     }
 }
 </style>
+../models/card-live.model
