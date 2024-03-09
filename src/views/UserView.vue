@@ -41,8 +41,9 @@ onMounted(async () => {
 
 <template>
     <div  class="user">
+        <StreamType></StreamType>
+
         <Section v-if="cards" :title="user?.display_name" class="user__section">
-            <!-- <StreamType></StreamType> -->
             <div class="cards" v-auto-animate>
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
