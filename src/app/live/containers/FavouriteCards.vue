@@ -18,11 +18,12 @@ const cards = computed(() => {
 <template>
     <Section title="Favourites">
         <div class="favourites">
-            <div v-if="cards" class="favourites__cards">
+            <div v-if="cards?.length" class="favourites__cards">
                 <div v-for="card in cards" :key="card.name" class="favourites__card">
                     <CardLive :card="card" size="fancy"></CardLive>
                 </div>
             </div>
+            <div v-else>No favourites online</div>
         </div>
     </Section>
 </template>

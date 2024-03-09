@@ -40,6 +40,5 @@ onMounted(async () => {
 @import '/src/assets/styles/functions/rem';
 
 .live {
-    padding-top: $header-height;
 }
 </style>
