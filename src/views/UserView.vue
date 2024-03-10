@@ -12,6 +12,7 @@ import StreamType from '../app/user/components/StreamTypePicker.vue';
 import Section from '../app/shared/components/Section.vue';
 import Button from '../app/shared/components/Button.vue';
 import Spinner from '@/app/shared/components/Spinner.vue';
+import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -41,7 +42,8 @@ onMounted(async () => {
 
 <template>
     <div  class="user">
-        <StreamType></StreamType>
+        <!-- <StreamType></StreamType> -->
+        <StreamTypeMobile></StreamTypeMobile>
 
         <Section v-if="cards" :title="user?.display_name" class="user__section">
             <div class="cards" v-auto-animate>
