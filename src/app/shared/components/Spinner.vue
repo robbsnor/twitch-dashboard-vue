@@ -12,7 +12,7 @@ const props = defineProps<Props>()
             <div class="spinner__circle"></div>
             <div class="spinner__circle"></div>
         </div>
-    <div v-if="text" class="spinner__text">{{ props.text }}</div>
+    <div v-if="props.text" class="spinner__text">{{ props.text }}</div>
 </div>
 
 </template>
