@@ -11,10 +11,11 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
             manifest: {
-                name: 'My Awesome App',
-                short_name: 'MyApp',
-                description: 'My Awesome App description',
-                theme_color: '#ffffff',
+                name: "Twitch Dashboard",
+                short_name: "Dashboard",
+                display: "standalone",
+                theme_color: "#000000",
+                background_color: "#000000",
                 icons: [
                     {
                         src: 'pwa-64x64.png',
