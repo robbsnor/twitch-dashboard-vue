@@ -24,7 +24,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="live">
+    <div class="live" v-auto-animate>
         <template v-if="allStreams">
             <FavouriteCards :streams="favouriteStreams" />
             <OtherCards :streams="otherStreams" />
