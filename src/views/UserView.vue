@@ -4,8 +4,6 @@ import type { TwitchVideo } from '@/app/shared/models/twitch/videos.model';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { TwitchService } from '../app/shared/services/twitch.service';
-// TODO: naming conflicts
-import type { CardVideo as CardVideoType } from '../app/user/models/card-video.model';
 import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import CardVideo from '../app/user/components/CardVideo.vue';
 import StreamType from '../app/user/components/StreamTypePicker.vue';
