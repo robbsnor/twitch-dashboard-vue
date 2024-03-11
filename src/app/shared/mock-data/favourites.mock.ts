@@ -1,4 +1,6 @@
-export const MOCK_FAVOURITES = [
+
+export const MOCK_FAVOURITES_HOPP = [
+    502827531, // lunpia_
     52385053, // lekkerspelen
     26991127, // hiko
     128856353, // mande
@@ -12,4 +14,17 @@ export const MOCK_FAVOURITES = [
     64952353, // robertrayhart
     82653207, // marblr
     598902753, // valorant_emea
+    629320451, // infs___
+];
+
+export const MOCK_FAVOURITES_FLUUMP = [
+    23611469, // robbsnor
+    23558127, // goodtimeswithscar
+    52385053, // lekkerspelen
+    49334169, // geminitay
+    41157071, // tangotek
+    41176642, // impulsesv
+    25492878, // zombiecleo
+    75366734, // pearlescentmoon
+    3389768, // philza
 ];

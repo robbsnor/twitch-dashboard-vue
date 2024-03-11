@@ -1,3 +1,4 @@
+import type { TwitchUser } from "../../shared/models/twitch/users.model";
 import { LocalStorageService } from "../../shared/services/localstorage.service";
 import { TwitchService } from "../../shared/services/twitch.service";
 
@@ -14,7 +15,7 @@ export class AuthService {
         if (!accessToken) return;
 
         // if we already have a user, don't try getting credentials again
-        let currentUser = LocalStorageService.getItem(LS_KEYS.USER);
+        let currentUser: TwitchUser = LocalStorageService.getItem(LS_KEYS.USER);
         if (currentUser) return currentUser;
 
         // else, get user and store credentials

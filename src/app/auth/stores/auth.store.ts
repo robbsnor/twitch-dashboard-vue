@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { AuthService } from '../services/auth.service';
+import type { TwitchUser } from '../../shared/models/twitch/users.model';
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref<any>();
+    const user = ref<TwitchUser>();
     const accessToken = ref<string>();
 
     const signIn = async () => {
@@ -12,7 +13,8 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     const signOut = async () => {
-        user.value = await AuthService.signOut();
+        await AuthService.signOut();
+        user.value = undefined;
     };
 
     return {
