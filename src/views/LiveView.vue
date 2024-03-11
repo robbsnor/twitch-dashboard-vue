@@ -18,9 +18,9 @@ const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 
 onMounted(async () => {
     favouritesList.value = MOCK_FAVOURITES;
+
     allStreams.value = await twitchService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.orderFavorites(favouritesList.value, allStreams.value);
-
     nonFavouriteStreams.value = allStreams.value.filter(stream => !favouritesList.value?.includes(Number(stream.id)));
 })
 </script>
