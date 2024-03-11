@@ -6,20 +6,22 @@ import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/f
 import { TwitchService } from '../app/shared/services/twitch.service';
 import { MOCK_FAVOURITES } from '@/app/shared/mock-data/favourites.mock';
 import Spinner from '@/app/shared/components/Spinner.vue';
+import { LiveService } from '@/app/live/services/live.service';
 
 const twitchService = new TwitchService();
 
-const allStreams = ref<TwitchFollowedStreamWithUser[]>()
-const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>()
-const otherStreams = ref<TwitchFollowedStreamWithUser[]>()
+const favouritesList = ref<Number[]>();
 
-const favourites = ref<Number[]>();
+const allStreams = ref<TwitchFollowedStreamWithUser[]>();
+const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
+const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 
 onMounted(async () => {
-    allStreams.value= await twitchService.getFollowedStreamsWithUsers()
-    favourites.value = MOCK_FAVOURITES;
-    favouriteStreams.value = allStreams.value.filter(stream => favourites.value?.includes(Number(stream.id)))
-    otherStreams.value = allStreams.value.filter(stream => !favourites.value?.includes(Number(stream.id)))
+    favouritesList.value = MOCK_FAVOURITES;
+    allStreams.value = await twitchService.getFollowedStreamsWithUsers();
+    favouriteStreams.value = LiveService.orderFavorites(favouritesList.value, allStreams.value);
+
+    nonFavouriteStreams.value = allStreams.value.filter(stream => !favouritesList.value?.includes(Number(stream.id)));
 })
 </script>
 
@@ -27,8 +29,9 @@ onMounted(async () => {
     <div class="live" v-auto-animate>
         <template v-if="allStreams">
             <FavouriteStreams :streams="favouriteStreams" />
-            <NonFavouriteStreams :streams="otherStreams" />
+            <NonFavouriteStreams :streams="nonFavouriteStreams" />
         </template>
+
         <Spinner v-else />
     </div>
 </template>
@@ -39,6 +42,5 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.live {
-}
+.live { }
 </style>
