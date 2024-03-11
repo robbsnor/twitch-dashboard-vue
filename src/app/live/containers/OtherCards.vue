@@ -21,7 +21,6 @@ const cards = computed(() => {
 
 const filteredCards = computed(() => {
     if (!cards.value) return;
-    if (!filter.value) return cards.value
 
     return cards.value.filter(card => {
         const nameMatch = card.name.toLowerCase().includes(filter.value.toLowerCase())
