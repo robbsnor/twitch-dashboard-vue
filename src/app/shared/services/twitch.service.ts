@@ -55,7 +55,7 @@ export class TwitchService {
 
     public async getFollowedStreams() {
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
-        const userId = this.authStore.user.id;
+        const userId = this.authStore.user!.id;
         url.searchParams.append('user_id', userId);
         const res = await this.http.get<TwitchGetFollowedStreams>(url.toString());
 
