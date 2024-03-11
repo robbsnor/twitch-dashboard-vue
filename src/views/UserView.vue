@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import type { TwitchVideo } from '@/app/shared/models/twitch/videos.model';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { TwitchService } from '../app/shared/services/twitch.service';
 // TODO: naming conflicts
@@ -32,10 +32,21 @@ const getVideos = async () => {
     loading.value = false;
 }
 
+watch(
+    () => route.params.userLogin as string,
+    async (userLogin) => {
+        user.value = undefined;
+        cursor.value = undefined;
+        videos.value = [];
+
+        user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
+        await getVideos();
+    }
+)
+
 onMounted(async () => {
     const userLogin = route.params.userLogin as string;
     user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
-
     await getVideos();
 })
 </script>
