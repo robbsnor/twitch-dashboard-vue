@@ -46,11 +46,11 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
 
 <template>
     <Section title="Live channels">
-        <div class="other">
+        <div class="non-favourite">
             <input v-model="filter" type="text" placeholder="Search streams" style="margin: 10px 0; padding: 10px;">
 
-            <div v-if="filteredCards" class="other__cards">
-                <div v-for="card in filteredCards" :key="card.name" class="other__card">
+            <div v-if="filteredCards" class="non-favourite__cards">
+                <div v-for="card in filteredCards" :key="card.name" class="non-favourite__card">
                     <CardLive :card="card" :size="cardSize"></CardLive>
                 </div>
             </div>
@@ -66,7 +66,7 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.other {
+.non-favourite {
     &__acctions {
         padding-bottom: rem(20px);
     }

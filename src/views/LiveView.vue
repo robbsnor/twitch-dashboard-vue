@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import FavouriteCards from '@/app/live/containers/FavouriteCards.vue';
-import OtherCards from '@/app/live/containers/OtherCards.vue';
+import FavouriteStreams from '@/app/live/containers/FavouriteStreams.vue';
+import NonFavouriteStreams from '@/app/live/containers/NonFavouriteStreams.vue';
 import { onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import { TwitchService } from '../app/shared/services/twitch.service';
@@ -26,8 +26,8 @@ onMounted(async () => {
 <template>
     <div class="live" v-auto-animate>
         <template v-if="allStreams">
-            <FavouriteCards :streams="favouriteStreams" />
-            <OtherCards :streams="otherStreams" />
+            <FavouriteStreams :streams="favouriteStreams" />
+            <NonFavouriteStreams :streams="otherStreams" />
         </template>
         <Spinner v-else />
     </div>
