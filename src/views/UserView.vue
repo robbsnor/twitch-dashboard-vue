@@ -74,7 +74,7 @@ onMounted(async () => {
     }
 
     @include screen(1200px) {
-            grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 
     @include screen(1400px) {
