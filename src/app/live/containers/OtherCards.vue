@@ -12,12 +12,26 @@ const props = defineProps<{
 }>()
 
 const cardSize = ref<CardLiveSize>('small');
+const filter = ref('');
+
 const cards = computed(() => {
     if (!props.streams) return;
     return CardLiveFactory.mapToCardLive(props.streams)
 })
 
-const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'normal' : 'small';
+const filteredCards = computed(() => {
+    if (!cards.value) return;
+    if (!filter.value) return cards.value
+
+    return cards.value.filter(card => {
+        const nameMatch = card.name.toLowerCase().includes(filter.value.toLowerCase())
+        const gameMatch = card.game.toLowerCase().includes(filter.value.toLowerCase())
+        const titleMatch = card.title.toLowerCase().includes(filter.value.toLowerCase())
+        const idMatch = card.userId.toString().toLowerCase().includes(filter.value.toLowerCase())
+
+        return nameMatch || gameMatch || titleMatch || idMatch
+    })
+})
 
 onMounted(() => {
     determineCardSize()
@@ -27,13 +41,17 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', determineCardSize);
 });
+
+const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'normal' : 'small';
 </script>
 
 <template>
     <Section title="Live channels">
         <div class="other">
-            <div v-if="cards" class="other__cards">
-                <div v-for="card in cards" :key="card.name" class="other__card">
+            <input v-model="filter" type="text" placeholder="Search streams" style="margin: 10px 0; padding: 10px;">
+
+            <div v-if="filteredCards" class="other__cards">
+                <div v-for="card in filteredCards" :key="card.name" class="other__card">
                     <CardLive :card="card" :size="cardSize"></CardLive>
                 </div>
             </div>
