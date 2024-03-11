@@ -1,5 +1,4 @@
 import { ImageService } from '../../shared/services/image.service';
-import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
 import type { CardVideo } from '../models/card-video.model';
 import type { TwitchVideo } from '../../shared/models/twitch/videos.model';
 
