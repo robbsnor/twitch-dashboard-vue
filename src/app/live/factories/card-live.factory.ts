@@ -3,7 +3,7 @@ import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/fo
 import type { CardLive } from "../models/card-live.model";
 
 export class CardLiveFactory {
-    public static mapToCardLive(streams: TwitchFollowedStreamWithUser[]) {
+    public static mapFromFollowdStream(streams: TwitchFollowedStreamWithUser[]) {
         return streams.map<CardLive>((stream) => {
             return {
                 userId: Number(stream.user_id),

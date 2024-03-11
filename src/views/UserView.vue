@@ -20,7 +20,7 @@ const loading = ref(false)
 const videos = ref<TwitchVideo[]>([])
 const cursor = ref<string>()
 
-const cards = computed(() => CardVideoFactory.mapToCardVideo(videos.value))
+const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value))
 
 const getVideos = async () => {
     loading.value = true;
