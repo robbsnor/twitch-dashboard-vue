@@ -8,6 +8,8 @@ import { MOCK_FAVOURITES_HOPP, MOCK_FAVOURITES_FLUUMP } from '@/app/shared/mock-
 import Spinner from '@/app/shared/components/Spinner.vue';
 import { LiveService } from '@/app/live/services/live.service';
 import { useAuthStore } from '@/app/auth/stores/auth.store';
+import ZigZag from '@/app/shared/components/ZigZag.vue';
+import Section from '@/app/shared/components/Section.vue';
 
 const twitchService = new TwitchService();
 
@@ -41,6 +43,7 @@ onMounted(async () => {
     <div class="live" v-auto-animate>
         <template v-if="allStreams">
             <FavouriteStreams :streams="favouriteStreams" />
+            <ZigZag />
             <NonFavouriteStreams :streams="nonFavouriteStreams" />
         </template>
 
