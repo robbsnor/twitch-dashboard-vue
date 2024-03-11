@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { CardLiveFactory } from '../factories/card-live.factory';
+import Swirl from '@/app/shared/components/Swirl.vue';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -17,6 +18,9 @@ const cards = computed(() => {
 
 <template>
     <Section title="Favourites">
+        <template #background-art>
+            <Swirl></Swirl>
+        </template>
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
                 <div v-for="card in cards" :key="card.name" class="favourites__card">

@@ -1,0 +1,19 @@
+<template>
+    <svg class="swirl" viewBox="0 0 1920 477" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-219 421.776C906 -815.724 1444 1168.28 2236.5 198.775" stroke="#8EFD02" stroke-width="2"/>
+    </svg>
+</template>
+
+<style scoped lang="scss">
+@import '/src/assets/styles/var/color';
+@import '/src/assets/styles/var/size';
+@import '/src/assets/styles/mixins/container';
+@import '/src/assets/styles/functions/rem';
+
+.swirl {
+    position: absolute;
+    width: 100%;
+    top: 200px;
+}
+
+</style>

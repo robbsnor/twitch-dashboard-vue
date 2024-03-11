@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import Swirl from './Swirl.vue';
 
 interface Props {
   modifier?: string;
@@ -21,6 +22,7 @@ const classes = computed(() => {
 
 <template>
     <section :class="classes">
+        <slot name="background-art" class="section__background-art"></slot>
         <div class="section__container">
             <h2 class="section__title">{{ props.title }}</h2>
             <div class="section__body">
@@ -36,6 +38,7 @@ const classes = computed(() => {
 @import '/src/assets/styles/mixins/container';
 
 .section {
+    position: relative;
     padding: rem(50px) 0;
 
     &__container {
