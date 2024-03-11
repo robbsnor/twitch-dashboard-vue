@@ -32,6 +32,12 @@ const getVideos = async () => {
     loading.value = false;
 }
 
+onMounted(async () => {
+    const userLogin = route.params.userLogin as string;
+    user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
+    await getVideos();
+})
+
 watch(
     () => route.params.userLogin as string,
     async (userLogin) => {
@@ -43,12 +49,6 @@ watch(
         await getVideos();
     }
 )
-
-onMounted(async () => {
-    const userLogin = route.params.userLogin as string;
-    user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
-    await getVideos();
-})
 </script>
 
 <template>
