@@ -10,7 +10,7 @@ import { LiveService } from '@/app/live/services/live.service';
 
 const twitchService = new TwitchService();
 
-const favouritesList = ref<Number[]>();
+const favouritesList = ref<number[]>();
 
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
