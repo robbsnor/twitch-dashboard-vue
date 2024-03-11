@@ -98,4 +98,4 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
         }
     }
 }
-</style>../components/CardLive.vue../factories/card-live.factory
+</style>
