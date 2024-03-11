@@ -35,9 +35,9 @@ const viewers = computed(() => {
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game">{{ card.game }}</div>
             <div class="card-small__user">
-                <a :href="`/user/${card.name}`" class="card-small__user-link">
+                <RouterLink :to="`/user/${card.name}`" class="card-small__user-link">
                     <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar">
-                </a>
+                </RouterLink>
                 <div class="card-small__username">{{ card.name }}</div>
             </div>
         </div>
@@ -56,10 +56,10 @@ const viewers = computed(() => {
         <div class="card-normal__title">{{ card.title }}</div>
         <div class="card-normal__game">{{ card.game }}</div>
         <div class="card-normal__footer">
-            <a :href="`/user/${card.name}`" class="card-normal__user">
+            <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar">
                 <div class="card-normal__username">{{ card.name }}</div>
-            </a>
+            </RouterLink>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" class="card-normal__options"></button> -->
         </div>
     </div>
@@ -67,10 +67,10 @@ const viewers = computed(() => {
     <!-- fancy -->
     <div v-if="size === 'fancy'" :class="classes" class="card-fancy">
         <div class="card-fancy__header">
-            <a :href="`/user/${card.name}`" class="card-fancy__user">
+            <RouterLink :to="`/user/${card.name}`" class="card-fancy__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar">
-                <div href="" class="card-fancy__username">{{ card.name }}</div>
-            </a>
+                <div class="card-fancy__username">{{ card.name }}</div>
+            </RouterLink>
             <div class="card-fancy__viewers">{{ viewers }}</div>
             <!-- <app-myIcon icon="arrow" class="card-fancy__arrow"></app-myIcon> -->
         </div>
