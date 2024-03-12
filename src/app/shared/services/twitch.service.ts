@@ -4,6 +4,7 @@ import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
 import type { TwitchGetVideos, TwitchGetVideosOptions } from './../models/twitch/videos.model';
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
+import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 
 export interface User {
     ids?: number[];
@@ -61,7 +62,6 @@ export class TwitchService {
         const userId = this.authStore.user!.id;
         url.searchParams.append('user_id', userId);
         const res = await this.http.get<TwitchGetFollowedStreams>(url.toString());
-
         return res.data.data;
     }
 
@@ -76,7 +76,6 @@ export class TwitchService {
         if (after) url.searchParams.append('after', after);
 
         const res = await this.http.get<TwitchGetVideos>(url.toString());
-
         return res.data;
     }
 
@@ -101,11 +100,20 @@ export class TwitchService {
         url.searchParams.append('user_id', userId.toString());
         if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
-        console.log(url.toString());
-
         const res = await this.http.get<TwitchGetFollowedChannels>(url.toString());
-
         return res.data;
+    }
+
+    public async checkUserSubscription(userId: number, broadcasterId: number) {
+        const url = new URL('https://api.twitch.tv/helix/subscriptions/user');
+        url.searchParams.append('user_id', userId.toString());
+        url.searchParams.append('broadcaster_id', broadcasterId.toString());
+
+        const res = await this.http.get<TwitchCheckUserSubscription>(url.toString())
+            .then(() => true)
+            .catch(() => false);
+
+        return res;
     }
 
     // interceptors

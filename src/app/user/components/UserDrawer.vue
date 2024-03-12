@@ -32,10 +32,11 @@ const props = defineProps<{
 
             <div class="user-drawer__header-right">
                 <ButtonGroup>
-                    <Button v-if="props.isFollowing">Followed</Button>
+                    <Button v-if="props.isFollowing" color="secondary">Following</Button>
                     <Button v-else>Follow</Button>
 
-                    <!-- <Button>Subscribed</Button> -->
+                    <Button v-if="props.isSubscribed" color="secondary">Subscribed</Button>
+                    <Button v-else>Subscribe</Button>
                 </ButtonGroup>
             </div>
         </div>

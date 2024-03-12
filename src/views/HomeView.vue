@@ -13,7 +13,7 @@ const singInUrl = computed(() => {
     url.searchParams.append('redirect_uri', window.location.origin)
     url.searchParams.append('force_verify', 'false')
     url.searchParams.append('response_type', 'token')
-    url.searchParams.append('scope', 'user:read:follows')
+    url.searchParams.append('scope', 'user:read:follows user:read:subscriptions')
 
     return url.href;
 })

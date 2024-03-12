@@ -58,6 +58,7 @@ const getInitialData = async (userLogin: string) => {
         .then((_user) => {
             getVideos(_user);
             getIsFollowing(_user);
+            getIsSubscribed(_user);
         })
         .catch(() => userNotFound.value = true)
         .finally(() => pageLoading.value = false)
@@ -80,6 +81,10 @@ const getIsFollowing = async (_user: TwitchUser) => {
     isFollowing.value = !!res.data.length;
 }
 
+const getIsSubscribed = async (_user: TwitchUser) => {
+    isSubscribed.value = await twitchService.checkUserSubscription(Number(authStore.user!.id), Number(_user.id));
+}
+
 const pageLoaded = computed(() => user.value && isFollowing.value !== undefined);
 
 const loadMoreVideos = async () => {
@@ -96,7 +101,7 @@ const loadMoreVideos = async () => {
             v-auto-animate
             :user="user!"
             :isFollowing="isFollowing!"
-            :isSubscribed="false"
+            :isSubscribed="isSubscribed!"
         />
 
         <!-- <StreamType></StreamType> -->
