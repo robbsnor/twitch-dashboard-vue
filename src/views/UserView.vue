@@ -184,7 +184,8 @@ const loadMoreVideos = async () => {
 .not-found {
     @include container;
 
-    padding: rem(100px) 0;
+    padding-top: rem(100px);
+    padding-bottom: rem(100px);
 
     &__username {
         color: $c-primary;
