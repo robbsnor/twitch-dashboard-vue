@@ -57,7 +57,7 @@ const amountOfItems = 4;
         font-size: 150px;
         padding-bottom: 0;
         opacity: .3;
-        transition: .3s;
+        transition: .2s;
 
         &.active {
             opacity: 1;
@@ -83,10 +83,12 @@ const amountOfItems = 4;
     left: 0;
     opacity: 0;
     transition: .3s;
+    scale: .98;
     transform: translate(20px, 20px);
 
     &.show {
         opacity: 1;
+        scale: 1;
         transform: translate(0, 0);
     }
 
@@ -116,7 +118,7 @@ const amountOfItems = 4;
         &:nth-child(4) {
             top: rem(350px);
             right: rem(260px);
-            width: rem(260px);
+            width: rem(200px);
         }
     }
 }
