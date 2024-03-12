@@ -103,7 +103,6 @@ const loadMoreVideos = async () => {
         <template v-if="pageIsLoaded" >
             <UserDrawer
                 class="user__drawer"
-                v-auto-animate
                 :user="user!"
                 :isFollowing="isFollowing!"
                 :isSubscribed="isSubscribed!"
@@ -129,7 +128,6 @@ const loadMoreVideos = async () => {
         <Spinner v-if="pageIsLoading" padding/>
     </div>
 
-
     <div v-if="userNotFound" class="not-found">
         <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
         <p>This user does not exist, yet...</p>
@@ -147,6 +145,11 @@ const loadMoreVideos = async () => {
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
+
+.user {
+    &__drawer {
+    }
+}
 
 .cards-section {
     &__body {

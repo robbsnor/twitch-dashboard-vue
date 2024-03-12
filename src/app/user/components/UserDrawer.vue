@@ -13,31 +13,33 @@ const props = defineProps<{
 
 <template>
     <div class="user-drawer">
-        <div class="user-drawer__header">
-            <div class="user-drawer__header-left">
-                <div class="user-drawer__user user">
-                    <a :href="'https://www.twitch.tv/' + props.user.login" target="_blank">
-                        <img :src="props.user.profile_image_url" alt="" class="user__avatar">
-                    </a>
-                    <div class="user__info">
-                        <h4 class="user__name">{{ props.user.display_name }}</h4>
-                        <div class="user__followers">132k Followers</div>
+        <div class="user-drawer__container">
+            <div class="user-drawer__header">
+                <div class="user-drawer__header-left">
+                    <div class="user-drawer__user user">
+                        <a :href="'https://www.twitch.tv/' + props.user.login" target="_blank">
+                            <img :src="props.user.profile_image_url" alt="" class="user__avatar">
+                        </a>
+                        <div class="user__info">
+                            <h4 class="user__name">{{ props.user.display_name }}</h4>
+                            <div class="user__followers">132k Followers</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="user-drawer__header-center">
-                <vue-feather type="chevron-down" class="user-drawer__toggle-icon"></vue-feather>
-            </div>
+                <div class="user-drawer__header-center">
+                    <vue-feather type="chevron-up" class="user-drawer__toggle-icon"></vue-feather>
+                </div>
 
-            <div class="user-drawer__header-right">
-                <ButtonGroup>
-                    <Button v-if="props.isFollowing" color="secondary">Following</Button>
-                    <Button v-else>Follow</Button>
+                <div class="user-drawer__header-right">
+                    <ButtonGroup>
+                        <Button v-if="props.isFollowing" color="secondary">Following</Button>
+                        <Button v-else>Follow</Button>
 
-                    <Button v-if="props.isSubscribed" color="secondary">Subscribed</Button>
-                    <Button v-else>Subscribe</Button>
-                </ButtonGroup>
+                        <Button v-if="props.isSubscribed" color="secondary">Subscribed</Button>
+                        <Button v-else>Subscribe</Button>
+                    </ButtonGroup>
+                </div>
             </div>
         </div>
 
@@ -54,10 +56,20 @@ const props = defineProps<{
 .user-drawer {
     $self: &;
 
-    @include container;
-    transition: .2s;
-    background-color: $c-black-4;
-    border-radius: rem($border-radius-normal);
+    position: fixed;
+    right: 0;
+    bottom: rem($padding);
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 9;
+
+    &__container {
+        @include container;
+        transition: .2s;
+        background-color: $c-black-4;
+        border-radius: rem($border-radius-normal);
+    }
 
     &__header {
         display: flex;
@@ -107,19 +119,36 @@ const props = defineProps<{
     gap: rem(15px);
 
     &__avatar {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 999px;
     }
 
     &__name {
-        font-size: rem(24px);
+        font-size: rem(20px);
+        line-height: 1;
         padding: 0;
-        padding-bottom: rem(3px);
+        padding-bottom: rem(5px);
     }
 
     &__followers {
-        font-size: rem(18px);
+        font-size: rem(16px);
+        line-height: 1;
+    }
+
+    @include screen($desktop) {
+        &__avatar {
+            width: 50px;
+            height: 50px;
+        }
+
+        &__name {
+            font-size: rem(24px);
+        }
+
+        &__followers {
+            font-size: rem(18px);
+        }
     }
 }
 </style>
