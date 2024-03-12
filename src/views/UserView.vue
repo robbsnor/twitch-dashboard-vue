@@ -121,7 +121,7 @@ const loadMoreVideos = async () => {
         </Section>
     </div>
 
-        <Spinner v-if="pageIsLoading"  padding/>
+        <Spinner v-if="pageIsLoading" padding/>
 
         <div v-if="userNotFound" class="not-found">
             <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
