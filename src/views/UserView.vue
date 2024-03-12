@@ -117,8 +117,8 @@ const getNextVideos = async () => {
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
 
-            <Button v-if="!videosAreLoading" @click="getNextVideos">Load more</Button>
-            <h1>{{ videosAreLoading }}</h1>
+            <Button v-if="!videosAreLoading" @click="getNextVideos" class="cards__load-more">Load more</Button>
+
             <Spinner v-if="videosAreLoading"/>
         </Section>
     </div>
@@ -150,6 +150,11 @@ const getNextVideos = async () => {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: rem(35px);
+
+    &__load-more {
+        display: block;
+        margin: rem(100px) auto;
+    }
 
     @include screen($desktop) {
         grid-template-columns: repeat(3, 1fr);
