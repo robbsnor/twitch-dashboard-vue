@@ -77,7 +77,6 @@ const props = defineProps<{
     }
 
     @include screen($desktop) {
-
         &__header {
             display: grid;
             grid-template-columns: repeat(3, 1fr);

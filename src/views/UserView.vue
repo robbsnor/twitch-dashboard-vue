@@ -62,12 +62,12 @@ watch(
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
 
-            <Spinner v-if="loading"/>
+            <Spinner v-if="loading" text="loading videos..."/>
             <Button v-if="!loading" @click="getVideos">Load more</Button>
         </Section>
-
-        <Spinner v-else />
     </div>
+
+    <Spinner v-else text="Loading user..." />
 </template>
 
 <style scoped lang="scss">
