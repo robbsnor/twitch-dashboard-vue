@@ -11,6 +11,7 @@ import Section from '../app/shared/components/Section.vue';
 import Button from '../app/shared/components/Button.vue';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
+import UserDrawer from '../app/user/components/UserDrawer.vue';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -50,11 +51,13 @@ watch(
 </script>
 
 <template>
-    <div  class="user">
-        <!-- <StreamType></StreamType> -->
-        <StreamTypeMobile></StreamTypeMobile>
+    <div v-if="user" class="user">
+        <UserDrawer :user="user" />
 
-        <Section v-if="cards" :title="user?.display_name" class="user__section">
+        <StreamType></StreamType>
+        <!-- <StreamTypeMobile></StreamTypeMobile> -->
+
+        <Section v-if="cards" class="user__section">
             <div class="cards" v-auto-animate>
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>

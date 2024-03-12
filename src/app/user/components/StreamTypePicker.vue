@@ -41,7 +41,6 @@ const amountOfItems = 4;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: calc(100vh - $header-height);
     overflow: hidden;
 
     &__types {
@@ -57,6 +56,7 @@ const amountOfItems = 4;
         font-size: 150px;
         padding-bottom: 0;
         opacity: .3;
+        cursor: pointer;
         transition: .2s;
 
         &.active {
