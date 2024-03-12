@@ -306,7 +306,7 @@ const viewers = computed(() => {
     }
 
     &__game {
-        padding: rem(12px) 0 0;
+        padding: rem(4px) 0 0;
         font-size: rem(16px);
         color: $c-white--dark;
     }
