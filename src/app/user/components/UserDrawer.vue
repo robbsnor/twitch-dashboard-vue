@@ -47,8 +47,8 @@ const props = defineProps<{
     border-radius: rem($border-radius-normal);
 
     &__header {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        display: flex;
+        justify-content: space-between;
         padding: rem($padding) 0;
 
         &-left {
@@ -63,7 +63,7 @@ const props = defineProps<{
         }
 
         &-right {
-            display: flex;
+            display: none;
             justify-content: flex-end;
             align-items: center;
         }
@@ -74,9 +74,18 @@ const props = defineProps<{
         color: $c-black-15;
         cursor: pointer;
         padding: rem(10px);
+    }
 
-        &:hover {
-            transform: translateY(5px);
+    @include screen($desktop) {
+
+        &__header {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: rem($padding);
+
+            &-right {
+                display: flex;
+            }
         }
     }
 }
