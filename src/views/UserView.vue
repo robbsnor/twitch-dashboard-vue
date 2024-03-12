@@ -12,47 +12,92 @@ import Button from '../app/shared/components/Button.vue';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
 import UserDrawer from '../app/user/components/UserDrawer.vue';
+import { useAuthStore } from '@/app/auth/stores/auth.store';
 
 const twitchService = new TwitchService();
 const route = useRoute();
+const authStore = useAuthStore();
 
-const user = ref<TwitchUser>()
-const loading = ref(false)
-const videos = ref<TwitchVideo[]>([])
-const cursor = ref<string>()
+// user
+const user = ref<TwitchUser>();
 
-const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value))
+// videos
+const videos = ref<TwitchVideo[]>([]);
+const videosCursor = ref<string>();
 
-const getVideos = async () => {
-    loading.value = true;
-    const res = await twitchService.getVideos(Number(user.value?.id), cursor.value);
-    videos.value = [...videos.value, ...res.data];
-    cursor.value = res.pagination.cursor;
-    loading.value = false;
-}
+// followed
+const isFollowing = ref<boolean>();
+const isSubscribed = ref<boolean>();
+
+// ui
+const pageLoading = ref(true);
+const videosLoading = ref(true);
+const userNotFound = ref(false);
+const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value));
 
 onMounted(async () => {
-    const userLogin = route.params.userLogin as string;
-    user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
-    await getVideos();
-})
+    await getInitialData(route.params.userLogin as string);
+});
 
 watch(
     () => route.params.userLogin as string,
     async (userLogin) => {
-        user.value = undefined;
-        cursor.value = undefined;
-        videos.value = [];
-
-        user.value = (await twitchService.getUsers({ logins: [userLogin] }))[0];
-        await getVideos();
+        await getInitialData(userLogin);
     }
-)
+);
+
+const getInitialData = async (userLogin: string) => {
+    // reset on route change
+    pageLoading.value = true;
+    user.value = undefined;
+    videosCursor.value = undefined;
+    videos.value = [];
+
+    // get data
+    getUser(userLogin)
+        .then((_user) => {
+            getVideos(_user);
+            getIsFollowing(_user);
+        })
+        .catch(() => userNotFound.value = true)
+        .finally(() => pageLoading.value = false)
+}
+
+const getUser = async (userLogin: string) => {
+    const _user = (await twitchService.getUsers({ logins: [userLogin] }))[0];
+    user.value = _user;
+    return _user;
+}
+
+const getVideos = async (_user: TwitchUser) => {
+    const res = await twitchService.getVideos(Number(_user.id));
+    videos.value = [...videos.value, ...res.data];
+    videosCursor.value = res.pagination.cursor;
+}
+
+const getIsFollowing = async (_user: TwitchUser) => {
+    const res = await twitchService.getFollowedChannels(Number(authStore.user!.id), Number(_user.id));
+    isFollowing.value = !!res.data.length;
+}
+
+const pageLoaded = computed(() => user.value && isFollowing.value !== undefined);
+
+const loadMoreVideos = async () => {
+    videosLoading.value = true;
+    const _videos = await twitchService.getVideos(Number(user.value!.id), videosCursor.value);
+    videos.value = [...videos.value, ..._videos.data];
+    videosLoading.value = false;
+}
 </script>
 
 <template>
-    <div v-if="user" class="user">
-        <UserDrawer :user="user" />
+    <div v-if="pageLoaded" class="user">
+        <UserDrawer
+            v-auto-animate
+            :user="user!"
+            :isFollowing="isFollowing!"
+            :isSubscribed="false"
+        />
 
         <!-- <StreamType></StreamType> -->
         <StreamTypeMobile></StreamTypeMobile>
@@ -62,12 +107,20 @@ watch(
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
 
-            <Spinner v-if="loading" text="loading videos..."/>
-            <Button v-if="!loading" @click="getVideos">Load more</Button>
+            <Button v-if="!videosLoading" @click="loadMoreVideos">Load more</Button>
+            <Spinner v-if="videosLoading"/>
         </Section>
     </div>
 
-    <Spinner v-else text="Loading user..." />
+    <Spinner v-if="pageLoading" />
+
+    <div v-if="userNotFound" class="not-found">
+        <h4>User not found :( </h4>
+        <h1 class="not-found__username">{{ route.params.userLogin }}</h1>
+        <RouterLink to="/live">
+            <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
+        </RouterLink>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -91,6 +144,16 @@ watch(
 
     @include screen(1400px) {
         grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.not-found {
+    @include container;
+
+    padding: rem(100px) 0;
+
+    &__username {
+        color: $c-primary;
     }
 }
 </style>

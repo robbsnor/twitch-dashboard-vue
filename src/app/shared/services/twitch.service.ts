@@ -3,6 +3,7 @@ import { useAuthStore } from "../../auth/stores/auth.store";
 import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
 import type { TwitchGetVideos, TwitchGetVideosOptions } from './../models/twitch/videos.model';
+import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 
 export interface User {
     ids?: number[];
@@ -31,6 +32,8 @@ export class TwitchService {
         if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login.toString()));
 
         const res = await this.http.get<TwitchGetUsers>(url.toString());
+        if (res.data.data.length === 0) throw new Error('No users found');
+
         const unorderedUsers = res.data.data;
 
         let orderedUsers: TwitchUser[] = [];
@@ -69,7 +72,7 @@ export class TwitchService {
     ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
-        url.searchParams.append('first', '100'); // temp
+        url.searchParams.append('first', '20'); // temp
         if (after) url.searchParams.append('after', after);
 
         const res = await this.http.get<TwitchGetVideos>(url.toString());
@@ -91,6 +94,18 @@ export class TwitchService {
         });
 
         return streamsWithUser;
+    }
+
+    public async getFollowedChannels(userId: number, broadcasterId?: number) {
+        const url = new URL('https://api.twitch.tv/helix/channels/followed');
+        url.searchParams.append('user_id', userId.toString());
+        if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
+
+        console.log(url.toString());
+
+        const res = await this.http.get<TwitchGetFollowedChannels>(url.toString());
+
+        return res.data;
     }
 
     // interceptors

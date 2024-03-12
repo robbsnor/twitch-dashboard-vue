@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { defineProps } from 'vue';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import Button from '@/app/shared/components/Button.vue';
+import ButtonGroup from '@/app/shared/components/ButtonGroup.vue';
 
 const props = defineProps<{
     user: TwitchUser;
+    isSubscribed: boolean;
+    isFollowing: boolean;
 }>()
-
 </script>
 
 <template>
@@ -13,7 +16,9 @@ const props = defineProps<{
         <div class="user-drawer__header">
             <div class="user-drawer__header-left">
                 <div class="user-drawer__user user">
-                    <img :src="props.user.profile_image_url" alt="" class="user__avatar">
+                    <a :href="'https://www.twitch.tv/' + props.user.login" target="_blank">
+                        <img :src="props.user.profile_image_url" alt="" class="user__avatar">
+                    </a>
                     <div class="user__info">
                         <h4 class="user__name">{{ props.user.display_name }}</h4>
                         <div class="user__followers">132k Followers</div>
@@ -25,7 +30,14 @@ const props = defineProps<{
                 <vue-feather type="chevron-down" class="user-drawer__toggle-icon"></vue-feather>
             </div>
 
-            <div class="user-drawer__header-right"><Button>Subscribe</Button></div>
+            <div class="user-drawer__header-right">
+                <ButtonGroup>
+                    <Button v-if="props.isFollowing">Followed</Button>
+                    <Button v-else>Follow</Button>
+
+                    <!-- <Button>Subscribed</Button> -->
+                </ButtonGroup>
+            </div>
         </div>
 
         <div class="user-drawer__body"></div>

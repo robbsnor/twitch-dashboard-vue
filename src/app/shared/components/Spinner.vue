@@ -28,7 +28,7 @@ const props = defineProps<Props>()
     align-items: center;
     flex-direction: column;
     gap: rem(20px);
-    padding: rem(50px);
+    padding: rem(150px);
 
     &__circles {
         position: relative;
