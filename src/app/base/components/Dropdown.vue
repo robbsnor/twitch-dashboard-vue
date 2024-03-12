@@ -79,7 +79,7 @@ const emit = defineEmits(['closeMenu'])
     &__menu-container {
         position: relative;
         top: 0;
-        background-color: $c-black;
+        background-color: $c-black-1;
         padding-top: $header-height;
         padding: ($header-height + rem(35px)) 0 rem(35px);
         max-height: 100vh;
@@ -106,7 +106,7 @@ const emit = defineEmits(['closeMenu'])
         top: 0;
         left: 0;
         height: 100%;
-        background-color: rgba($c-black, .5);
+        background-color: rgba($c-black-1, .5);
         width: 100%;
     }
 

@@ -22,8 +22,8 @@ const cards = computed(() => {
             <Swirl></Swirl>
         </template>
         <div class="favourites">
-            <div v-if="cards?.length" class="favourites__cards">
-                <div v-for="card in cards" :key="card.name" class="favourites__card">
+            <div v-if="cards" class="favourites__cards">
+                <div v-for="card in cards" :key="card.userId" class="favourites__card" v-auto-animate>
                     <CardLive :card="card" size="fancy"></CardLive>
                 </div>
             </div>

@@ -40,7 +40,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="live" v-auto-animate>
+    <div class="live">
         <template v-if="allStreams">
             <FavouriteStreams :streams="favouriteStreams" />
             <ZigZag />

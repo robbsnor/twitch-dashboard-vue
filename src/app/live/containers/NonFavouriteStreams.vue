@@ -47,12 +47,12 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
 <template>
     <Section title="Live channels">
         <template #actions>
-            <input v-model="filter" type="text" placeholder="Search streams" style="margin: 10px 0; padding: 10px;">
+            <input v-model="filter" type="text" placeholder="Search streams" style="padding: 10px;">
         </template>
 
         <div class="non-favourite">
             <div v-if="filteredCards" class="non-favourite__cards">
-                <div v-for="card in filteredCards" :key="card.name" class="non-favourite__card">
+                <div v-for="card in filteredCards" :key="card.userId" class="non-favourite__card" v-auto-animate>
                     <CardLive :card="card" :size="cardSize"></CardLive>
                 </div>
             </div>

@@ -40,16 +40,11 @@ const toggleMenu = () => {
         <RouterView />
     </main>
 
-
-
     <footer class="footer">
         <a class="footer_icon_link" href="https://github.com/robbsnor/twitch-dashboard-vue" target="_blank">
             <vue-feather class="github-icon" type="github"></vue-feather>
         </a>
     </footer>
-
-
-
 </template>
 
 <style scoped lang="scss">
@@ -68,17 +63,17 @@ const toggleMenu = () => {
     }
 }
 
-
 .footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 30px;
+    padding: 50px rem($padding);
+    background-color: $c-black-2;
 }
 
 .footer_icon_link {
     transition: .2s;
-    color: $c-black-5;
+    color: $c-black-6;
 
     &:hover {
         color: $c-primary;

@@ -47,18 +47,25 @@ const classes = computed(() => {
     position: relative;
     padding: rem(50px) 0;
 
+    &--first {
+        margin-top: $header-height
+    }
+
     &__header,
     &__body {
         @include container();
+        overflow: hidden;
     }
 
     &__header {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
+        padding-bottom: rem(16px);
     }
 
-    &--first {
-        margin-top: $header-height
+    &__title {
+        padding: 0;
     }
 }
 </style>

@@ -50,7 +50,7 @@ const classes = computed(() => {
 
     border-radius: $border-radius-normal;
 
-    color: $c-black;
+    color: $c-black-1;
     font-weight: bold;
 
     transition: .1s;
@@ -76,7 +76,7 @@ const classes = computed(() => {
 
     // color
     &--primary {
-        color: $c-black;
+        color: $c-black-1;
         background-color: $c-primary;
 
         &:hover {
@@ -85,7 +85,7 @@ const classes = computed(() => {
     }
 
     &--secondary {
-        color: $c-black;
+        color: $c-black-1;
         background-color: $c-black-10;
 
         &:hover {

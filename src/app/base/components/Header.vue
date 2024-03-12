@@ -45,7 +45,7 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
 
 .header {
     height: $header-height;
-    background-image: linear-gradient(180deg, $c-black 0%, rgba($c-black, 0) 100%);
+    background-image: linear-gradient(180deg, $c-black-1 0%, rgba($c-black-1, 0) 100%);
 
     &__container {
         @include container();
