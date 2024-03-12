@@ -100,28 +100,36 @@ const loadMoreVideos = async () => {
 </script>
 
 <template>
-    <div v-if="pageIsLoaded" class="user">
-        <UserDrawer
-            v-auto-animate
-            :user="user!"
-            :isFollowing="isFollowing!"
-            :isSubscribed="isSubscribed!"
-        />
+    <div class="user">
+        <template v-if="pageIsLoaded" >
+            <UserDrawer
+                class="user__drawer"
+                v-auto-animate
+                :user="user!"
+                :isFollowing="isFollowing!"
+                :isSubscribed="isSubscribed!"
+            />
 
-        <!-- <StreamType></StreamType> -->
-        <StreamTypeMobile></StreamTypeMobile>
+            <!-- <StreamType></StreamType> -->
+            <StreamTypeMobile></StreamTypeMobile>
 
-        <Section v-if="cards" class="user__section">
-            <div class="cards" v-auto-animate>
-                <CardVideo v-for="card in cards" :card="card" :key="card.id" />
-            </div>
+            <Section v-if="cards" class="user__cards">
+                <div class="cards-section" v-auto-animate>
+                    <div class="cards-section__body">
+                        <CardVideo v-for="card in cards" :card="card" :key="card.id" class="cards-section__card"/>
+                    </div>
 
-            <Button v-if="!videosAreLoading" @click="loadMoreVideos" class="cards__load-more">Load more</Button>
-            <Spinner v-if="videosAreLoading" padding/>
-        </Section>
+                    <div class="cards-section__footer">
+                        <Button v-if="!videosAreLoading" @click="loadMoreVideos" class="cards-section__load-more">Load more</Button>
+                        <Spinner v-if="videosAreLoading" class="cards-section__spinner"/>
+                    </div>
+                </div>
+            </Section>
+        </template>
+
+        <Spinner v-if="pageIsLoading" padding/>
     </div>
 
-    <Spinner v-if="pageIsLoading" padding/>
 
     <div v-if="userNotFound" class="not-found">
         <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
@@ -141,26 +149,36 @@ const loadMoreVideos = async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: rem(35px);
+.cards-section {
+    &__body {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: rem(35px);
+    }
 
-    &__load-more {
-        display: block;
-        margin: rem(100px) auto;
+    &__footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: rem(100px);
     }
 
     @include screen($desktop) {
-        grid-template-columns: repeat(3, 1fr);
+        &__body {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 
     @include screen(1200px) {
-        grid-template-columns: repeat(4, 1fr);
+        &__body {
+            grid-template-columns: repeat(4, 1fr);
+        }
     }
 
     @include screen(1400px) {
-        grid-template-columns: repeat(5, 1fr);
+        &__body {
+            grid-template-columns: repeat(5, 1fr);
+        }
     }
 }
 
