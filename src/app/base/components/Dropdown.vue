@@ -26,6 +26,10 @@ const menus: Menu[] = [
                 text: 'Lekker spelen',
                 url: '/user/lekkerspelen'
             },
+            {
+                text: 'Scuuurrrrr!!',
+                url: '/user/goodtimeswithscar'
+            },
         ]
     },
 ];
