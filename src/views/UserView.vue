@@ -92,6 +92,10 @@ const getIsFollowing = async (_user: TwitchUser) => {
 const getIsSubscribed = async (_user: TwitchUser) => {
     isSubscribed.value = await twitchService.checkUserSubscription(Number(authStore.user!.id), Number(_user.id));
 }
+
+const loadMoreVideos = async () => {
+    getVideos(user.value!, 100, videosCursor.value);
+}
 </script>
 
 <template>
@@ -111,7 +115,7 @@ const getIsSubscribed = async (_user: TwitchUser) => {
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
 
-            <Button v-if="!videosAreLoading" @click="getVideos(user!, 100, videosCursor)" class="cards__load-more">Load more</Button>
+            <Button v-if="!videosAreLoading" @click="loadMoreVideos" class="cards__load-more">Load more</Button>
 
             <Spinner v-if="videosAreLoading"/>
         </Section>
