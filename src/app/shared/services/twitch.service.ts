@@ -68,11 +68,12 @@ export class TwitchService {
     public async getVideos(
         userId: number,
         after?: string, // cursor
+        amount: number = 20,
         // options?: TwitchGetVideosOptions,
     ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
-        url.searchParams.append('first', '20'); // temp
+        url.searchParams.append('first', amount.toString()); // temp
         if (after) url.searchParams.append('after', after);
 
         const res = await this.http.get<TwitchGetVideos>(url.toString());

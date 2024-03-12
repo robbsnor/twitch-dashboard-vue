@@ -1,18 +1,17 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/app/auth/stores/auth.store';
+import Spinner from '@/app/shared/components/Spinner.vue';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import type { TwitchVideo } from '@/app/shared/models/twitch/videos.model';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { TwitchService } from '../app/shared/services/twitch.service';
-import { CardVideoFactory } from '../app/user/factories/card-video.factory';
-import CardVideo from '../app/user/components/CardVideo.vue';
-import StreamType from '../app/user/components/StreamTypePicker.vue';
-import Section from '../app/shared/components/Section.vue';
 import Button from '../app/shared/components/Button.vue';
-import Spinner from '@/app/shared/components/Spinner.vue';
+import Section from '../app/shared/components/Section.vue';
+import { TwitchService } from '../app/shared/services/twitch.service';
+import CardVideo from '../app/user/components/CardVideo.vue';
 import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
 import UserDrawer from '../app/user/components/UserDrawer.vue';
-import { useAuthStore } from '@/app/auth/stores/auth.store';
+import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -24,16 +23,19 @@ const user = ref<TwitchUser>();
 // videos
 const videos = ref<TwitchVideo[]>([]);
 const videosCursor = ref<string>();
+const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value));
 
 // followed
 const isFollowing = ref<boolean>();
 const isSubscribed = ref<boolean>();
 
-// ui
-const pageLoading = ref(true);
-const videosLoading = ref(true);
+// loaders
+const pageIsLoading = ref(true);
+const pageIsLoaded = computed(() => user.value && isFollowing.value !== undefined  && isSubscribed.value !== undefined);
+const videosAreLoading = ref(true);
+
+// error
 const userNotFound = ref(false);
-const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value));
 
 onMounted(async () => {
     await getInitialData(route.params.userLogin as string);
@@ -48,20 +50,24 @@ watch(
 
 const getInitialData = async (userLogin: string) => {
     // reset on route change
-    pageLoading.value = true;
     user.value = undefined;
-    videosCursor.value = undefined;
     videos.value = [];
+    videosCursor.value = undefined;
+    isFollowing.value = undefined;
+    isSubscribed.value = undefined;
+    pageIsLoading.value = true;
+    videosAreLoading.value = true;
+    userNotFound.value = false;
 
     // get data
     getUser(userLogin)
         .then((_user) => {
-            getVideos(_user);
+            getInitialVideos(_user);
             getIsFollowing(_user);
             getIsSubscribed(_user);
         })
         .catch(() => userNotFound.value = true)
-        .finally(() => pageLoading.value = false)
+        .finally(() => pageIsLoading.value = false)
 }
 
 const getUser = async (userLogin: string) => {
@@ -70,10 +76,11 @@ const getUser = async (userLogin: string) => {
     return _user;
 }
 
-const getVideos = async (_user: TwitchUser) => {
+const getInitialVideos = async (_user: TwitchUser) => {
     const res = await twitchService.getVideos(Number(_user.id));
     videos.value = [...videos.value, ...res.data];
     videosCursor.value = res.pagination.cursor;
+    videosAreLoading.value = false;
 }
 
 const getIsFollowing = async (_user: TwitchUser) => {
@@ -85,18 +92,16 @@ const getIsSubscribed = async (_user: TwitchUser) => {
     isSubscribed.value = await twitchService.checkUserSubscription(Number(authStore.user!.id), Number(_user.id));
 }
 
-const pageLoaded = computed(() => user.value && isFollowing.value !== undefined);
-
-const loadMoreVideos = async () => {
-    videosLoading.value = true;
-    const _videos = await twitchService.getVideos(Number(user.value!.id), videosCursor.value);
+const getNextVideos = async () => {
+    videosAreLoading.value = true;
+    const _videos = await twitchService.getVideos(Number(user.value!.id), videosCursor.value, 100);
     videos.value = [...videos.value, ..._videos.data];
-    videosLoading.value = false;
+    videosAreLoading.value = false;
 }
 </script>
 
 <template>
-    <div v-if="pageLoaded" class="user">
+    <div v-if="pageIsLoaded" class="user">
         <UserDrawer
             v-auto-animate
             :user="user!"
@@ -112,20 +117,21 @@ const loadMoreVideos = async () => {
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
 
-            <Button v-if="!videosLoading" @click="loadMoreVideos">Load more</Button>
-            <Spinner v-if="videosLoading"/>
+            <Button v-if="!videosAreLoading" @click="getNextVideos">Load more</Button>
+            <h1>{{ videosAreLoading }}</h1>
+            <Spinner v-if="videosAreLoading"/>
         </Section>
     </div>
 
-    <Spinner v-if="pageLoading" />
+        <Spinner v-if="pageIsLoading" />
 
-    <div v-if="userNotFound" class="not-found">
-        <h4>User not found :( </h4>
-        <h1 class="not-found__username">{{ route.params.userLogin }}</h1>
-        <RouterLink to="/live">
-            <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
-        </RouterLink>
-    </div>
+        <div v-if="userNotFound" class="not-found">
+            <h4>User not found :( </h4>
+            <h1 class="not-found__username">{{ route.params.userLogin }}</h1>
+            <RouterLink to="/live">
+                <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
+            </RouterLink>
+        </div>
 </template>
 
 <style scoped lang="scss">
@@ -133,6 +139,12 @@ const loadMoreVideos = async () => {
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 .cards {
     display: grid;
