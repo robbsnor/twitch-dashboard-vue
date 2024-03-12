@@ -54,8 +54,8 @@ watch(
     <div v-if="user" class="user">
         <UserDrawer :user="user" />
 
-        <StreamType></StreamType>
-        <!-- <StreamTypeMobile></StreamTypeMobile> -->
+        <!-- <StreamType></StreamType> -->
+        <StreamTypeMobile></StreamTypeMobile>
 
         <Section v-if="cards" class="user__section">
             <div class="cards" v-auto-animate>
