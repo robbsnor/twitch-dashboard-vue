@@ -87,7 +87,7 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     &__header {
         display: flex;
         justify-content: space-between;
-        padding: rem($padding) 0;
+        padding: rem(10px) 0;
     }
 
     &__favourite-indicator {
