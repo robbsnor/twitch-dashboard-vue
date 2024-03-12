@@ -96,7 +96,10 @@ const getNextVideos = async () => {
     videosAreLoading.value = true;
     const _videos = await twitchService.getVideos(Number(user.value!.id), videosCursor.value, 100);
     videos.value = [...videos.value, ..._videos.data];
-    videosAreLoading.value = false;
+
+    setTimeout(() => {
+        videosAreLoading.value = false;
+    }, 200);
 }
 </script>
 
