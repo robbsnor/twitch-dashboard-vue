@@ -1,20 +1,30 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 interface Props {
+    padding?: boolean
     text?: string,
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
+
+const classes = computed(() => {
+    const paddinhClass = props.padding ? `spinner--padding` : '';
+
+    return `spinner ${paddinhClass}`;
+})
 </script>
 
 <template>
-    <div class="spinner">
-        <div class="spinner__circles">
-            <div class="spinner__circle"></div>
-            <div class="spinner__circle"></div>
+    <div :class="classes">
+        <div class="spinner__center">
+            <div class="spinner__circles">
+                <div class="spinner__circle"></div>
+                <div class="spinner__circle"></div>
+            </div>
+            <div v-if="props.text" class="spinner__text">{{ props.text }}</div>
         </div>
-    <div v-if="props.text" class="spinner__text">{{ props.text }}</div>
-</div>
-
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -28,7 +38,6 @@ const props = defineProps<Props>()
     align-items: center;
     flex-direction: column;
     gap: rem(20px);
-    padding: rem(150px);
 
     &__circles {
         position: relative;
@@ -53,6 +62,10 @@ const props = defineProps<Props>()
 
     &__text {
         color: $c-white--dark;
+    }
+
+    &--padding {
+        padding: rem(100px) 0;
     }
 }
 

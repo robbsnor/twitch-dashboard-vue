@@ -57,7 +57,7 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
                 </div>
             </div>
 
-            <Spinner v-else></Spinner>
+            <Spinner padding v-else></Spinner>
         </div>
     </Section>
 </template>

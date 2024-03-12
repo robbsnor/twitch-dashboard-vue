@@ -12,6 +12,7 @@ import CardVideo from '../app/user/components/CardVideo.vue';
 import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
 import UserDrawer from '../app/user/components/UserDrawer.vue';
 import { CardVideoFactory } from '../app/user/factories/card-video.factory';
+import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -116,19 +117,21 @@ const loadMoreVideos = async () => {
             </div>
 
             <Button v-if="!videosAreLoading" @click="loadMoreVideos" class="cards__load-more">Load more</Button>
-
-            <Spinner v-if="videosAreLoading"/>
+            <Spinner v-if="videosAreLoading" padding/>
         </Section>
     </div>
 
-        <Spinner v-if="pageIsLoading" />
+        <Spinner v-if="pageIsLoading"  padding/>
 
         <div v-if="userNotFound" class="not-found">
-            <h4>User not found :( </h4>
-            <h1 class="not-found__username">{{ route.params.userLogin }}</h1>
-            <RouterLink to="/live">
-                <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
-            </RouterLink>
+            <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
+            <p>This user does not exist, yet...</p>
+
+            <ButtonGroup class="not-found__buttons">
+                <RouterLink to="/live">
+                    <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
+                </RouterLink>
+            </ButtonGroup>
         </div>
 </template>
 
@@ -137,12 +140,6 @@ const loadMoreVideos = async () => {
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 
 .cards {
     display: grid;
@@ -174,6 +171,11 @@ const loadMoreVideos = async () => {
 
     &__username {
         color: $c-primary;
+        font-size: rem(40px);
+    }
+
+    &__buttons {
+        padding-top: 30px;
     }
 }
 </style>

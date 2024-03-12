@@ -11,15 +11,22 @@ import Spinner from './app/shared/components/Spinner.vue';
 const authStore = useAuthStore()
 
 const menuOpen = ref(false)
+const mainMinHeight = ref(0)
 
 onMounted(async () => {
-    authStore.signIn()
+    authStore.signIn();
+    getMainMinHeight();
 })
 
 const toggleMenu = () => {
     menuOpen.value = !menuOpen.value
 }
 
+const getMainMinHeight = () => {
+    const header = document.querySelector('.app__header')! as HTMLElement
+    const footer = document.querySelector('.footer')! as HTMLElement
+    mainMinHeight.value = window.innerHeight - header.clientHeight - footer.clientHeight
+}
 </script>
 
 <template>
@@ -36,7 +43,7 @@ const toggleMenu = () => {
         @closeMenu="toggleMenu"
     />
 
-    <main class="app__main">
+    <main class="app__main" :style="'min-height: ' + mainMinHeight + 'px'">
         <RouterView />
     </main>
 

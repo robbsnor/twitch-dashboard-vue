@@ -47,7 +47,7 @@ onMounted(async () => {
             <NonFavouriteStreams :streams="nonFavouriteStreams" />
         </template>
 
-        <Spinner v-else />
+        <Spinner v-else padding />
     </div>
 </template>
 
