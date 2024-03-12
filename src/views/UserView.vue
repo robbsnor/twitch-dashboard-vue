@@ -121,18 +121,18 @@ const loadMoreVideos = async () => {
         </Section>
     </div>
 
-        <Spinner v-if="pageIsLoading" padding/>
+    <Spinner v-if="pageIsLoading" padding/>
 
-        <div v-if="userNotFound" class="not-found">
-            <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
-            <p>This user does not exist, yet...</p>
+    <div v-if="userNotFound" class="not-found">
+        <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
+        <p>This user does not exist, yet...</p>
 
-            <ButtonGroup class="not-found__buttons">
-                <RouterLink to="/live">
-                    <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
-                </RouterLink>
-            </ButtonGroup>
-        </div>
+        <ButtonGroup class="not-found__buttons">
+            <RouterLink to="/live">
+                <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
+            </RouterLink>
+        </ButtonGroup>
+    </div>
 </template>
 
 <style scoped lang="scss">
