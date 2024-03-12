@@ -44,20 +44,21 @@ onMounted(async () => {
 watch(
     () => route.params.userLogin as string,
     async (userLogin) => {
+        // reset on route change
+        user.value = undefined;
+        videos.value = [];
+        videosCursor.value = undefined;
+        isFollowing.value = undefined;
+        isSubscribed.value = undefined;
+        pageIsLoading.value = true;
+        videosAreLoading.value = true;
+        userNotFound.value = false;
+
         await getInitialData(userLogin);
     }
 );
 
 const getInitialData = async (userLogin: string) => {
-    // reset on route change
-    user.value = undefined;
-    videos.value = [];
-    videosCursor.value = undefined;
-    isFollowing.value = undefined;
-    isSubscribed.value = undefined;
-    pageIsLoading.value = true;
-    videosAreLoading.value = true;
-    userNotFound.value = false;
 
     // get data
     getUser(userLogin)
