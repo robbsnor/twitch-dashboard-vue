@@ -59,11 +59,10 @@ watch(
 );
 
 const getInitialData = async (userLogin: string) => {
-
     // get data
     getUser(userLogin)
         .then((_user) => {
-            getInitialVideos(_user);
+            getVideos(_user, 20);
             getIsFollowing(_user);
             getIsSubscribed(_user);
         })
@@ -77,11 +76,12 @@ const getUser = async (userLogin: string) => {
     return _user;
 }
 
-const getInitialVideos = async (_user: TwitchUser) => {
-    const res = await twitchService.getVideos(Number(_user.id));
+const getVideos = async (_user: TwitchUser, first: number, pagination?: string) => {
+    videosAreLoading.value = true;
+    const res = await twitchService.getVideos(Number(user.value!.id), videosCursor.value, first);
     videos.value = [...videos.value, ...res.data];
     videosCursor.value = res.pagination.cursor;
-    videosAreLoading.value = false;
+    setTimeout(() => videosAreLoading.value = false, 500);
 }
 
 const getIsFollowing = async (_user: TwitchUser) => {
@@ -91,14 +91,6 @@ const getIsFollowing = async (_user: TwitchUser) => {
 
 const getIsSubscribed = async (_user: TwitchUser) => {
     isSubscribed.value = await twitchService.checkUserSubscription(Number(authStore.user!.id), Number(_user.id));
-}
-
-const getNextVideos = async () => {
-    videosAreLoading.value = true;
-    const _videos = await twitchService.getVideos(Number(user.value!.id), videosCursor.value, 100);
-    videos.value = [...videos.value, ..._videos.data];
-
-    setTimeout(() => videosAreLoading.value = false, 500);
 }
 </script>
 
@@ -119,7 +111,7 @@ const getNextVideos = async () => {
                 <CardVideo v-for="card in cards" :card="card" :key="card.id" />
             </div>
 
-            <Button v-if="!videosAreLoading" @click="getNextVideos" class="cards__load-more">Load more</Button>
+            <Button v-if="!videosAreLoading" @click="getVideos(user!, 100, videosCursor)" class="cards__load-more">Load more</Button>
 
             <Spinner v-if="videosAreLoading"/>
         </Section>
