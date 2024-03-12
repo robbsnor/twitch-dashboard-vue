@@ -60,7 +60,6 @@ watch(
 );
 
 const getInitialData = async (userLogin: string) => {
-    // get data
     getUser(userLogin)
         .then((_user) => {
             getVideos(_user, 20);
