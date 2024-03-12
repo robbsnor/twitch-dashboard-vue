@@ -60,6 +60,8 @@ const classes = computed(() => {
     &__header {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: rem($padding);
         align-items: flex-end;
         padding-bottom: rem(16px);
     }
