@@ -13,10 +13,12 @@ import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
 import UserDrawer from '../app/user/components/UserDrawer.vue';
 import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
+import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 
 const twitchService = new TwitchService();
 const route = useRoute();
 const authStore = useAuthStore();
+const favouriteStore = useFavouriteStore();
 
 // user
 const user = ref<TwitchUser>();
@@ -106,6 +108,7 @@ const loadMoreVideos = async () => {
                 :user="user!"
                 :isFollowing="isFollowing!"
                 :isSubscribed="isSubscribed!"
+                :favourites="favouriteStore.getFavourites()"
             />
 
             <!-- <StreamType></StreamType> -->

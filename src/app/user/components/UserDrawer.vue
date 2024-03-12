@@ -3,19 +3,30 @@ import { defineProps } from 'vue';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import Button from '@/app/shared/components/Button.vue';
 import ButtonGroup from '@/app/shared/components/ButtonGroup.vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
     user: TwitchUser;
     isSubscribed: boolean;
     isFollowing: boolean;
+    favourites: number[];
 }>()
+
+const classes = computed(() => {
+    const favouriteClass = userIsFavourte.value ? `user-drawer--favourite` : '';
+
+    return `user-drawer ${favouriteClass}`;
+})
+
+const userIsFavourte = computed(() => props.favourites.includes(Number(props.user.id)));
 </script>
 
 <template>
-    <div class="user-drawer">
+    <div :class="classes">
         <div class="user-drawer__container">
             <div class="user-drawer__header">
                 <div class="user-drawer__header-left">
+                    <div class="user-drawer__favourite-indicator"></div>
                     <div class="user-drawer__user user">
                         <a :href="'https://www.twitch.tv/' + props.user.login" target="_blank">
                             <img :src="props.user.profile_image_url" alt="" class="user__avatar">
@@ -33,10 +44,10 @@ const props = defineProps<{
 
                 <div class="user-drawer__header-right">
                     <ButtonGroup>
-                        <Button v-if="props.isFollowing" color="secondary">Following</Button>
+                        <Button v-if="props.isFollowing" color="secondary">Unfollow</Button>
                         <Button v-else>Follow</Button>
 
-                        <Button v-if="props.isSubscribed" color="secondary">Subscribed</Button>
+                        <Button v-if="props.isSubscribed" color="secondary">Unsubscribe</Button>
                         <Button v-else>Subscribe</Button>
                     </ButtonGroup>
                 </div>
@@ -66,32 +77,46 @@ const props = defineProps<{
 
     &__container {
         @include container;
+        position: relative;
         transition: .2s;
         background-color: $c-black-4;
         border-radius: rem($border-radius-normal);
+        z-index: 11;
     }
 
     &__header {
         display: flex;
         justify-content: space-between;
         padding: rem($padding) 0;
+    }
 
-        &-left {
-            display: flex;
-            align-items: center;
-        }
+    &__favourite-indicator {
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: rem(500px);
+        border-radius: rem($border-radius-normal);
+        background: linear-gradient(165deg, rgba($c-primary, .4) 0%, rgba($c-primary, 0) 50%);
+        z-index: -1;
+    }
 
-        &-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    &__header-left {
+        display: flex;
+        align-items: center;
+    }
 
-        &-right {
-            display: none;
-            justify-content: flex-end;
-            align-items: center;
-        }
+    &__header-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__header-right {
+        display: none;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     &__toggle-icon {
@@ -99,6 +124,12 @@ const props = defineProps<{
         color: $c-black-15;
         cursor: pointer;
         padding: rem(10px);
+    }
+
+    &--favourite {
+        #{ $self }__favourite-indicator {
+            display: block;
+        }
     }
 
     @include screen($desktop) {
@@ -122,6 +153,10 @@ const props = defineProps<{
         width: 40px;
         height: 40px;
         border-radius: 999px;
+        // box-shadow:
+        //     0px 0px 0px 3px $c-black-4,
+        //     0px 0px 0px 6px $c-primary,
+        // ;
     }
 
     &__name {
