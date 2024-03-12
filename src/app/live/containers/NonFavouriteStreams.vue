@@ -84,7 +84,7 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
 
     @include screen($desktop) {
         &__cards {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: rem(50px) rem(30px);
         }
 
@@ -95,6 +95,12 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
     }
 
     @include screen(1200px) {
+        &__cards {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @include screen(1500px) {
         &__cards {
             grid-template-columns: repeat(5, 1fr);
         }
