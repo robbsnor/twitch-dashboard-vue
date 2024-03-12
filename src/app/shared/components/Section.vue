@@ -23,11 +23,17 @@ const classes = computed(() => {
 <template>
     <section :class="classes">
         <slot name="background-art" class="section__background-art"></slot>
-        <div class="section__container">
+
+        <div class="section__header">
             <h2 class="section__title">{{ props.title }}</h2>
-            <div class="section__body">
-                <slot></slot>
+
+            <div class="section__actions">
+                <slot name="actions"></slot>
             </div>
+        </div>
+
+        <div class="section__body">
+            <slot></slot>
         </div>
     </section>
 </template>
@@ -41,8 +47,14 @@ const classes = computed(() => {
     position: relative;
     padding: rem(50px) 0;
 
-    &__container {
+    &__header,
+    &__body {
         @include container();
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
     }
 
     &--first {

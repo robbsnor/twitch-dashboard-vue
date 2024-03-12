@@ -46,9 +46,11 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
 
 <template>
     <Section title="Live channels">
-        <div class="non-favourite">
+        <template #actions>
             <input v-model="filter" type="text" placeholder="Search streams" style="margin: 10px 0; padding: 10px;">
+        </template>
 
+        <div class="non-favourite">
             <div v-if="filteredCards" class="non-favourite__cards">
                 <div v-for="card in filteredCards" :key="card.name" class="non-favourite__card">
                     <CardLive :card="card" :size="cardSize"></CardLive>
