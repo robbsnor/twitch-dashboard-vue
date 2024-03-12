@@ -1,15 +1,14 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/app/auth/stores/auth.store';
 import FavouriteStreams from '@/app/live/containers/FavouriteStreams.vue';
 import NonFavouriteStreams from '@/app/live/containers/NonFavouriteStreams.vue';
+import { LiveService } from '@/app/live/services/live.service';
+import Spinner from '@/app/shared/components/Spinner.vue';
+import ZigZag from '@/app/shared/components/ZigZag.vue';
+import { MOCK_FAVOURITES_FLUUMP, MOCK_FAVOURITES_HOPP } from '@/app/shared/mock-data/favourites.mock';
 import { onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import { TwitchService } from '../app/shared/services/twitch.service';
-import { MOCK_FAVOURITES_HOPP, MOCK_FAVOURITES_FLUUMP } from '@/app/shared/mock-data/favourites.mock';
-import Spinner from '@/app/shared/components/Spinner.vue';
-import { LiveService } from '@/app/live/services/live.service';
-import { useAuthStore } from '@/app/auth/stores/auth.store';
-import ZigZag from '@/app/shared/components/ZigZag.vue';
-import Section from '@/app/shared/components/Section.vue';
 
 const twitchService = new TwitchService();
 
