@@ -47,10 +47,6 @@ const classes = computed(() => {
     position: relative;
     padding: rem(50px) 0;
 
-    &--first {
-        margin-top: $header-height
-    }
-
     &__header,
     &__body {
         @include container();
@@ -68,6 +64,10 @@ const classes = computed(() => {
 
     &__title {
         padding: 0;
+    }
+
+    &--first {
+        margin-top: $header-height
     }
 }
 </style>
