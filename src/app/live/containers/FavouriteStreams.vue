@@ -12,7 +12,6 @@ const props = defineProps<{
 
 const cards = computed(() => {
     if (!props.streams) return;
-    console.log(props.streams)
     return CardLiveFactory.mapFromFollowdStream(props.streams)
 })
 </script>
