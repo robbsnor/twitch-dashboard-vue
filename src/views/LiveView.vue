@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/app/auth/stores/auth.store';
-import FavouriteStreams from '@/app/live/containers/FavouriteStreams.vue';
-import NonFavouriteStreams from '@/app/live/containers/NonFavouriteStreams.vue';
+import FavouriteStreams from '@/app/live/components/FavouriteStreams.vue';
+import NonFavouriteStreams from '@/app/live/components/NonFavouriteStreams.vue';
 import { LiveService } from '@/app/live/services/live.service';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import ZigZag from '@/app/shared/components/ZigZag.vue';
