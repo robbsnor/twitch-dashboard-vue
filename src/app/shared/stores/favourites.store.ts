@@ -1,11 +1,8 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import type { TwitchUser } from '../../shared/models/twitch/users.model';
-import { MOCK_FAVOURITES_FLUUMP, MOCK_FAVOURITES_HOPP } from '../mock-data/favourites.mock';
 import { useAuthStore } from '../../auth/stores/auth.store';
+import { MOCK_FAVOURITES_FLUUMP, MOCK_FAVOURITES_HOPP } from '../mock-data/favourites.mock';
 
 export const useFavouriteStore = defineStore('favourite', () => {
-    const favourites = ref<number[]>();
     const authStore = useAuthStore();
 
     const getFavourites = () => {
