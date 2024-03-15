@@ -22,7 +22,10 @@ const classes = computed(() => {
 
 <template>
     <section :class="classes">
-        <slot name="background-art" class="section__background-art"></slot>
+
+        <div class="section__background-art">
+            <slot name="background-art"></slot>
+        </div>
 
         <div class="section__header">
             <h2 class="section__title">{{ props.title }}</h2>
@@ -46,6 +49,12 @@ const classes = computed(() => {
 .section {
     position: relative;
     padding: rem(50px) 0;
+
+    &__background-art {
+        position: absolute;
+        width: 100%;
+        height: 100%
+    }
 
     &__header,
     &__body {

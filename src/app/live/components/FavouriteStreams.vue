@@ -19,7 +19,7 @@ const cards = computed(() => {
 <template>
     <Section title="Favourites">
         <template #background-art>
-            <Swirl></Swirl>
+            <Swirl class="favourites-swirl"></Swirl>
         </template>
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
@@ -37,6 +37,18 @@ const cards = computed(() => {
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
+
+.favourites-swirl {
+    position: absolute;
+    top: 330px;
+    left: 50%;
+    min-width: $container-default-width;
+    transform: translateX(-50%);
+
+    @include screen($desktop) {
+        top: 200px;
+    }
+}
 
 .favourites {
     &__cards {
@@ -67,50 +79,4 @@ const cards = computed(() => {
     }
 }
 
-.other-cards {
-    &__acctions {
-        padding-bottom: rem(20px);
-    }
-
-    &__cards {
-        display: grid;
-    }
-
-    &__card {
-        margin-left: rem(-$padding);
-        margin-right: rem(-$padding);
-    }
-
-    @include screen($desktop) {
-        &__cards {
-            grid-template-columns: repeat(2, 1fr);
-            gap: rem(50px) rem(30px);
-        }
-
-        &__card {
-            margin-left: 0;
-            margin-right: 0;
-        }
-    }
-
-    @include screen(1200px) {
-        &__cards {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
-}
-
-.other-cards-actions {
-    @include screen($desktop) {
-        &__filter {
-            width: 336px;
-        }
-    }
-}
-
-.empty {
-    padding: rem(25px) 0;
-    text-align: center;
-}
-
-</style>../components/CardLive.vue../factories/card-live.factory../factories/live.factory
+</style>

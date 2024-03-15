@@ -11,9 +11,7 @@
 @import '/src/assets/styles/functions/rem';
 
 .swirl {
-    position: absolute;
     width: 100%;
-    top: 200px;
 }
 
 </style>
