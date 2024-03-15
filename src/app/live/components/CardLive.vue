@@ -251,10 +251,6 @@ const viewers = computed(() => {
                 opacity: 1;
                 transform: translate(#{ rem(10px) }, #{ rem(-10px) });
             }
-
-            #{ $self }__username {
-                color: $c-white;
-            }
         }
     }
 
@@ -329,6 +325,12 @@ const viewers = computed(() => {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+
+        &:hover {
+            #{ $self }__username {
+                color: $c-black-16;
+            }
+        }
     }
 
     &__avatar {
@@ -340,8 +342,7 @@ const viewers = computed(() => {
     }
 
     &__username {
-        color: $c-white--dark;
-        transition: .2s;
+        color: $c-black-14;
     }
 
     &__options {
