@@ -7,12 +7,22 @@ import { LiveFactory } from '../factories/live.factory';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
 
+onMounted(() => {
+    determineCardSize()
+    window.addEventListener('resize', determineCardSize);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', determineCardSize);
+});
+
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>()
 
 const cardSize = ref<CardLiveSize>('small');
 const filter = ref('');
+const filterEl = ref<HTMLInputElement>();
 
 const cards = computed(() => {
     if (!props.streams) return;
@@ -32,14 +42,6 @@ const filteredCards = computed(() => {
     })
 })
 
-onMounted(() => {
-    determineCardSize()
-    window.addEventListener('resize', determineCardSize);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('resize', determineCardSize);
-});
 
 const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'normal' : 'small';
 </script>
@@ -47,7 +49,7 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
 <template>
     <Section title="Live channels">
         <template #actions>
-            <input v-model="filter" type="text" placeholder="Search streams" style="padding: 10px;">
+            <input v-model="filter" ref="filterEl" type="text" placeholder="Search streams" style="padding: 10px;">
         </template>
 
         <div class="non-favourite">

@@ -4,28 +4,29 @@ import { RouterView } from 'vue-router';
 import { useAuthStore } from './app/auth/stores/auth.store';
 import Header from './app/base/components/Header.vue';
 import Dropdown from './app/base/components/Dropdown.vue';
-import ButtonGroup from './app/shared/components/ButtonGroup.vue';
 import VueFeather from 'vue-feather';
 import Spinner from './app/shared/components/Spinner.vue';
+import { onKeyStroke } from '@vueuse/core';
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
-const menuOpen = ref(false)
-const mainMinHeight = ref(0)
+const menuOpen = ref(false);
+const mainMinHeight = ref(0);
 
 onMounted(async () => {
     authStore.signIn();
     getMainMinHeight();
 })
 
-const toggleMenu = () => {
-    menuOpen.value = !menuOpen.value
-}
+onKeyStroke(['w', 'W'], (e) => toggleMenu(), { dedupe: true })
+onKeyStroke(['Escape'], (e) => menuOpen.value = false, { dedupe: true })
+
+const toggleMenu = () => menuOpen.value = !menuOpen.value;
 
 const getMainMinHeight = () => {
-    const header = document.querySelector('.app__header')! as HTMLElement
-    const footer = document.querySelector('.footer')! as HTMLElement
-    mainMinHeight.value = window.innerHeight - header.clientHeight - footer.clientHeight
+    const header = document.querySelector('.app__header')! as HTMLElement;
+    const footer = document.querySelector('.footer')! as HTMLElement;
+    mainMinHeight.value = window.innerHeight - header.clientHeight - footer.clientHeight;
 }
 </script>
 
@@ -55,7 +56,6 @@ const getMainMinHeight = () => {
 </template>
 
 <style scoped lang="scss">
-
 @import '/src/assets/styles/var/color';
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/functions/rem';
