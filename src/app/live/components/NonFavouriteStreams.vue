@@ -3,7 +3,7 @@ import Section from '@/app/shared/components/Section.vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
-import { CardLiveFactory } from '../factories/card-live.factory';
+import { LiveFactory } from '../factories/live.factory';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
 
@@ -16,7 +16,7 @@ const filter = ref('');
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return CardLiveFactory.mapFromFollowdeStream(props.streams)
+    return LiveFactory.resourceToCardLive(props.streams)
 })
 
 const filteredCards = computed(() => {
@@ -106,4 +106,4 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
         }
     }
 }
-</style>
+</style>../factories/live.factory

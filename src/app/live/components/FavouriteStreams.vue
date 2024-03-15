@@ -3,7 +3,7 @@ import Section from '@/app/shared/components/Section.vue';
 import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
-import { CardLiveFactory } from '../factories/card-live.factory';
+import { LiveFactory } from '../factories/live.factory';
 import Swirl from '@/app/shared/components/Swirl.vue';
 
 const props = defineProps<{
@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return CardLiveFactory.mapFromFollowdeStream(props.streams)
+    return LiveFactory.resourceToCardLive(props.streams)
 })
 </script>
 
@@ -113,4 +113,4 @@ const cards = computed(() => {
     text-align: center;
 }
 
-</style>../components/CardLive.vue../factories/card-live.factory
+</style>../components/CardLive.vue../factories/card-live.factory../factories/live.factory
