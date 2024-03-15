@@ -12,7 +12,7 @@ import { TwitchService } from '../app/shared/services/twitch.service';
 import { TitleService } from '../app/shared/services/title.service';
 
 const twitchService = new TwitchService();
-TitleService.setTitle('Streams');
+TitleService.setTitle('Live');
 
 const authStore = useAuthStore();
 
