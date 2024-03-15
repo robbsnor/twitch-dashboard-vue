@@ -6,7 +6,7 @@ import { createApp } from 'vue';
 
 import VueFeather from 'vue-feather';
 import App from './App.vue';
-import router from './router';
+import router from './router/router';
 
 const app = createApp(App);
 const pinia = createPinia();

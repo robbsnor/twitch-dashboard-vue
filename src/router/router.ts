@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import { useAuthStore } from './../app/auth/stores/auth.store';
+import { useAuthStore } from '../app/auth/stores/auth.store';
 
-const isLoggedTwitch = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+const isLoggedWithTwitch = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     const authStore = useAuthStore();
     const loggedIn = !!authStore.user;
 
@@ -27,13 +27,13 @@ const router = createRouter({
             path: '/live',
             name: 'live',
             component: () => import('../views/LiveView.vue'),
-            beforeEnter: [isLoggedTwitch],
+            beforeEnter: [isLoggedWithTwitch],
         },
         {
             path: '/user/:userLogin',
             name: 'user',
             component: () => import('../views/UserView.vue'),
-            beforeEnter: [isLoggedTwitch],
+            beforeEnter: [isLoggedWithTwitch],
             // children: [
             //     {
             //         path: '/highlights',
