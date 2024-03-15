@@ -161,11 +161,16 @@ const viewers = computed(() => {
         position: relative;
         display: inline-flex;
         align-items: center;
-        color: $c-gray;
         gap: rem(10px);
         font-size: rem(16px);
         text-decoration: none;
         z-index: 1;
+
+        &:hover {
+            #{ $self }__username {
+                color: $c-black-16;
+            }
+        }
     }
 
     &__avatar {
@@ -175,7 +180,9 @@ const viewers = computed(() => {
         border-radius: 999px;
     }
 
-    &__username {}
+    &__username {
+        color: $c-black-14;
+    }
 
     &__link {
         display: block;
