@@ -16,7 +16,7 @@ const filter = ref('');
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return CardLiveFactory.mapFromFollowdStream(props.streams)
+    return CardLiveFactory.mapFromFollowdeStream(props.streams)
 })
 
 const filteredCards = computed(() => {
