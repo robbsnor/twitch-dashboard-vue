@@ -34,12 +34,10 @@ const viewers = computed(() => {
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game">{{ card.game }}</div>
-            <div class="card-small__user">
-                <RouterLink :to="`/user/${card.name}`" class="card-small__user-link">
-                    <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar">
-                </RouterLink>
+            <RouterLink :to="`/user/${card.name}`" class="card-small__user">
+                <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar">
                 <div class="card-small__username">{{ card.name }}</div>
-            </div>
+            </RouterLink>
         </div>
         <a :href="card.link" target="_blank" class="card-small__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>
@@ -161,15 +159,12 @@ const viewers = computed(() => {
 
     &__user {
         position: relative;
-        display: flex;
+        display: inline-flex;
         align-items: center;
-    }
-
-    &__user-link {
         color: $c-gray;
+        gap: rem(10px);
         font-size: rem(16px);
         text-decoration: none;
-        flex-shrink: 0;
         z-index: 1;
     }
 
@@ -180,9 +175,7 @@ const viewers = computed(() => {
         border-radius: 999px;
     }
 
-    &__username {
-        margin-left: rem(10px);
-    }
+    &__username {}
 
     &__link {
         display: block;
