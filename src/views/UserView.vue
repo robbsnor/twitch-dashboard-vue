@@ -14,6 +14,7 @@ import UserDrawer from '../app/user/components/UserDrawer.vue';
 import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
+import { TitleService } from '../app/shared/services/title.service';
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -64,6 +65,7 @@ watch(
 const getInitialData = async (userLogin: string) => {
     getUser(userLogin)
         .then((_user) => {
+            TitleService.setTitle(_user.display_name);
             getVideos(_user, 20);
             getIsFollowing(_user);
             getIsSubscribed(_user);

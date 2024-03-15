@@ -4,8 +4,12 @@ import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import { computed } from 'vue';
 import { useAuthStore } from '../app/auth/stores/auth.store';
 import Section from '../app/shared/components/Section.vue';
+import { useTitle } from '@vueuse/core'
+import { TitleService } from '../app/shared/services/title.service';
 
 const authStore = useAuthStore();
+
+TitleService.setTitle('Home');
 
 const singInUrl = computed(() => {
     const url = new URL('https://id.twitch.tv/oauth2/authorize');

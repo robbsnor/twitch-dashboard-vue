@@ -9,8 +9,10 @@ import { MOCK_FAVOURITES_FLUUMP, MOCK_FAVOURITES_HOPP } from '@/app/shared/mock-
 import { onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import { TwitchService } from '../app/shared/services/twitch.service';
+import { TitleService } from '../app/shared/services/title.service';
 
 const twitchService = new TwitchService();
+TitleService.setTitle('Streams');
 
 const authStore = useAuthStore();
 
