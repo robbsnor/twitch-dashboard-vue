@@ -5,8 +5,7 @@ import { useAuthStore } from './app/auth/stores/auth.store';
 import Header from './app/base/components/Header.vue';
 import Dropdown from './app/base/components/Dropdown.vue';
 import VueFeather from 'vue-feather';
-import Spinner from './app/shared/components/Spinner.vue';
-import { onKeyStroke, useFocus } from '@vueuse/core';
+import { onKeyStroke } from '@vueuse/core';
 
 const authStore = useAuthStore();
 
