@@ -18,8 +18,14 @@ onMounted(async () => {
     getMainMinHeight();
 })
 
-onKeyStroke(['w', 'W'], (e) => toggleMenu(), { dedupe: true })
-onKeyStroke(['Escape'], (e) => menuOpen.value = false, { dedupe: true })
+onKeyStroke(['w', 'W'], (e) => {
+    const isFocusingBody = document.activeElement === document.body;
+    if (!isFocusingBody) return;
+
+    toggleMenu();
+}, { dedupe: true, target: document });
+
+onKeyStroke(['Escape'], (e) => menuOpen.value = false, { dedupe: true });
 
 const toggleMenu = () => menuOpen.value = !menuOpen.value;
 
