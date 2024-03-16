@@ -27,17 +27,17 @@ const filterEl = ref<HTMLInputElement>();
 const cards = computed(() => {
     if (!props.streams) return;
     // TODO: Have a normal and small card ref
-    return LiveFactory.mapToCardLiveNormal(props.streams)
+    return LiveFactory.mapToCardLiveNormal(props.streams);
 })
 
 const filteredCards = computed(() => {
     return cards.value?.filter(card => {
-        const nameMatch = card.name.toLowerCase().includes(filter.value.toLowerCase())
-        const gameMatch = card.game.toLowerCase().includes(filter.value.toLowerCase())
-        const titleMatch = card.title.toLowerCase().includes(filter.value.toLowerCase())
-        const idMatch = card.userId.toString().toLowerCase().includes(filter.value.toLowerCase())
+        const nameMatch = card.name.toLowerCase().includes(filter.value.toLowerCase());
+        const gameMatch = card.game.toLowerCase().includes(filter.value.toLowerCase());
+        const titleMatch = card.title.toLowerCase().includes(filter.value.toLowerCase());
+        const idMatch = card.userId.toString().toLowerCase().includes(filter.value.toLowerCase());
 
-        return nameMatch || gameMatch || titleMatch || idMatch
+        return nameMatch || gameMatch || titleMatch || idMatch;
     })
 })
 
