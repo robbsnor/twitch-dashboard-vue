@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return LiveFactory.resourceToCardLive(props.streams)
+    return LiveFactory.mapToCardLiveFancy(props.streams)
 })
 </script>
 

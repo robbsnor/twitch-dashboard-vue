@@ -26,13 +26,12 @@ const filterEl = ref<HTMLInputElement>();
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return LiveFactory.resourceToCardLive(props.streams)
+    // TODO: Have a normal and small card ref
+    return LiveFactory.mapToCardLiveNormal(props.streams)
 })
 
 const filteredCards = computed(() => {
-    if (!cards.value) return;
-
-    return cards.value.filter(card => {
+    return cards.value?.filter(card => {
         const nameMatch = card.name.toLowerCase().includes(filter.value.toLowerCase())
         const gameMatch = card.game.toLowerCase().includes(filter.value.toLowerCase())
         const titleMatch = card.title.toLowerCase().includes(filter.value.toLowerCase())
