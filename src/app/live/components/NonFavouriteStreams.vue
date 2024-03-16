@@ -1,26 +1,19 @@
 <script setup lang="ts">
 import Section from '@/app/shared/components/Section.vue';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, type Ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
+import { useWindowSize } from '@vueuse/core';
 
-onMounted(() => {
-    determineCardSize()
-    window.addEventListener('resize', determineCardSize);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('resize', determineCardSize);
-});
+const { width } = useWindowSize();
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>()
 
-const cardSize = ref<CardLiveSize>('small');
 const filter = ref('');
 const filterEl = ref<HTMLInputElement>();
 
@@ -42,7 +35,7 @@ const filteredCards = computed(() => {
 })
 
 
-const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'normal' : 'small';
+const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 </script>
 
 <template>
@@ -107,4 +100,4 @@ const determineCardSize = () => cardSize.value = window.innerWidth >= 1000 ? 'no
         }
     }
 }
-</style>../factories/live.factory
+</style>
