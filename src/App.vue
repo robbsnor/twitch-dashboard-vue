@@ -6,7 +6,7 @@ import Header from './app/base/components/Header.vue';
 import Dropdown from './app/base/components/Dropdown.vue';
 import VueFeather from 'vue-feather';
 import Spinner from './app/shared/components/Spinner.vue';
-import { onKeyStroke } from '@vueuse/core';
+import { onKeyStroke, useFocus } from '@vueuse/core';
 
 const authStore = useAuthStore();
 
@@ -25,7 +25,12 @@ onKeyStroke(['w', 'W'], (e) => {
     toggleMenu();
 }, { dedupe: true, target: document });
 
-onKeyStroke(['Escape'], (e) => menuOpen.value = false, { dedupe: true });
+onKeyStroke(['Escape'], (e) => {
+    const isFocusingBody = document.activeElement === document.body;
+    if (!isFocusingBody) return;
+
+    menuOpen.value = false;
+}, { dedupe: true });
 
 const toggleMenu = () => menuOpen.value = !menuOpen.value;
 
