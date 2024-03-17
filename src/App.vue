@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 import { useAuthStore } from './app/auth/stores/auth.store';
 import Header from './app/base/components/Header.vue';
+import Footer from './app/base/components/Footer.vue';
 import Dropdown from './app/base/components/Dropdown.vue';
 import VueFeather from 'vue-feather';
 import { onKeyStroke } from '@vueuse/core';
@@ -58,11 +59,7 @@ const getMainMinHeight = () => {
         <RouterView />
     </main>
 
-    <footer class="footer">
-        <a class="footer_icon_link" href="https://github.com/robbsnor/twitch-dashboard-vue" target="_blank">
-            <vue-feather class="github-icon" type="github"></vue-feather>
-        </a>
-    </footer>
+    <Footer></Footer>
 </template>
 
 <style scoped lang="scss">
@@ -77,23 +74,6 @@ const getMainMinHeight = () => {
         right: 0;
         left: 0;
         z-index: 100;
-    }
-}
-
-.footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px rem($padding);
-    background-color: $c-black-2;
-}
-
-.footer_icon_link {
-    transition: .2s;
-    color: $c-black-6;
-
-    &:hover {
-        color: $c-primary;
     }
 }
 </style>
