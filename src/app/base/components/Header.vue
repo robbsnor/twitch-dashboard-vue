@@ -20,7 +20,7 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
                 </button>
             </div>
 
-            <RouterLink to="/" class="header__logo">
+            <RouterLink to="/live" class="header__logo">
                 <Logo />
             </RouterLink>
 
