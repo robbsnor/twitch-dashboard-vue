@@ -5,6 +5,7 @@ import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
 import type { TwitchGetVideos, TwitchGetVideosOptions } from './../models/twitch/videos.model';
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
+import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
 
 export interface User {
     ids?: number[];
@@ -102,6 +103,14 @@ export class TwitchService {
         if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
         const res = await this.http.get<TwitchGetFollowedChannels>(url.toString());
+        return res.data;
+    }
+
+    public async getChannelFollowers(broadcasterId: number) {
+        const url = new URL('https://api.twitch.tv/helix/channels/followers');
+        url.searchParams.append('broadcaster_id', broadcasterId.toString());
+
+        const res = await this.http.get<TwitchGetChannelFollowers>(url.toString());
         return res.data;
     }
 

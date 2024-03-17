@@ -32,6 +32,7 @@ const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value));
 // followed
 const isFollowing = ref<boolean>();
 const isSubscribed = ref<boolean>();
+const followerAmount = ref<number>();
 
 // loaders
 const pageIsLoading = ref(true);
@@ -69,6 +70,7 @@ const getInitialData = async (userLogin: string) => {
             getVideos(_user, 20);
             getIsFollowing(_user);
             getIsSubscribed(_user);
+            getFollowerAmount(_user);
         })
         .catch(() => userNotFound.value = true)
         .finally(() => pageIsLoading.value = false)
@@ -97,6 +99,10 @@ const getIsSubscribed = async (_user: TwitchUser) => {
     isSubscribed.value = await twitchService.checkUserSubscription(Number(authStore.user!.id), Number(_user.id));
 }
 
+const getFollowerAmount = async (_user: TwitchUser) => {
+    followerAmount.value = (await twitchService.getChannelFollowers(Number(_user.id))).total
+}
+
 const loadMoreVideos = async () => {
     getVideos(user.value!, 100, videosCursor.value);
 }
@@ -110,6 +116,7 @@ const loadMoreVideos = async () => {
                 :user="user!"
                 :isFollowing="isFollowing!"
                 :isSubscribed="isSubscribed!"
+                :followerAmount="followerAmount!"
                 :favourites="favouriteStore.getFavourites()"
             />
 

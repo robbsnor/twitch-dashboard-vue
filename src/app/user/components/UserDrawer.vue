@@ -4,11 +4,13 @@ import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import Button from '@/app/shared/components/Button.vue';
 import ButtonGroup from '@/app/shared/components/ButtonGroup.vue';
 import { computed } from 'vue';
+import { NumberService } from '@/app/shared/services/number.service';
 
 const props = defineProps<{
     user: TwitchUser;
     isSubscribed: boolean;
     isFollowing: boolean;
+    followerAmount: number;
     favourites: number[];
 }>()
 
@@ -16,6 +18,10 @@ const classes = computed(() => {
     const favouriteClass = userIsFavourte.value ? `user-drawer--favourite` : '';
 
     return `user-drawer ${favouriteClass}`;
+})
+
+const formattedFollowerAmount = computed(() => {
+    return NumberService.formatThousands(props.followerAmount);
 })
 
 const userIsFavourte = computed(() => props.favourites.includes(Number(props.user.id)));
@@ -33,7 +39,7 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
                         </a>
                         <div class="user__info">
                             <h4 class="user__name">{{ props.user.display_name }}</h4>
-                            <div class="user__followers">132k Followers</div>
+                            <div class="user__followers">{{ formattedFollowerAmount }} Followers</div>
                         </div>
                     </div>
                 </div>
