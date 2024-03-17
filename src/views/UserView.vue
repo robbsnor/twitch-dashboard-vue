@@ -36,7 +36,7 @@ const followerAmount = ref<number>();
 
 // loaders
 const pageIsLoading = ref(true);
-const pageIsLoaded = computed(() => user.value && isFollowing.value !== undefined  && isSubscribed.value !== undefined);
+const pageIsLoaded = computed(() => user.value && isFollowing.value !== undefined  && isSubscribed.value !== undefined && followerAmount.value !== undefined);
 const videosAreLoading = ref(true);
 
 // error
@@ -55,6 +55,7 @@ watch(
         videosCursor.value = undefined;
         isFollowing.value = undefined;
         isSubscribed.value = undefined;
+        followerAmount.value = undefined;
         pageIsLoading.value = true;
         videosAreLoading.value = true;
         userNotFound.value = false;
