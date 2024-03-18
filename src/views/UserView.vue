@@ -37,7 +37,7 @@ const isSubscribed = ref<boolean>();
 const followerAmount = ref<number>();
 
 // settings
-const checked = ref(true);
+const showDuration = ref(true);
 
 // loaders
 const pageIsLoading = ref(true);
@@ -129,15 +129,17 @@ const loadMoreVideos = async () => {
             <!-- <StreamType></StreamType> -->
             <StreamTypeMobile></StreamTypeMobile>
 
-            <Section v-if="cards" title="Videos" class="user__cards">
+            <Section v-if="cards" title="Past broadcasts" class="user__cards">
                 <template #actions>
-                    Show duration?
-                    <InputSwitch v-model="checked" />
+                    <div class="input-switch">
+                        <span class="input-switch__label">Video duration</span>
+                        <InputSwitch class="input-switch__toggler" v-model="showDuration" />
+                    </div>
                 </template>
 
                 <div class="cards-section" v-auto-animate>
                     <div class="cards-section__body">
-                        <CardVideo v-for="card in cards" :card="card" :key="card.id" class="cards-section__card"/>
+                        <CardVideo v-for="card in cards" :card="card" :show-duration="showDuration" :key="card.id" class="cards-section__card"/>
                     </div>
 
                     <div class="cards-section__footer">
@@ -171,6 +173,17 @@ const loadMoreVideos = async () => {
 
 .user {
     &__drawer {
+    }
+}
+
+.input-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &__label {
+        color: $c-white--dark;
+        font-size: rem(16px);
     }
 }
 

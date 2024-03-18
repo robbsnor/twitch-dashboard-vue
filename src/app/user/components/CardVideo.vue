@@ -7,9 +7,12 @@ import type { CardVideo } from '../models/card-video.model';
 
 interface Props {
   card: CardVideo;
+  showDuration?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    showDuration: true,
+})
 
 const views = computed(() => NumberService.formatThousands(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
@@ -26,7 +29,7 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
                 <!-- <app-myIcon icon="arrow"></app-myIcon> -->
             </div>
             <div class="card-video__views">{{ views }}</div>
-            <div class="card-video__duration">{{ duration }}</div>
+            <div v-if="props.showDuration" class="card-video__duration">{{ duration }}</div>
         </a>
 
         <div class="card-video__text">
