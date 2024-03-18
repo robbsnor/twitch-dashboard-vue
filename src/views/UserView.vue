@@ -15,6 +15,8 @@ import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 import { TitleService } from '../app/shared/services/title.service';
+import InputSwitch from 'primevue/inputswitch';
+
 
 const twitchService = new TwitchService();
 const route = useRoute();
@@ -33,6 +35,9 @@ const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value));
 const isFollowing = ref<boolean>();
 const isSubscribed = ref<boolean>();
 const followerAmount = ref<number>();
+
+// settings
+const checked = ref(true);
 
 // loaders
 const pageIsLoading = ref(true);
@@ -124,7 +129,12 @@ const loadMoreVideos = async () => {
             <!-- <StreamType></StreamType> -->
             <StreamTypeMobile></StreamTypeMobile>
 
-            <Section v-if="cards" class="user__cards">
+            <Section v-if="cards" title="Videos" class="user__cards">
+                <template #actions>
+                    Show duration?
+                    <InputSwitch v-model="checked" />
+                </template>
+
                 <div class="cards-section" v-auto-animate>
                     <div class="cards-section__body">
                         <CardVideo v-for="card in cards" :card="card" :key="card.id" class="cards-section__card"/>
