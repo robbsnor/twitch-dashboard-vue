@@ -27,7 +27,7 @@ const cities = ref([
     <div class="card flex justify-content-center">
         <div class="w-14rem">
 
-            <InputText v-model.number="value" class="w-full mb-3" />
+            <!-- <InputText v-model.number="value" class="w-full mb-3" /> -->
             <Slider v-model="value" class="w-full" />
         </div>
     </div>
