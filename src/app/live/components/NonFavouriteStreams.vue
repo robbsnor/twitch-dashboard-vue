@@ -7,6 +7,8 @@ import { LiveFactory } from '../factories/live.factory';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
 import { useWindowSize } from '@vueuse/core';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
 
 const { width } = useWindowSize();
 
@@ -41,7 +43,7 @@ const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : '
 <template>
     <Section title="Live channels">
         <template #actions>
-            <input v-model="filter" ref="filterEl" type="text" placeholder="Search streams" style="padding: 10px;">
+            <InputText type="text" v-model="filter" />
         </template>
 
         <div class="non-favourite">
