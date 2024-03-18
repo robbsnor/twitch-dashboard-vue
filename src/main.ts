@@ -1,6 +1,7 @@
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue';
 // import './assets/prime/themes/mytheme/theme.scss';
-import './assets/prime/themes/aura/aura-dark/pink/theme.scss';
+import './assets/prime/themes/aura/aura-dark/lime/theme.scss';
+import 'primeicons/primeicons.css';
 import './assets/styles/main.scss';
 
 import { createPinia } from 'pinia';

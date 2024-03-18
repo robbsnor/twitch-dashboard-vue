@@ -9,6 +9,9 @@ import type { CardLiveSize } from '../models/card-live.model';
 import { useWindowSize } from '@vueuse/core';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import InputIcon from 'primevue/inputicon';
+import IconField from 'primevue/iconfield';
+
 
 const { width } = useWindowSize();
 
@@ -43,7 +46,10 @@ const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : '
 <template>
     <Section title="Live channels">
         <template #actions>
-            <InputText type="text" v-model="filter" />
+            <IconField iconPosition="left">
+                <InputIcon class="pi pi-search"></InputIcon>
+                <InputText v-model="filter" placeholder="Search" />
+            </IconField>
         </template>
 
         <div class="non-favourite">
