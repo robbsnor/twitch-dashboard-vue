@@ -10,6 +10,7 @@ import Section from '../app/shared/components/Section.vue';
 import { TwitchService } from '../app/shared/services/twitch.service';
 import CardVideo from '../app/user/components/CardVideo.vue';
 import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
+import StreamTypePicker from '../app/user/components/StreamTypePicker.vue';
 import UserDrawer from '../app/user/components/UserDrawer.vue';
 import { CardVideoFactory } from '../app/user/factories/card-video.factory';
 import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
@@ -126,8 +127,7 @@ const loadMoreVideos = async () => {
                 :favourites="favouriteStore.getFavourites()"
             />
 
-            <!-- <StreamType></StreamType> -->
-            <StreamTypeMobile></StreamTypeMobile>
+            <StreamTypePicker></StreamTypePicker>
 
             <Section v-if="cards" title="Past broadcasts" class="user__cards">
                 <template #actions>
