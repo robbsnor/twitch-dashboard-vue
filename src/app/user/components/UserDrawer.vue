@@ -49,13 +49,8 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
                 </div>
 
                 <div class="user-drawer__header-right">
-                    <ButtonGroup>
-                        <Button v-if="props.isFollowing" color="secondary">Unfollow</Button>
-                        <Button v-else>Follow</Button>
-
-                        <Button v-if="props.isSubscribed" color="secondary">Unsubscribe</Button>
-                        <Button v-else>Subscribe</Button>
-                    </ButtonGroup>
+                    <Button v-if="userIsFavourte" color="secondary"><vue-feather type="heart"></vue-feather></Button>
+                    <Button v-else color="primary"><vue-feather type="heart"></vue-feather></Button>
                 </div>
             </div>
         </div>
@@ -82,18 +77,18 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     z-index: 9;
 
     &__container {
-        @include container;
+        @include container(800px);
         position: relative;
         transition: .2s;
-        background-color: $c-black-4;
-        border-radius: rem($border-radius-normal);
         z-index: 11;
     }
 
     &__header {
         display: flex;
         justify-content: space-between;
-        padding: rem(10px) 0;
+        padding: rem(20px);
+        background-color: $c-black-4;
+        border-radius: rem($border-radius-normal);
     }
 
     &__favourite-indicator {
@@ -133,12 +128,12 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     }
 
     &--favourite {
-        #{ $self }__favourite-indicator {
-            display: block;
-        }
+        // #{ $self }__favourite-indicator {
+        //     display: block;
+        // }
     }
 
-    @include screen($desktop) {
+    @include screen(820px) {
         &__header {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
