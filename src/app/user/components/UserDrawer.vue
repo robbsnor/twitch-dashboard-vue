@@ -38,33 +38,35 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
         <button @click="closeDrawer" class="user-drawer__background"><span class="sr-only">Close menu</span></button>
 
         <div class="user-drawer__container">
-            <div class="user-drawer__header">
-                <div class="user-drawer__header-left">
-                    <div class="user-drawer__favourite-indicator"></div>
-                    <div class="user-drawer__user user">
-                        <a :href="'https://www.twitch.tv/' + props.user.login" target="_blank">
-                            <img :src="props.user.profile_image_url" alt="" class="user__avatar">
-                        </a>
-                        <div class="user__info">
-                            <h4 class="user__name">{{ props.user.display_name }}</h4>
-                            <div class="user__followers">{{ formattedFollowerAmount }} Followers</div>
+            <div class="user-drawer__main">
+                <div class="user-drawer__header">
+                    <div class="user-drawer__header-left">
+                        <div class="user-drawer__favourite-indicator"></div>
+                        <div class="user-drawer__user user">
+                            <a :href="'https://www.twitch.tv/' + props.user.login" target="_blank">
+                                <img :src="props.user.profile_image_url" alt="" class="user__avatar">
+                            </a>
+                            <div class="user__info">
+                                <h4 class="user__name">{{ props.user.display_name }}</h4>
+                                <div class="user__followers">{{ formattedFollowerAmount }} Followers</div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="user-drawer__header-center">
+                        <vue-feather @click="toggleDrawer" type="chevron-up" class="user-drawer__toggle-icon"></vue-feather>
+                    </div>
+
+                    <div class="user-drawer__header-right">
+                        <Button v-if="userIsFavourte" color="secondary"><vue-feather type="heart"></vue-feather></Button>
+                        <Button v-else color="primary"><vue-feather type="heart"></vue-feather></Button>
                     </div>
                 </div>
 
-                <div class="user-drawer__header-center">
-                    <vue-feather @click="toggleDrawer" type="chevron-up" class="user-drawer__toggle-icon"></vue-feather>
-                </div>
-
-                <div class="user-drawer__header-right">
-                    <Button v-if="userIsFavourte" color="secondary"><vue-feather type="heart"></vue-feather></Button>
-                    <Button v-else color="primary"><vue-feather type="heart"></vue-feather></Button>
-                </div>
-            </div>
-
-            <div class="user-drawer__body">
-                <div class="uesr-drawer__body-container">
-                    <h1>yo</h1>
+                <div class="user-drawer__body">
+                    <div class="uesr-drawer__body-container">
+                        <h1>yo</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,6 +105,11 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
 
     &__container {
         @include container(800px);
+        overflow: hidden;
+    }
+
+    &__main {
+        background-color: $c-black-4;
         border-radius: rem($border-radius-normal);
         overflow: hidden;
     }
@@ -111,7 +118,6 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     &__header {
         display: flex;
         justify-content: space-between;
-        background-color: $c-black-4;
         padding: rem($padding);
     }
 
@@ -133,7 +139,6 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     }
 
     &__toggle-icon {
-        transition: .2s;
         color: $c-black-15;
         cursor: pointer;
         padding: rem(10px);
@@ -142,7 +147,6 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     // body
     &__body {
         display: none;
-        background-color: $c-black-4;
         padding: 10px 20px;
     }
 
@@ -151,6 +155,10 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
         #{ $self }__background {
             visibility: visible;
             opacity: 1;
+        }
+
+        #{ $self }__toggle-icon {
+            transform: rotate(180deg);
         }
 
         #{ $self }__body {
