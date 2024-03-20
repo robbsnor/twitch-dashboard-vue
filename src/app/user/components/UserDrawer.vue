@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import Button from '@/app/shared/components/Button.vue';
 import ButtonGroup from '@/app/shared/components/ButtonGroup.vue';
@@ -14,21 +14,29 @@ const props = defineProps<{
     favourites: number[];
 }>()
 
+const drawerIsOpen = ref(false);
+
 const classes = computed(() => {
     const favouriteClass = userIsFavourte.value ? `user-drawer--favourite` : '';
+    const drawerIsOpenClass = drawerIsOpen.value ? `open` : '';
 
-    return `user-drawer ${favouriteClass}`;
+    return `user-drawer ${favouriteClass} ${drawerIsOpenClass}`;
 })
 
 const formattedFollowerAmount = computed(() => {
     return NumberService.formatThousands(props.followerAmount);
 })
 
+const toggleDrawer = () => drawerIsOpen.value = !drawerIsOpen.value;
+const closeDrawer = () => drawerIsOpen.value = false;
+
 const userIsFavourte = computed(() => props.favourites.includes(Number(props.user.id)));
 </script>
 
 <template>
     <div :class="classes">
+        <button @click="closeDrawer" class="user-drawer__background"><span class="sr-only">Close menu</span></button>
+
         <div class="user-drawer__container">
             <div class="user-drawer__header">
                 <div class="user-drawer__header-left">
@@ -45,7 +53,7 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
                 </div>
 
                 <div class="user-drawer__header-center">
-                    <vue-feather type="chevron-up" class="user-drawer__toggle-icon"></vue-feather>
+                    <vue-feather @click="toggleDrawer" type="chevron-up" class="user-drawer__toggle-icon"></vue-feather>
                 </div>
 
                 <div class="user-drawer__header-right">
@@ -53,9 +61,13 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
                     <Button v-else color="primary"><vue-feather type="heart"></vue-feather></Button>
                 </div>
             </div>
-        </div>
 
-        <div class="user-drawer__body"></div>
+            <div class="user-drawer__body">
+                <div class="uesr-drawer__body-container">
+                    <h1>yo</h1>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -74,33 +86,33 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
     left: 0;
     display: flex;
     justify-content: center;
-    z-index: 9;
+    z-index: 90;
+
+    &__background {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba($c-black-1, .5);
+        visibility: hidden;
+        opacity: 0;
+        transition: .2s;
+        z-index: -2;
+    }
 
     &__container {
         @include container(800px);
-        position: relative;
-        transition: .2s;
-        z-index: 11;
+        border-radius: rem($border-radius-normal);
+        overflow: hidden;
     }
 
+    // header
     &__header {
         display: flex;
         justify-content: space-between;
-        padding: rem(20px);
         background-color: $c-black-4;
-        border-radius: rem($border-radius-normal);
-    }
-
-    &__favourite-indicator {
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: rem(500px);
-        border-radius: rem($border-radius-normal);
-        background: linear-gradient(165deg, rgba($c-primary, .4) 0%, rgba($c-primary, 0) 50%);
-        z-index: -1;
+        padding: rem($padding);
     }
 
     &__header-left {
@@ -127,17 +139,29 @@ const userIsFavourte = computed(() => props.favourites.includes(Number(props.use
         padding: rem(10px);
     }
 
-    &--favourite {
-        // #{ $self }__favourite-indicator {
-        //     display: block;
-        // }
+    // body
+    &__body {
+        display: none;
+        background-color: $c-black-4;
+        padding: 10px 20px;
+    }
+
+    // open state
+    &.open {
+        #{ $self }__background {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #{ $self }__body {
+            display: block;
+        }
     }
 
     @include screen(820px) {
         &__header {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: rem($padding);
 
             &-right {
                 display: flex;
