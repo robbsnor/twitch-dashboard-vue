@@ -2,7 +2,7 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../../auth/stores/auth.store";
 import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
-import type { TwitchGetVideos, TwitchGetVideosOptions } from './../models/twitch/videos.model';
+import type { TwitchGetVideos, TwitchVideo } from './../models/twitch/videos.model';
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
@@ -66,7 +66,7 @@ export class TwitchService {
         return res.data.data;
     }
 
-    public async getVideos(
+    public async getVideosByUserId(
         userId: number,
         after?: string, // cursor
         amount: number = 20,
@@ -80,6 +80,28 @@ export class TwitchService {
         const res = await this.http.get<TwitchGetVideos>(url.toString());
         return res.data;
     }
+
+    public async getVideosByVideoIds(
+        ids: number[],
+    ) {
+        const url = new URL('https://api.twitch.tv/helix/videos');
+
+        if (ids.length > 100) ids = ids.slice(0, 100);
+        if (ids.length === 0) return { data: [] };
+        ids.forEach(id => url.searchParams.append('id', id.toString()));
+        const res = await this.http.get<TwitchGetVideos>(url.toString());
+        const unorderedVideos = res.data.data;
+
+        // it will find one
+        // @ts-ignore
+        const orderedVideos: TwitchVideo[] = ids.map((id) => {
+            return unorderedVideos.find(unorderedUser => Number(unorderedUser.id) === id);
+        });
+        res.data.data = orderedVideos;
+
+        return res.data;
+    }
+
 
     public async getFollowedStreamsWithUsers() {
         const followedStreams = await this.getFollowedStreams();

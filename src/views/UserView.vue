@@ -17,6 +17,13 @@ import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 import { TitleService } from '../app/shared/services/title.service';
 import InputSwitch from 'primevue/inputswitch';
+import InputText from 'primevue/inputtext';
+import InputIcon from 'primevue/inputicon';
+import IconField from 'primevue/iconfield';
+import { LEKKER_SPELEN_VIDEOS } from '../app/user/data/lekkerspelen-videos.data';
+import { useDebounceFn } from '@vueuse/core';
+import _ from 'lodash';
+import type { CardVideo as CardVideoModel } from '../app/user/models/card-video.model';
 
 
 const twitchService = new TwitchService();
@@ -28,9 +35,9 @@ const favouriteStore = useFavouriteStore();
 const user = ref<TwitchUser>();
 
 // videos
-const videos = ref<TwitchVideo[]>([]);
 const videosCursor = ref<string>();
-const cards = computed(() => CardVideoFactory.mapFromTwitchVideo(videos.value));
+const cards =  ref<CardVideoModel[]>([]);
+const search = ref<string>();
 
 // followed
 const isFollowing = ref<boolean>();
@@ -57,7 +64,7 @@ watch(
     async (userLogin) => {
         // reset on route change
         user.value = undefined;
-        videos.value = [];
+        cards.value = [];
         videosCursor.value = undefined;
         isFollowing.value = undefined;
         isSubscribed.value = undefined;
@@ -69,6 +76,29 @@ watch(
         await getInitialData(userLogin);
     }
 );
+
+watch(search, _.debounce( async() => {
+    cards.value = [];
+
+    if (!search.value) {
+        return getVideos(user.value!)
+    };
+
+    videosAreLoading.value = true;
+
+    const videoIds = LEKKER_SPELEN_VIDEOS.filter((video) => {
+        const matchedTitle = video.title.toLowerCase().includes(search.value!.toLocaleLowerCase());
+        const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(search.value!.toLocaleLowerCase()));
+
+        return matchedTitle || matchedChapters;
+    }).map(video => video.videoId);
+
+    const res = await twitchService.getVideosByVideoIds(videoIds);
+    cards.value = CardVideoFactory.mapFromTwitchVideo(res.data);
+
+    videosCursor.value = '';
+    videosAreLoading.value = false;
+}, 250))
 
 const getInitialData = async (userLogin: string) => {
     getUser(userLogin)
@@ -89,11 +119,13 @@ const getUser = async (userLogin: string) => {
     return _user;
 }
 
-const getVideos = async (_user: TwitchUser, first: number, pagination?: string) => {
+const getVideos = async (_user: TwitchUser, first?: number, pagination?: string) => {
     videosAreLoading.value = true;
-    const res = await twitchService.getVideos(Number(user.value!.id), videosCursor.value, first);
-    videos.value = [...videos.value, ...res.data];
+
+    const res = await twitchService.getVideosByUserId(Number(user.value!.id), videosCursor.value, first);
+    cards.value = [...cards.value, ...CardVideoFactory.mapFromTwitchVideo(res.data)];
     videosCursor.value = res.pagination.cursor;
+
     setTimeout(() => videosAreLoading.value = false, 500);
 }
 
@@ -131,6 +163,10 @@ const loadMoreVideos = async () => {
 
             <Section v-if="cards" title="Past broadcasts" class="user__cards">
                 <template #actions>
+                    <IconField iconPosition="left">
+                        <InputIcon class="pi pi-search"></InputIcon>
+                        <InputText v-model="search" placeholder="Search" />
+                    </IconField>
                     <div class="input-switch">
                         <span class="input-switch__label">Video duration</span>
                         <InputSwitch class="input-switch__toggler" v-model="showDuration" />
@@ -143,7 +179,7 @@ const loadMoreVideos = async () => {
                     </div>
 
                     <div class="cards-section__footer">
-                        <Button v-if="!videosAreLoading" @click="loadMoreVideos" class="cards-section__load-more">Load more</Button>
+                        <Button v-if="!videosAreLoading && videosCursor" @click="loadMoreVideos" class="cards-section__load-more">Load more</Button>
                         <Spinner v-if="videosAreLoading" class="cards-section__spinner"/>
                     </div>
                 </div>
