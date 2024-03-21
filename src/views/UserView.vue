@@ -36,7 +36,7 @@ const user = ref<TwitchUser>();
 
 // videos
 const videosCursor = ref<string>();
-const cards =  ref<CardVideoModel[]>([]);
+const cards = ref<CardVideoModel[]>([]);
 const search = ref<string>();
 
 // followed
