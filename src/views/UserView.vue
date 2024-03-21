@@ -38,6 +38,14 @@ const user = ref<TwitchUser>();
 const videosCursor = ref<string>();
 const cards = ref<CardVideoModel[]>([]);
 const search = ref<string>();
+const chapters = computed(() => {
+    const chapters = LEKKER_SPELEN_VIDEOS.map(video => {
+        const chapters = video.chapters.map(chapter => chapter.title);
+        return chapters;
+    });
+    const uniqueChapters = [...new Set(chapters.flat())].filter(chapter => chapter.trim() !== '').sort();
+    return uniqueChapters;
+});
 
 // followed
 const isFollowing = ref<boolean>();
@@ -167,6 +175,7 @@ const loadMoreVideos = async () => {
                         <InputIcon class="pi pi-search"></InputIcon>
                         <InputText v-model="search" placeholder="Search" />
                     </IconField>
+
                     <div class="input-switch">
                         <span class="input-switch__label">Video duration</span>
                         <InputSwitch class="input-switch__toggler" v-model="showDuration" />
@@ -183,6 +192,12 @@ const loadMoreVideos = async () => {
                         <Spinner v-if="videosAreLoading" class="cards-section__spinner"/>
                     </div>
                 </div>
+
+                <Section title="Available Chapters">
+                    <ul>
+                        <li v-for="game in chapters" @click="search = game" style="padding: 4px 0;">{{ game }}</li>
+                    </ul>
+                </Section>
             </Section>
         </template>
 
