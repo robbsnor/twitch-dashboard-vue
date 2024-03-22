@@ -1,218 +1,40 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/app/auth/stores/auth.store';
-import Spinner from '@/app/shared/components/Spinner.vue';
-import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
-import type { TwitchVideo } from '@/app/shared/models/twitch/videos.model';
-import { computed, onMounted, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import Button from '../app/shared/components/Button.vue';
-import Section from '../app/shared/components/Section.vue';
-import { TwitchService } from '../app/shared/services/twitch.service';
-import CardVideo from '../app/user/components/CardVideo.vue';
-import StreamTypeMobile from '../app/user/components/StreamTypeMobile.vue';
-import StreamTypePicker from '../app/user/components/StreamTypePicker.vue';
-import UserDrawer from '../app/user/components/UserDrawer.vue';
-import { CardVideoFactory } from '../app/user/factories/card-video.factory';
-import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
-import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import { TitleService } from '../app/shared/services/title.service';
-import InputSwitch from 'primevue/inputswitch';
-import InputText from 'primevue/inputtext';
-import InputIcon from 'primevue/inputicon';
-import IconField from 'primevue/iconfield';
-import { LEKKER_SPELEN_VIDEOS } from '../app/user/data/lekkerspelen-videos.data';
-import { useDebounceFn } from '@vueuse/core';
-import _ from 'lodash';
-import type { CardVideo as CardVideoModel } from '../app/user/models/card-video.model';
+import UserHeader from '/src/app/user/components/UserHeader.vue';
+import TempTabs from '/src/app/user/components/TempTabs.vue';
+import VueFeather from 'vue-feather';
 
-
-const twitchService = new TwitchService();
-const route = useRoute();
-const authStore = useAuthStore();
-const favouriteStore = useFavouriteStore();
-
-// user
-const user = ref<TwitchUser>();
-
-// videos
-const videosCursor = ref<string>();
-const cards = ref<CardVideoModel[]>([]);
-const search = ref<string>();
-const chapters = computed(() => {
-    const chapters = LEKKER_SPELEN_VIDEOS.map(video => {
-        const chapters = video.chapters.map(chapter => chapter.title);
-        return chapters;
-    });
-    const uniqueChapters = [...new Set(chapters.flat())].filter(chapter => chapter.trim() !== '').sort();
-    return uniqueChapters;
-});
-
-// followed
-const isFollowing = ref<boolean>();
-const isSubscribed = ref<boolean>();
-const followerAmount = ref<number>();
-
-// settings
-const showDuration = ref(true);
-
-// loaders
-const pageIsLoading = ref(true);
-const pageIsLoaded = computed(() => user.value && isFollowing.value !== undefined  && isSubscribed.value !== undefined && followerAmount.value !== undefined);
-const videosAreLoading = ref(true);
-
-// error
-const userNotFound = ref(false);
-
-onMounted(async () => {
-    await getInitialData(route.params.userLogin as string);
-});
-
-watch(
-    () => route.params.userLogin as string,
-    async (userLogin) => {
-        // reset on route change
-        user.value = undefined;
-        cards.value = [];
-        videosCursor.value = undefined;
-        isFollowing.value = undefined;
-        isSubscribed.value = undefined;
-        followerAmount.value = undefined;
-        pageIsLoading.value = true;
-        videosAreLoading.value = true;
-        userNotFound.value = false;
-
-        await getInitialData(userLogin);
-    }
-);
-
-watch(search, _.debounce( async() => {
-    cards.value = [];
-
-    if (!search.value) {
-        return getVideos(user.value!)
-    };
-
-    videosAreLoading.value = true;
-
-    const videoIds = LEKKER_SPELEN_VIDEOS.filter((video) => {
-        const matchedTitle = video.title.toLowerCase().includes(search.value!.toLocaleLowerCase());
-        const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(search.value!.toLocaleLowerCase()));
-
-        return matchedTitle || matchedChapters;
-    }).map(video => video.videoId);
-
-    const res = await twitchService.getVideosByVideoIds(videoIds);
-    cards.value = CardVideoFactory.mapFromTwitchVideo(res.data);
-
-    videosCursor.value = '';
-    videosAreLoading.value = false;
-}, 250))
-
-const getInitialData = async (userLogin: string) => {
-    getUser(userLogin)
-        .then((_user) => {
-            TitleService.setTitle(_user.display_name);
-            getVideos(_user, 20);
-            getIsFollowing(_user);
-            getIsSubscribed(_user);
-            getFollowerAmount(_user);
-        })
-        .catch(() => userNotFound.value = true)
-        .finally(() => pageIsLoading.value = false)
+const openDrawer = () => {
+    console.log('open drawer');
 }
 
-const getUser = async (userLogin: string) => {
-    const _user = (await twitchService.getUsers({ logins: [userLogin] }))[0];
-    user.value = _user;
-    return _user;
-}
 
-const getVideos = async (_user: TwitchUser, first?: number, pagination?: string) => {
-    videosAreLoading.value = true;
-
-    const res = await twitchService.getVideosByUserId(Number(user.value!.id), videosCursor.value, first);
-    cards.value = [...cards.value, ...CardVideoFactory.mapFromTwitchVideo(res.data)];
-    videosCursor.value = res.pagination.cursor;
-
-    setTimeout(() => videosAreLoading.value = false, 500);
-}
-
-const getIsFollowing = async (_user: TwitchUser) => {
-    const res = await twitchService.getFollowedChannels(Number(authStore.user!.id), Number(_user.id));
-    isFollowing.value = !!res.data.length;
-}
-
-const getIsSubscribed = async (_user: TwitchUser) => {
-    isSubscribed.value = await twitchService.checkUserSubscription(Number(authStore.user!.id), Number(_user.id));
-}
-
-const getFollowerAmount = async (_user: TwitchUser) => {
-    followerAmount.value = (await twitchService.getChannelFollowers(Number(_user.id))).total
-}
-
-const loadMoreVideos = async () => {
-    getVideos(user.value!, 100, videosCursor.value);
-}
 </script>
 
 <template>
     <div class="user">
-        <template v-if="pageIsLoaded" >
-            <UserDrawer
-                class="user__drawer"
-                :user="user!"
-                :isFollowing="isFollowing!"
-                :isSubscribed="isSubscribed!"
-                :followerAmount="followerAmount!"
-                :favourites="favouriteStore.getFavourites()"
-            />
+        <UserHeader class="user__header" />
 
-            <StreamTypePicker></StreamTypePicker>
+        <div class="user__container">
+            <TempTabs />
+            <VueFeather @click="openDrawer" type="arrow-down-right" />
+        </div>
 
-            <Section v-if="cards" title="Past broadcasts" class="user__cards">
-                <template #actions>
-                    <IconField iconPosition="left">
-                        <InputIcon class="pi pi-search"></InputIcon>
-                        <InputText v-model="search" placeholder="Search" />
-                    </IconField>
-
-                    <div class="input-switch">
-                        <span class="input-switch__label">Video duration</span>
-                        <InputSwitch class="input-switch__toggler" v-model="showDuration" />
-                    </div>
-                </template>
-
-                <div class="cards-section" v-auto-animate>
-                    <div class="cards-section__body">
-                        <CardVideo v-for="card in cards" :card="card" :show-duration="showDuration" :key="card.id" class="cards-section__card"/>
-                    </div>
-
-                    <div class="cards-section__footer">
-                        <Button v-if="!videosAreLoading && videosCursor" @click="loadMoreVideos" class="cards-section__load-more">Load more</Button>
-                        <Spinner v-if="videosAreLoading" class="cards-section__spinner"/>
-                    </div>
-                </div>
-
-                <Section title="Available Chapters">
-                    <ul>
-                        <li v-for="game in chapters" @click="search = game" style="padding: 4px 0;">{{ game }}</li>
-                    </ul>
-                </Section>
-            </Section>
-        </template>
-
-        <Spinner v-if="pageIsLoading" padding/>
-    </div>
-
-    <div v-if="userNotFound" class="not-found">
-        <h4><span class="not-found__username">"{{ route.params.userLogin }}"</span>, not found.</h4>
-        <p>This user does not exist, yet...</p>
-
-        <ButtonGroup class="not-found__buttons">
-            <RouterLink to="/live">
-                <Button icon="chevron-left" iconAlign="left">Back to dashboard</Button>
-            </RouterLink>
-        </ButtonGroup>
+<!--
+        <Drawer>
+            <DrawerTrigger>Open</DrawerTrigger>
+            <DrawerContent>
+            <DrawerHeader>
+                <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                <DrawerDescription>This action cannot be undone.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+                <Button>Submit</Button>
+                <DrawerClose>
+                <Button variant="outline">Cancel</Button>
+                </DrawerClose>
+            </DrawerFooter>
+            </DrawerContent>
+        </Drawer> -->
     </div>
 </template>
 
@@ -223,67 +45,18 @@ const loadMoreVideos = async () => {
 @import '/src/assets/styles/functions/rem';
 
 .user {
-    &__drawer {
+    &__header {
+        margin-top: -$header-height;
+    }
+
+    &__container {
+        @include container
     }
 }
 
-.input-switch {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    &__label {
-        color: $c-white--dark;
-        font-size: rem(16px);
-    }
-}
-
-.cards-section {
-    &__body {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: rem(35px);
-    }
-
-    &__footer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: rem(100px);
-    }
-
-    @include screen($desktop) {
-        &__body {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    @include screen(1200px) {
-        &__body {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    @include screen(1400px) {
-        &__body {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
-}
-
-.not-found {
-    @include container;
-
-    padding-top: rem(100px);
-    padding-bottom: rem(100px);
-
-    &__username {
-        color: $c-primary;
-        font-size: rem(40px);
-    }
-
-    &__buttons {
-        padding-top: 30px;
-    }
-}
+// @include screen(1400px) {
+//     &__body {
+//         grid-template-columns: repeat(5, 1fr);
+//     }
+// }
 </style>
