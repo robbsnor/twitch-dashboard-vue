@@ -93,8 +93,8 @@ watch(_form, async (newForm) => {
 
     &__cards {
         display: grid;
-        // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        // gap: rem($padding * 2) rem($padding);
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: rem($padding * 2) rem($padding);
     }
 
     // @include screen(800px) {
