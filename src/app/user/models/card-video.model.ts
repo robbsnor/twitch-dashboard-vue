@@ -1,4 +1,4 @@
-export interface CardVideo {
+export interface CardVideoModel {
     link: string;
     thumbnail: string;
     title: string;

@@ -1,4 +1,4 @@
-export interface CardLive {
+export interface CardLiveModel {
     userId: number;
     link: string;
     thumbnail: string;

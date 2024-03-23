@@ -1,97 +1,70 @@
 <script setup lang="ts">
 import UserHeader from '../app/user/components/UserHeader.vue';
 import TempTabs from '../app/user/components/TempTabs.vue';
-import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
-import Button from '../app/shared/components/Button.vue';
-import { LEKKER_SPELEN_VIDEOS } from '../app/user/data/lekkerspelen-videos.data';
-import { computed, ref } from 'vue';
+import FilterForm from '../app/user/components/FilterForm.vue';
+import { onMounted, ref, watch } from 'vue';
+import type { FormModel } from '../app/user/models/form.model';
+import type { CardVideoModel } from '../app/user/models/card-video.model';
+import { TwitchService } from '../app/shared/services/twitch.service';
+import { CardVideoFactory } from '../app/user/factories/card-video.factory';
+import CardVideo from '../app/user/components/CardVideo.vue';
+import type { VideoTypesModel } from '../app/shared/models/twitch/video-types.model';
 
-const _drawer = ref(false)
-const _category = ref();
-const _search = ref();
-const _videoTypes = ref();
-const _spoilers = ref();
-const _additionalVideoInfo = ref(LEKKER_SPELEN_VIDEOS);
+const twitchService = new TwitchService();
 
-const _categories = computed(() => {
-    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title))
-    const orderedCategories = [...new Set(duplicateCategories.flat())].filter(category => category !== "").sort();
-    return orderedCategories;
+const _drawer = ref(false);
+const _form = ref<FormModel>({
+    search: '',
+    category: '',
+    type: 'all',
+    spoilers: [],
+})
+const _cards = ref<CardVideoModel[]>([]);
+
+const getCards = async (types: VideoTypesModel) => {
+    const res = await twitchService.getVideosByUserId(52385053, types);
+    const videos = res.data;
+    _cards.value = CardVideoFactory.mapFromTwitchVideo(videos);
+}
+
+onMounted(async () => {
+    getCards('all');
 })
 
-const _categoryOptions = computed(() => {
-    return _categories.value.map((category) => {
-        return {
-            value: category,
-            label: category
-        }
-    })
-})
+watch(_form, async (newForm) => {
+    getCards(newForm.type);
+}, { deep: true });
 </script>
 
 <template>
-    <UserHeader />
-    <TempTabs />
+    <div class="user">
+        <UserHeader class="user__header" />
 
-    <el-input
-        v-model="_search"
-        placeholder="Search videos..."
-    >
-        <template #suffix>
+        <div class="user__container">
+            <TempTabs />
+            <el-input v-model="_form.search" placeholder="Search videos..." clearable></el-input>
             <vue-feather @click="_drawer = true" type="heart"></vue-feather>
-        </template>
-    </el-input>
 
-    <el-drawer
-        v-model="_drawer"
-        size="auto"
-        direction="btt"
-    >
-        <template #header>
-            <h4>Filter videos</h4>
-        </template>
+            <code style="min-height: 250px; margin: 20px 0">
+                {{ _form }}
+            </code>
 
-        <template #default>
-            <div class="filter-drawer">
-                <div class="filter-drawer__section section">
-                    <h3 class="section__title">Category</h3>
-                    <div class="section__body">
-                        <el-select-v2
-                            v-model="_category"
-                            filterable
-                            :options="_categoryOptions"
-                            placeholder="Please select"
-                        />
-                    </div>
-                </div>
-
-                <div class="filter-drawer__section section">
-                    <h3 class="section__title">Video types</h3>
-                    <div class="section__body">
-                        <el-checkbox v-model="_videoTypes" label="Streams" size="large" />
-                        <el-checkbox v-model="_videoTypes" label="Highlights" size="large" />
-                        <el-checkbox v-model="_videoTypes" label="Clips" size="large" />
-                    </div>
-                </div>
-
-                <div class="filter-drawer__section section">
-                    <h3 class="section__title">Spoilers</h3>
-                    <div class="section__body">
-                        <el-checkbox v-model="_spoilers" label="Show time" size="large" />
-                        <el-checkbox v-model="_spoilers" label="Show thumbnail" size="large" />
-                    </div>
-                </div>
-
-                <div class="filter-drawer__footer">
-                </div>
+            <div class="user__cards">
+                <CardVideo
+                    v-for="card in _cards"
+                    :key="card.id"
+                    :card="card"
+                    :hideTime="!_form.spoilers.find(spoiler => spoiler === 'hide-time')"
+                    :hideThumbnail="!_form.spoilers.find(spoiler => spoiler === 'hide-thumbnail')"
+                />
             </div>
-        </template>
+        </div>
+    </div>
 
-        <template #footer>
-            <ButtonGroup>
-                <Button color="secondary">Cancel</Button>
-                <Button>Apply</Button>
-            </ButtonGroup>
+    <!-- drawer -->
+    <el-drawer v-model="_drawer" size="auto" direction="btt" title="Filter videos">
+        <template #default>
+            <FilterForm :form="_form"/>
         </template>
     </el-drawer>
 </template>
@@ -103,44 +76,31 @@ const _categoryOptions = computed(() => {
 @import '/src/assets/styles/functions/rem';
 
 .user {
+    $self: &;
+
     &__header {
         margin-top: -$header-height;
     }
 
     &__container {
-        @include container
-    }
-}
-
-
-.filter-drawer {
-    &__section {
-        padding-bottom: rem(30px);
+        @include container;
     }
 
-    &__footer {
+    &__search {
         display: flex;
-        justify-content: flex-end;
-    }
-}
-
-.section {
-    &__title {
-        font-size: rem(18px);
-        padding-bottom: rem(10px);
+        gap: rem($padding);
     }
 
-    &__body {
-        .el-checkbox {
-            display: flex;
-        }
+    &__cards {
+        display: grid;
+        // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        // gap: rem($padding * 2) rem($padding);
     }
+
+    // @include screen(800px) {
+    //
+    // }
 }
 
 
-// @include screen(1400px) {
-//     &__body {
-//         grid-template-columns: repeat(5, 1fr);
-//     }
-// }
 </style>

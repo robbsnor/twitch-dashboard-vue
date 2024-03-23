@@ -1,6 +1,6 @@
 import { ImageService } from '../../shared/services/image.service';
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
-import type { CardLive } from "../models/card-live.model";
+import type { CardLiveModel } from "../models/card-live.model";
 
 export class LiveFactory {
     public static mapToCardLiveSmall(streams: TwitchFollowedStreamWithUser[]) {
@@ -16,7 +16,7 @@ export class LiveFactory {
     }
 
     private static mapToCardLive(streams: TwitchFollowedStreamWithUser[], thumbnailWidth?: number) {
-        return streams.map<CardLive>((stream) => {
+        return streams.map<CardLiveModel>((stream) => {
             return {
                 userId: Number(stream.user_id),
                 link: `https://www.twitch.tv/${stream.user_login}`,

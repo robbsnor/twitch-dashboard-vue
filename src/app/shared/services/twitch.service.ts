@@ -6,6 +6,7 @@ import type { TwitchGetVideos, TwitchVideo } from './../models/twitch/videos.mod
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
+import type { VideoTypesModel } from "../models/twitch/video-types.model";
 
 export interface User {
     ids?: number[];
@@ -68,13 +69,15 @@ export class TwitchService {
 
     public async getVideosByUserId(
         userId: number,
+        type: VideoTypesModel = 'all',
         after?: string, // cursor
         amount: number = 20,
         // options?: TwitchGetVideosOptions,
     ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
-        url.searchParams.append('first', amount.toString()); // temp
+        url.searchParams.append('type', type);
+        url.searchParams.append('first', amount.toString());
         if (after) url.searchParams.append('after', after);
 
         const res = await this.http.get<TwitchGetVideos>(url.toString());

@@ -3,16 +3,15 @@ import { DateService } from '@/app/shared/services/date.service';
 import { NumberService } from '@/app/shared/services/number.service';
 import { TimeService } from '@/app/shared/services/time.service';
 import { computed } from 'vue';
-import type { CardVideo } from '../models/card-video.model';
+import type { CardVideoModel } from '../models/card-video.model';
 
 interface Props {
-  card: CardVideo;
-  showDuration?: boolean;
+  card: CardVideoModel;
+  hideTime?: boolean;
+  hideThumbnail?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    showDuration: true,
-})
+const props = defineProps<Props>();
 
 const views = computed(() => NumberService.formatThousands(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
@@ -23,13 +22,13 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
     <div class="card-video">
         <a :href="card.link" target="_blank" class="card-video__thumbnail-container">
             <span class="sr-only">Watch {{ card.title }} video</span>
-            <img :src="card.thumbnail" class="card-video__thumbnail" />
+            <img v-if="props.hideThumbnail" :src="card.thumbnail" class="card-video__thumbnail" />
             <div class="card-video__thumbnail-overlay"></div>
             <div class="card-video__arrow">
                 <!-- <app-myIcon icon="arrow"></app-myIcon> -->
             </div>
             <div class="card-video__views">{{ views }}</div>
-            <div v-if="props.showDuration" class="card-video__duration">{{ duration }}</div>
+            <div v-if="props.hideTime" class="card-video__duration">{{ duration }}</div>
         </a>
 
         <div class="card-video__text">

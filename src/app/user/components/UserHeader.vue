@@ -29,7 +29,9 @@ import VueFeather from 'vue-feather';
 
 .user-header {
     position: relative;
-    padding-top: 250px;
+    display: flex;
+    align-items: flex-end;
+    height: 200px;
     background-color: $c-black-1;
 
     &__banner {
