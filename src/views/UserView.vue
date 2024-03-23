@@ -4,7 +4,7 @@ import TempTabs from '../app/user/components/TempTabs.vue';
 import ButtonGroup from '../app/shared/components/ButtonGroup.vue';
 import Button from '../app/shared/components/Button.vue';
 import { LEKKER_SPELEN_VIDEOS } from '../app/user/data/lekkerspelen-videos.data';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const _drawer = ref(false)
 const _category = ref();
@@ -26,9 +26,6 @@ const _categoryOptions = computed(() => {
             label: category
         }
     })
-})
-
-onMounted(() => {
 })
 </script>
 

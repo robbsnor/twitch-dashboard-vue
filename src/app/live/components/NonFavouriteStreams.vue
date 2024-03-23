@@ -7,11 +7,6 @@ import { LiveFactory } from '../factories/live.factory';
 import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
 import { useWindowSize } from '@vueuse/core';
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import InputIcon from 'primevue/inputicon';
-import IconField from 'primevue/iconfield';
-
 
 const { width } = useWindowSize();
 
@@ -38,7 +33,6 @@ const filteredCards = computed(() => {
         return nameMatch || gameMatch || titleMatch || idMatch;
     })
 })
-
 
 const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 </script>
