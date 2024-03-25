@@ -14,7 +14,6 @@ TitleService.setTitle('Live');
 const twitchService = new TwitchService();
 const favourtieStore = useFavouriteStore();
 
-
 const _allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const _favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const _nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
