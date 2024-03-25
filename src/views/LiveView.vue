@@ -10,9 +10,11 @@ import { onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import { TwitchService } from '../app/shared/services/twitch.service';
 import { TitleService } from '../app/shared/services/title.service';
+import { useFavouriteStore } from '../app/shared/stores/favourites.store';
 
-const twitchService = new TwitchService();
 TitleService.setTitle('Live');
+const twitchService = new TwitchService();
+const favourtieStore = useFavouriteStore();
 
 const authStore = useAuthStore();
 
@@ -22,17 +24,8 @@ const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 
-const determineFavourites = (username: string) => {
-    if (username === 'robbsnor') {
-       return MOCK_FAVOURITES_HOPP;
-    } else if (username === 'lunpia_') {
-       return MOCK_FAVOURITES_FLUUMP;
-    }
-    return [];
-}
-
 onMounted(async () => {
-    favouritesList.value = determineFavourites(authStore.user?.login ?? '');
+    favouritesList.value = favourtieStore.getFavourites();
 
     allStreams.value = await twitchService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.orderFavorites(favouritesList.value, allStreams.value);
