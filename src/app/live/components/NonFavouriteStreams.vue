@@ -15,7 +15,6 @@ const props = defineProps<{
 }>()
 
 const _filter = ref('');
-
 const _cards = computed(() => {
     if (!props.streams) return;
     // TODO: Have a normal and small card ref
