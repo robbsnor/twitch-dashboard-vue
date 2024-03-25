@@ -33,6 +33,7 @@ const _categoryOptions = computed(() => {
                 <el-select-v2
                     v-model="props.form.category"
                     :options="_categoryOptions"
+                    size="large"
                     filterable
                     clearable
                     placeholder="Please select a category"
@@ -43,10 +44,10 @@ const _categoryOptions = computed(() => {
         <div class="filter-form__section section">
             <h3 class="section__title">Video types</h3>
             <div class="section__body">
-                <el-radio-group v-model="props.form.type">
-                    <el-radio value="all" size="large">All</el-radio>
-                    <el-radio value="archive" size="large">Streams</el-radio>
-                    <el-radio value="highlight" size="large">Highlights</el-radio>
+                <el-radio-group v-model="props.form.type" size="large">
+                    <el-radio-button value="all" size="large">All</el-radio-button>
+                    <el-radio-button value="archive" size="large">Streams</el-radio-button>
+                    <el-radio-button value="highlight" size="large">Highlights</el-radio-button>
                 </el-radio-group>
             </div>
         </div>
@@ -54,10 +55,9 @@ const _categoryOptions = computed(() => {
         <div class="filter-form__section section">
             <h3 class="section__title">Spoilers</h3>
             <div class="section__body">
-                <el-checkbox-group v-model="props.form.spoilers">
-                    <el-checkbox value="hide-time" label="Hide time" size="large" />
-                    <el-checkbox value="hide-thumbnail" label="Hide thumbnail" size="large" />
-                </el-checkbox-group>
+                <el-switch v-model="props.form.showTime" active-text="Show time" />
+                <br />
+                <el-switch v-model="props.form.showThumbnails" active-text="Show thumbnails" />
             </div>
         </div>
     </div>

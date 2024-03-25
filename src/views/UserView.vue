@@ -17,7 +17,8 @@ const _form = ref<FormModel>({
     search: '',
     category: '',
     type: 'all',
-    spoilers: [],
+    showTime: true,
+    showThumbnails: true,
 })
 const _cards = ref<CardVideoModel[]>([]);
 
@@ -42,7 +43,7 @@ watch(_form, async (newForm) => {
 
         <div class="user__container">
             <TempTabs />
-            <el-input v-model="_form.search" placeholder="Search videos..." clearable></el-input>
+            <el-input v-model="_form.search" size="large" placeholder="Search videos..." clearable></el-input>
             <vue-feather @click="_drawer = true" type="heart"></vue-feather>
 
             <code style="min-height: 250px; margin: 20px 0">
@@ -54,8 +55,8 @@ watch(_form, async (newForm) => {
                     v-for="card in _cards"
                     :key="card.id"
                     :card="card"
-                    :hideTime="!_form.spoilers.find(spoiler => spoiler === 'hide-time')"
-                    :hideThumbnail="!_form.spoilers.find(spoiler => spoiler === 'hide-thumbnail')"
+                    :showTime="_form.showTime"
+                    :showThumbnail="_form.showThumbnails"
                 />
             </div>
         </div>

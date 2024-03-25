@@ -4,5 +4,6 @@ export interface FormModel {
     search: string;
     category: string;
     type: VideoTypesModel;
-    spoilers: string[];
+    showTime: boolean;
+    showThumbnails: boolean;
 }
