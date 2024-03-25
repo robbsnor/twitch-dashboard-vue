@@ -15,7 +15,6 @@ const props = defineProps<{
 }>()
 
 const _filter = ref('');
-const _filterEl = ref<HTMLInputElement>();
 
 const _cards = computed(() => {
     if (!props.streams) return;
