@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Section from '@/app/shared/components/Section.vue';
-import { computed, onMounted, onUnmounted, ref, type Ref } from 'vue';
+import Spinner from '@/app/shared/components/Spinner.vue';
+import { useWindowSize } from '@vueuse/core';
+import { computed, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
-import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
-import { useWindowSize } from '@vueuse/core';
 
 const { width } = useWindowSize();
 
@@ -40,10 +40,7 @@ const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : '
 <template>
     <Section title="Live channels">
         <template #actions>
-            <IconField iconPosition="left">
-                <InputIcon class="pi pi-search"></InputIcon>
-                <InputText v-model="filter" placeholder="Search" />
-            </IconField>
+
         </template>
 
         <div class="non-favourite">

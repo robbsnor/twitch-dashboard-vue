@@ -58,7 +58,7 @@ export class TwitchService {
 
         res.data.data = orderedUsers;
 
-        return res;
+        return res.data;
     }
 
     public async getFollowedStreams() {
@@ -112,7 +112,7 @@ export class TwitchService {
         const followedStreams = await this.getFollowedStreams();
         const userIds = followedStreams.map(stream => Number(stream.user_id));
 
-        const users = await this.getUsers({ ids: userIds });
+        const users = (await this.getUsers({ ids: userIds })).data;
 
         const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
             return {

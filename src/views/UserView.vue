@@ -40,7 +40,7 @@ onMounted(async () => {
 
 const getUser = async () => {
     const res = await twitchService.getUsers({ logins: [_userLogin.value] });
-    const user = res.data.data[0];
+    const user = res.data[0];
     if (!user) return _userNotFound.value = true;
 
     _user.value = user;
