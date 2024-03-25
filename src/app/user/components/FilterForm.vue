@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
-import type { FormModel } from '../models/form.model';
+import type { Form } from '../models/form.model';
 
 const props = defineProps<{
-    form: FormModel;
+    form: Form;
 }>()
 
 const _additionalVideoInfo = ref(LEKKER_SPELEN_VIDEOS);
-
 const _categories = computed(() => {
     const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title))
     const orderedCategories = [...new Set(duplicateCategories.flat())].filter(category => category !== "").sort();
     return orderedCategories;
 })
-
 const _categoryOptions = computed(() => {
     return _categories.value.map((category) => {
         return {
@@ -44,7 +42,7 @@ const _categoryOptions = computed(() => {
         <div class="filter-form__section section">
             <h3 class="section__title">Video types</h3>
             <div class="section__body">
-                <el-radio-group v-model="props.form.type" size="large">
+                <el-radio-group v-model="props.form.type">
                     <el-radio-button value="all" size="large">All</el-radio-button>
                     <el-radio-button value="archive" size="large">Streams</el-radio-button>
                     <el-radio-button value="highlight" size="large">Highlights</el-radio-button>

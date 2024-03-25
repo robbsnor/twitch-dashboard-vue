@@ -1,6 +1,6 @@
 import type { VideoTypesModel } from './../../shared/models/twitch/video-types.model';
 
-export interface FormModel {
+export interface Form {
     search: string;
     category: string;
     type: VideoTypesModel;

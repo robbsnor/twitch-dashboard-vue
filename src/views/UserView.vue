@@ -1,35 +1,63 @@
 <script setup lang="ts">
-import UserHeader from '../app/user/components/UserHeader.vue';
+import UserHeader, { type UserHeaderProps } from '../app/user/components/UserHeader.vue';
 import TempTabs from '../app/user/components/TempTabs.vue';
 import FilterForm from '../app/user/components/FilterForm.vue';
-import { onMounted, ref, watch } from 'vue';
-import type { FormModel } from '../app/user/models/form.model';
+import { computed, onMounted, ref, watch, type Ref } from 'vue';
+import type { Form } from '../app/user/models/form.model';
 import type { CardVideoModel } from '../app/user/models/card-video.model';
 import { TwitchService } from '../app/shared/services/twitch.service';
-import { CardVideoFactory } from '../app/user/factories/card-video.factory';
+import { UserFactory } from '../app/user/factories/card-video.factory';
 import CardVideo from '../app/user/components/CardVideo.vue';
 import type { VideoTypesModel } from '../app/shared/models/twitch/video-types.model';
+import { useRouteParams } from '@vueuse/router';
+import type { TwitchUser } from '../app/shared/models/twitch/users.model';
 
 const twitchService = new TwitchService();
 
 const _drawer = ref(false);
-const _form = ref<FormModel>({
+const _form = ref<Form>({
     search: '',
     category: '',
     type: 'all',
     showTime: true,
     showThumbnails: true,
 })
-const _cards = ref<CardVideoModel[]>([]);
+const _userLogin = useRouteParams('userLogin') as Ref<string>;
+const _userNotFound = ref(false);
+const _user = ref<TwitchUser>();
+const _userHeader = ref<UserHeaderProps>();
 
-const getCards = async (types: VideoTypesModel) => {
+const getCards = async (types: VideoTypesModel = 'all') => {
     const res = await twitchService.getVideosByUserId(52385053, types);
     const videos = res.data;
-    _cards.value = CardVideoFactory.mapFromTwitchVideo(videos);
+    return videos;
+    // return CardVideoFactory.mapFromTwitchVideo(videos);
 }
 
 onMounted(async () => {
-    getCards('all');
+    getUser()
+})
+
+const getUser = async () => {
+    const res = await twitchService.getUsers({ logins: [_userLogin.value] });
+    const user = res.data.data[0];
+    if (!user) return _userNotFound.value = true;
+
+    _user.value = user;
+}
+
+watch(_user, async (newUser) => {
+    if (!newUser) return;
+    _userHeader.value = {
+        username: newUser.display_name,
+        avatar: newUser.profile_image_url,
+        followers: 222,
+        isFavourite: false,
+    }
+})
+
+watch(_userLogin, async (newUserLogin) => {
+    console.log(newUserLogin)
 })
 
 watch(_form, async (newForm) => {
@@ -39,7 +67,11 @@ watch(_form, async (newForm) => {
 
 <template>
     <div class="user">
-        <UserHeader class="user__header" />
+        <UserHeader
+            v-if="_userHeader"
+            v-bind="_userHeader"
+            class="user__header"
+        />
 
         <div class="user__container">
             <TempTabs />
@@ -51,13 +83,13 @@ watch(_form, async (newForm) => {
             </code>
 
             <div class="user__cards">
-                <CardVideo
+                <!-- <CardVideo
                     v-for="card in _cards"
                     :key="card.id"
                     :card="card"
                     :showTime="_form.showTime"
                     :showThumbnail="_form.showThumbnails"
-                />
+                /> -->
             </div>
         </div>
     </div>

@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import VueFeather from 'vue-feather';
+import { NumberService } from '../../shared/services/number.service';
+
+export interface UserHeaderProps {
+    username: string;
+    avatar: string;
+    followers: number;
+    isFavourite: boolean;
+};
+
+const props = defineProps<UserHeaderProps>();
+
+const formattedFollowers = () => `${NumberService.formatThousands(props.followers)} Followers`;
 
 </script>
 
@@ -9,10 +21,10 @@ import VueFeather from 'vue-feather';
 
         <div class="user-header__container">
             <div class="user-header__user">
-                <img class="user-header__avatar" src="https://static-cdn.jtvnw.net/jtv_user_pictures/4f4492fe-37a0-4fa9-aacc-5e148b1a3735-profile_image-70x70.jpeg" alt="Lunpias avatar">
+                <img class="user-header__avatar" :src="props.avatar" alt="Lunpias avatar">
                 <div class="user-header__info">
-                    <div class="user-header__name">Lunpia</div>
-                    <div class="user-header__followers">132K Followers</div>
+                    <div class="user-header__name">{{ props.username }}</div>
+                    <!-- <div class="user-header__followers">{{ formattedFollowers }}</div> -->
                 </div>
             </div>
 
@@ -64,6 +76,8 @@ import VueFeather from 'vue-feather';
 
     &__avatar {
         border-radius: 999px;
+        width: rem(50px);
+        height: rem(50px);
     }
 
     &__info {

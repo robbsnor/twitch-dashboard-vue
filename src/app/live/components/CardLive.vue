@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NumberService } from '@/app/shared/services/number.service';
 import { computed } from 'vue';
-import type { CardLiveModel, CardLiveSize } from '../models/card-live.model';
+import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
 
 interface Props {
   card: CardLiveModel;

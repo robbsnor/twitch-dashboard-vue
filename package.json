@@ -16,6 +16,7 @@
         "@types/lodash": "^4.17.0",
         "@types/luxon": "^3.4.2",
         "@vueuse/core": "^10.9.0",
+        "@vueuse/router": "^10.9.0",
         "axios": "^1.6.7",
         "element-plus": "^2.6.2",
         "feather-icons": "^4.29.1",
@@ -25,7 +26,7 @@
         "register-service-worker": "^1.7.2",
         "vue": "^3.4.21",
         "vue-feather": "^2.0.0",
-        "vue-router": "^4.2.5"
+        "vue-router": "^4.3.0"
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.1.2",
