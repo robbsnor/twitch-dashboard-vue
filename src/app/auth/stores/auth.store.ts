@@ -8,9 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
     const accessToken = ref<string>();
 
     const signIn = async () => {
-        console.log('Signing in...');
         user.value = await AuthService.signIn();
-        console.log(user.value);
         accessToken.value = AuthService.getAccessToken();
     };
 
