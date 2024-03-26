@@ -16,13 +16,29 @@ import Swirl from './app/shared/components/Swirl.vue';
 import ZigZag from './app/shared/components/ZigZag.vue';
 import './assets/styles/main.scss';
 
+// Vuetify
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+
 const app = createApp(App);
 const pinia = createPinia();
+const vuetify = createVuetify({
+    theme: {
+        defaultTheme: 'dark',
+    },
+    components,
+    directives,
+});
+
 
 app.use(pinia);
 app.use(router);
+app.use(vuetify);
 app.use(autoAnimatePlugin);
 app.use(ElementPlus);
+
 
 // shared components
 app.component(VueFeather.name, VueFeather);

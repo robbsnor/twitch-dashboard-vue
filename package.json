@@ -24,9 +24,11 @@
         "luxon": "^3.4.4",
         "pinia": "^2.1.7",
         "register-service-worker": "^1.7.2",
+        "vite-plugin-vuetify": "^2.0.3",
         "vue": "^3.4.21",
         "vue-feather": "^2.0.0",
-        "vue-router": "^4.3.0"
+        "vue-router": "^4.3.0",
+        "vuetify": "^3.5.11"
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.1.2",
