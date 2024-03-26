@@ -4,8 +4,7 @@ import { createApp } from 'vue';
 import VueFeather from 'vue-feather';
 import App from './App.vue';
 import router from './router/router';
-import ElementPlus from 'element-plus';
-import 'element-plus/theme-chalk/dark/css-vars.css';
+import './assets/styles/main.scss';
 
 import Button from './app/shared/components/Button.vue';
 import ButtonGroup from './app/shared/components/ButtonGroup.vue';
@@ -14,7 +13,6 @@ import Section from './app/shared/components/Section.vue';
 import Spinner from './app/shared/components/Spinner.vue';
 import Swirl from './app/shared/components/Swirl.vue';
 import ZigZag from './app/shared/components/ZigZag.vue';
-import './assets/styles/main.scss';
 
 // Vuetify
 import 'vuetify/styles';
@@ -59,7 +57,6 @@ app.use(pinia);
 app.use(router);
 app.use(vuetify);
 app.use(autoAnimatePlugin);
-app.use(ElementPlus);
 
 // shared components
 app.component(VueFeather.name, VueFeather);
