@@ -4,6 +4,7 @@ import { NumberService } from '../../shared/services/number.service';
 
 export interface UserHeaderProps {
     username: string;
+    banner: string;
     avatar: string;
     followers: number;
     isFavourite: boolean;
@@ -17,7 +18,7 @@ const formattedFollowers = () => `${NumberService.formatThousands(props.follower
 
 <template>
     <div class="user-header">
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/340bf118-4558-4d0a-8285-166043494a37-profile_banner-480.jpeg" alt="Lunpia banner" class="user-header__banner">
+        <img :src="props.banner" alt="Lunpia banner" class="user-header__banner">
 
         <div class="user-header__container">
             <div class="user-header__user">

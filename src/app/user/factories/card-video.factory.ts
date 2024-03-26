@@ -27,6 +27,7 @@ export class UserFactory {
     public static mapToUserHeader(user: TwitchUser): UserHeaderProps {
         return {
             username: user.display_name,
+            banner: user.offline_image_url ?? '',
             avatar: user.profile_image_url,
             followers: 200,
             isFavourite: false,
