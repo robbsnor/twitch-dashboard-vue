@@ -59,7 +59,7 @@ onMounted(() => {
 
 <template>
     <div class="user-cards">
-        <Section modifier="user-cards">
+        <Section modifier="user-cards" class="user-cards__section">
             <template #actions>
                 <div class="filter">
                     <el-input
@@ -78,18 +78,21 @@ onMounted(() => {
                 </div>
             </template>
 
-            <div class="cards">
-                <CardVideo
-                    v-for="card in _cards"
-                    :key="card.id"
-                    :card="card"
-                    :showTime="_form.showTime"
-                    :showThumbnail="_form.showThumbnails"
-                />
-            </div>
+            <template #default>
+                <div class="cards">
+                    <CardVideo
+                        v-for="card in _cards"
+                        :key="card.id"
+                        :card="card"
+                        :showTime="_form.showTime"
+                        :showThumbnail="_form.showThumbnails"
+                        class="cards__card"
+                    />
+                </div>
+            </template>
         </Section>
 
-        <div class="footer">
+        <div class="user-cards__footer">
             <Spinner v-if="_loadingCards"/>
             <Button v-else @click="getNewCards(100)">Load more</Button>
         </div>
@@ -109,12 +112,20 @@ onMounted(() => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
+.user-cards {
+    &__footer {
+        min-height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 .filter {
     display: flex;
     align-items: center;
     gap: rem($padding);
     padding-bottom: rem($padding);
-    width: 100%;
 
     &__input {
         width: 100%;
@@ -129,12 +140,5 @@ onMounted(() => {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: rem($padding * 2) rem($padding);
-}
-
-.footer {
-    min-height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 </style>

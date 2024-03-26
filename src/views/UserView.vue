@@ -31,10 +31,10 @@ const _userHeader = computedAsync(async () => UserFactory.mapToUserHeader(_user.
             />
 
             <div class="user__container">
-                <TempTabs />
+                <TempTabs class="user__tabs" />
             </div>
 
-            <UserCards :user="_user" />
+            <UserCards :user="_user" class="user__cards" />
         </template>
 
         <Spinner v-else padding/>
