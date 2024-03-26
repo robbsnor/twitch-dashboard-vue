@@ -2,7 +2,6 @@ import type { VideoTypesModel } from './../../shared/models/twitch/video-types.m
 
 export interface Form {
     search: string;
-    category: string;
     type: VideoTypesModel;
     showDuration: boolean;
     showThumbnails: boolean;

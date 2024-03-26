@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import { TwitchService } from '../../shared/services/twitch.service';
 import CardVideo from '../components/CardVideo.vue';
@@ -7,6 +7,7 @@ import FilterForm from '../components/FilterForm.vue';
 import { UserFactory } from '../factories/card-video.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
+import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
 
 const props = defineProps<{
     user: TwitchUser;
@@ -14,10 +15,10 @@ const props = defineProps<{
 
 const twitchService = new TwitchService();
 
+const _additionalVideoInfo = ref(LEKKER_SPELEN_VIDEOS);
 const _drawer = ref(false);
 const _form = ref<Form>({
     search: '',
-    category: '',
     type: 'all',
     showDuration: true,
     showThumbnails: true,
@@ -39,6 +40,12 @@ const getNewCards = async (amount = 20) => {
     _loadingCards.value = false;
 }
 
+const _categories = computed(() => {
+    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
+    const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
+    return orderedCategories;
+})
+
 const update = () => {
     _cards.value = [];
     _pagination.value = '';
@@ -59,7 +66,7 @@ onMounted(() => {
         <Section modifier="user-cards" class="user-cards__section">
             <template #actions>
                 <div class="filter">
-                    <v-text-field v-model="_form.search" placeholder="Search videos..." />
+                    <v-combobox v-model="_form.search" :items="_categories" placeholder="Search video..." />
 
                     <vue-feather
                         @click="_drawer = true"
@@ -67,12 +74,6 @@ onMounted(() => {
                         class="filter__icon"
                     ></vue-feather>
                 </div>
-
-                <code>
-                    <pre>
-                        {{ _form }}
-                    </pre>
-                </code>
             </template>
 
             <template #default>
