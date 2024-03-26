@@ -8,6 +8,8 @@ import { UserFactory } from '../factories/card-video.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
+import _ from 'lodash';
+import { watchDebounced } from '@vueuse/core';
 
 const props = defineProps<{
     user: TwitchUser;
@@ -51,6 +53,20 @@ const update = () => {
     _pagination.value = '';
     getNewCards();
 }
+
+// watch(
+//     () => _form.value.search,
+//     async (newValue?) => {
+//         if (!newValue) return;
+//
+//         console.log(`Searching: ${newValue}`)
+//         const foundVideos = LEKKER_SPELEN_VIDEOS.filter(video => video.title.toLowerCase().includes(newValue.toLowerCase()));
+//         const ids = foundVideos.map(video => video.videoId);
+//
+//         const videos = await twitchService.getVideosByVideoIds(ids);
+//         _cards.value = UserFactory.mapToCards(videos.data);
+//     },
+// )
 
 watch(() => props.user, () => {
     update();
