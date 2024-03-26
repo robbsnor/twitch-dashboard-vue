@@ -20,7 +20,7 @@ const twitchService = new TwitchService();
 const _additionalVideoInfo = ref(LEKKER_SPELEN_VIDEOS);
 const _drawer = ref(false);
 const _form = ref<Form>({
-    search: '',
+    search: null,
     type: 'all',
     showDuration: true,
     showThumbnails: true,
