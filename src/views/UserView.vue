@@ -7,6 +7,7 @@ import TempTabs from '../app/user/components/TempTabs.vue';
 import UserHeader from '../app/user/components/UserHeader.vue';
 import UserCards from '../app/user/containers/UserCards.vue';
 import { UserFactory } from '../app/user/factories/card-video.factory';
+import Spinner from '../app/shared/components/Spinner.vue';
 
 const twitchService = new TwitchService();
 
@@ -22,17 +23,21 @@ const _userHeader = computedAsync(async () => UserFactory.mapToUserHeader(_user.
 
 <template>
     <div class="user">
-        <UserHeader
-            v-if="_userHeader"
-            v-bind="_userHeader"
-            class="user__header"
-        />
+        <template v-if="_user">
+            <UserHeader
+                v-if="_userHeader"
+                v-bind="_userHeader"
+                class="user__header"
+            />
 
-        <div class="user__container">
-            <TempTabs />
-        </div>
+            <div class="user__container">
+                <TempTabs />
+            </div>
 
-        <UserCards :user="_user" />
+            <UserCards :user="_user" />
+        </template>
+
+        <Spinner v-else padding/>
     </div>
 </template>
 
@@ -43,8 +48,6 @@ const _userHeader = computedAsync(async () => UserFactory.mapToUserHeader(_user.
 @import '/src/assets/styles/functions/rem';
 
 .user {
-    $self: &;
-
     &__header {
         margin-top: -$header-height;
     }

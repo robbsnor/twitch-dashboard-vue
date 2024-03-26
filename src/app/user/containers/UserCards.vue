@@ -12,7 +12,7 @@ import type { Form } from '../models/form.model';
 import Section from '../../shared/components/Section.vue';
 
 const props = defineProps<{
-    user?: TwitchUser;
+    user: TwitchUser;
 }>()
 
 const twitchService = new TwitchService();
@@ -26,31 +26,34 @@ const _form = ref<Form>({
     showThumbnails: true,
 })
 const _pagination = ref('');
-
 const _cards = ref<CardVideoModel[]>([]);
 const _loadingCards = ref(true);
 
 const getNewCards = async (amount = 20) => {
     _loadingCards.value = true;
-    const res = await twitchService.getVideosByUserId(Number(props.user?.id), 'all', _pagination.value, amount);
-    const videos = res.data;
-    _pagination.value = res.pagination.cursor;
-    const newCards = UserFactory.mapToCards(videos);
 
+    const res = await twitchService.getVideosByUserId(Number(props.user.id), 'all', _pagination.value, amount);
+    _pagination.value = res.pagination.cursor;
+
+    const videos = res.data;
+    const newCards = UserFactory.mapToCards(videos);
     _cards.value = [..._cards.value, ...newCards];
+
     _loadingCards.value = false;
 }
 
-watch(() => props.user, () => {
+const update = () => {
     _cards.value = [];
     _pagination.value = '';
     getNewCards();
+}
+
+watch(() => props.user, () => {
+    update();
 })
 
 onMounted(() => {
-    if (import.meta.env.DEV) {
-        getNewCards();
-    }
+    update();
 })
 </script>
 
@@ -66,6 +69,7 @@ onMounted(() => {
                         clearable
                         class="filter__input"
                     ></el-input>
+
                     <vue-feather
                         @click="_drawer = true"
                         type="sliders"
@@ -105,7 +109,6 @@ onMounted(() => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-
 .filter {
     display: flex;
     align-items: center;
@@ -123,15 +126,13 @@ onMounted(() => {
 }
 
 .cards {
-    $self: &;
-
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: rem($padding * 2) rem($padding);
 }
 
 .footer {
-    min-height: 200px;
+    min-height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
