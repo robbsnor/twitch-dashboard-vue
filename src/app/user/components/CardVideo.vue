@@ -23,9 +23,9 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
 
 <template>
     <div class="card-video">
-        <a :href="card.link" target="_blank" class="card-video__thumbnail-container">
-            <span class="sr-only">Watch {{ card.title }} video</span>
-            <img v-if="props.showThumbnail" :src="card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
+        <a :href="props.card.link" target="_blank" class="card-video__thumbnail-container">
+            <span class="sr-only">Watch {{ props.card.title }} video</span>
+            <img v-if="props.showThumbnail" :src="props.card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
             <div class="card-video__thumbnail-overlay"></div>
             <div class="card-video__arrow">
                 <!-- <app-myIcon icon="arrow"></app-myIcon> -->
@@ -36,7 +36,7 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
 
         <div class="card-video__text">
             <div class="card-video__info">
-                <div class="card-video__title">{{ card.title }}</div>
+                <div class="card-video__title">{{ props.card.title }}</div>
                 <div class="card-video__uploaded">{{ date }}</div>
             </div>
         </div>

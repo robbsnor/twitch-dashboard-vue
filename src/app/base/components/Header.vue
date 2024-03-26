@@ -19,7 +19,9 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
             </div>
 
             <RouterLink to="/live" class="header__logo">
-                <Logo />
+                <Logo :isBig="true" />
+                <!-- <Logo :isBig="false" /> -->
+
             </RouterLink>
 
             <div class="header__right">
@@ -66,7 +68,6 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
 
     &__logo {
         display: none;
-        width: 250px;
     }
 
     &__right {
