@@ -19,7 +19,7 @@ const _form = ref<Form>({
     search: '',
     category: '',
     type: 'all',
-    showTime: true,
+    showDuration: true,
     showThumbnails: true,
 })
 const _pagination = ref('');
@@ -59,13 +59,7 @@ onMounted(() => {
         <Section modifier="user-cards" class="user-cards__section">
             <template #actions>
                 <div class="filter">
-                    <el-input
-                        v-model="_form.search"
-                        size="large"
-                        placeholder="Search videos..."
-                        clearable
-                        class="filter__input"
-                    ></el-input>
+                    <v-text-field v-model="_form.search" placeholder="Search videos..." />
 
                     <vue-feather
                         @click="_drawer = true"
@@ -73,6 +67,12 @@ onMounted(() => {
                         class="filter__icon"
                     ></vue-feather>
                 </div>
+
+                <code>
+                    <pre>
+                        {{ _form }}
+                    </pre>
+                </code>
             </template>
 
             <template #default>
@@ -81,7 +81,7 @@ onMounted(() => {
                         v-for="card in _cards"
                         :key="card.id"
                         :card="card"
-                        :showTime="_form.showTime"
+                        :showDuration="_form.showDuration"
                         :showThumbnail="_form.showThumbnails"
                         class="cards__card"
                     />
@@ -93,14 +93,13 @@ onMounted(() => {
             <Spinner v-if="_loadingCards"/>
             <Button v-else @click="getNewCards(100)">Load more</Button>
         </div>
-    </div>
 
-    <!-- drawer -->
-    <el-drawer v-model="_drawer" size="auto" direction="btt" title="Filter videos">
-        <template #default>
+
+        <!-- drawer -->
+        <v-bottom-sheet v-model="_drawer">
             <FilterForm :form="_form" />
-        </template>
-    </el-drawer>
+        </v-bottom-sheet>
+    </div>
 </template>
 
 <style scoped lang="scss">

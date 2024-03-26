@@ -1,0 +1,8 @@
+body {
+    .v-overlay {
+        &__scrim {
+            background-color: $c-black-1;
+            opacity: .7;
+        }
+    }
+}

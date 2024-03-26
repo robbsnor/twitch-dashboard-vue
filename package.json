@@ -31,6 +31,7 @@
         "vuetify": "^3.5.11"
     },
     "devDependencies": {
+        "@mdi/font": "^7.4.47",
         "@tsconfig/node20": "^20.1.2",
         "@types/node": "^20.11.10",
         "@vite-pwa/assets-generator": "^0.2.4",

@@ -12,7 +12,7 @@ export interface UserHeaderProps {
 
 const props = defineProps<UserHeaderProps>();
 
-const formattedFollowers = () => `${NumberService.formatThousands(props.followers)} Followers`;
+const formattedFollowers = () => `${NumberService.abbreviateNumber(props.followers)} Followers`;
 
 </script>
 

@@ -37,7 +37,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
     <Section title="Live channels">
         <template #actions>
             <el-input v-model="_filter" size="large" placeholder="Search videos..." clearable></el-input>
-            <v-text-field v-model="_filter" label="" variant="solo-filled" placeholder="Search videos..."></v-text-field>
+            <v-text-field v-model="_filter" label="" variant="solo-filled" placeholder="Search videos..." />
         </template>
 
         <div class="non-favourite">

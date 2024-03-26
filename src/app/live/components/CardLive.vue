@@ -18,7 +18,7 @@ const classes = computed(() => {
 })
 
 const viewers = computed(() => {
-    return NumberService.formatThousands(props.card.viewers);
+    return NumberService.abbreviateNumber(props.card.viewers);
 })
 </script>
 

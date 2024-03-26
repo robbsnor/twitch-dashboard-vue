@@ -5,21 +5,13 @@ import type { Form } from '../models/form.model';
 
 const props = defineProps<{
     form: Form;
-}>()
+}>();
 
 const _additionalVideoInfo = ref(LEKKER_SPELEN_VIDEOS);
 const _categories = computed(() => {
-    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title))
-    const orderedCategories = [...new Set(duplicateCategories.flat())].filter(category => category !== "").sort();
+    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
+    const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
     return orderedCategories;
-})
-const _categoryOptions = computed(() => {
-    return _categories.value.map((category) => {
-        return {
-            value: category,
-            label: category,
-        }
-    })
 })
 </script>
 
@@ -28,34 +20,32 @@ const _categoryOptions = computed(() => {
         <div class="filter-form__section section">
             <h3 class="section__title">Category</h3>
             <div class="section__body">
-                <el-select-v2
-                    v-model="props.form.category"
-                    :options="_categoryOptions"
-                    size="large"
-                    filterable
-                    clearable
-                    placeholder="Please select a category"
-                />
+                <v-combobox placeholder="Search category" :items="_categories" />
             </div>
         </div>
 
         <div class="filter-form__section section">
             <h3 class="section__title">Video types</h3>
             <div class="section__body">
-                <el-radio-group v-model="props.form.type">
-                    <el-radio-button value="all" size="large">All</el-radio-button>
-                    <el-radio-button value="archive" size="large">Streams</el-radio-button>
-                    <el-radio-button value="highlight" size="large">Highlights</el-radio-button>
-                </el-radio-group>
+                <v-btn-toggle v-model="props.form.type">
+                    <v-btn value="all">All</v-btn>
+                    <v-btn value="streams">Streams</v-btn>
+                    <v-btn value="highlights">Highlights</v-btn>
+                </v-btn-toggle>
             </div>
         </div>
 
         <div class="filter-form__section section">
             <h3 class="section__title">Spoilers</h3>
             <div class="section__body">
-                <el-switch v-model="props.form.showTime" active-text="Show time" />
-                <br />
-                <el-switch v-model="props.form.showThumbnails" active-text="Show thumbnails" />
+                <v-switch
+                    v-model="props.form.showDuration"
+                    label="Show thumbnails"
+                />
+                <v-switch
+                    v-model="props.form.showThumbnails"
+                    label="Show thumbnails"
+                />
             </div>
         </div>
     </div>

@@ -1,10 +1,10 @@
 export class NumberService {
     /**
-     * Formats a number by adding a 'k' suffix if the number is greater than 999.
-     * @param num - The number to format.
-     * @returns The formatted number as a string.
+     * Abbreviates a number by adding a suffix to represent thousands or millions.
+     * @param num - The number to be abbreviated.
+     * @returns The abbreviated number as a string.
      */
-    public static formatThousands(num: number) {
+    public static abbreviateNumber(num: number) {
         if (Math.abs(num) > 999999) {
             return Math.sign(num) * (Number((Math.abs(num) / 1000000).toFixed(1))) + 'M';
         }
@@ -20,7 +20,7 @@ export class NumberService {
      * @param num - The number to convert.
      * @returns The converted number as a string.
      */
-    public static singleToDoubleDigits(num: number) {
+    public static singleToDoubleDigits(num: number): string {
         const amountOfNumbers = num.toString().length;
 
         return (amountOfNumbers === 1) ? `0${num}` : `${num}`;
