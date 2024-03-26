@@ -29,9 +29,9 @@ const _pagination = ref('');
 const _cards = ref<CardVideoModel[]>([]);
 const _loadingCards = ref(true);
 
-const getNewCards = async () => {
+const getNewCards = async (amount = 20) => {
     _loadingCards.value = true;
-    const res = await twitchService.getVideosByUserId(Number(props.user?.id), 'all', _pagination.value);
+    const res = await twitchService.getVideosByUserId(Number(props.user?.id), 'all', _pagination.value, amount);
     const videos = res.data;
     _pagination.value = res.pagination.cursor;
     const newCards = UserFactory.mapToCards(videos);
@@ -81,7 +81,7 @@ onMounted(() => {
 
         <div class="user-cards__footer">
             <Spinner v-if="_loadingCards"/>
-            <Button v-else @click="getNewCards">Load more</Button>
+            <Button v-else @click="getNewCards(100)">Load more</Button>
         </div>
 
     </div>
