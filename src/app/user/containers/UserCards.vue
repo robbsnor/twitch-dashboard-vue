@@ -85,7 +85,7 @@ onMounted(() => {
             </div>
         </Section>
 
-        <div class="user-cards__footer">
+        <div class="footer">
             <Spinner v-if="_loadingCards"/>
             <Button v-else @click="getNewCards(100)">Load more</Button>
         </div>
@@ -122,23 +122,18 @@ onMounted(() => {
     }
 }
 
-
 .cards {
     $self: &;
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: rem($padding * 2) rem($padding);
+}
 
-    &__footer {
-        min-height: 200px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    // @include screen(800px) {
-    //
-    // }
+.footer {
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
