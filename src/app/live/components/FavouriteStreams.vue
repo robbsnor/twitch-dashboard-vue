@@ -19,7 +19,7 @@ const cards = computed(() => {
 <template>
     <Section title="Favourites">
         <template #background-art>
-            <Swirl class="favourites-swirl"></Swirl>
+            <Swirl v-if="streams?.length"class="swirl"></Swirl>
         </template>
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
@@ -78,5 +78,4 @@ const cards = computed(() => {
         }
     }
 }
-
 </style>
