@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Section from '@/app/shared/components/Section.vue';
-import Spinner from '@/app/shared/components/Spinner.vue';
 import { useWindowSize } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';

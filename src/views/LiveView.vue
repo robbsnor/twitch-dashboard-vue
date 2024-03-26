@@ -2,8 +2,6 @@
 import FavouriteStreams from '@/app/live/components/FavouriteStreams.vue';
 import NonFavouriteStreams from '@/app/live/components/NonFavouriteStreams.vue';
 import { LiveService } from '@/app/live/services/live.service';
-import Spinner from '@/app/shared/components/Spinner.vue';
-import ZigZag from '@/app/shared/components/ZigZag.vue';
 import { onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
 import { TitleService } from '../app/shared/services/title.service';

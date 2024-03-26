@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import Section from '@/app/shared/components/Section.vue';
 import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
-import Swirl from '@/app/shared/components/Swirl.vue';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];

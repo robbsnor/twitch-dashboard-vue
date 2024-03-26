@@ -7,7 +7,6 @@ import TempTabs from '../app/user/components/TempTabs.vue';
 import UserHeader from '../app/user/components/UserHeader.vue';
 import UserCards from '../app/user/containers/UserCards.vue';
 import { UserFactory } from '../app/user/factories/card-video.factory';
-import Spinner from '../app/shared/components/Spinner.vue';
 
 const twitchService = new TwitchService();
 

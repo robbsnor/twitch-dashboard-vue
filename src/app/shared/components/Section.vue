@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Swirl from './Swirl.vue';
 
 interface Props {
   modifier?: string;

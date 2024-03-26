@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import Button from '../../shared/components/Button.vue';
-import Spinner from '../../shared/components/Spinner.vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import { TwitchService } from '../../shared/services/twitch.service';
 import CardVideo from '../components/CardVideo.vue';
@@ -9,7 +7,6 @@ import FilterForm from '../components/FilterForm.vue';
 import { UserFactory } from '../factories/card-video.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
-import Section from '../../shared/components/Section.vue';
 
 const props = defineProps<{
     user: TwitchUser;
