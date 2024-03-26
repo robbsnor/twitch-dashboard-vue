@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import Button from '../../shared/components/Button.vue';
 import Spinner from '../../shared/components/Spinner.vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
@@ -10,13 +9,11 @@ import FilterForm from '../components/FilterForm.vue';
 import { UserFactory } from '../factories/card-video.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
-import _ from 'lodash';
 
 const props = defineProps<{
     user?: TwitchUser;
 }>()
 
-const { y } = useWindowScroll();
 const twitchService = new TwitchService();
 
 const _drawer = ref(false);
@@ -29,26 +26,30 @@ const _form = ref<Form>({
 })
 const _pagination = ref('');
 
-const _ui = ref({
-    _cards: ref<CardVideoModel[]>([]),
-    _loadingCards: ref(true),
-})
+const _cards = ref<CardVideoModel[]>([]);
+const _loadingCards = ref(true);
 
 const getNewCards = async () => {
-    _ui.value._loadingCards = true;
+    _loadingCards.value = true;
     const res = await twitchService.getVideosByUserId(Number(props.user?.id), 'all', _pagination.value);
     const videos = res.data;
     _pagination.value = res.pagination.cursor;
     const newCards = UserFactory.mapToCards(videos);
 
-    _ui.value._cards = [..._ui.value._cards, ...newCards];
-    _ui.value._loadingCards = false;
+    _cards.value = [..._cards.value, ...newCards];
+    _loadingCards.value = false;
 }
 
 watch(() => props.user, () => {
-    _ui.value._cards = [];
+    _cards.value = [];
     _pagination.value = '';
     getNewCards();
+})
+
+onMounted(() => {
+    if (import.meta.env.DEV) {
+        getNewCards();
+    }
 })
 </script>
 
@@ -70,7 +71,7 @@ watch(() => props.user, () => {
 
         <div class="user-cards__cards">
             <CardVideo
-                v-for="card in _ui._cards"
+                v-for="card in _cards"
                 :key="card.id"
                 :card="card"
                 :showTime="_form.showTime"
@@ -79,7 +80,7 @@ watch(() => props.user, () => {
         </div>
 
         <div class="user-cards__footer">
-            <Spinner v-if="_ui._loadingCards"/>
+            <Spinner v-if="_loadingCards"/>
             <Button v-else @click="getNewCards">Load more</Button>
         </div>
 

@@ -3,7 +3,7 @@ import { DateService } from '@/app/shared/services/date.service';
 import { NumberService } from '@/app/shared/services/number.service';
 import { TimeService } from '@/app/shared/services/time.service';
 import { computed } from 'vue';
-import type { CardVideoModel } from '../models/card-video.model';
+import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 
 interface Props {
   card: CardVideoModel;
