@@ -32,13 +32,11 @@ const vuetify = createVuetify({
     directives,
 });
 
-
 app.use(pinia);
 app.use(router);
 app.use(vuetify);
 app.use(autoAnimatePlugin);
 app.use(ElementPlus);
-
 
 // shared components
 app.component(VueFeather.name, VueFeather);
