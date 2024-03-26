@@ -14,7 +14,7 @@ const emit = defineEmits([])
 
 const classes = computed(() => {
     const firstClass = props.first ? 'section--first' : '';
-    const modifierClass = props.modifier ? `seciton--${props.modifier}` : '';
+    const modifierClass = props.modifier ? `section--${props.modifier}` : '';
 
     return `section ${firstClass} ${modifierClass}`
 })
@@ -47,6 +47,8 @@ const classes = computed(() => {
 @import '/src/assets/styles/mixins/container';
 
 .section {
+    $self: &;
+
     position: relative;
     padding: rem(50px) 0;
 
@@ -78,6 +80,20 @@ const classes = computed(() => {
 
     &--first {
         margin-top: $header-height
+    }
+
+    &--user-cards {
+        padding-top: 0;
+
+        #{ $self }__actions {
+            width: 100%;
+        }
+
+        @include screen(1000px) {
+            #{ $self }__actions {
+                width: unset;
+            }
+        }
     }
 }
 </style>

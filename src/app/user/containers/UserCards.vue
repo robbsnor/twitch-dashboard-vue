@@ -9,6 +9,7 @@ import FilterForm from '../components/FilterForm.vue';
 import { UserFactory } from '../factories/card-video.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
+import Section from '../../shared/components/Section.vue';
 
 const props = defineProps<{
     user?: TwitchUser;
@@ -55,35 +56,39 @@ onMounted(() => {
 
 <template>
     <div class="user-cards">
-        <div class="user-cards__filter">
-            <el-input
-                v-model="_form.search"
-                size="large"
-                placeholder="Search videos..."
-                clearable
-            ></el-input>
-            <vue-feather
-                @click="_drawer = true"
-                type="sliders"
-                class="user-cards__filter-icon"
-            ></vue-feather>
-        </div>
+        <Section modifier="user-cards">
+            <template #actions>
+                <div class="filter">
+                    <el-input
+                        v-model="_form.search"
+                        size="large"
+                        placeholder="Search videos..."
+                        clearable
+                        class="filter__input"
+                    ></el-input>
+                    <vue-feather
+                        @click="_drawer = true"
+                        type="sliders"
+                        class="filter__icon"
+                    ></vue-feather>
+                </div>
+            </template>
 
-        <div class="user-cards__cards">
-            <CardVideo
-                v-for="card in _cards"
-                :key="card.id"
-                :card="card"
-                :showTime="_form.showTime"
-                :showThumbnail="_form.showThumbnails"
-            />
-        </div>
+            <div class="cards">
+                <CardVideo
+                    v-for="card in _cards"
+                    :key="card.id"
+                    :card="card"
+                    :showTime="_form.showTime"
+                    :showThumbnail="_form.showThumbnails"
+                />
+            </div>
+        </Section>
 
         <div class="user-cards__footer">
             <Spinner v-if="_loadingCards"/>
             <Button v-else @click="getNewCards(100)">Load more</Button>
         </div>
-
     </div>
 
     <!-- drawer -->
@@ -100,25 +105,30 @@ onMounted(() => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.user-cards {
-    $self: &;
 
-    &__filter {
-        display: flex;
-        align-items: center;
-        gap: rem($padding);
-        padding-bottom: rem($padding);
+.filter {
+    display: flex;
+    align-items: center;
+    gap: rem($padding);
+    padding-bottom: rem($padding);
+    width: 100%;
+
+    &__input {
+        width: 100%;
     }
 
-    &__filter-icon {
+    &__icon {
         cursor: pointer;
     }
+}
 
-    &__cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: rem($padding * 2) rem($padding);
-    }
+
+.cards {
+    $self: &;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: rem($padding * 2) rem($padding);
 
     &__footer {
         min-height: 200px;

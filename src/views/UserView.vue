@@ -30,8 +30,9 @@ const _userHeader = computedAsync(async () => UserFactory.mapToUserHeader(_user.
 
         <div class="user__container">
             <TempTabs />
-            <UserCards :user="_user" />
         </div>
+
+        <UserCards :user="_user" />
     </div>
 </template>
 
