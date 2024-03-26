@@ -66,13 +66,14 @@ onMounted(() => {
         <Section modifier="user-cards" class="user-cards__section">
             <template #actions>
                 <div class="filter">
-                    <v-combobox v-model="_form.search" :items="_categories" placeholder="Search video..." />
+                    <v-combobox v-model="_form.search" :items="_categories" placeholder="Search video..." class="filter__search" />
 
                     <vue-feather
                         @click="_drawer = true"
+                        v-bind="props"
                         type="sliders"
                         class="filter__icon"
-                    ></vue-feather>
+                    />
                 </div>
             </template>
 
@@ -124,12 +125,13 @@ onMounted(() => {
     gap: rem($padding);
     padding-bottom: rem($padding);
 
-    &__input {
+    &__search {
         width: 100%;
     }
 
     &__icon {
         cursor: pointer;
+        padding: 16px;
     }
 }
 
