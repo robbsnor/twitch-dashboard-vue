@@ -138,7 +138,7 @@ onMounted(() => {
 .filter {
     display: flex;
     align-items: center;
-    gap: rem($padding);
+    gap: rem(8px);
     padding-bottom: rem($padding);
 
     &__search {
