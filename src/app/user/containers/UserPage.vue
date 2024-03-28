@@ -7,6 +7,8 @@ import TempTabs from '../components/TempTabs.vue';
 import UserHeader from '../components/UserHeader.vue';
 import { UserFactory } from '../factories/card-video.factory';
 import UserCards from './UserCards.vue';
+import { TitleService } from '../../shared/services/title.service';
+import { watch } from 'vue';
 
 const twitchService = new TwitchService();
 
@@ -18,6 +20,8 @@ const _user = computedAsync(async () => {
 })
 
 const _userHeader = computedAsync(async () => UserFactory.mapToUserHeader(_user.value));
+
+watch(_user, async () => TitleService.setTitle(_user.value.display_name));
 </script>
 
 <template>

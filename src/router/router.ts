@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 import { useAuthStore } from '../app/auth/stores/auth.store';
 
 const isLoggedWithTwitch = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -16,17 +15,17 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: HomeView,
+            component: () => import('../app/home/containers/HomePage.vue'),
         },
         {
-            path: '/about',
-            name: 'about',
-            component: () => import('../views/AboutView.vue'),
+            path: '/playground',
+            name: 'Playground',
+            component: () => import('../app/playground/containers/PlaygroundPage.vue'),
         },
         {
             path: '/live',
             name: 'live',
-            component: () => import('../views/LiveView.vue'),
+            component: () => import('../app/live/containers/LivePage.vue'),
             beforeEnter: [isLoggedWithTwitch],
         },
         {

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAuthStore } from '../app/auth/stores/auth.store';
-import { useTitle } from '@vueuse/core'
-import { TitleService } from '../app/shared/services/title.service';
+import { useAuthStore } from '../../auth/stores/auth.store';
+import { TitleService } from '../../shared/services/title.service';
 
 const authStore = useAuthStore();
 

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import FavouriteStreams from '@/app/live/components/FavouriteStreams.vue';
-import NonFavouriteStreams from '@/app/live/components/NonFavouriteStreams.vue';
-import { LiveService } from '@/app/live/services/live.service';
 import { onMounted, ref } from 'vue';
-import type { TwitchFollowedStreamWithUser } from '../app/shared/models/twitch/followed-streams.model';
-import { TitleService } from '../app/shared/services/title.service';
-import { TwitchService } from '../app/shared/services/twitch.service';
-import { useFavouriteStore } from '../app/shared/stores/favourites.store';
+import { TitleService } from '../../shared/services/title.service';
+import { TwitchService } from '../../shared/services/twitch.service';
+import { useFavouriteStore } from '../../shared/stores/favourites.store';
+import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
+import { LiveService } from '../services/live.service';
+import FavouriteStreams from '../components/FavouriteStreams.vue';
+import ZigZag from '../../shared/components/ZigZag.vue';
+import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 
 TitleService.setTitle('Live');
 const twitchService = new TwitchService();

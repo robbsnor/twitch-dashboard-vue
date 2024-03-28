@@ -14,13 +14,9 @@ const menus: Menu[] = [
                 url: '/live'
             },
             {
-                text: 'About',
-                url: '/about'
+                text: 'Playground',
+                url: '/playground'
             },
-            // {
-            //     text: 'Channels',
-            //     url: '/channels'
-            // },
         ]
     },
     {
