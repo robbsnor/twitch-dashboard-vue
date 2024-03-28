@@ -80,6 +80,10 @@ const classes = computed(() => {
         margin-top: $header-height
     }
 
+    &--user-cards {
+        padding-top: 0;
+    }
+
     @include screen($desktop) {
         &__header {
             flex-direction: row;
@@ -88,10 +92,6 @@ const classes = computed(() => {
         &__actions {
             min-width: rem(336px);
         }
-    }
-
-    &--user-cards {
-        padding-top: 0;
     }
 }
 </style>
