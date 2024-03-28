@@ -22,7 +22,7 @@ const _form = ref<Form>({
     search: null,
     type: 'all',
     showDuration: true,
-    showThumbnails: true,
+    showThumbnail: true,
 })
 const _pagination = ref('');
 const _cards = ref<CardVideoModel[]>([]);
@@ -112,7 +112,7 @@ onMounted(() => {
                         :key="card.id"
                         :card="card"
                         :showDuration="_form.showDuration"
-                        :showThumbnail="_form.showThumbnails"
+                        :showThumbnail="_form.showThumbnail"
                         class="cards__card"
                     />
                 </div>

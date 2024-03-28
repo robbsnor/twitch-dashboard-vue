@@ -28,8 +28,8 @@ const props = defineProps<{
                     label="Show duration"
                 />
                 <v-switch
-                    v-model="props.form.showThumbnails"
-                    label="Show thumbnails"
+                    v-model="props.form.showThumbnail"
+                    label="Show thumbnail"
                 />
             </div>
         </div>

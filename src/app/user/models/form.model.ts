@@ -4,5 +4,5 @@ export interface Form {
     search: string | null;
     type: VideoTypesModel;
     showDuration: boolean;
-    showThumbnails: boolean;
+    showThumbnail: boolean;
 }
