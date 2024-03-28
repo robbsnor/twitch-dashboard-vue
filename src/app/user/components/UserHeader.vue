@@ -29,7 +29,9 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
                 </div>
             </div>
 
-            <vue-feather class="user-header__favourite" type="heart" />
+            <button class="user-header__favourite">
+                <vue-feather type="heart" />
+            </button>
         </div>
     </div>
 </template>
@@ -100,7 +102,9 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
         font-size: rem(18px)
     }
 
-    &__favourite { }
+    &__favourite {
+        padding: rem(16px);
+    }
 
     @include screen($desktop) {
         height: 300px;
