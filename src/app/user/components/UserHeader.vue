@@ -29,7 +29,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
                 </div>
             </div>
 
-            <vue-feather class="user-header__favourite" type="heart"></vue-feather>
+            <vue-feather class="user-header__favourite" type="heart" />
         </div>
     </div>
 </template>
@@ -46,6 +46,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
     align-items: flex-end;
     height: 200px;
     background-color: $c-black-1;
+    transition: .2s;
 
     &__banner {
         position: absolute;
@@ -61,6 +62,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
 
     &__container {
         @include container;
+
         position: relative;
         display: flex;
         justify-content: space-between;
@@ -99,11 +101,9 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
     }
 
     &__favourite { }
-}
 
-// @include screen(1400px) {
-//     &__body {
-//         grid-template-columns: repeat(5, 1fr);
-//     }
-// }
+    @include screen($desktop) {
+        height: 300px;
+    }
+}
 </style>
