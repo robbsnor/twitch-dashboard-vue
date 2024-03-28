@@ -32,7 +32,7 @@ const router = createRouter({
         {
             path: '/user/:userLogin',
             name: 'user',
-            component: () => import('../views/UserView.vue'),
+            component: () => import('../app/user/containers/UserPage.vue'),
             beforeEnter: [isLoggedWithTwitch],
             // children: [
             //     {

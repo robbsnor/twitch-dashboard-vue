@@ -2,11 +2,11 @@
 import { computedAsync } from '@vueuse/core';
 import { useRouteParams } from '@vueuse/router';
 import { type Ref } from 'vue';
-import { TwitchService } from '../app/shared/services/twitch.service';
-import TempTabs from '../app/user/components/TempTabs.vue';
-import UserHeader from '../app/user/components/UserHeader.vue';
-import UserCards from '../app/user/containers/UserCards.vue';
-import { UserFactory } from '../app/user/factories/card-video.factory';
+import { TwitchService } from '../../shared/services/twitch.service';
+import TempTabs from '../components/TempTabs.vue';
+import UserHeader from '../components/UserHeader.vue';
+import { UserFactory } from '../factories/card-video.factory';
+import UserCards from './UserCards.vue';
 
 const twitchService = new TwitchService();
 
