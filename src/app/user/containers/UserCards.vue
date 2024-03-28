@@ -122,7 +122,7 @@ onMounted(() => {
 
         <div class="user-cards__footer">
             <Spinner v-if="_loadingCards"/>
-            <Button v-else @click="loadMore(100)">Load more</Button>
+            <Button v-else @click="loadMore()">Load more</Button>
         </div>
 
 
