@@ -121,7 +121,7 @@ onMounted(() => {
 
         <div class="user-cards__footer">
             <Spinner v-if="_loadingCards"/>
-            <Button v-else @click="loadMore()">Load more</Button>
+            <Button v-if="!_loadingCards && _pagination" @click="loadMore()">Load more</Button>
         </div>
 
 
