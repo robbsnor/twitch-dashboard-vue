@@ -4,7 +4,7 @@ import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import { TwitchService } from '../../shared/services/twitch.service';
 import CardVideo from '../components/CardVideo.vue';
 import FilterForm from '../components/FilterForm.vue';
-import { UserFactory } from '../factories/card-video.factory';
+import { UserFactory } from '../factories/user.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';

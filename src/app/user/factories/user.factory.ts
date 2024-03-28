@@ -29,7 +29,7 @@ export class UserFactory {
             username: user.display_name,
             banner: user.offline_image_url ?? '',
             avatar: user.profile_image_url,
-            followers: 200,
+            followers: 200, // TODO: make dynamic
             isFavourite: false,
         };
     }

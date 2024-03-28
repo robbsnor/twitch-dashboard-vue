@@ -5,7 +5,7 @@ import { type Ref } from 'vue';
 import { TwitchService } from '../../shared/services/twitch.service';
 import TempTabs from '../components/TempTabs.vue';
 import UserHeader from '../components/UserHeader.vue';
-import { UserFactory } from '../factories/card-video.factory';
+import { UserFactory } from '../factories/user.factory';
 import UserCards from './UserCards.vue';
 import { TitleService } from '../../shared/services/title.service';
 import { watch } from 'vue';
