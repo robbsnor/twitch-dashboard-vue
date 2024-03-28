@@ -36,7 +36,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 <template>
     <Section title="Live channels">
         <template #actions>
-            <v-text-field v-model="_filter" label="" placeholder="Search videos..." />
+            <v-text-field v-model="_filter" label="" placeholder="Search streams..." />
         </template>
 
         <div class="non-favourite">
