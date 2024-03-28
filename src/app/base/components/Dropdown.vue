@@ -51,7 +51,11 @@ const emit = defineEmits(['closeMenu'])
                         <h2 class="nav__title">{{ menu.title }}</h2>
                         <ul>
                             <li v-for="item in menu.items">
-                                <RouterLink @click="emit('closeMenu')" :to="item.url">{{ item.text }}</RouterLink>
+                                <RouterLink
+                                    @click="emit('closeMenu')"
+                                    :to="item.url"
+                                    class="nav__menu-link"
+                                >{{ item.text }}</RouterLink>
                             </li>
                         </ul>
                     </nav>
@@ -147,6 +151,11 @@ const emit = defineEmits(['closeMenu'])
         font-size: rem(38px);
         color: white;
         padding-bottom: rem(15px);
+    }
+
+    &__menu-link {
+        padding: rem(10px) 0;
+        display: block;
     }
 }
 </style>
