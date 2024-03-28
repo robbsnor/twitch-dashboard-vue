@@ -56,24 +56,28 @@ const update = () => {
     getCards();
 }
 
+const searchVideos = async (query: string) => {
+    _loadingCards.value = true;
+    _cards.value = [];
+
+    if (!query) return getCards();
+
+    const videoIds = _additionalVideoInfo.value.filter((video) => {
+        const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
+        const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(query.toLocaleLowerCase()));
+        return matchedTitle || matchedChapters;
+    }).map(video => video.videoId);
+
+    const res = await twitchService.getVideosByVideoIds(videoIds);
+    _cards.value = UserFactory.mapToCards(res.data);
+    _pagination.value = '';
+    _loadingCards.value = false;
+}
+
 watch(
     () => _form.value.search,
     _.debounce( async(query) => {
-        _loadingCards.value = true;
-        _cards.value = [];
-
-        if (!query) return getCards();
-
-        const videoIds = _additionalVideoInfo.value.filter((video) => {
-            const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
-            const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(query.toLocaleLowerCase()));
-            return matchedTitle || matchedChapters;
-        }).map(video => video.videoId);
-
-        const res = await twitchService.getVideosByVideoIds(videoIds);
-        _cards.value = UserFactory.mapToCards(res.data);
-        _pagination.value = '';
-        _loadingCards.value = false;
+        searchVideos(query);
     }, 250)
 )
 
