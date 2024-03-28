@@ -70,6 +70,7 @@ const classes = computed(() => {
         flex-wrap: wrap;
         gap: rem($padding);
         align-items: flex-end;
+        justify-content: space-between;
         padding-bottom: rem(16px);
     }
 
@@ -79,20 +80,6 @@ const classes = computed(() => {
 
     &--first {
         margin-top: $header-height
-    }
-
-    &--user-cards {
-        padding-top: 0;
-
-        #{ $self }__actions {
-            width: 100%;
-        }
-
-        @include screen(1000px) {
-            #{ $self }__actions {
-                width: unset;
-            }
-        }
     }
 }
 </style>

@@ -152,6 +152,8 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap: rem(8px);
+    width: 100%;
+    min-width: rem(336px);
     padding-bottom: rem($padding);
 
     &__search {
@@ -166,7 +168,18 @@ onMounted(() => {
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: rem($padding * 2) rem($padding);
+    gap: rem(50px) rem(30px);
+
+    @include screen($desktop) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include screen(1200px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include screen(1500px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
 </style>
