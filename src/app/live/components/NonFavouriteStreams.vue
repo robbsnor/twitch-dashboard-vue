@@ -58,7 +58,11 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 @import '/src/assets/styles/functions/rem';
 
 .filter {
+    // width: 336px;
     width: 100%;
+
+    // @include screen($desktop) {
+    // }
 }
 
 .non-favourite {
@@ -68,12 +72,16 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 
     &__cards {
         display: grid;
+        margin-left: rem(-$padding);
+        margin-right: rem(-$padding);
     }
 
     @include screen($desktop) {
         &__cards {
             grid-template-columns: repeat(3, 1fr);
             gap: rem(50px) rem(30px);
+            margin-left: 0;
+            margin-right: 0;
         }
 
         &__card {
