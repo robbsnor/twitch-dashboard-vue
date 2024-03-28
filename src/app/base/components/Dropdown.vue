@@ -13,6 +13,10 @@ const menus: Menu[] = [
                 text: 'Live',
                 url: '/live'
             },
+            {
+                text: 'About',
+                url: '/about'
+            },
             // {
             //     text: 'Channels',
             //     url: '/channels'
