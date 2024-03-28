@@ -2,6 +2,62 @@ export const LEKKER_SPELEN_VIDEOS = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2103309044,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/1e9708497a787f61806c_lekkerspelen_17102417565_8808952247/thumb/custom-89d6a122-c987-4d87-97e6-1623116018d3-320x180.jpeg",
+        "title": "Maak je eigen kat 😻",
+        "chapters": [
+            {
+                "title": "Dragon's Dogma II",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/435870350_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2103180779,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/8f5376f260723a4e5074_lekkerspelen_50739294237_1711568200//thumb/thumb0-320x180.jpg",
+        "title": "Maak je eigen kat 😻",
+        "chapters": [
+            {
+                "title": "Dragon's Dogma II",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/435870350_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2101400669,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/04371de66bf5259828d2_lekkerspelen_99840653435_2462584269/thumb/custom-a867dc64-8e02-4ea9-a34e-45ecd3f8fddf-320x180.jpeg",
+        "title": "ROYAL RUMBLE 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "WWE 2K24",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/2043627368_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2101309351,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/28589901b3c00fbe0f04_lekkerspelen_42447378249_1711395570//thumb/thumb0-320x180.jpg",
+        "title": "ROYAL RUMBLE 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "WWE 2K24",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/2043627368_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2096564529,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/ff8a562c8a8a6bbdc9ac_lekkerspelen_89380077180_2463726747/thumb/custom-8e82b849-4090-4fab-bc36-725ec2b53605-320x180.jpeg",
         "title": "PETER vs TIMON: Maart⭐",
