@@ -36,7 +36,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 <template>
     <Section title="Live channels">
         <template #actions>
-            <v-text-field v-model="_filter" label="" placeholder="Search videos..." class="filter" />
+            <v-text-field v-model="_filter" label="" placeholder="Search videos..." />
         </template>
 
         <div class="non-favourite">
@@ -56,14 +56,6 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 @import '/src/assets/styles/var/size';
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
-
-.filter {
-    // min-width: 336px;
-    width: 100%;
-
-    // @include screen($desktop) {
-    // }
-}
 
 .non-favourite {
     &__acctions {
