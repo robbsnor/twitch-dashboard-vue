@@ -15,8 +15,8 @@ export interface TwitchVideo {
     user_name: string;
     title: string;
     description: string;
-    created_at: Date;
-    published_at: Date;
+    created_at: string;
+    published_at: string;
     url: string;
     thumbnail_url: string;
     viewable: string;

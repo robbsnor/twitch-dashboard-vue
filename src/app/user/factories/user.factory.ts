@@ -17,7 +17,7 @@ export class UserFactory {
                 title: video.title,
                 duration: video.duration,
                 views: video.view_count,
-                date: video.published_at,
+                date: new Date(video.published_at),
                 id: parseInt(video.id),
                 // chapters: scrapedVideo?.chapters
             };

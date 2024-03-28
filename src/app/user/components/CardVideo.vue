@@ -18,7 +18,14 @@ const props = withDefaults(defineProps<Props>(), {
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
-const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.date));
+const timeAgo = computed(() => DateService.getFormattedTimeBetweenDates(props.card.date));
+const formattedDate = computed(() => {
+    const day = props.card.date.getDate();
+    const month = props.card.date.toLocaleDateString(undefined, { month: 'long' });
+    const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+    const year = props.card.date.getFullYear();
+    return `${ day } ${ capitalizedMonth } ${ year }`;
+});
 </script>
 
 <template>
@@ -31,13 +38,13 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
                 <!-- <app-myIcon icon="arrow"></app-myIcon> -->
             </div>
             <div class="card-video__views">{{ views }}</div>
-            <div v-if="props.showDuration" class="card-video__duration">{{ duration }}</div>
+         <div v-if="props.showDuration" class="card-video__duration">{{ duration }}</div>
         </a>
 
-        <div class="card-video__text">
-            <div class="card-video__info">
-                <div class="card-video__title">{{ props.card.title }}</div>
-                <div class="card-video__uploaded">{{ date }}</div>
+        <div class="card-video__info">
+            <div class="card-video__title">{{ props.card.title }}</div>
+            <div class="card-video__date-wrapper">
+                <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
             </div>
         </div>
     </div>
@@ -124,36 +131,35 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
         z-index: -1;
     }
 
-    &__text {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        gap: rem(15px);
-        padding: rem(12px) 0 0;
-    }
-
-    &__info {
-        overflow: hidden;
-        flex: 1;
-    }
-
     &__options {
         transform: translateX(10px);
         transition: .2s;
     }
 
+    &__info {
+        padding-top: rem(10px);
+    }
+
     &__title {
-        flex-shrink: 0;
         color: $c-white;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        padding-bottom: rem(8px);
     }
 
-    &__uploaded {
+    &__date-wrapper {
         font-size: rem(16px);
-        padding: rem(6px) 0 0;
+        overflow: hidden;
         color: $c-white--dark;
+    }
+
+    &__time-ago {
+        transition: .2s;
+    }
+
+    &__date {
+        color: $c-black-10;
     }
 
     &__chapters {
