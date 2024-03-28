@@ -24,12 +24,12 @@ export class UserFactory {
         });
     }
 
-    public static mapToUserHeader(user: TwitchUser): UserHeaderProps {
+    public static mapToUserHeader(user: TwitchUser, followers: number): UserHeaderProps {
         return {
             username: user.display_name,
             banner: user.offline_image_url ?? '',
             avatar: user.profile_image_url,
-            followers: 200, // TODO: make dynamic
+            followers: followers,
             isFavourite: false,
         };
     }

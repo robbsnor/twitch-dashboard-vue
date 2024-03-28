@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VueFeather from 'vue-feather';
 import { NumberService } from '../../shared/services/number.service';
+import { computed } from 'vue';
 
 export interface UserHeaderProps {
     username: string;
@@ -12,8 +13,7 @@ export interface UserHeaderProps {
 
 const props = defineProps<UserHeaderProps>();
 
-const formattedFollowers = () => `${NumberService.abbreviateNumber(props.followers)} Followers`;
-
+const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(props.followers)} Followers`);
 </script>
 
 <template>
@@ -25,7 +25,7 @@ const formattedFollowers = () => `${NumberService.abbreviateNumber(props.followe
                 <img class="user-header__avatar" :src="props.avatar" alt="Lunpias avatar">
                 <div class="user-header__info">
                     <div class="user-header__name">{{ props.username }}</div>
-                    <!-- <div class="user-header__followers">{{ formattedFollowers }}</div> -->
+                    <div class="user-header__followers">{{ formattedFollowers }}</div>
                 </div>
             </div>
 

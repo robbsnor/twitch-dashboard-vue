@@ -12,5 +12,5 @@ export interface TwitchUser {
     description: string;
     profile_image_url: string;
     offline_image_url?: string;
-    created_at: Date;
+    created_at: string;
 }

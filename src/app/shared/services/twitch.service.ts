@@ -38,7 +38,6 @@ export class TwitchService {
         if (res.data.data.length === 0) throw new Error('No users found');
 
         const unorderedUsers = res.data.data;
-
         let orderedUsers: TwitchUser[] = [];
 
         // it will find one
@@ -57,7 +56,6 @@ export class TwitchService {
         }
 
         res.data.data = orderedUsers;
-
         return res.data;
     }
 
@@ -90,9 +88,9 @@ export class TwitchService {
         ids: number[],
     ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
-
         if (ids.length > 100) ids = ids.slice(0, 100);
         if (ids.length === 0) return { data: [] };
+
         ids.forEach(id => url.searchParams.append('id', id.toString()));
         const res = await this.http.get<TwitchGetVideos>(url.toString());
         const unorderedVideos = res.data.data;
@@ -103,7 +101,6 @@ export class TwitchService {
             return unorderedVideos.find(unorderedUser => Number(unorderedUser.id) === id);
         });
         res.data.data = orderedVideos;
-
         return res.data;
     }
 
@@ -111,16 +108,13 @@ export class TwitchService {
     public async getFollowedStreamsWithUsers() {
         const followedStreams = await this.getFollowedStreams();
         const userIds = followedStreams.map(stream => Number(stream.user_id));
-
         const users = (await this.getUsers({ ids: userIds })).data;
-
         const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
             return {
                 ...followedStreams[index],
                 ...users[index]
             };
         });
-
         return streamsWithUser;
     }
 
