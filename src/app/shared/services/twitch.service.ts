@@ -1,6 +1,6 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../../auth/stores/auth.store";
-import type { TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
+import type { TwitchFollowedStream, TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
 import type { TwitchGetVideos, TwitchVideo } from './../models/twitch/videos.model';
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
@@ -29,7 +29,7 @@ export class TwitchService {
     }
 
     // api calls
-    public async getUsers(user: UserIdsOrLogins) {
+    public async getUsers(user: UserIdsOrLogins): Promise<TwitchGetUsers> {
         const url = new URL('https://api.twitch.tv/helix/users');
         if (user.ids) user.ids.forEach(id => url.searchParams.append('id', id.toString()));
         if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login.toString()));
@@ -59,7 +59,7 @@ export class TwitchService {
         return res.data;
     }
 
-    public async getFollowedStreams() {
+    public async getFollowedStreams(): Promise<TwitchFollowedStream[]> {
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
         const userId = this.authStore.user!.id;
         url.searchParams.append('user_id', userId);
@@ -73,7 +73,7 @@ export class TwitchService {
         after?: string, // cursor
         amount: number = 20,
         // options?: TwitchGetVideosOptions,
-    ) {
+    ): Promise<TwitchGetVideos> {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
         url.searchParams.append('type', type);
@@ -86,7 +86,7 @@ export class TwitchService {
 
     public async getVideosByVideoIds(
         ids: number[],
-    ) {
+    ): Promise<TwitchGetVideos | { data: never[]; }> {
         const url = new URL('https://api.twitch.tv/helix/videos');
         if (ids.length > 100) ids = ids.slice(0, 100);
         if (ids.length === 0) return { data: [] };
@@ -105,7 +105,7 @@ export class TwitchService {
     }
 
 
-    public async getFollowedStreamsWithUsers() {
+    public async getFollowedStreamsWithUsers(): Promise<TwitchFollowedStreamWithUser[]> {
         const followedStreams = await this.getFollowedStreams();
         const userIds = followedStreams.map(stream => Number(stream.user_id));
         const users = (await this.getUsers({ ids: userIds })).data;
@@ -118,7 +118,7 @@ export class TwitchService {
         return streamsWithUser;
     }
 
-    public async getFollowedChannels(userId: number, broadcasterId?: number) {
+    public async getFollowedChannels(userId: number, broadcasterId?: number): Promise<TwitchGetFollowedChannels> {
         const url = new URL('https://api.twitch.tv/helix/channels/followed');
         url.searchParams.append('user_id', userId.toString());
         if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
@@ -127,7 +127,7 @@ export class TwitchService {
         return res.data;
     }
 
-    public async getChannelFollowers(broadcasterId: number) {
+    public async getChannelFollowers(broadcasterId: number): Promise<TwitchGetChannelFollowers> {
         const url = new URL('https://api.twitch.tv/helix/channels/followers');
         url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
@@ -135,7 +135,7 @@ export class TwitchService {
         return res.data;
     }
 
-    public async checkUserSubscription(userId: number, broadcasterId: number) {
+    public async checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
         const url = new URL('https://api.twitch.tv/helix/subscriptions/user');
         url.searchParams.append('user_id', userId.toString());
         url.searchParams.append('broadcaster_id', broadcasterId.toString());
