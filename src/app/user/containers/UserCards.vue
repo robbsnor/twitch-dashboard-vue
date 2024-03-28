@@ -29,10 +29,16 @@ const _pagination = ref('');
 const _cards = ref<CardVideoModel[]>([]);
 const _loadingCards = ref(true);
 
-const getNewCards = async (amount = 20) => {
+const _categories = computed(() => {
+    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
+    const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
+    return orderedCategories;
+})
+
+const getCards = async (amount = 20, pagination?: string) => {
     _loadingCards.value = true;
 
-    const res = await twitchService.getVideosByUserId(Number(props.user.id), 'all', _pagination.value, amount);
+    const res = await twitchService.getVideosByUserId(Number(props.user.id), 'all', pagination, amount);
     _pagination.value = res.pagination.cursor;
 
     const videos = res.data;
@@ -42,31 +48,34 @@ const getNewCards = async (amount = 20) => {
     _loadingCards.value = false;
 }
 
-const _categories = computed(() => {
-    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
-    const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
-    return orderedCategories;
-})
+const loadMore = () => getCards(100, _pagination.value);
 
 const update = () => {
     _cards.value = [];
     _pagination.value = '';
-    getNewCards();
+    getCards();
 }
 
-// watch(
-//     () => _form.value.search,
-//     async (newValue?) => {
-//         if (!newValue) return;
-//
-//         console.log(`Searching: ${newValue}`)
-//         const foundVideos = LEKKER_SPELEN_VIDEOS.filter(video => video.title.toLowerCase().includes(newValue.toLowerCase()));
-//         const ids = foundVideos.map(video => video.videoId);
-//
-//         const videos = await twitchService.getVideosByVideoIds(ids);
-//         _cards.value = UserFactory.mapToCards(videos.data);
-//     },
-// )
+watch(
+    () => _form.value.search,
+    _.debounce( async(query) => {
+        _loadingCards.value = true;
+        _cards.value = [];
+
+        if (!query) return getCards();
+
+        const videoIds = _additionalVideoInfo.value.filter((video) => {
+            const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
+            const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(query.toLocaleLowerCase()));
+            return matchedTitle || matchedChapters;
+        }).map(video => video.videoId);
+
+        const res = await twitchService.getVideosByVideoIds(videoIds);
+        _cards.value = UserFactory.mapToCards(res.data);
+        _pagination.value = '';
+        _loadingCards.value = false;
+    }, 250)
+)
 
 watch(() => props.user, () => {
     update();
@@ -109,7 +118,7 @@ onMounted(() => {
 
         <div class="user-cards__footer">
             <Spinner v-if="_loadingCards"/>
-            <Button v-else @click="getNewCards(100)">Load more</Button>
+            <Button v-else @click="loadMore(100)">Load more</Button>
         </div>
 
 
