@@ -1,17 +1,10 @@
 <script setup lang="ts">
-import Section from '@/app/shared/components/Section.vue';
-import { computed, onMounted, onUnmounted, ref, type Ref } from 'vue';
+import { useWindowSize } from '@vueuse/core';
+import { computed, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
-import Spinner from '@/app/shared/components/Spinner.vue';
 import type { CardLiveSize } from '../models/card-live.model';
-import { useWindowSize } from '@vueuse/core';
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import InputIcon from 'primevue/inputicon';
-import IconField from 'primevue/iconfield';
-
 
 const { width } = useWindowSize();
 
@@ -19,43 +12,37 @@ const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>()
 
-const filter = ref('');
-const filterEl = ref<HTMLInputElement>();
-
-const cards = computed(() => {
+const _filter = ref('');
+const _cards = computed(() => {
     if (!props.streams) return;
     // TODO: Have a normal and small card ref
     return LiveFactory.mapToCardLiveNormal(props.streams);
 })
 
-const filteredCards = computed(() => {
-    return cards.value?.filter(card => {
-        const nameMatch = card.name.toLowerCase().includes(filter.value.toLowerCase());
-        const gameMatch = card.game.toLowerCase().includes(filter.value.toLowerCase());
-        const titleMatch = card.title.toLowerCase().includes(filter.value.toLowerCase());
-        const idMatch = card.userId.toString().toLowerCase().includes(filter.value.toLowerCase());
+const _filteredCards = computed(() => {
+    return _cards.value?.filter(card => {
+        const nameMatch = card.name.toLowerCase().includes(_filter.value.toLowerCase());
+        const gameMatch = card.game.toLowerCase().includes(_filter.value.toLowerCase());
+        const titleMatch = card.title.toLowerCase().includes(_filter.value.toLowerCase());
+        const idMatch = card.userId.toString().toLowerCase().includes(_filter.value.toLowerCase());
 
         return nameMatch || gameMatch || titleMatch || idMatch;
     })
 })
 
-
-const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
+const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 </script>
 
 <template>
     <Section title="Live channels">
         <template #actions>
-            <IconField iconPosition="left">
-                <InputIcon class="pi pi-search"></InputIcon>
-                <InputText v-model="filter" placeholder="Search" />
-            </IconField>
+            <v-text-field v-model="_filter" label="" placeholder="Search videos..." />
         </template>
 
         <div class="non-favourite">
-            <div v-if="filteredCards" class="non-favourite__cards">
-                <div v-for="card in filteredCards" :key="card.userId" class="non-favourite__card" v-auto-animate>
-                    <CardLive :card="card" :size="cardSize"></CardLive>
+            <div v-if="_filteredCards" class="non-favourite__cards">
+                <div v-for="card in _filteredCards" :key="card.userId" class="non-favourite__card" v-auto-animate>
+                    <CardLive :card="card" :size="_cardSize"></CardLive>
                 </div>
             </div>
 
@@ -77,9 +64,6 @@ const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : '
 
     &__cards {
         display: grid;
-    }
-
-    &__card {
         margin-left: rem(-$padding);
         margin-right: rem(-$padding);
     }
@@ -88,6 +72,8 @@ const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : '
         &__cards {
             grid-template-columns: repeat(3, 1fr);
             gap: rem(50px) rem(30px);
+            margin-left: 0;
+            margin-right: 0;
         }
 
         &__card {

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import HeaderAvatar from './HeaderAvatar.vue';
-import Button from '../../shared/components/Button.vue';
-import Logo from '../../shared/components/Logo.vue';
 
 const props = defineProps<{
   user?: any;
@@ -21,7 +19,9 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
             </div>
 
             <RouterLink to="/live" class="header__logo">
-                <Logo />
+                <Logo :isBig="true" />
+                <!-- <Logo :isBig="false" /> -->
+
             </RouterLink>
 
             <div class="header__right">
@@ -68,7 +68,6 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
 
     &__logo {
         display: none;
-        width: 250px;
     }
 
     &__right {

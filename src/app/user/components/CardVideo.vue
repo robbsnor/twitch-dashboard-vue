@@ -3,27 +3,29 @@ import { DateService } from '@/app/shared/services/date.service';
 import { NumberService } from '@/app/shared/services/number.service';
 import { TimeService } from '@/app/shared/services/time.service';
 import { computed } from 'vue';
-import type { CardVideo } from '../models/card-video.model';
+import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 
 interface Props {
-  card: CardVideo;
+  card: CardVideoModel;
   showDuration?: boolean;
+  showThumbnail?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     showDuration: true,
+    showThumbnail: true,
 })
 
-const views = computed(() => NumberService.formatThousands(props.card.views));
+const views = computed(() => NumberService.abbreviateNumber(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
 const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.date));
 </script>
 
 <template>
     <div class="card-video">
-        <a :href="card.link" target="_blank" class="card-video__thumbnail-container">
-            <span class="sr-only">Watch {{ card.title }} video</span>
-            <img :src="card.thumbnail" class="card-video__thumbnail" />
+        <a :href="props.card.link" target="_blank" class="card-video__thumbnail-container">
+            <span class="sr-only">Watch {{ props.card.title }} video</span>
+            <img v-if="props.showThumbnail" :src="props.card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
             <div class="card-video__thumbnail-overlay"></div>
             <div class="card-video__arrow">
                 <!-- <app-myIcon icon="arrow"></app-myIcon> -->
@@ -34,7 +36,7 @@ const date = computed(() => DateService.getFormattedTimeBetweenDates(props.card.
 
         <div class="card-video__text">
             <div class="card-video__info">
-                <div class="card-video__title">{{ card.title }}</div>
+                <div class="card-video__title">{{ props.card.title }}</div>
                 <div class="card-video__uploaded">{{ date }}</div>
             </div>
         </div>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { NumberService } from '@/app/shared/services/number.service';
 import { computed } from 'vue';
-import type { CardLive, CardLiveSize } from '../models/card-live.model';
+import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
 
 interface Props {
-  card: CardLive;
+  card: CardLiveModel;
   size?: CardLiveSize;
 }
 
@@ -18,7 +18,7 @@ const classes = computed(() => {
 })
 
 const viewers = computed(() => {
-    return NumberService.formatThousands(props.card.viewers);
+    return NumberService.abbreviateNumber(props.card.viewers);
 })
 </script>
 
@@ -29,13 +29,13 @@ const viewers = computed(() => {
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-small__options"></button> -->
-            <img :src="card.thumbnail" class="card-small__thumbnail">
+            <img :src="card.thumbnail" class="card-small__thumbnail" alt="thumbnail">
         </div>
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game">{{ card.game }}</div>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar">
+                <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar">
                 <div class="card-small__username">{{ card.name }}</div>
             </RouterLink>
         </div>
@@ -46,7 +46,7 @@ const viewers = computed(() => {
     <div v-if="size === 'normal'" :class="classes" class="card-normal">
         <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-normal__thumbnail">
+            <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail">
             <div class="card-normal__thumbnail-overlay"></div>
             <div class="card-normal__arrow">(icon)</div>
             <div class="card-normal__viewers">{{ viewers }}</div>
@@ -55,7 +55,7 @@ const viewers = computed(() => {
         <div class="card-normal__game">{{ card.game }}</div>
         <div class="card-normal__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar">
+                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar">
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" class="card-normal__options"></button> -->
@@ -66,7 +66,7 @@ const viewers = computed(() => {
     <div v-if="size === 'fancy'" :class="classes" class="card-fancy">
         <div class="card-fancy__header">
             <RouterLink :to="`/user/${card.name}`" class="card-fancy__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar">
+                <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar" alt="avatar">
                 <div class="card-fancy__username">{{ card.name }}</div>
             </RouterLink>
             <div class="card-fancy__viewers">{{ viewers }}</div>
@@ -74,7 +74,7 @@ const viewers = computed(() => {
         </div>
         <div class="card-fancy__game">{{ card.game }}</div>
         <div class="card-fancy__title">{{ card.title }}</div>
-        <img :src="card.thumbnail" class="card-fancy__thumbnail">
+        <img :src="card.thumbnail" class="card-fancy__thumbnail" alt="thumbnail">
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
         <a :href="card.link" target="_blank" class="card-fancy__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>

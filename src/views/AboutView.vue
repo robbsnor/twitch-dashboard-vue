@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import MultiSelect from 'primevue/multiselect';
-import InputText from 'primevue/inputtext';
-import Slider from 'primevue/slider';
-import Card from 'primevue/card';
-import Button from 'primevue/button';
 
-const value = ref(50);
+const pizza = ref();
+const visible = ref(true);
 const selectedCities = ref();
 const cities = ref([
     { name: 'New York', code: 'NY' },
@@ -19,38 +15,50 @@ const cities = ref([
 </script>
 
 <template>
- <div class="card flex justify-content-center">
-        <MultiSelect v-model="selectedCities" :options="cities" optionLabel="name" placeholder="Select Cities"
-            :maxSelectedLabels="3" class="w-full md:w-20rem" />
-    </div>
+    <Button icon="pi pi-arrow-right" @click="visible = true" />
 
-    <div class="card flex justify-content-center">
-        <div class="w-14rem">
+    <Sidebar v-model:visible="visible" header="Sidebar" position="bottom">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <MultiSelect v-model="selectedCities" :options="cities" optionLabel="name" placeholder="Select Cities" :maxSelectedLabels="3" class="w-full md:w-20rem" />
 
-            <!-- <InputText v-model.number="value" class="w-full mb-3" /> -->
-            <Slider v-model="value" class="w-full" />
+        <div class="card flex flex-wrap justify-content-center gap-3">
+            <div class="flex align-items-center">
+                <Checkbox v-model="pizza" inputId="ingredient1" name="pizza" value="Cheese" />
+                <label for="ingredient1" class="ml-2"> Cheese </label>
+            </div>
+            <div class="flex align-items-center">
+                <Checkbox v-model="pizza" inputId="ingredient2" name="pizza" value="Mushroom" />
+                <label for="ingredient2" class="ml-2"> Mushroom </label>
+            </div>
+            <div class="flex align-items-center">
+                <Checkbox v-model="pizza" inputId="ingredient3" name="pizza" value="Pepper" />
+                <label for="ingredient3" class="ml-2"> Pepper </label>
+            </div>
+            <div class="flex align-items-center">
+                <Checkbox v-model="pizza" inputId="ingredient4" name="pizza" value="Onion" />
+                <label for="ingredient4" class="ml-2"> Onion </label>
+            </div>
+        </div>
+    </Sidebar>
+
+    <div class="card flex flex-wrap justify-content-center gap-3">
+        <div class="flex align-items-center">
+            <Checkbox v-model="pizza" inputId="ingredient1" name="pizza" value="Cheese" />
+            <label for="ingredient1" class="ml-2"> Cheese </label>
+        </div>
+        <div class="flex align-items-center">
+            <Checkbox v-model="pizza" inputId="ingredient2" name="pizza" value="Mushroom" />
+            <label for="ingredient2" class="ml-2"> Mushroom </label>
+        </div>
+        <div class="flex align-items-center">
+            <Checkbox v-model="pizza" inputId="ingredient3" name="pizza" value="Pepper" />
+            <label for="ingredient3" class="ml-2"> Pepper </label>
+        </div>
+        <div class="flex align-items-center">
+            <Checkbox v-model="pizza" inputId="ingredient4" name="pizza" value="Onion" />
+            <label for="ingredient4" class="ml-2"> Onion </label>
         </div>
     </div>
-
-    <Card style="width: 25rem; overflow: hidden">
-    <template #header>
-        <img alt="user header" />
-    </template>
-    <template #title>Advanced Card</template>
-    <template #subtitle>Card subtitle</template>
-    <template #content>
-        <p class="m-0">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-            quas!
-        </p>
-    </template>
-    <template #footer>
-        <div class="flex gap-3 mt-1">
-            <Button label="Cancel" severity="secondary" outlined class="w-full" />
-            <Button label="Save" class="w-full" />
-        </div>
-    </template>
-</Card>
 </template>
 
 <style></style>

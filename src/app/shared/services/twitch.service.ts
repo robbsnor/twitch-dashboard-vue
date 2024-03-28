@@ -6,8 +6,9 @@ import type { TwitchGetVideos, TwitchVideo } from './../models/twitch/videos.mod
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
+import type { VideoTypesModel } from "../models/twitch/video-types.model";
 
-export interface User {
+export interface UserIdsOrLogins {
     ids?: number[];
     logins?: string[];
 }
@@ -28,7 +29,7 @@ export class TwitchService {
     }
 
     // api calls
-    public async getUsers(user: User) {
+    public async getUsers(user: UserIdsOrLogins) {
         const url = new URL('https://api.twitch.tv/helix/users');
         if (user.ids) user.ids.forEach(id => url.searchParams.append('id', id.toString()));
         if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login.toString()));
@@ -55,7 +56,9 @@ export class TwitchService {
             });
         }
 
-        return orderedUsers;
+        res.data.data = orderedUsers;
+
+        return res.data;
     }
 
     public async getFollowedStreams() {
@@ -68,13 +71,15 @@ export class TwitchService {
 
     public async getVideosByUserId(
         userId: number,
+        type: VideoTypesModel = 'all',
         after?: string, // cursor
         amount: number = 20,
         // options?: TwitchGetVideosOptions,
     ) {
         const url = new URL('https://api.twitch.tv/helix/videos');
         url.searchParams.append('user_id', userId.toString());
-        url.searchParams.append('first', amount.toString()); // temp
+        url.searchParams.append('type', type);
+        url.searchParams.append('first', amount.toString());
         if (after) url.searchParams.append('after', after);
 
         const res = await this.http.get<TwitchGetVideos>(url.toString());
@@ -107,7 +112,7 @@ export class TwitchService {
         const followedStreams = await this.getFollowedStreams();
         const userIds = followedStreams.map(stream => Number(stream.user_id));
 
-        const users = await this.getUsers({ ids: userIds });
+        const users = (await this.getUsers({ ids: userIds })).data;
 
         const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
             return {

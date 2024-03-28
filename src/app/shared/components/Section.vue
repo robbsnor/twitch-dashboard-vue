@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Swirl from './Swirl.vue';
 
 interface Props {
   modifier?: string;
@@ -14,7 +13,7 @@ const emit = defineEmits([])
 
 const classes = computed(() => {
     const firstClass = props.first ? 'section--first' : '';
-    const modifierClass = props.modifier ? `seciton--${props.modifier}` : '';
+    const modifierClass = props.modifier ? `section--${props.modifier}` : '';
 
     return `section ${firstClass} ${modifierClass}`
 })
@@ -47,6 +46,8 @@ const classes = computed(() => {
 @import '/src/assets/styles/mixins/container';
 
 .section {
+    $self: &;
+
     position: relative;
     padding: rem(50px) 0;
 
@@ -65,10 +66,9 @@ const classes = computed(() => {
 
     &__header {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        flex-wrap: wrap;
         gap: rem($padding);
-        align-items: flex-end;
         padding-bottom: rem(16px);
     }
 
@@ -78,6 +78,20 @@ const classes = computed(() => {
 
     &--first {
         margin-top: $header-height
+    }
+
+    &--user-cards {
+        padding-top: 0;
+    }
+
+    @include screen($desktop) {
+        &__header {
+            flex-direction: row;
+        }
+
+        &__actions {
+            min-width: rem(336px);
+        }
     }
 }
 </style>

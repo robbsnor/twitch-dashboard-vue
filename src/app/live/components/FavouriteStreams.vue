@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import Section from '@/app/shared/components/Section.vue';
 import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
-import Swirl from '@/app/shared/components/Swirl.vue';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -19,7 +17,7 @@ const cards = computed(() => {
 <template>
     <Section title="Favourites">
         <template #background-art>
-            <Swirl class="favourites-swirl"></Swirl>
+            <Swirl v-if="streams?.length"class="swirl"></Swirl>
         </template>
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
@@ -78,5 +76,4 @@ const cards = computed(() => {
         }
     }
 }
-
 </style>
