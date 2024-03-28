@@ -66,11 +66,9 @@ const classes = computed(() => {
 
     &__header {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        flex-wrap: wrap;
         gap: rem($padding);
-        align-items: flex-end;
-        justify-content: space-between;
         padding-bottom: rem(16px);
     }
 
@@ -80,6 +78,20 @@ const classes = computed(() => {
 
     &--first {
         margin-top: $header-height
+    }
+
+    @include screen($desktop) {
+        &__header {
+            flex-direction: row;
+        }
+
+        &__actions {
+            min-width: rem(336px);
+        }
+    }
+
+    &--user-cards {
+        padding-top: 0;
     }
 }
 </style>

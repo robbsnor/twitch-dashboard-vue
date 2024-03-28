@@ -58,7 +58,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 @import '/src/assets/styles/functions/rem';
 
 .filter {
-    // width: 336px;
+    // min-width: 336px;
     width: 100%;
 
     // @include screen($desktop) {
