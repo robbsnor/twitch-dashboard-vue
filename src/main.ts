@@ -32,12 +32,12 @@ const vuetify = createVuetify({
             ripple: false,
         },
         VTextField: {
-            variant: 'solo-filled',
+            variant: 'solo',
             clearable: true,
             hideDetails: true,
         },
         VCombobox: {
-            variant: 'solo-filled',
+            variant: 'solo',
             clearable: true,
             hideDetails: true,
         },

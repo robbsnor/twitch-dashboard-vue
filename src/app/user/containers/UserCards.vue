@@ -94,13 +94,13 @@ onMounted(() => {
         <Section modifier="user-cards" class="user-cards__section">
             <template #actions>
                 <div class="filter">
-                    <v-combobox v-model="_form.search" :items="_categories" placeholder="Search video..." class="filter__search" />
-
-                    <vue-feather
-                        @click="_drawer = true"
-                        v-bind="props"
-                        type="sliders"
-                        class="filter__icon"
+                    <v-combobox
+                        v-model="_form.search"
+                        appendIcon="mdi-filter-variant"
+                        @click:append="_drawer = true"
+                        :items="_categories"
+                        placeholder="Search video..."
+                        class="filter__search"
                     />
                 </div>
             </template>
@@ -154,15 +154,6 @@ onMounted(() => {
     width: 100%;
     min-width: rem(336px);
     padding-bottom: rem($padding);
-
-    &__search {
-        width: 100%;
-    }
-
-    &__icon {
-        cursor: pointer;
-        padding: 16px;
-    }
 }
 
 .cards {
