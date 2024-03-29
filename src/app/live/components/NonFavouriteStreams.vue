@@ -12,7 +12,7 @@ const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>()
 
-const _filter = ref('');
+const _filter = ref<String | null>('');
 const _cards = computed(() => {
     if (!props.streams) return;
     // TODO: Have a normal and small card ref
@@ -21,6 +21,10 @@ const _cards = computed(() => {
 
 const _filteredCards = computed(() => {
     return _cards.value?.filter(card => {
+        // clicking the clear button sets the value to null,
+        // we cannot opperate on null, so we set it to an empty string
+        if (_filter.value === null) _filter.value = '';
+
         const nameMatch = card.name.toLowerCase().includes(_filter.value.toLowerCase());
         const gameMatch = card.game.toLowerCase().includes(_filter.value.toLowerCase());
         const titleMatch = card.title.toLowerCase().includes(_filter.value.toLowerCase());
