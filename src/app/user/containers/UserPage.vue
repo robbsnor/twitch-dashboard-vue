@@ -30,7 +30,7 @@ watch(_user, async () => {
 
 <template>
     <div class="user">
-        <template v-if="_user">
+        <template v-if="_user && _userHeader">
             <UserHeader
                 v-if="_userHeader"
                 v-bind="_userHeader"
