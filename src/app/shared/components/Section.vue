@@ -61,7 +61,6 @@ const classes = computed(() => {
     &__header,
     &__body {
         @include container();
-        overflow: hidden;
     }
 
     &__header {
