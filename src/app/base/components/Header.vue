@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import HeaderAvatar from './HeaderAvatar.vue';
 
 const props = defineProps<{
   user?: any;
 }>()
+
+const items = ref(['account', 'settings', 'logout'].map((title) => ({ title })))
 const emit = defineEmits(['clickProfile', 'clickHamburger'])
 </script>
 
@@ -25,12 +28,23 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
             </RouterLink>
 
             <div class="header__right">
-                <button @click="emit('clickProfile')" class="header__user">
+                <button class="header__user">
                     <span class="sr-only">Username</span>
                     <HeaderAvatar
                         v-if="props.user"
                         :image="props.user.profile_image_url"
                     />
+                    <v-menu activator="parent">
+                        <v-list>
+                            <v-list-item
+                                v-for="(item, index) in items"
+                                :key="index"
+                                :value="index"
+                            >
+                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
                 </button>
             </div>
         </div>

@@ -103,7 +103,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
     }
 
     &__favourite {
-        padding: rem(16px);
+        padding: rem(16px) 0;
     }
 
     @include screen($desktop) {
