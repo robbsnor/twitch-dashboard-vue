@@ -16,7 +16,7 @@ export default defineConfig({
                 display: "standalone",
                 theme_color: "#000000",
                 background_color: "#000000",
-                start_url: "/live",
+                start_url: "/following/live",
                 icons: [
                     {
                         src: 'pwa-64x64.png',

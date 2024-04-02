@@ -21,8 +21,8 @@ onMounted(async () => {
     const favouriteIds = favourtieStore.getFavourites();
 
     _allStreams.value = await twitchService.getFollowedStreamsWithUsers();
-    _favouriteStreams.value = LiveService.orderFavorites(favouriteIds, _allStreams.value);
-    _nonFavouriteStreams.value = _allStreams.value.filter(stream => !favouriteIds?.includes(Number(stream.id)));
+    _favouriteStreams.value = LiveService.getFavourites(favouriteIds, _allStreams.value);
+    _nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds, _allStreams.value);
 })
 </script>
 

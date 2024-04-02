@@ -11,7 +11,11 @@ const menus: Menu[] = [
             },
             {
                 text: 'Live',
-                url: '/live'
+                url: '/following/live'
+            },
+            {
+                text: 'Users',
+                url: '/following/users'
             },
             {
                 text: 'Playground',

@@ -23,9 +23,15 @@ const router = createRouter({
             component: () => import('../app/playground/containers/PlaygroundPage.vue'),
         },
         {
-            path: '/live',
+            path: '/following/live',
             name: 'live',
-            component: () => import('../app/live/containers/LivePage.vue'),
+            component: () => import('../app/following/containers/LivePage.vue'),
+            beforeEnter: [isLoggedWithTwitch],
+        },
+        {
+            path: '/following/users',
+            name: 'users',
+            component: () => import('../app/following/containers/UsersPage.vue'),
             beforeEnter: [isLoggedWithTwitch],
         },
         {
