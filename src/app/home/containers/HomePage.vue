@@ -32,7 +32,7 @@ const singInUrl = computed(() => {
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
-                    <RouterLink v-if="authStore.user" to="/live">
+                    <RouterLink v-if="authStore.user" to="/following/live">
                         <Button >Dashboard</Button>
                     </RouterLink>
                     <a v-else :href="singInUrl">

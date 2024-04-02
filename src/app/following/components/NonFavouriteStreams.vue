@@ -12,6 +12,7 @@ const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>()
 
+const _gamePickerDialog = ref(false);
 const _filter = ref<String | null>('');
 const _cards = computed(() => {
     if (!props.streams) return;
@@ -34,13 +35,37 @@ const _filteredCards = computed(() => {
     })
 })
 
+const _categories = computed(() => {
+    const duplicateCategories = _cards.value?.map(card => card.game).sort();
+    const categories = [...new Set(duplicateCategories)];
+    return categories
+})
+
 const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 </script>
 
 <template>
     <Section title="Live channels">
         <template #actions>
-            <v-text-field v-model="_filter" label="" placeholder="Search streams..." />
+            <div class="filter">
+                <v-text-field
+                    v-model="_filter"
+                    appendIcon="mdi-filter-variant"
+                    @click:append="_gamePickerDialog = true"
+                    placeholder="Search streams..."
+                    class="filter__search"
+                />
+
+                <v-dialog max-width="500" v-model="_gamePickerDialog">
+                    <template v-slot:default>
+                        <DialogBase @close="_gamePickerDialog = false">
+                            <ul>
+                                <li v-for="category in _categories" :key="category" @click="_filter = category; _gamePickerDialog = false" class="list">{{ category }}</li>
+                            </ul>
+                        </DialogBase>
+                    </template>
+                </v-dialog>
+            </div>
         </template>
 
         <div class="non-favourite">
@@ -97,5 +122,19 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
             grid-template-columns: repeat(5, 1fr);
         }
     }
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    gap: rem(8px);
+    width: 100%;
+    min-width: rem(336px);
+    padding-bottom: rem($padding);
+}
+
+.list {
+    color: white;
+    padding: 5px 0;
 }
 </style>

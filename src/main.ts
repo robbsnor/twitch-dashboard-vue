@@ -8,6 +8,7 @@ import './assets/styles/main.scss';
 
 import Button from './app/shared/components/Button.vue';
 import ButtonGroup from './app/shared/components/ButtonGroup.vue';
+import DialogBase from './app/shared/components/DialogBase.vue';
 import Logo from './app/shared/components/Logo.vue';
 import Section from './app/shared/components/Section.vue';
 import Spinner from './app/shared/components/Spinner.vue';
@@ -62,6 +63,7 @@ app.use(autoAnimatePlugin);
 app.component(VueFeather.name, VueFeather);
 app.component('Button', Button);
 app.component('ButtonGroup', ButtonGroup);
+app.component('DialogBase', DialogBase);
 app.component('Logo', Logo);
 app.component('Section', Section);
 app.component('Spinner', Spinner);
