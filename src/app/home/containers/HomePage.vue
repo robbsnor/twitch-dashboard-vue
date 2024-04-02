@@ -67,7 +67,7 @@ const singInUrl = computed(() => {
     }
 
     &__subtitle {
-        color: $c-gray;
+        color: $c-black-14;
         padding-bottom: 1.5rem;
     }
 

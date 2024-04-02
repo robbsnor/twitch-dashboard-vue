@@ -258,7 +258,7 @@ const viewers = computed(() => {
         position: absolute;
         top: rem(20px);
         right: rem(20px);
-        color: $c-gray;
+        color: $c-black-14;
         font-size: rem(16px);
         opacity: 0;
         transition: .2s;
@@ -316,7 +316,7 @@ const viewers = computed(() => {
     &__user {
         display: flex;
         align-items: center;
-        color: $c-gray;
+        color: $c-black-14;
         font-size: rem(18px);
         padding: rem(7px) 0;
 

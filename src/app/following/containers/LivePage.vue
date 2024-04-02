@@ -8,10 +8,12 @@ import { LiveService } from '../services/live.service';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
 import ZigZag from '../../shared/components/ZigZag.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
+import { useLiveStore } from '../stores/live.store';
 
 TitleService.setTitle('Live');
 const twitchService = new TwitchService();
 const favourtieStore = useFavouriteStore();
+const liveStore = useLiveStore();
 
 const _allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const _favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
@@ -28,6 +30,10 @@ onMounted(async () => {
 
 <template>
     <div class="live">
+        <div class="live__tabs">
+            <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
+        </div>
+
         <template v-if="_allStreams">
             <FavouriteStreams :streams="_favouriteStreams" />
             <ZigZag />
@@ -44,5 +50,9 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.live { }
+.live {
+    &__tabs {
+        @include container();
+    }
+}
 </style>

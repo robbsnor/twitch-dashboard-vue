@@ -49,7 +49,7 @@ const classes = computed(() => {
     $self: &;
 
     position: relative;
-    padding: rem(50px) 0;
+    padding-bottom: rem(50px);
 
     &__background-art {
         position: absolute;

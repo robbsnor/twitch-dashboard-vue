@@ -44,7 +44,7 @@ const emit = defineEmits(['close'])
         justify-content: center;
         align-items: center;
         pointer-events: none;
-        background-image: linear-gradient(to top, black, transparent);
+        background-image: linear-gradient(to top, $c-black-1, transparent);
     }
 
     &__close {

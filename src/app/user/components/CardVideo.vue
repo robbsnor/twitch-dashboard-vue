@@ -93,7 +93,7 @@ const formattedDate = computed(() => {
         position: absolute;
         top: rem(20px);
         right: rem(20px);
-        color: $c-gray;
+        color: $c-black-14;
         font-size: rem(16px);
         opacity: 0;
         transition: .2s;
