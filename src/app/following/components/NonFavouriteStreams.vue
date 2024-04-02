@@ -135,6 +135,6 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 
 .list {
     color: white;
-    padding: 5px 0;
+    padding: 10px 0;
 }
 </style>
