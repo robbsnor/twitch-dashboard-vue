@@ -11,7 +11,6 @@ import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 import { useLiveStore } from '../stores/live.store';
 
 TitleService.setTitle('Live');
-const twitchService = new TwitchService();
 const favourtieStore = useFavouriteStore();
 const liveStore = useLiveStore();
 
@@ -22,7 +21,7 @@ const _nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 onMounted(async () => {
     const favouriteIds = favourtieStore.getFavourites();
 
-    _allStreams.value = await twitchService.getFollowedStreamsWithUsers();
+    _allStreams.value = await liveStore.getAllStreams();
     _favouriteStreams.value = LiveService.getFavourites(favouriteIds, _allStreams.value);
     _nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds, _allStreams.value);
 })
