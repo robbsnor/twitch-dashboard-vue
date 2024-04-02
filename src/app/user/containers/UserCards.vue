@@ -77,7 +77,7 @@ watch(
     () => _form.value.search,
     _.debounce( async(query) => {
         searchVideos(query);
-    }, 250)
+    }, 500)
 )
 
 watch(() => props.user, () => {
