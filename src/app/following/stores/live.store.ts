@@ -20,6 +20,7 @@ export const useLiveStore = defineStore('live', () => {
     };
 
     const getAllStreams = async () => {
+        return new TwitchService().getFollowedStreamsWithUsers();
         if (!_allStreams.value) _allStreams.value = await new TwitchService().getFollowedStreamsWithUsers();
         return _allStreams.value;
     };
