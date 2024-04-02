@@ -159,7 +159,7 @@ const formattedDate = computed(() => {
     }
 
     &__date {
-        color: $c-black-10;
+        color: $c-black-14;
     }
 
     &__chapters {
