@@ -29,9 +29,9 @@ onMounted(async () => {
 
 <template>
     <div class="live">
-        <div class="live__tabs">
+        <Section>
             <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
-        </div>
+        </Section>
 
         <template v-if="_allStreams">
             <FavouriteStreams :streams="_favouriteStreams" />
@@ -49,9 +49,5 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.live {
-    &__tabs {
-        @include container();
-    }
-}
+.live { }
 </style>

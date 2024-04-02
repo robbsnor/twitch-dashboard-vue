@@ -7,9 +7,9 @@ const liveStore = useLiveStore();
 
 <template>
     <div class="users">
-        <div class="users__tabs">
+        <Section>
             <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
-        </div>
+        </Section>
 
         <Section title="Users">
 
@@ -25,9 +25,5 @@ const liveStore = useLiveStore();
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.users {
-    &__tabs {
-        @include container();
-    }
-}
+.users { }
 </style>

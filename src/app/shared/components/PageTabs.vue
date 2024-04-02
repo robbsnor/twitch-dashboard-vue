@@ -31,8 +31,6 @@ const props = defineProps<Props>();
 @import '/src/assets/styles/functions/rem';
 
 .page-tabs {
-    padding-bottom: rem(50px);
-
     &__title {
         font-size: rem(40px);
         padding-bottom: rem(5px);
