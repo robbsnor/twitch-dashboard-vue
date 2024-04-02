@@ -22,9 +22,8 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
             </div>
 
             <RouterLink to="/following/live" class="header__logo">
-                <Logo :isBig="true" />
-                <!-- <Logo :isBig="false" /> -->
-
+                <div class="header-logo header-logo--desktop"><Logo :payoff="true" /></div>
+                <div class="header-logo header-logo--mobile"><Logo :payoff="false" /></div>
             </RouterLink>
 
             <div class="header__right">
@@ -66,7 +65,7 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
 
         display: grid;
         align-items: center;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr auto 1fr;
         height: 100%;
     }
 
@@ -80,10 +79,6 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
         margin-left: rem(-20px);
     }
 
-    &__logo {
-        display: none;
-    }
-
     &__right {
         justify-self: end;
     }
@@ -92,24 +87,6 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
         display: flex;
         align-items: center;
         gap: rem(20px);
-    }
-
-    &__username {
-        display: none;
-        font-size: rem(24px);
-        color: $c-white;
-        font-weight: bold;
-    }
-
-    @include screen(1000px) {
-        &__container {
-            grid-template-columns: 1fr auto 1fr;
-        }
-
-        &__username,
-        &__logo {
-            display: block;
-        }
     }
 }
 
@@ -153,6 +130,26 @@ const emit = defineEmits(['clickProfile', 'clickHamburger'])
             &:last-of-type {
                 transform: rotate(45deg);
             }
+        }
+    }
+}
+
+.header-logo {
+    &--desktop {
+        display: none;
+    }
+
+    &--mobile {
+        display: block;
+    }
+
+    @include screen($desktop) {
+        &--desktop {
+            display: block;
+        }
+
+        &--mobile {
+            display: none;
         }
     }
 }
