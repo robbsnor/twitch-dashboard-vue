@@ -24,7 +24,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
             <div class="user-header__user">
                 <img class="user-header__avatar" :src="props.avatar" alt="Lunpias avatar">
                 <div class="user-header__info">
-                    <div class="user-header__name">{{ props.username }}</div>
+                    <a class="user-header__name" :href="`https://www.twitch.tv/${ props.username }/videos?filter=all&sort=time`" target="_blank">{{ props.username }}</a>
                     <div class="user-header__followers">{{ formattedFollowers }}</div>
                 </div>
             </div>

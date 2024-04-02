@@ -2,6 +2,22 @@ export const LEKKER_SPELEN_VIDEOS = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2108051273,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/14f2d70e241dba7a3de8_lekkerspelen_68629830482_7584786493/thumb/custom-726eb807-095d-44cc-9985-d35ac3eaaffb-320x180.jpeg",
+        "title": "Die Peach game 🍑",
+        "chapters": []
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2107957735,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/19352085939df9f9cc2e_lekkerspelen_42182275000_1711997449//thumb/thumb0-320x180.jpg",
+        "title": "Die Peach game 🍑",
+        "chapters": []
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2103309044,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/1e9708497a787f61806c_lekkerspelen_17102417565_8808952247/thumb/custom-89d6a122-c987-4d87-97e6-1623116018d3-320x180.jpeg",
         "title": "Maak je eigen kat 😻",
