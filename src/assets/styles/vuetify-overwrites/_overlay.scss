@@ -2,7 +2,7 @@ body {
     .v-overlay {
         &__scrim {
             opacity: 1;
-            background-color: rgba($c-black-1, .9);
+            background-color: rgba($c-black-1, .2);
             backdrop-filter: blur(5px);
         }
     }
