@@ -55,6 +55,8 @@ const emit = defineEmits(['close'])
         pointer-events: all;
 
         &:hover {
+            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.4) 100%);
+
             #{ $self }__close-icon {
                 scale: 1.2;
             }

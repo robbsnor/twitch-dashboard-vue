@@ -60,7 +60,13 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
                     <template v-slot:default>
                         <DialogBase @close="_gamePickerDialog = false">
                             <ul>
-                                <li v-for="category in _categories" :key="category" @click="_filter = category; _gamePickerDialog = false" class="list">{{ category }}</li>
+                                <li
+                                    v-for="category in _categories"
+                                    :key="category"
+                                    @click="_filter = category;
+                                    _gamePickerDialog = false"
+                                    class="list"
+                                >{{ category }}</li>
                             </ul>
                         </DialogBase>
                     </template>

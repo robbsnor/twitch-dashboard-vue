@@ -6,6 +6,7 @@ import App from './App.vue';
 import router from './router/router';
 import './assets/styles/main.scss';
 
+// shared components
 import Button from './app/shared/components/Button.vue';
 import ButtonGroup from './app/shared/components/ButtonGroup.vue';
 import DialogBase from './app/shared/components/DialogBase.vue';
