@@ -43,7 +43,7 @@ const viewers = computed(() => {
     </div>
 
     <!-- normal -->
-    <div v-if="size === 'normal'" :class="classes" class="card-normal">
+    <div v-if="size === 'normal'" :class="classes" class="card-normal" :data-user-id="card.userId">
         <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
             <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail">
