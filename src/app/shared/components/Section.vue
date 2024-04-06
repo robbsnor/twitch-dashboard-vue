@@ -68,7 +68,7 @@ const classes = computed(() => {
         flex-direction: column;
         justify-content: space-between;
         gap: rem($padding);
-        padding-bottom: rem(16px);
+        padding-bottom: rem($padding);
     }
 
     &__title {
@@ -77,10 +77,6 @@ const classes = computed(() => {
 
     &--first {
         margin-top: $header-height
-    }
-
-    &--user-cards {
-        padding-top: 0;
     }
 
     @include screen($desktop) {

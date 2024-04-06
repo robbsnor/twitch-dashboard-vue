@@ -150,15 +150,13 @@ onMounted(() => {
 .filter {
     display: flex;
     align-items: center;
-    gap: rem(8px);
     width: 100%;
     min-width: rem(336px);
-    padding-bottom: rem($padding);
 }
 
 .cards {
     display: grid;
-    gap: rem(50px) rem(30px);
+    gap: rem(50px) rem($padding);
 
     @include screen($desktop) {
         grid-template-columns: repeat(3, 1fr);

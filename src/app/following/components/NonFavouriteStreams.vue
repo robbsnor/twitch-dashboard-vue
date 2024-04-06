@@ -106,7 +106,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
     @include screen($desktop) {
         &__cards {
             grid-template-columns: repeat(3, 1fr);
-            gap: rem(50px) rem(30px);
+            gap: rem(50px) rem($padding);
             margin-left: 0;
             margin-right: 0;
         }
@@ -136,7 +136,6 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
     gap: rem(8px);
     width: 100%;
     min-width: rem(336px);
-    padding-bottom: rem($padding);
 }
 
 .list {

@@ -3,7 +3,6 @@ import { computedAsync } from '@vueuse/core';
 import { useRouteParams } from '@vueuse/router';
 import { ref, type Ref } from 'vue';
 import { TwitchService } from '../../shared/services/twitch.service';
-import TempTabs from '../components/TempTabs.vue';
 import UserHeader, { type UserHeaderProps } from '../components/UserHeader.vue';
 import { UserFactory } from '../factories/user.factory';
 import UserCards from './UserCards.vue';
@@ -37,10 +36,6 @@ watch(_user, async () => {
                 class="user__header"
             />
 
-            <div class="user__container">
-                <TempTabs class="user__tabs" />
-            </div>
-
             <UserCards :user="_user" class="user__cards" />
         </template>
 
@@ -57,10 +52,7 @@ watch(_user, async () => {
 .user {
     &__header {
         margin-top: -$header-height;
-    }
-
-    &__container {
-        @include container;
+        margin-bottom: rem($padding);
     }
 }
 </style>
