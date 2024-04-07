@@ -67,8 +67,8 @@ const classes = computed(() => {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: rem($padding);
-        padding-bottom: rem($padding);
+        gap: rem($padding-larger);
+        padding-bottom: rem($padding-larger);
     }
 
     &__title {
