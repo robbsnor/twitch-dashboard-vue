@@ -36,7 +36,7 @@ onMounted(async () => {
         <template v-if="_allStreams">
             <FavouriteStreams :streams="_favouriteStreams" />
 
-            <Section>
+            <Section modifier="no-header">
                 <ZigZag />
             </Section>
 

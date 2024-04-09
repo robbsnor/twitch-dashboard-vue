@@ -21,7 +21,6 @@ const classes = computed(() => {
 
 <template>
     <section :class="classes">
-
         <div class="section__background-art">
             <slot name="background-art"></slot>
         </div>
@@ -77,6 +76,13 @@ const classes = computed(() => {
 
     &--first {
         margin-top: $header-height
+    }
+
+    // temp
+    &--no-header {
+        #{ $self }__header {
+            display: none;
+        }
     }
 
     @include screen($desktop) {
