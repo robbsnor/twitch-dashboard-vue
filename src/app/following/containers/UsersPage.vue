@@ -29,7 +29,7 @@ onMounted(async () => {
         </Section>
 
         <Section title="Favourites">
-            <div class="cards-user">
+            <div class="user-cards">
                 <CardUser v-for="channel in _favChannels" :name="channel.name" :image="channel.image" />
             </div>
 
@@ -43,12 +43,12 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.cards-user {
+.user-cards {
     display: grid;
     gap: $padding;
 
     @include screen($desktop) {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: rem($padding);
         margin-left: 0;
         margin-right: 0;

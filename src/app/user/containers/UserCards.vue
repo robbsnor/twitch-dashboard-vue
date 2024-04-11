@@ -49,7 +49,7 @@ const getCards = async (amount = 20, pagination?: string) => {
 
 const loadMore = () => getCards(100, _pagination.value);
 
-const update = () => {
+const init = () => {
     _cards.value = [];
     _pagination.value = '';
     getCards();
@@ -81,11 +81,11 @@ watch(
 )
 
 watch(() => props.user, () => {
-    update();
+    init();
 })
 
 onMounted(() => {
-    update();
+    init();
 })
 </script>
 
