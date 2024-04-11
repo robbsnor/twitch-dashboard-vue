@@ -11,4 +11,3 @@ export interface CardLive {
 }
 
 export type CardLiveSize = 'small' | 'normal' | 'fancy';
-

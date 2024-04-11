@@ -1,6 +1,5 @@
 
 export const MOCK_FAVOURITES_HOPP = [
-    502827531, // lunpia_
     52385053, // lekkerspelen
     128856353, // mande
     26991127, // hiko

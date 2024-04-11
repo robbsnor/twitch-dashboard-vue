@@ -8,14 +8,10 @@ export const useFavouriteStore = defineStore('favourite', () => {
     const getFavourites = () => {
         const login = authStore.user?.login;
 
-        if (login === 'robbsnor') {
-            return MOCK_FAVOURITES_HOPP;
-        } else if (login === 'lunpia_') {
-            return MOCK_FAVOURITES_FLUUMP;
-        }
+        if (login === 'robbsnor') return MOCK_FAVOURITES_HOPP;
+        if (login === 'lunpia_') return MOCK_FAVOURITES_FLUUMP;
         return [];
     };
-
 
     return {
         getFavourites,
