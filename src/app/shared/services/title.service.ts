@@ -1,8 +1,8 @@
 import { useTitle } from "@vueuse/core";
 
 export class TitleService {
-    public static setTitle(newTitle: string) {
-        const title = useTitle();
-        title.value = `Twitch Dashboard | ${newTitle}`;
+    public static setTitle(title: string) {
+        const pageTitle = useTitle();
+        pageTitle.value = `${title} | Twitch Dashboard`;
     }
 }

@@ -8,8 +8,10 @@ import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { UserFactory } from '../factories/user.factory';
 import type { CardUserProps } from '../components/CardUser.vue';
 import CardUser from '../components/CardUser.vue';
+import { TitleService } from '@/app/shared/services/title.service';
 
 const twitchService = new TwitchService();
+TitleService.setTitle('Users');
 
 const favourtieStore = useFavouriteStore();
 const liveStore = useLiveStore();
