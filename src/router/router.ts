@@ -23,7 +23,7 @@ const router = createRouter({
             component: () => import('../app/playground/containers/PlaygroundPage.vue'),
         },
         {
-            path: '/following/',
+            path: '/following',
             name: 'following',
             beforeEnter: [isLoggedWithTwitch],
             children: [
