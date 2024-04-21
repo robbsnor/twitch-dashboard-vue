@@ -23,16 +23,26 @@ const router = createRouter({
             component: () => import('../app/playground/containers/PlaygroundPage.vue'),
         },
         {
-            path: '/following/live',
-            name: 'live',
-            component: () => import('../app/following/containers/LivePage.vue'),
+            path: '/following/',
+            name: 'following',
             beforeEnter: [isLoggedWithTwitch],
-        },
-        {
-            path: '/following/users',
-            name: 'users',
-            component: () => import('../app/following/containers/UsersPage.vue'),
-            beforeEnter: [isLoggedWithTwitch],
+            children: [
+                {
+                    path: 'live',
+                    name: 'live',
+                    component: () => import('../app/following/containers/LivePage.vue'),
+                },
+                {
+                    path: 'users',
+                    name: 'users',
+                    component: () => import('../app/following/containers/UsersPage.vue'),
+                },
+                {
+                    path: 'games',
+                    name: 'games',
+                    component: () => import('../app/following/containers/GamesPage.vue'),
+                },
+            ]
         },
         {
             path: '/user/:userLogin',

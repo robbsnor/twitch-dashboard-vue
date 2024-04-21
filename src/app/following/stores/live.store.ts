@@ -16,6 +16,10 @@ export const useLiveStore = defineStore('live', () => {
                 name: 'Users',
                 path: '/following/users',
             },
+            {
+                name: 'Games',
+                path: '/following/games',
+            },
         ],
     };
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { TitleService } from '../../shared/services/title.service';
-import { TwitchService } from '../../shared/services/twitch.service';
 import { useFavouriteStore } from '../../shared/stores/favourites.store';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import { LiveService } from '../services/live.service';

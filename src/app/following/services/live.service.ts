@@ -1,10 +1,10 @@
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
 
 export class LiveService {
-    public static getFavourites(favourites: Number[], streams: TwitchFollowedStreamWithUser[]) {
+    public static getFavourites(favouriteIds: Number[], streams: TwitchFollowedStreamWithUser[]) {
         const orderedStreams: TwitchFollowedStreamWithUser[] = [];
 
-        favourites.forEach(favId => {
+        favouriteIds.forEach(favId => {
             streams.forEach(stream => {
                 if (favId === Number(stream.id)) {
                     orderedStreams.push(stream);
@@ -15,7 +15,7 @@ export class LiveService {
         return orderedStreams;
     }
 
-    public static getNonFavourites(favourites: Number[], streams: TwitchFollowedStreamWithUser[]) {
-        return streams.filter(stream => !favourites.includes(Number(stream.id)));
+    public static getNonFavourites(favouriteIds: Number[], streams: TwitchFollowedStreamWithUser[]) {
+        return streams.filter(stream => !favouriteIds.includes(Number(stream.id)));
     }
 }

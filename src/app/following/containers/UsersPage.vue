@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Section from '../../shared/components/Section.vue';
 import { useLiveStore } from '../stores/live.store';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { UserFactory } from '../factories/user.factory';
 import type { CardUserProps } from '../components/CardUser.vue';
 import CardUser from '../components/CardUser.vue';
