@@ -38,6 +38,7 @@ const link = computed(() => `/user/${props.name}`);
     &__image {
         border-radius: 999px;
         width: 60px;
+        height: 60px;
     }
 
     &__name {
