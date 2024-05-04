@@ -13,30 +13,28 @@ const props = defineProps<{
 }>()
 
 const _gamePickerDialog = ref(false);
-const _filter = ref<String | null>('');
-const _cards = computed(() => {
-    if (!props.streams) return;
-    // TODO: Have a normal and small card ref
-    return LiveFactory.mapToCardLiveNormal(props.streams);
-})
+const _filter = ref<String>('');
 
-const _filteredCards = computed(() => {
-    return _cards.value?.filter(card => {
+const _cards = computed(() => {
+    const videos = props.streams?.filter(stream => {
         // clicking the clear button sets the value to null,
         // we cannot opperate on null, so we set it to an empty string
         if (_filter.value === null) _filter.value = '';
 
-        const nameMatch = card.name.toLowerCase().includes(_filter.value.toLowerCase());
-        const gameMatch = card.game.toLowerCase().includes(_filter.value.toLowerCase());
-        const titleMatch = card.title.toLowerCase().includes(_filter.value.toLowerCase());
-        const idMatch = card.userId.toString().toLowerCase().includes(_filter.value.toLowerCase());
+        const nameMatch = stream.user_name.toLowerCase().includes(_filter.value.toLowerCase());
+        const gameMatch = stream.game_name?.toLowerCase().includes(_filter.value.toLowerCase());
+        const titleMatch = stream.title.toLowerCase().includes(_filter.value.toLowerCase());
+        const idMatch = stream.user_id.toString().toLowerCase().includes(_filter.value.toLowerCase());
 
         return nameMatch || gameMatch || titleMatch || idMatch;
     })
+    if (!videos) return;
+
+    return LiveFactory.mapToCardLiveNormal(videos);
 })
 
 const _categories = computed(() => {
-    const duplicateCategories = _cards.value?.map(card => card.game).sort();
+    const duplicateCategories = props.streams?.map(stream => stream.game_name).sort();
     const categories = [...new Set(duplicateCategories)];
     return categories
 })
@@ -63,7 +61,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
                                 <li
                                     v-for="category in _categories"
                                     :key="category"
-                                    @click="_filter = category;
+                                    @click="_filter = category!;
                                     _gamePickerDialog = false"
                                     class="list"
                                 >{{ category }}</li>
@@ -75,15 +73,15 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
         </template>
 
         <div class="non-favourite">
-            <div v-if="_filteredCards" class="non-favourite__cards">
-                <div v-for="card in _filteredCards" :key="card.userId" class="non-favourite__card" v-auto-animate>
+            <div v-if="_cards" class="non-favourite__cards">
+                <div v-for="card in _cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
                     <CardLive :card="card" :size="_cardSize"></CardLive>
                 </div>
             </div>
 
             <Spinner padding v-else></Spinner>
 
-            <div v-if="!_filteredCards?.length && _filter?.length" class="non-favourite__not-found not-found">
+            <div v-if="!_cards?.length && _filter?.length" class="non-favourite__not-found not-found">
                 No streams found matching <span class="not-found__query">"{{ _filter }}"</span>.
             </div>
         </div>
