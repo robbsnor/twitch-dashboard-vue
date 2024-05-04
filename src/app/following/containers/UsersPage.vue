@@ -17,7 +17,7 @@ const liveStore = useLiveStore();
 const _favChannels = ref<CardUserProps[]>();
 
 onMounted(async () => {
-    const res = await twitchService.getUsers({ids: favourtieStore.getFavourites()})
+    const res = await twitchService.getUsers({ids: favourtieStore.getFavouriteStreamers()})
     _favChannels.value = UserFactory.mapToCardUser(res.data);
 })
 </script>

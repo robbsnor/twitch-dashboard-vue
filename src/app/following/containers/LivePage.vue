@@ -18,7 +18,7 @@ const _favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const _nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 
 onMounted(async () => {
-    const favouriteIds = favourtieStore.getFavourites();
+    const favouriteIds = favourtieStore.getFavouriteStreamers();
 
     _allStreams.value = await liveStore.getAllStreams();
     _favouriteStreams.value = LiveService.getFavourites(favouriteIds, _allStreams.value);
