@@ -149,6 +149,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 
 .not-found {
     &__query {
+        display: inline-block;
         color: $c-primary;
     }
 }
