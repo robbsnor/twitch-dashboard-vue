@@ -97,9 +97,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 @import '/src/assets/styles/functions/rem';
 
 .non-favourite {
-    &__acctions {
-        padding-bottom: rem(20px);
-    }
+    min-height: rem(330px);
 
     &__cards {
         display: grid;
