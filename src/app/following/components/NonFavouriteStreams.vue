@@ -82,6 +82,10 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
             </div>
 
             <Spinner padding v-else></Spinner>
+
+            <div v-if="!_filteredCards?.length && _filter?.length" class="non-favourite__not-found not-found">
+                No streams found matching <span class="not-found__query">"{{ _filter }}"</span>.
+            </div>
         </div>
     </Section>
 </template>
@@ -141,5 +145,11 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
 .list {
     color: $c-white;
     padding: 10px 0;
+}
+
+.not-found {
+    &__query {
+        color: $c-primary;
+    }
 }
 </style>
