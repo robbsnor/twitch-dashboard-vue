@@ -9,12 +9,12 @@ export const MOCK_FAVOURITES_HOPP = [
     75738685, // insym
     23558127, // goodtimeswithscar
     51929371, // ml7support
+    183796200, // kraan
     41157071, // tangotek
     64952353, // robertrayhart
     82653207, // marblr
     598902753, // valorant_emea
     629320451, // infs___
-    183796200, // kraan
     185098375, // boomboomflocke
 ];
 
