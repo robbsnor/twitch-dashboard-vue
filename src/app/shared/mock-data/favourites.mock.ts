@@ -14,6 +14,7 @@ export const MOCK_FAVOURITES_HOPP = [
     82653207, // marblr
     598902753, // valorant_emea
     629320451, // infs___
+    183796200, // kraan
     185098375, // boomboomflocke
 ];
 
