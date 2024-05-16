@@ -4,11 +4,10 @@ export const MOCK_FAVOURITES_HOPP = [
     128856353, // mande
     26991127, // hiko
     101936909, // stormen
+    51929371, // ml7support
     27765748, // bumpaah
     23220337, // emongg
     75738685, // insym
-    23558127, // goodtimeswithscar
-    51929371, // ml7support
     183796200, // kraan
     41157071, // tangotek
     64952353, // robertrayhart
@@ -16,6 +15,7 @@ export const MOCK_FAVOURITES_HOPP = [
     598902753, // valorant_emea
     629320451, // infs___
     185098375, // boomboomflocke
+    23558127, // goodtimeswithscar
 ];
 
 export const MOCK_FAVOURITES_FLUUMP = [
