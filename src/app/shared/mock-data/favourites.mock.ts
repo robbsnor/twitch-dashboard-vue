@@ -2,9 +2,9 @@
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
     128856353, // mande
-    26991127, // hiko
     101936909, // stormen
     51929371, // ml7support
+    26991127, // hiko
     27765748, // bumpaah
     23220337, // emongg
     75738685, // insym
