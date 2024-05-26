@@ -4,22 +4,22 @@ import { computed } from 'vue';
 import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
 
 interface Props {
-  card: CardLiveModel;
-  size?: CardLiveSize;
+    card: CardLiveModel;
+    size?: CardLiveSize;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     size: 'normal',
-})
+});
 
 const classes = computed(() => {
     const colorClass = props.card.color ? `card-${props.size}--${props.card.color}` : '';
     return `${colorClass}`;
-})
+});
 
 const viewers = computed(() => {
     return NumberService.abbreviateNumber(props.card.viewers);
-})
+});
 </script>
 
 <template>
@@ -230,7 +230,7 @@ const viewers = computed(() => {
     }
 
     &:hover {
-        background-color: $c-black-2;
+        background-color: $c-black-4;
     }
 }
 

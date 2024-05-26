@@ -17,14 +17,14 @@ const liveStore = useLiveStore();
 const _favChannels = ref<CardUserProps[]>();
 
 onMounted(async () => {
-    const res = await twitchService.getUsers({ids: favourtieStore.getFavouriteStreamers()})
+    const res = await twitchService.getUsers({ ids: favourtieStore.getFavouriteStreamers() });
     _favChannels.value = UserFactory.mapToCardUser(res.data);
-})
+});
 </script>
 
 <template>
     <div class="users">
-        <Section>
+        <Section hideHeader>
             <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
         </Section>
 

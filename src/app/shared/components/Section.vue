@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
+
+const slots = useSlots();
 
 interface Props {
-  modifier?: string;
-  title?: string;
-  first?: boolean
+    modifier?: string;
+    title?: string;
+    first?: boolean;
+    hideHeader?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = defineProps<Props>();
 
-const emit = defineEmits([])
+const emit = defineEmits([]);
 
 const classes = computed(() => {
-    const firstClass = props.first ? 'section--first' : '';
-    const modifierClass = props.modifier ? `section--${props.modifier}` : '';
-
-    return `section ${firstClass} ${modifierClass}`
-})
+    return {
+        'section': true,
+        'section-first': props.first,
+        'section--hide-header': props.hideHeader,
+    };
+});
 </script>
 
 <template>
@@ -26,9 +30,9 @@ const classes = computed(() => {
         </div>
 
         <div class="section__header">
-            <h2 class="section__title">{{ props.title }}</h2>
+            <h2 v-if="props.title" class="section__title">{{ props.title }}</h2>
 
-            <div class="section__actions">
+            <div v-if="slots.actions" class="section__actions">
                 <slot name="actions"></slot>
             </div>
         </div>
@@ -74,12 +78,14 @@ const classes = computed(() => {
         padding: 0;
     }
 
+
+
     &--first {
         margin-top: $header-height
     }
 
     // temp
-    &--no-header {
+    &--hide-header {
         #{ $self }__header {
             display: none;
         }
@@ -88,6 +94,7 @@ const classes = computed(() => {
     @include screen($desktop) {
         &__header {
             flex-direction: row;
+            align-items: flex-end;
         }
 
         &__actions {

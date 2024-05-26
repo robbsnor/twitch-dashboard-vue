@@ -23,19 +23,19 @@ onMounted(async () => {
     _allStreams.value = await liveStore.getAllStreams();
     _favouriteStreams.value = LiveService.getFavourites(favouriteIds, _allStreams.value);
     _nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds, _allStreams.value);
-})
+});
 </script>
 
 <template>
     <div class="live">
-        <Section>
+        <Section hideHeader>
             <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
         </Section>
 
         <template v-if="_allStreams">
             <FavouriteStreams :streams="_favouriteStreams" />
 
-            <Section modifier="no-header">
+            <Section hideHeader>
                 <ZigZag />
             </Section>
 
@@ -52,5 +52,5 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.live { }
+.live {}
 </style>

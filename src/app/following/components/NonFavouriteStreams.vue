@@ -10,7 +10,7 @@ const { width } = useWindowSize();
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
-}>()
+}>();
 
 const _gamePickerDialog = ref(false);
 const _filter = ref<String>('');
@@ -27,17 +27,17 @@ const _cards = computed(() => {
         const idMatch = stream.user_id.toString().toLowerCase().includes(_filter.value.toLowerCase());
 
         return nameMatch || gameMatch || titleMatch || idMatch;
-    })
+    });
     if (!videos) return;
 
     return LiveFactory.mapToCardLiveNormal(videos);
-})
+});
 
 const _categories = computed(() => {
     const duplicateCategories = props.streams?.map(stream => stream.game_name).sort();
     const categories = [...new Set(duplicateCategories)];
-    return categories
-})
+    return categories;
+});
 
 const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 </script>
@@ -49,6 +49,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
                 <v-text-field
                     v-model="_filter"
                     appendIcon="mdi-filter-variant"
+                    persistent-clear
                     @click:append="_gamePickerDialog = true"
                     placeholder="Search streams..."
                     class="filter__search"
