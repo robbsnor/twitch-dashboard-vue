@@ -24,7 +24,7 @@ onMounted(async () => {
 
 <template>
     <div class="users">
-        <Section hideHeader>
+        <Section first hideHeader>
             <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
         </Section>
 

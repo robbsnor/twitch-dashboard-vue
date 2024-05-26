@@ -4,7 +4,6 @@ import { computed, useSlots } from 'vue';
 const slots = useSlots();
 
 interface Props {
-    modifier?: string;
     title?: string;
     first?: boolean;
     hideHeader?: boolean;
@@ -17,7 +16,8 @@ const emit = defineEmits([]);
 const classes = computed(() => {
     return {
         'section': true,
-        'section-first': props.first,
+        'section--first': props.first,
+        'section--no-title': !props.title,
         'section--hide-header': props.hideHeader,
     };
 });
@@ -52,7 +52,7 @@ const classes = computed(() => {
     $self: &;
 
     position: relative;
-    padding-bottom: rem(50px);
+    padding: rem(25px) 0;
 
     &__background-art {
         position: absolute;
@@ -76,6 +76,16 @@ const classes = computed(() => {
 
     &__title {
         padding: 0;
+    }
+
+    &--first {
+        padding-top: 0;
+    }
+
+    &--no-title {
+        #{ $self }__actions {
+            margin-left: auto;
+        }
     }
 
     &--hide-header {

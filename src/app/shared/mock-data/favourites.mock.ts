@@ -15,7 +15,6 @@ export const MOCK_FAVOURITES_HOPP = [
     598902753, // valorant_emea
     629320451, // infs___
     185098375, // boomboomflocke
-    23558127, // goodtimeswithscar
 ];
 
 export const MOCK_FAVOURITES_FLUUMP = [

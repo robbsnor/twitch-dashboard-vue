@@ -12,14 +12,11 @@ const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>();
 
-const _gamePickerDialog = ref(false);
-const _filter = ref<String>('');
+const _filter = ref<string>();
 
 const _cards = computed(() => {
     const videos = props.streams?.filter(stream => {
-        // clicking the clear button sets the value to null,
-        // we cannot opperate on null, so we set it to an empty string
-        if (_filter.value === null) _filter.value = '';
+        if (!_filter.value) return true;
 
         const nameMatch = stream.user_name.toLowerCase().includes(_filter.value.toLowerCase());
         const gameMatch = stream.game_name?.toLowerCase().includes(_filter.value.toLowerCase());
@@ -46,30 +43,12 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
     <Section title="Live channels">
         <template #actions>
             <div class="filter">
-                <v-text-field
+                <v-combobox
                     v-model="_filter"
-                    appendIcon="mdi-filter-variant"
-                    persistent-clear
-                    @click:append="_gamePickerDialog = true"
-                    placeholder="Search streams..."
+                    :items="_categories"
+                    placeholder="Stream, game or user..."
                     class="filter__search"
                 />
-
-                <v-dialog max-width="500" v-model="_gamePickerDialog">
-                    <template v-slot:default>
-                        <DialogBase @close="_gamePickerDialog = false">
-                            <ul>
-                                <li
-                                    v-for="category in _categories"
-                                    :key="category"
-                                    @click="_filter = category!;
-                                    _gamePickerDialog = false"
-                                    class="list"
-                                >{{ category }}</li>
-                            </ul>
-                        </DialogBase>
-                    </template>
-                </v-dialog>
             </div>
         </template>
 

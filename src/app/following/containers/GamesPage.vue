@@ -8,7 +8,7 @@ const liveStore = useLiveStore();
 
 <template>
     <div class="games">
-        <Section hideHeader>
+        <Section first hideHeader>
             <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
         </Section>
 
