@@ -28,10 +28,6 @@ onMounted(async () => {
 
 <template>
     <div class="live">
-        <Section first hideHeader>
-            <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
-        </Section>
-
         <template v-if="_allStreams">
             <FavouriteStreams :streams="_favouriteStreams" />
 

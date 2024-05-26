@@ -24,15 +24,10 @@ onMounted(async () => {
 
 <template>
     <div class="users">
-        <Section first hideHeader>
-            <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
-        </Section>
-
         <Section title="Favourites">
             <div class="user-cards">
                 <CardUser v-for="channel in _favChannels" :name="channel.name" :image="channel.image" />
             </div>
-
         </Section>
     </div>
 </template>

@@ -26,6 +26,7 @@ const router = createRouter({
             path: '/following',
             name: 'following',
             beforeEnter: [isLoggedWithTwitch],
+            component: () => import('../app/following/layouts/FollowingLayout.vue'),
             children: [
                 {
                     path: 'live',
@@ -49,12 +50,6 @@ const router = createRouter({
             name: 'user',
             component: () => import('../app/user/containers/UserPage.vue'),
             beforeEnter: [isLoggedWithTwitch],
-            // children: [
-            //     {
-            //         path: '/highlights',
-            //         component: () => import('../views/HighlightsView.vue'),
-            //     },
-            // ]
         },
     ]
 });

@@ -91,7 +91,7 @@ onMounted(() => {
 
 <template>
     <div class="user-cards">
-        <Section class="user-cards__section">
+        <Section first class="user-cards__section">
             <template #actions>
                 <div class="filter">
                     <v-combobox

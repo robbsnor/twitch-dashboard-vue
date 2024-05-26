@@ -3,15 +3,10 @@ import { TitleService } from '../../shared/services/title.service';
 import { useLiveStore } from '../stores/live.store';
 
 TitleService.setTitle('Games');
-const liveStore = useLiveStore();
 </script>
 
 <template>
     <div class="games">
-        <Section first hideHeader>
-            <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
-        </Section>
-
         <Section>
             <ul>
                 <li>

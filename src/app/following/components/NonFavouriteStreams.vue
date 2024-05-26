@@ -18,12 +18,11 @@ const _cards = computed(() => {
     const videos = props.streams?.filter(stream => {
         if (!_filter.value) return true;
 
-        const nameMatch = stream.user_name.toLowerCase().includes(_filter.value.toLowerCase());
+        const usernameMatch = stream.user_name.toLowerCase().includes(_filter.value.toLowerCase());
         const gameMatch = stream.game_name?.toLowerCase().includes(_filter.value.toLowerCase());
         const titleMatch = stream.title.toLowerCase().includes(_filter.value.toLowerCase());
-        const idMatch = stream.user_id.toString().toLowerCase().includes(_filter.value.toLowerCase());
 
-        return nameMatch || gameMatch || titleMatch || idMatch;
+        return usernameMatch || gameMatch || titleMatch;
     });
     if (!videos) return;
 
@@ -31,7 +30,7 @@ const _cards = computed(() => {
 });
 
 const _categories = computed(() => {
-    const duplicateCategories = props.streams?.map(stream => stream.game_name).sort();
+    const duplicateCategories = props.streams?.map(stream => stream.game_name).sort().filter(Boolean);
     const categories = [...new Set(duplicateCategories)];
     return categories;
 });
