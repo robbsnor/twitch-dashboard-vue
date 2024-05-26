@@ -24,7 +24,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
             <div class="user-header__user">
                 <img class="user-header__avatar" :src="props.avatar" alt="Lunpias avatar">
                 <div class="user-header__info">
-                    <a class="user-header__name" :href="`https://www.twitch.tv/${ props.username }/videos?filter=all&sort=time`" target="_blank">{{ props.username }}</a>
+                    <a class="user-header__name" :href="`https://www.twitch.tv/${props.username}/videos?filter=all&sort=time`" target="_blank">{{ props.username }}</a>
                     <div class="user-header__followers">{{ formattedFollowers }}</div>
                 </div>
             </div>
@@ -33,6 +33,8 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
                 <vue-feather type="heart" />
             </button>
         </div>
+
+        <div class="user-header__fade"></div>
     </div>
 </template>
 
@@ -90,7 +92,7 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
         flex-direction: column;
         justify-content: center;
         gap: rem(4px);
-     }
+    }
 
     &__name {
         font-size: rem(28px);
@@ -104,6 +106,15 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
 
     &__favourite {
         padding: rem(16px) 0;
+    }
+
+    &__fade {
+        height: 120px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to top, rgba($c-black-1, .7), rgba($c-black-1, 0));
     }
 
     @include screen($desktop) {
