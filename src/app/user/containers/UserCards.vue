@@ -12,7 +12,7 @@ import _ from 'lodash';
 
 const props = defineProps<{
     user: TwitchUser;
-}>()
+}>();
 
 const twitchService = new TwitchService();
 
@@ -23,7 +23,7 @@ const _form = ref<Form>({
     type: 'all',
     showDuration: true,
     showThumbnail: true,
-})
+});
 const _pagination = ref('');
 const _cards = ref<CardVideoModel[]>([]);
 const _loadingCards = ref(true);
@@ -32,7 +32,7 @@ const _categories = computed(() => {
     const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
     const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
     return orderedCategories;
-})
+});
 
 const getCards = async (amount = 20, pagination?: string) => {
     _loadingCards.value = true;
@@ -45,7 +45,7 @@ const getCards = async (amount = 20, pagination?: string) => {
     _cards.value = [..._cards.value, ...newCards];
 
     _loadingCards.value = false;
-}
+};
 
 const loadMore = () => getCards(100, _pagination.value);
 
@@ -53,7 +53,7 @@ const init = () => {
     _cards.value = [];
     _pagination.value = '';
     getCards();
-}
+};
 
 const searchVideos = async (query: string) => {
     _loadingCards.value = true;
@@ -71,27 +71,27 @@ const searchVideos = async (query: string) => {
     _cards.value = UserFactory.mapToCards(res.data);
     _pagination.value = '';
     _loadingCards.value = false;
-}
+};
 
 watch(
     () => _form.value.search,
-    _.debounce( async(query) => {
+    _.debounce(async (query) => {
         searchVideos(query);
     }, 500)
-)
+);
 
 watch(() => props.user, () => {
     init();
-})
+});
 
 onMounted(() => {
     init();
-})
+});
 </script>
 
 <template>
     <div class="user-cards">
-        <Section modifier="user-cards" class="user-cards__section">
+        <Section class="user-cards__section">
             <template #actions>
                 <div class="filter">
                     <v-combobox

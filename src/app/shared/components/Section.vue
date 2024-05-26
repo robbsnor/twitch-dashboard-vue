@@ -70,21 +70,14 @@ const classes = computed(() => {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: rem($padding-larger);
-        padding-bottom: rem($padding-larger);
+        gap: rem($padding-smaller);
+        padding-bottom: rem($padding);
     }
 
     &__title {
         padding: 0;
     }
 
-
-
-    &--first {
-        margin-top: $header-height
-    }
-
-    // temp
     &--hide-header {
         #{ $self }__header {
             display: none;
@@ -95,6 +88,8 @@ const classes = computed(() => {
         &__header {
             flex-direction: row;
             align-items: flex-end;
+            gap: rem($padding-larger);
+            padding-bottom: rem($padding-larger);
         }
 
         &__actions {

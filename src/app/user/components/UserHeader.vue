@@ -109,11 +109,11 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
     }
 
     &__fade {
-        height: 120px;
         position: absolute;
         right: 0;
         bottom: 0;
         left: 0;
+        height: 120px;
         background-image: linear-gradient(to top, rgba($c-black-1, .7), rgba($c-black-1, 0));
     }
 
