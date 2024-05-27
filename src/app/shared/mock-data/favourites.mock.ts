@@ -12,6 +12,7 @@ export const MOCK_FAVOURITES_HOPP = [
     41157071, // tangotek
     64952353, // robertrayhart
     82653207, // marblr
+    490592527, // valorant
     598902753, // valorant_emea
     629320451, // infs___
     185098375, // boomboomflocke
