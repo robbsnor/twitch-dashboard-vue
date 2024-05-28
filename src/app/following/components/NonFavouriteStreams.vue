@@ -40,10 +40,11 @@ const _categories = computed(() => {
 
 const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 
-const setSearchToTopOfPage = (focus: boolean) => {
+const setSearchToTopOfPage = (focused: boolean) => {
+    if (!focused) return;
+
     const isMobile = width.value <= 1000;
     if (!isMobile) return;
-    if (!focus) return;
 
     const el = document.querySelector('.filter__search');
     if (!el) return;
