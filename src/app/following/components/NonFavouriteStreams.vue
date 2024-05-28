@@ -45,7 +45,7 @@ const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 
                 <v-combobox
                     v-model="_filter"
                     :items="_categories"
-                    placeholder="Search stream..."
+                    placeholder="Search streams..."
                     class="filter__search"
                 />
             </div>
