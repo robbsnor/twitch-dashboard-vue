@@ -5,8 +5,11 @@ import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/fo
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
 import type { CardLiveSize } from '../models/card-live.model';
+import { useScroll } from '@vueuse/core';
 
 const { width } = useWindowSize();
+
+const el = ref<HTMLElement | null>(null);
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -36,16 +39,30 @@ const _categories = computed(() => {
 });
 
 const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
+
+const setSearchToTopOfPage = (focus: boolean) => {
+    const isMobile = width.value <= 1000;
+    if (!isMobile) return;
+    if (!focus) return;
+
+    const el = document.querySelector('.filter__search');
+    if (!el) return;
+
+    const yOffset = -120;
+    const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+};
 </script>
 
 <template>
-    <Section title="Live channels">
+    <Section title="Live channels" ref="el">
         <template #actions>
             <div class="filter">
                 <v-combobox
                     v-model="_filter"
                     :items="_categories"
                     placeholder="Search streams..."
+                    @update:focused="setSearchToTopOfPage($event)"
                     class="filter__search"
                 />
             </div>
