@@ -5,7 +5,6 @@ import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/fo
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
 import type { CardLiveSize } from '../models/card-live.model';
-import { useScroll } from '@vueuse/core';
 
 const { width } = useWindowSize();
 
