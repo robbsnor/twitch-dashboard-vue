@@ -3,11 +3,11 @@ import { ref } from 'vue';
 import HeaderAvatar from './HeaderAvatar.vue';
 
 const props = defineProps<{
-  user?: any;
-}>()
+    user?: any;
+}>();
 
-const items = ref(['account', 'settings', 'logout'].map((title) => ({ title })))
-const emit = defineEmits(['clickProfile', 'clickHamburger'])
+const items = ref(['account', 'settings', 'logout'].map((title) => ({ title })));
+const emit = defineEmits(['clickProfile', 'clickHamburger']);
 </script>
 
 <template>

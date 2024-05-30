@@ -9,14 +9,14 @@ TitleService.setTitle('Home');
 
 const singInUrl = computed(() => {
     const url = new URL('https://id.twitch.tv/oauth2/authorize');
-    url.searchParams.append('client_id', 'bpjttmchlxdfo9t47z8g3b7snhr9h4')
-    url.searchParams.append('redirect_uri', window.location.origin)
-    url.searchParams.append('force_verify', 'false')
-    url.searchParams.append('response_type', 'token')
-    url.searchParams.append('scope', 'user:read:follows user:read:subscriptions moderator:read:followers')
+    url.searchParams.append('client_id', 'bpjttmchlxdfo9t47z8g3b7snhr9h4');
+    url.searchParams.append('redirect_uri', window.location.origin);
+    url.searchParams.append('force_verify', 'false');
+    url.searchParams.append('response_type', 'token');
+    url.searchParams.append('scope', 'user:read:follows user:read:subscriptions moderator:read:followers ');
 
     return url.href;
-})
+});
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { onKeyStroke } from '@vueuse/core';
 import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 import { useAuthStore } from './app/auth/stores/auth.store';
-import Header from './app/base/components/Header.vue';
-import Footer from './app/base/components/Footer.vue';
 import Dropdown from './app/base/components/Dropdown.vue';
-import { onKeyStroke } from '@vueuse/core';
+import Footer from './app/base/components/Footer.vue';
+import Header from './app/base/components/Header.vue';
 
 const authStore = useAuthStore();
 
@@ -15,7 +15,7 @@ const mainMinHeight = ref(0);
 onMounted(async () => {
     authStore.signIn();
     getMainMinHeight();
-})
+});
 
 onKeyStroke(['w', 'W'], (e) => {
     const isFocusingBody = document.activeElement === document.body;
@@ -35,9 +35,9 @@ const toggleMenu = () => menuOpen.value = !menuOpen.value;
 
 const getMainMinHeight = () => {
     const header = document.querySelector('.app__header')! as HTMLElement;
-    const footer = document.querySelector('.footer')! as HTMLElement;
+    const footer = document.querySelector('.app__footer')! as HTMLElement;
     mainMinHeight.value = window.innerHeight - header.clientHeight - footer.clientHeight;
-}
+};
 </script>
 
 <template>
@@ -58,7 +58,7 @@ const getMainMinHeight = () => {
         <RouterView />
     </main>
 
-    <Footer></Footer>
+    <Footer class="app__footer"></Footer>
 </template>
 
 <style scoped lang="scss">
