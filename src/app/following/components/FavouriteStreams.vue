@@ -6,12 +6,12 @@ import { LiveFactory } from '../factories/live.factory';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
-}>()
+}>();
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return LiveFactory.mapToCardLiveFancy(props.streams)
-})
+    return LiveFactory.mapToCardLiveFancy(props.streams);
+});
 </script>
 
 <template>

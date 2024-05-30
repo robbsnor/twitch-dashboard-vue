@@ -7,8 +7,8 @@ import type { CardUserProps } from '../components/CardUser.vue';
 import CardUser from '../components/CardUser.vue';
 import { UserFactory } from '../factories/user.factory';
 
-const twitchService = new TwitchService();
 TitleService.setTitle('Users');
+const twitchService = new TwitchService();
 
 const favouriteStore = useFavouriteStore();
 
@@ -23,9 +23,11 @@ onMounted(async () => {
 <template>
     <div class="users">
         <Section title="Favourites">
-            <div class="user-cards">
-                <CardUser v-for="channel in favouriteUsers" :name="channel.name" :image="channel.image" />
+            <div v-if="favouriteUsers" class="user-cards">
+                <CardUser v-for="user in favouriteUsers" :name="user.name" :image="user.image" />
             </div>
+
+            <Spinner v-else padding />
         </Section>
     </div>
 </template>
