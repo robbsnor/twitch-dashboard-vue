@@ -1,24 +1,22 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useLiveStore } from '../stores/live.store';
+import { TitleService } from '@/app/shared/services/title.service';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import { UserFactory } from '../factories/user.factory';
+import { onMounted, ref } from 'vue';
 import type { CardUserProps } from '../components/CardUser.vue';
 import CardUser from '../components/CardUser.vue';
-import { TitleService } from '@/app/shared/services/title.service';
+import { UserFactory } from '../factories/user.factory';
 
 const twitchService = new TwitchService();
 TitleService.setTitle('Users');
 
-const favourtieStore = useFavouriteStore();
-const liveStore = useLiveStore();
+const favouriteStore = useFavouriteStore();
 
-const _favChannels = ref<CardUserProps[]>();
+const favouriteUsers = ref<CardUserProps[]>();
 
 onMounted(async () => {
-    const res = await twitchService.getUsers({ ids: favourtieStore.getFavouriteStreamers() });
-    _favChannels.value = UserFactory.mapToCardUser(res.data);
+    const res = await twitchService.getUsers({ ids: favouriteStore.getFavouriteStreamers() });
+    favouriteUsers.value = UserFactory.mapToCardUser(res.data);
 });
 </script>
 
@@ -26,7 +24,7 @@ onMounted(async () => {
     <div class="users">
         <Section title="Favourites">
             <div class="user-cards">
-                <CardUser v-for="channel in _favChannels" :name="channel.name" :image="channel.image" />
+                <CardUser v-for="channel in favouriteUsers" :name="channel.name" :image="channel.image" />
             </div>
         </Section>
     </div>
