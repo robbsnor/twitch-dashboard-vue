@@ -41,6 +41,7 @@ onMounted(async () => {
 .user-cards {
     display: grid;
     gap: $padding;
+    grid-template-columns: repeat(2, 1fr);
 
     @include screen($desktop) {
         grid-template-columns: repeat(6, 1fr);
