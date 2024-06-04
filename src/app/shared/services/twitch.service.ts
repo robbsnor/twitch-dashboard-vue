@@ -95,11 +95,12 @@ export class TwitchService {
         const res = await this.http.get<TwitchGetVideos>(url.toString());
         const unorderedVideos = res.data.data;
 
-        // it will find one
-        // @ts-ignore
-        const orderedVideos: TwitchVideo[] = ids.map((id) => {
-            return unorderedVideos.find(unorderedUser => Number(unorderedUser.id) === id);
-        });
+        const orderedVideos: TwitchVideo[] = ids.reduce((acc: TwitchVideo[], id: number) => {
+            const video = unorderedVideos.find(unorderedVideo => Number(unorderedVideo.id) === id);
+            if (video) acc.push(video);
+            return acc;
+        }, []);
+
         res.data.data = orderedVideos;
         return res.data;
     }
