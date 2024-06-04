@@ -82,12 +82,6 @@ const classes = computed(() => {
         padding-top: 0;
     }
 
-    &--no-title {
-        #{ $self }__actions {
-            margin-left: auto;
-        }
-    }
-
     &--hide-header {
         #{ $self }__header {
             display: none;
@@ -104,6 +98,12 @@ const classes = computed(() => {
 
         &__actions {
             min-width: rem(336px);
+        }
+
+        &--no-title {
+            #{ $self }__actions {
+                margin-left: auto;
+            }
         }
     }
 }
