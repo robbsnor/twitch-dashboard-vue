@@ -2,28 +2,26 @@
 import { computed } from 'vue';
 
 interface Props {
-    padding?: boolean
+    padding?: boolean;
     text?: string,
 }
 
 const props = defineProps<Props>();
 
 const classes = computed(() => {
-    const paddinhClass = props.padding ? `spinner--padding` : '';
+    const paddingClass = props.padding ? `spinner--padding` : '';
 
-    return `spinner ${paddinhClass}`;
-})
+    return `spinner ${paddingClass}`;
+});
 </script>
 
 <template>
     <div :class="classes">
-        <div class="spinner__center">
-            <div class="spinner__circles">
-                <div class="spinner__circle"></div>
-                <div class="spinner__circle"></div>
-            </div>
-            <div v-if="props.text" class="spinner__text">{{ props.text }}</div>
+        <div class="spinner__circles">
+            <div class="spinner__circle"></div>
+            <div class="spinner__circle"></div>
         </div>
+        <div v-if="props.text" v-html="props.text" class="spinner__text"></div>
     </div>
 </template>
 

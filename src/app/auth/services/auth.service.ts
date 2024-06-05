@@ -2,7 +2,7 @@ import type { TwitchUser } from "../../shared/models/twitch/users.model";
 import { LocalStorageService } from "../../shared/services/localstorage.service";
 import { TwitchService } from "../../shared/services/twitch.service";
 
-enum LS_KEYS {
+enum LOCALSTORAGE_KEYS {
     ACCESS_TOKEN = 'access_token',
     USER_ID = 'user_id',
     USER_LOGIN = 'user_login',
@@ -15,7 +15,7 @@ export class AuthService {
         if (!accessToken) return;
 
         // if we already have a user, don't try getting credentials again
-        let currentUser: TwitchUser = LocalStorageService.getItem(LS_KEYS.USER);
+        let currentUser: TwitchUser = LocalStorageService.getItem(LOCALSTORAGE_KEYS.USER);
         if (currentUser) return currentUser;
 
         // else, get user and store credentials
@@ -26,18 +26,18 @@ export class AuthService {
     }
 
     public static async signOut() {
-        const keysToRemove = [LS_KEYS.ACCESS_TOKEN, LS_KEYS.USER_ID, LS_KEYS.USER_LOGIN, LS_KEYS.USER];
+        const keysToRemove = [LOCALSTORAGE_KEYS.ACCESS_TOKEN, LOCALSTORAGE_KEYS.USER_ID, LOCALSTORAGE_KEYS.USER_LOGIN, LOCALSTORAGE_KEYS.USER];
         keysToRemove.forEach(key => LocalStorageService.removeItem(key));
     }
 
     public static getAccessToken() {
-        return this.getAccessTokenFromUrl() ?? LocalStorageService.getItem(LS_KEYS.ACCESS_TOKEN);
+        return this.getAccessTokenFromUrl() ?? LocalStorageService.getItem(LOCALSTORAGE_KEYS.ACCESS_TOKEN);
     };
 
     private static async validateToken(accessToken: string) {
         const { userId, userLogin } = await TwitchService.validateToken(accessToken);
-        LocalStorageService.setItem(LS_KEYS.USER_ID, userId);
-        LocalStorageService.setItem(LS_KEYS.USER_LOGIN, userLogin);
+        LocalStorageService.setItem(LOCALSTORAGE_KEYS.USER_ID, userId);
+        LocalStorageService.setItem(LOCALSTORAGE_KEYS.USER_LOGIN, userLogin);
 
         return Number(userId as string);
     }
@@ -45,14 +45,14 @@ export class AuthService {
     private static async getCurrentUser(accessToken: string, userId: number) {
         const twitchService = new TwitchService(accessToken);
         const currentUser = (await twitchService.getUsers({ ids: [userId] })).data[0];
-        LocalStorageService.setItem(LS_KEYS.USER, currentUser);
+        LocalStorageService.setItem(LOCALSTORAGE_KEYS.USER, currentUser);
 
         return currentUser;
     }
 
     private static getAccessTokenFromUrl() {
         const accessToken = window.location.hash.substring(1).split('&').map(hash => hash.split('='))[0][1];
-        LocalStorageService.setItem(LS_KEYS.ACCESS_TOKEN, accessToken);
+        LocalStorageService.setItem(LOCALSTORAGE_KEYS.ACCESS_TOKEN, accessToken);
 
         return accessToken;
     };

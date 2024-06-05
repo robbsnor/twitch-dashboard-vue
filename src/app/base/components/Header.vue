@@ -6,7 +6,21 @@ const props = defineProps<{
     user?: any;
 }>();
 
-const items = ref(['account', 'settings', 'logout'].map((title) => ({ title })));
+const items = ref([
+    {
+        title: 'account',
+        url: '',
+    },
+    {
+        title: 'settings',
+        url: '',
+    },
+    {
+        title: 'logout',
+        url: '/logout',
+    },
+]);
+
 const emit = defineEmits(['clickProfile', 'clickHamburger']);
 </script>
 
@@ -39,6 +53,7 @@ const emit = defineEmits(['clickProfile', 'clickHamburger']);
                                 v-for="(item, index) in items"
                                 :key="index"
                                 :value="index"
+                                :to="item.url"
                             >
                                 <v-list-item-title>{{ item.title }}</v-list-item-title>
                             </v-list-item>
