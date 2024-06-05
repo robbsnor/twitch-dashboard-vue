@@ -49,12 +49,7 @@ const singInUrl = TwitchService.getSignInURL();
 .splash {
     padding-top: $header-height;
 
-    &__container {
-        @include container(rem($container-smaller-width));
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+    &__container {}
 
     &__description {
         padding-bottom: rem(5px);
@@ -68,7 +63,6 @@ const singInUrl = TwitchService.getSignInURL();
 
     &__image-container {
         position: relative;
-        height: 500px;
         overflow: hidden;
         margin-right: rem(-$padding);
     }
@@ -84,7 +78,10 @@ const singInUrl = TwitchService.getSignInURL();
         padding: rem(125px) 0;
 
         &__container {
-            flex-direction: row;
+            @include container(rem($container-smaller-width));
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         &__copy {
