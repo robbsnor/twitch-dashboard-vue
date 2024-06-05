@@ -21,21 +21,21 @@ const items = ref([
     },
 ]);
 
-const emit = defineEmits(['clickProfile', 'clickHamburger']);
+const emit = defineEmits(['click-hamburger', 'click-logo']);
 </script>
 
 <template>
     <header class="header">
         <div class="header__container">
             <div class="header__left">
-                <button @click="emit('clickHamburger')" class="header__hamburger hamburger">
+                <button @click="emit('click-hamburger')" class="header__hamburger hamburger">
                     <span class="sr-only">Menu</span>
                     <div class="hamburger__stroke"></div>
                     <div class="hamburger__stroke"></div>
                 </button>
             </div>
 
-            <RouterLink to="/following/live" class="header__logo">
+            <RouterLink to="/following/live" @click="emit('click-logo')" class="header__logo">
                 <div class="header-logo header-logo--desktop"><Logo :payoff="true" /></div>
                 <div class="header-logo header-logo--mobile"><Logo :payoff="false" /></div>
             </RouterLink>
@@ -43,10 +43,12 @@ const emit = defineEmits(['clickProfile', 'clickHamburger']);
             <div class="header__right">
                 <button class="header__user">
                     <span class="sr-only">Username</span>
+
                     <HeaderAvatar
                         v-if="props.user"
                         :image="props.user.profile_image_url"
                     />
+
                     <v-menu activator="parent">
                         <v-list>
                             <v-list-item

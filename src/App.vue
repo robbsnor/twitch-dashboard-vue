@@ -27,6 +27,7 @@ onKeyStroke(['Escape'], (e) => {
 }, { dedupe: true });
 
 const toggleMenu = () => menuOpen.value = !menuOpen.value;
+const closeMenu = () => menuOpen.value = false;
 
 onMounted(() => {
     mainMinHeight.value = getMainMinHeight();
@@ -44,6 +45,7 @@ const getMainMinHeight = () => {
         class="app__header"
         :user="authStore.user"
         @click-profile="authStore.signOut"
+        @click-logo="closeMenu"
         @click-hamburger="toggleMenu"
     />
 
