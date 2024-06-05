@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
@@ -15,6 +15,7 @@ const props = defineProps<{
 }>();
 
 const _filter = ref<string>();
+const mainMinHeight = ref(0);
 
 const _cards = computed(() => {
     const videos = props.streams?.filter(stream => {
@@ -52,6 +53,14 @@ const setSearchToTopOfPage = (focused: boolean) => {
     const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
 };
+
+onMounted(() => {
+    mainMinHeight.value = getMainMinHeight();
+});
+
+const getMainMinHeight = () => {
+    return document.querySelector('.non-favourite__cards')?.clientHeight || 0;
+};
 </script>
 
 <template>
@@ -68,7 +77,7 @@ const setSearchToTopOfPage = (focused: boolean) => {
             </div>
         </template>
 
-        <div class="non-favourite">
+        <div class="non-favourite" :style="'min-height: ' + mainMinHeight + 'px'">
             <div v-if="_cards" class="non-favourite__cards">
                 <div v-for="card in _cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
                     <CardLive :card="card" :size="_cardSize"></CardLive>
