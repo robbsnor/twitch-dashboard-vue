@@ -56,13 +56,8 @@ const singInUrl = TwitchService.getSignInURL();
         justify-content: space-between;
     }
 
-    &__subtitle {
-        color: $c-black-14;
-        padding-bottom: 1.5rem;
-    }
-
     &__description {
-        margin-bottom: rem(50px);
+        padding-bottom: rem(5px);
     }
 
     &__buttons {

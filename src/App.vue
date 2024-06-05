@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 import { useAuthStore } from './app/auth/stores/auth.store';
 import Dropdown from './app/base/components/Dropdown.vue';
@@ -28,10 +28,14 @@ onKeyStroke(['Escape'], (e) => {
 
 const toggleMenu = () => menuOpen.value = !menuOpen.value;
 
+onMounted(() => {
+    mainMinHeight.value = getMainMinHeight();
+});
+
 const getMainMinHeight = () => {
-    const header = document.querySelector('.app__header')! as HTMLElement;
-    const footer = document.querySelector('.app__footer')! as HTMLElement;
-    mainMinHeight.value = window.innerHeight - header.clientHeight - footer.clientHeight;
+    const headerHeight = document.querySelector('.app__header')?.clientHeight || 0;
+    const footerHeight = document.querySelector('.app__footer')?.clientHeight || 0;
+    return window.innerHeight - headerHeight - footerHeight;
 };
 </script>
 
