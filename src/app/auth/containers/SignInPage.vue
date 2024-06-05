@@ -15,20 +15,14 @@ onMounted(async () => {
 
 watch(user, async (value) => {
     if (!value) return;
-    await new Promise(resolve => setTimeout(resolve, 2000));
     router.push({ name: 'live' });
 });
 </script>
 
 <template>
     <div class="log-in">
-        <Section>
-            <Spinner v-if="!user" padding text="Signing you in..."/>
-
-            <div v-else class="welcome">
-                <h1>Welcome, {{ user.display_name }}</h1>
-                <p>Redirecting you to your dashboard...</p>
-            </div>
+        <Section first>
+            <Spinner padding text="Loggin you in..."/>
         </Section>
     </div>
 </template>

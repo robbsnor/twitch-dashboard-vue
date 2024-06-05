@@ -5,24 +5,18 @@ import { useAuthStore } from '../stores/auth.store';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const step = ref(0);
 
 onMounted(async () => {
     await new Promise(resolve => setTimeout(resolve, 800));
-    step.value = 1;
-
     await authStore.signOut();
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     router.push({ name: 'home' });
 });
 </script>
 
 <template>
-    <div class="sign-out">
+    <div first class="sign-out">
         <Section>
-            <Spinner v-if="step === 0" padding text="Logging you out..." />
-            <Spinner v-if="step === 1" padding text="Logging out successful, returning you back home..." />
+            <Spinner padding text="Logging out..." />
         </Section>
     </div>
 </template>

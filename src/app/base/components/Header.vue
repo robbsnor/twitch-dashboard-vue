@@ -10,14 +10,17 @@ const items = ref([
     {
         title: 'account',
         url: '',
+        icon: 'mdi-account',
     },
     {
         title: 'settings',
         url: '',
+        icon: 'mdi-cog',
     },
     {
         title: 'logout',
         url: '/auth/sign-out',
+        icon: 'mdi-logout',
     },
 ]);
 
@@ -49,15 +52,16 @@ const emit = defineEmits(['click-hamburger', 'click-logo']);
                         :image="props.user.profile_image_url"
                     />
 
-                    <v-menu activator="parent">
+                    <v-menu location="bottom end" activator="parent">
                         <v-list>
                             <v-list-item
                                 v-for="(item, index) in items"
                                 :key="index"
                                 :value="index"
                                 :to="item.url"
+                                :prepend-icon="item.icon"
                             >
-                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                {{ item.title }}
                             </v-list-item>
                         </v-list>
                     </v-menu>

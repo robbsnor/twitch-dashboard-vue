@@ -10,7 +10,7 @@ const singInUrl = TwitchService.getSignInURL();
 </script>
 
 <template>
-    <Section class="splash">
+    <Section first class="splash">
         <div class="splash__container">
             <div class="splash__copy">
                 <h1 class="splash__title">Twitch Dashboard</h1>
@@ -47,7 +47,6 @@ const singInUrl = TwitchService.getSignInURL();
 @import '/src/assets/styles/functions/rem';
 
 .splash {
-    padding-top: $header-height;
 
     &__container {}
 
