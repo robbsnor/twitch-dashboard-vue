@@ -1,42 +1,40 @@
 <script setup lang="ts">
 import { computedAsync } from '@vueuse/core';
 import { useRouteParams } from '@vueuse/router';
-import { ref, type Ref } from 'vue';
+import { ref, watch } from 'vue';
+import { TitleService } from '../../shared/services/title.service';
 import { TwitchService } from '../../shared/services/twitch.service';
 import UserHeader, { type UserHeaderProps } from '../components/UserHeader.vue';
 import { UserFactory } from '../factories/user.factory';
 import UserCards from './UserCards.vue';
-import { TitleService } from '../../shared/services/title.service';
-import { watch } from 'vue';
 
 const twitchService = new TwitchService();
 
-const _userLogin = useRouteParams('userLogin') as Ref<string>;
-const _userHeader = ref<UserHeaderProps>();
-const _user = computedAsync(async () => {
-    const res = await twitchService.getUsers({ logins: [_userLogin.value] });
-    const user = res.data[0];
-    return user;
-})
+const userLogin = useRouteParams<string>('userLogin');
+const userHeader = ref<UserHeaderProps>();
+const user = computedAsync(async () => {
+    const res = await twitchService.getUsers({ logins: [userLogin.value] });
+    return res.data[0];
+});
 
-watch(_user, async () => {
-    TitleService.setTitle(_user.value.display_name);
+watch(user, async () => {
+    TitleService.setTitle(user.value.display_name);
 
-    const resFollowers = await twitchService.getChannelFollowers(Number(_user.value.id));
-    _userHeader.value = UserFactory.mapToUserHeader(_user.value, resFollowers.total);
+    const resFollowers = await twitchService.getChannelFollowers(Number(user.value.id));
+    userHeader.value = UserFactory.mapToUserHeader(user.value, resFollowers.total);
 });
 </script>
 
 <template>
     <div class="user">
-        <template v-if="_user && _userHeader">
+        <template v-if="user && userHeader">
             <UserHeader
-                v-if="_userHeader"
-                v-bind="_userHeader"
+                v-if="userHeader"
+                v-bind="userHeader"
                 class="user__header"
             />
 
-            <UserCards :user="_user" class="user__cards" />
+            <UserCards :user="user" class="user__cards" />
         </template>
 
         <Spinner v-else padding/>

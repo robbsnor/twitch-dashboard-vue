@@ -6,15 +6,15 @@ import { computed } from 'vue';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 
 interface Props {
-  card: CardVideoModel;
-  showDuration?: boolean;
-  showThumbnail?: boolean;
+    card: CardVideoModel;
+    showDuration?: boolean;
+    showThumbnail?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     showDuration: true,
     showThumbnail: true,
-})
+});
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
@@ -24,7 +24,7 @@ const formattedDate = computed(() => {
     const month = props.card.date.toLocaleDateString(undefined, { month: 'long' });
     const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
     const year = props.card.date.getFullYear();
-    return `${ day } ${ capitalizedMonth } ${ year }`;
+    return `${day} ${capitalizedMonth} ${year}`;
 });
 </script>
 
@@ -137,7 +137,7 @@ const formattedDate = computed(() => {
     }
 
     &__info {
-        padding-top: rem(10px);
+        padding-top: rem(12px);
     }
 
     &__title {
