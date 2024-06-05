@@ -2,6 +2,7 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { vuetify } from './vuetify.config';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import VueFeather from 'vue-feather';
 import App from './App.vue';
 import router from './router/router';
@@ -26,6 +27,8 @@ app.use(pinia);
 app.use(router);
 app.use(vuetify);
 app.use(autoAnimatePlugin);
+
+pinia.use(piniaPluginPersistedstate);
 
 // shared components
 app.component(VueFeather.name!, VueFeather);

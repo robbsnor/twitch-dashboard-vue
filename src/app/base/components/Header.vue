@@ -17,7 +17,7 @@ const items = ref([
     },
     {
         title: 'logout',
-        url: '/logout',
+        url: '/auth/sign-out',
     },
 ]);
 

@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { AuthService } from '../services/auth.service';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth.store';
 
 const router = useRouter();
+const authStore = useAuthStore();
 const step = ref(0);
 
 onMounted(async () => {
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 800));
     step.value = 1;
 
-    await new Promise(resolve => setTimeout(resolve, 2400));
-    AuthService.signOut();
+    await authStore.signOut();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     router.push({ name: 'home' });
 });
 </script>
 
 <template>
-    <div class="logout">
+    <div class="sign-out">
         <Section>
             <Spinner v-if="step === 0" padding text="Logging you out..." />
             <Spinner v-if="step === 1" padding text="Logging out successful, returning you back home..." />
@@ -31,5 +33,5 @@ onMounted(async () => {
 @import '/src/assets/styles/mixins/container';
 @import '/src/assets/styles/functions/rem';
 
-.logout {}
+.sign-out {}
 </style>

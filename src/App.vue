@@ -12,11 +12,6 @@ const authStore = useAuthStore();
 const menuOpen = ref(false);
 const mainMinHeight = ref(0);
 
-onMounted(async () => {
-    authStore.signIn();
-    getMainMinHeight();
-});
-
 onKeyStroke(['w', 'W'], (e) => {
     const isFocusingBody = document.activeElement === document.body;
     if (!isFocusingBody) return;

@@ -18,9 +18,14 @@ const router = createRouter({
             component: () => import('../app/home/containers/HomePage.vue'),
         },
         {
-            path: '/logout',
-            name: 'logout',
-            component: () => import('../app/auth/containers/LogoutPage.vue'),
+            path: '/auth/sign-in',
+            name: 'sign-in',
+            component: () => import('../app/auth/containers/SignInPage.vue'),
+        },
+        {
+            path: '/auth/sign-out',
+            name: 'sign-out',
+            component: () => import('../app/auth/containers/SignOutPage.vue'),
         },
         {
             path: '/playground',

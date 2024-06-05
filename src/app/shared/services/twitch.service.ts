@@ -32,7 +32,7 @@ export class TwitchService {
     public async getUsers(user: UserIdsOrLogins): Promise<TwitchGetUsers> {
         const url = new URL('https://api.twitch.tv/helix/users');
         if (user.ids) user.ids.forEach(id => url.searchParams.append('id', id.toString()));
-        if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login.toString()));
+        if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login));
 
         const res = await this.http.get<TwitchGetUsers>(url.toString());
         if (res.data.data.length === 0) throw new Error('No users found');
@@ -168,8 +168,8 @@ export class TwitchService {
         });
 
         return {
-            userId: res.data.user_id,
-            userLogin: res.data.login,
+            userId: Number(res.data.user_id),
+            userLogin: res.data.login as string,
         };
     }
 }
