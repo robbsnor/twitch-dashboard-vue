@@ -1,22 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useAuthStore } from '../../auth/stores/auth.store';
 import { TitleService } from '../../shared/services/title.service';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
 const authStore = useAuthStore();
-
 TitleService.setTitle('Home');
 
-const singInUrl = computed(() => {
-    const url = new URL('https://id.twitch.tv/oauth2/authorize');
-    url.searchParams.append('client_id', 'bpjttmchlxdfo9t47z8g3b7snhr9h4');
-    url.searchParams.append('redirect_uri', `${window.location.origin}/auth/sign-in`);
-    url.searchParams.append('force_verify', 'false');
-    url.searchParams.append('response_type', 'token');
-    url.searchParams.append('scope', 'user:read:follows user:read:subscriptions moderator:read:followers');
-
-    return url.href;
-});
+const singInUrl = TwitchService.getSignInURL();
 </script>
 
 <template>
@@ -32,9 +22,11 @@ const singInUrl = computed(() => {
 
                 <ButtonGroup class="splash__buttons">
                     <Button color="secondary">Features</Button>
+
                     <RouterLink v-if="authStore.user" to="/following/live">
                         <Button >Dashboard</Button>
                     </RouterLink>
+
                     <a v-else :href="singInUrl">
                         <Button icon="twitch">Log in with Twitch</Button>
                     </a>
@@ -42,9 +34,7 @@ const singInUrl = computed(() => {
             </div>
 
             <div class="splash__image-container">
-                <code>
-                    {{ authStore.user }}
-                </code>
+                <!--  -->
             </div>
         </div>
     </Section>
