@@ -1,15 +1,19 @@
-import { ImageService } from '../../shared/services/image.service';
-import type { CardVideo } from '../models/card-video.model';
-import type { TwitchVideo } from '../../shared/models/twitch/videos.model';
+import type { AdditionalVideosInfo } from '../../shared/models/twitch-additional/additional-video-info.model';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
+import type { TwitchVideo } from '../../shared/models/twitch/videos.model';
+import { ImageService } from '../../shared/services/image.service';
 import type { UserHeaderProps } from '../components/UserHeader.vue';
+import type { CardVideo } from '../models/card-video.model';
 
 export class UserFactory {
-    public static mapToCards(videos: TwitchVideo[]): CardVideo[] {
+    public static mapToCards(videos: TwitchVideo[], additionalVideosInfo?: AdditionalVideosInfo[]): CardVideo[] {
         return videos.map<CardVideo>((video) => {
             const thumbnail = video.thumbnail_url.includes('404/404')
                 ? 'https://vod-secure.twitch.tv/_404/404_processing_320x180.png'
                 : ImageService.craftImage(video.thumbnail_url, undefined, undefined, '%{width}', '%{height}');
+
+            const additionalVideoInfo = additionalVideosInfo?.find((scrapedVideo: any) => scrapedVideo.videoId === Number(video.id));
+            const chapters = additionalVideoInfo?.chapters.map((chapter) => ({ ...chapter, duration: Number(chapter.duration) }));
 
             return {
                 link: video.url,
@@ -18,8 +22,8 @@ export class UserFactory {
                 duration: video.duration,
                 views: video.view_count,
                 date: new Date(video.published_at),
-                id: parseInt(video.id),
-                // chapters: scrapedVideo?.chapters
+                id: Number(video.id),
+                chapters: chapters,
             };
         });
     }

@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const twitchService = new TwitchService();
 
-const _additionalVideoInfo = ref(LEKKER_SPELEN_VIDEOS);
+const additionalVideosInfo = ref(LEKKER_SPELEN_VIDEOS);
 const _drawer = ref(false);
 const _form = ref<Form>({
     search: null,
@@ -29,7 +29,7 @@ const _cards = ref<CardVideoModel[]>([]);
 const _loadingCards = ref(true);
 
 const _categories = computed(() => {
-    const duplicateCategories = _additionalVideoInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
+    const duplicateCategories = additionalVideosInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
     const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
     return orderedCategories;
 });
@@ -41,7 +41,7 @@ const getCards = async (amount = 20, pagination?: string) => {
     _pagination.value = res.pagination.cursor;
 
     const videos = res.data;
-    const newCards = UserFactory.mapToCards(videos);
+    const newCards = UserFactory.mapToCards(videos, additionalVideosInfo.value);
     _cards.value = [..._cards.value, ...newCards];
 
     _loadingCards.value = false;
@@ -61,14 +61,14 @@ const searchVideos = async (query: string) => {
 
     if (!query) return getCards();
 
-    const videoIds = _additionalVideoInfo.value.filter((video) => {
+    const videoIds = additionalVideosInfo.value.filter((video) => {
         const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
         const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(query.toLocaleLowerCase()));
         return matchedTitle || matchedChapters;
     }).map(video => video.videoId);
 
     const res = await twitchService.getVideosByVideoIds(videoIds);
-    _cards.value = UserFactory.mapToCards(res.data);
+    _cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
     _pagination.value = '';
     _loadingCards.value = false;
 };

@@ -46,6 +46,12 @@ const formattedDate = computed(() => {
             <div class="card-video__date-wrapper">
                 <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
             </div>
+            <div v-if="props.card.chapters?.length" class="card-video__chapters">
+                <div v-for="(chapter, i) in props.card.chapters" :key="i" class="card-video__chapter">
+                    <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
+                    <div class="card-video__chapter-title">{{ chapter.title }}</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -169,6 +175,21 @@ const formattedDate = computed(() => {
         gap: rem(10px);
     }
 
+    &__chapter {
+        display: flex;
+        align-items: center;
+        gap: rem(10px);
+    }
+
+    &__box-art {
+        width: rem(20px);
+        border-radius: rem(3px);
+    }
+
+    &__chapter-title {
+        font-size: rem(16px);
+    }
+
     @include screen(1000px) {
         &__options {
             opacity: 0;
@@ -179,18 +200,6 @@ const formattedDate = computed(() => {
                 opacity: 1;
             }
         }
-    }
-}
-
-.card-video-chapter {
-    display: flex;
-    align-items: center;
-    gap: rem(10px);
-    opacity: .5;
-
-    &__box-art {
-        width: rem(20px);
-        border-radius: rem(3px);
     }
 }
 </style>
