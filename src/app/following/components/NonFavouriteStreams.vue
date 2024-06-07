@@ -8,22 +8,21 @@ import type { CardLiveSize } from '../models/card-live.model';
 
 const { width } = useWindowSize();
 
-const el = ref<HTMLElement | null>(null);
-
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>();
 
-const _filter = ref<string>();
+const filter = ref<string>();
 const mainMinHeight = ref(0);
+const sectionEl = ref<HTMLElement | null>(null);
 
-const _cards = computed(() => {
+const cards = computed(() => {
     const videos = props.streams?.filter(stream => {
-        if (!_filter.value) return true;
+        if (!filter.value) return true;
 
-        const usernameMatch = stream.user_name.toLowerCase().includes(_filter.value.toLowerCase());
-        const gameMatch = stream.game_name?.toLowerCase().includes(_filter.value.toLowerCase());
-        const titleMatch = stream.title.toLowerCase().includes(_filter.value.toLowerCase());
+        const usernameMatch = stream.user_name.toLowerCase().includes(filter.value.toLowerCase());
+        const gameMatch = stream.game_name?.toLowerCase().includes(filter.value.toLowerCase());
+        const titleMatch = stream.title.toLowerCase().includes(filter.value.toLowerCase());
 
         return usernameMatch || gameMatch || titleMatch;
     });
@@ -32,13 +31,12 @@ const _cards = computed(() => {
     return LiveFactory.mapToCardLiveNormal(videos);
 });
 
-const _categories = computed(() => {
+const categories = computed(() => {
     const duplicateCategories = props.streams?.map(stream => stream.game_name).sort().filter(Boolean);
-    const categories = [...new Set(duplicateCategories)];
-    return categories;
+    return [...new Set(duplicateCategories)];
 });
 
-const _cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
+const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 
 const setSearchToTopOfPage = (focused: boolean) => {
     if (!focused) return;
@@ -64,12 +62,12 @@ const getMainMinHeight = () => {
 </script>
 
 <template>
-    <Section title="Live channels" ref="el">
+    <Section title="Live channels" ref="sectionEl">
         <template #actions>
             <div class="filter">
                 <v-combobox
-                    v-model="_filter"
-                    :items="_categories"
+                    v-model="filter"
+                    :items="categories"
                     placeholder="Search streams..."
                     @update:focused="setSearchToTopOfPage($event)"
                     class="filter__search"
@@ -78,16 +76,16 @@ const getMainMinHeight = () => {
         </template>
 
         <div class="non-favourite" :style="'min-height: ' + mainMinHeight + 'px'">
-            <div v-if="_cards" class="non-favourite__cards">
-                <div v-for="card in _cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
-                    <CardLive :card="card" :size="_cardSize"></CardLive>
+            <div v-if="cards" class="non-favourite__cards">
+                <div v-for="card in cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
+                    <CardLive :card="card" :size="cardSize"></CardLive>
                 </div>
             </div>
 
             <Spinner padding v-else></Spinner>
 
-            <div v-if="!_cards?.length && _filter?.length" class="non-favourite__not-found not-found">
-                No streams found matching <span class="not-found__query">"{{ _filter }}"</span>.
+            <div v-if="!cards?.length && filter?.length" class="non-favourite__not-found not-found">
+                No streams found matching <span class="not-found__query">"{{ filter }}"</span>.
             </div>
         </div>
     </Section>
