@@ -55,7 +55,7 @@ const init = () => {
     getCards();
 };
 
-const searchVideos = async (query: string) => {
+const searchVideos = async (query: string | null) => {
     _loadingCards.value = true;
     _cards.value = [];
 
