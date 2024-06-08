@@ -73,10 +73,6 @@ const searchVideos = async (query: string) => {
     _loadingCards.value = false;
 };
 
-const log = (chapter: CardVideoChapter) => {
-    _form.value.search = chapter.title;
-};
-
 watch(
     () => _form.value.search,
     _.debounce(async (query) => {
