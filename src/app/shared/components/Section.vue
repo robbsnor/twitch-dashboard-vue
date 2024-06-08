@@ -11,8 +11,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const emit = defineEmits([]);
-
 const classes = computed(() => {
     return {
         'section': true,

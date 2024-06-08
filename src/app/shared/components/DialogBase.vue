@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const emit = defineEmits(['close'])
+const emits = defineEmits(['close']);
 </script>
 
 <template>
@@ -9,7 +9,7 @@ const emit = defineEmits(['close'])
         </div>
 
         <div class="dialog-base__footer">
-            <button @click="emit('close')" class="dialog-base__close">
+            <button @click="emits('close')" class="dialog-base__close">
                 <span class="sr-only">Close</span>
                 <v-icon icon="mdi-window-close" class="dialog-base__close-icon" />
             </button>
@@ -55,7 +55,7 @@ const emit = defineEmits(['close'])
         pointer-events: all;
 
         &:hover {
-            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.4) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .4) 100%);
 
             #{ $self }__close-icon {
                 scale: 1.2;

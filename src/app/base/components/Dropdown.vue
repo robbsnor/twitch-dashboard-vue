@@ -39,14 +39,14 @@ const menus: Menu[] = [
 ];
 
 const props = defineProps<{
-  open: any;
+    open: any;
 }>();
-const emit = defineEmits(['closeMenu'])
+const emits = defineEmits(['closeMenu']);
 </script>
 
 <template>
-    <div class="dropdown" :class="{'dropdown--open': props.open}">
-        <button @click="emit('closeMenu')" class="dropdown__background"><span class="sr-only">Close menu</span></button>
+    <div class="dropdown" :class="{ 'dropdown--open': props.open }">
+        <button @click="emits('closeMenu')" class="dropdown__background"><span class="sr-only">Close menu</span></button>
 
         <div class="dropdown__menu-container">
             <div class="dropdown__container">
@@ -56,7 +56,7 @@ const emit = defineEmits(['closeMenu'])
                         <ul>
                             <li v-for="item in menu.items">
                                 <RouterLink
-                                    @click="emit('closeMenu')"
+                                    @click="emits('closeMenu')"
                                     :to="item.url"
                                     class="nav__menu-link"
                                 >{{ item.text }}</RouterLink>

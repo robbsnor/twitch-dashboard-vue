@@ -24,21 +24,21 @@ const items = ref([
     },
 ]);
 
-const emit = defineEmits(['click-hamburger', 'click-logo']);
+const emits = defineEmits(['click-hamburger', 'click-logo']);
 </script>
 
 <template>
     <header class="header">
         <div class="header__container">
             <div class="header__left">
-                <button @click="emit('click-hamburger')" class="header__hamburger hamburger">
+                <button @click="emits('click-hamburger')" class="header__hamburger hamburger">
                     <span class="sr-only">Menu</span>
                     <div class="hamburger__stroke"></div>
                     <div class="hamburger__stroke"></div>
                 </button>
             </div>
 
-            <RouterLink to="/following/live" @click="emit('click-logo')" class="header__logo">
+            <RouterLink to="/following/live" @click="emits('click-logo')" class="header__logo">
                 <div class="header-logo header-logo--desktop"><Logo :payoff="true" /></div>
                 <div class="header-logo header-logo--mobile"><Logo :payoff="false" /></div>
             </RouterLink>

@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
     showThumbnail: true,
 });
 
-const emit = defineEmits({
+const emits = defineEmits({
     'click:chapter': (chapter: CardVideoChapter) => true,
 });
 
@@ -51,7 +51,7 @@ const formattedDate = computed(() => {
                 <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
             </div>
             <div v-if="props.card.chapters?.length" class="card-video__chapters">
-                <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emit('click:chapter', chapter)" class="card-video__chapter">
+                <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emits('click:chapter', chapter)" class="card-video__chapter">
                     <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
                     <div class="card-video__chapter-title">{{ chapter.title }}</div>
                 </div>
