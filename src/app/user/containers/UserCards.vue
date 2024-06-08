@@ -5,7 +5,7 @@ import { TwitchService } from '../../shared/services/twitch.service';
 import CardVideo from '../components/CardVideo.vue';
 import FilterForm from '../components/FilterForm.vue';
 import { UserFactory } from '../factories/user.factory';
-import type { CardVideo as CardVideoModel } from '../models/card-video.model';
+import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
 import type { Form } from '../models/form.model';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
 import _ from 'lodash';
@@ -73,6 +73,10 @@ const searchVideos = async (query: string) => {
     _loadingCards.value = false;
 };
 
+const log = (chapter: CardVideoChapter) => {
+    _form.value.search = chapter.title;
+};
+
 watch(
     () => _form.value.search,
     _.debounce(async (query) => {
@@ -113,6 +117,7 @@ onMounted(() => {
                         :card="card"
                         :showDuration="_form.showDuration"
                         :showThumbnail="_form.showThumbnail"
+                        @click:chapter="_form.search = $event.title"
                         class="cards__card"
                     />
                 </div>

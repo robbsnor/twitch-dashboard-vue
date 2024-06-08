@@ -3,7 +3,7 @@ import { DateService } from '@/app/shared/services/date.service';
 import { NumberService } from '@/app/shared/services/number.service';
 import { TimeService } from '@/app/shared/services/time.service';
 import { computed } from 'vue';
-import type { CardVideo as CardVideoModel } from '../models/card-video.model';
+import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
 
 interface Props {
     card: CardVideoModel;
@@ -14,6 +14,10 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     showDuration: true,
     showThumbnail: true,
+});
+
+const emit = defineEmits({
+    'click:chapter': (chapter: CardVideoChapter) => true,
 });
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
@@ -47,7 +51,7 @@ const formattedDate = computed(() => {
                 <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
             </div>
             <div v-if="props.card.chapters?.length" class="card-video__chapters">
-                <div v-for="(chapter, i) in props.card.chapters" :key="i" class="card-video__chapter">
+                <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emit('click:chapter', chapter)" class="card-video__chapter">
                     <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
                     <div class="card-video__chapter-title">{{ chapter.title }}</div>
                 </div>

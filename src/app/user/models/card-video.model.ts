@@ -1,5 +1,3 @@
-import type { AdditionalVideoChapter } from "../../shared/models/twitch-additional/additional-video-info.model";
-
 export interface CardVideo {
     link: string;
     thumbnail: string;
@@ -8,9 +6,11 @@ export interface CardVideo {
     duration: string;
     date: Date;
     id: number;
-    chapters?: {
-        title: string;
-        boxArt: string;
-        duration: number;
-    }[];
+    chapters?: CardVideoChapter[];
+}
+
+export interface CardVideoChapter {
+    title: string;
+    boxArt: string;
+    duration: number;
 }
