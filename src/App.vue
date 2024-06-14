@@ -94,7 +94,7 @@ const getMainMinHeight = () => {
         right: rem($padding);
         z-index: 100;
         background-color: transparent;
-        color: $c-black-20;
+        color: $c-black-6;
         transition: .2s;
 
         &:hover {
