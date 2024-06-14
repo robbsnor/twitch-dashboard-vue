@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
-  image: string;
-}>()
+    image: string;
+}>();
 </script>
 
 <template>
@@ -13,9 +13,6 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/color';
-@import '/src/assets/styles/functions/rem';
-
 .header-avatar {
     position: relative;
     width: rem(30px);

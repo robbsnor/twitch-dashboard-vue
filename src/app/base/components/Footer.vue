@@ -10,10 +10,6 @@
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/color';
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/functions/rem';
-
 .footer {
     display: flex;
     justify-content: center;

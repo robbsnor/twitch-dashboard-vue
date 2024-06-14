@@ -51,5 +51,19 @@ export default defineConfig({
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
         }
+    },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `
+                    @import '/src/assets/styles/functions/rem';
+                    @import '/src/assets/styles/mixins/screen';
+                    @import '/src/assets/styles/mixins/container';
+                    @import '/src/assets/styles/mixins/line-clamp';
+                    @import '/src/assets/styles/var/size';
+                    @import '/src/assets/styles/var/color';
+                `
+            }
+        }
     }
 });

@@ -72,11 +72,6 @@ const emits = defineEmits(['click-hamburger', 'click-logo']);
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/color';
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/functions/rem';
-@import '/src/assets/styles/mixins/container';
-
 .header {
     height: $header-height;
     background-image: linear-gradient(180deg, $c-black-1 0%, rgba($c-black-1, 0) 100%);

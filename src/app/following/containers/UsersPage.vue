@@ -33,11 +33,6 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/color';
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/mixins/container';
-@import '/src/assets/styles/functions/rem';
-
 .user-cards {
     display: grid;
     gap: $padding;

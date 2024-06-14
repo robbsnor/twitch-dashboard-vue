@@ -10,14 +10,14 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     color: 'primary',
     iconAlign: 'right',
-})
+});
 
 const classes = computed(() => {
     const iconClass = props.icon ? `button--icon button--icon-${props.icon}` : '';
     const iconAlignclass = props.icon ? `button--icon-align-${props.iconAlign}` : '';
 
     return `button button--${props.color} ${iconAlignclass} ${iconClass}`;
-})
+});
 </script>
 
 <template>
@@ -28,10 +28,6 @@ const classes = computed(() => {
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/color';
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/functions/rem';
-
 .button {
     $self : &;
 
@@ -64,7 +60,7 @@ const classes = computed(() => {
         }
     }
 
-    &__icon { }
+    &__icon {}
 
     &:hover {
         // scale: 1.04;

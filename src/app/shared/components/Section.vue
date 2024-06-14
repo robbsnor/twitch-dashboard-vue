@@ -42,10 +42,6 @@ const classes = computed(() => {
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/functions/rem';
-@import '/src/assets/styles/mixins/container';
-
 .section {
     $self: &;
 

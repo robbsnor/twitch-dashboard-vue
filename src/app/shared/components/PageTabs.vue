@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
     title: string;
-    pages: { name: string; path: string }[];
+    pages: { name: string; path: string; }[];
 }
 
 const props = defineProps<Props>();
@@ -26,10 +26,6 @@ const props = defineProps<Props>();
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/var/color';
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/functions/rem';
-
 .page-tabs {
     &__title {
         font-size: rem(40px);

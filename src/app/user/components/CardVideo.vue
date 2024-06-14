@@ -37,10 +37,15 @@ const formattedDate = computed(() => {
         <a :href="props.card.link" target="_blank" class="card-video__thumbnail-container">
             <span class="sr-only">Watch {{ props.card.title }} video</span>
             <img v-if="props.showThumbnail" :src="props.card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
-            <div class="card-video__thumbnail-overlay"></div>
-            <div class="card-video__arrow">
-                <!-- <app-myIcon icon="arrow"></app-myIcon> -->
+
+            <div v-else class="card-video__thumbnail-empty">
+                <div class="card-video__spoiler-text">Spoilers</div>
             </div>
+
+            <div class="card-video__thumbnail-overlay"></div>
+            <!-- <div class="card-video__arrow">
+                <app-myIcon icon="arrow"></app-myIcon>
+            </div> -->
             <div class="card-video__views">{{ views }}</div>
          <div v-if="props.showDuration" class="card-video__duration">{{ duration }}</div>
         </a>
@@ -50,6 +55,7 @@ const formattedDate = computed(() => {
             <div class="card-video__date-wrapper">
                 <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
             </div>
+
             <div v-if="props.card.chapters?.length" class="card-video__chapters">
                 <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emits('click:chapter', chapter)" class="card-video__chapter">
                     <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
@@ -61,12 +67,6 @@ const formattedDate = computed(() => {
 </template>
 
 <style scoped lang="scss">
-@import '/src/assets/styles/functions/rem';
-@import '/src/assets/styles/mixins/screen';
-@import '/src/assets/styles/mixins/line-clamp';
-@import '/src/assets/styles/var/size';
-@import '/src/assets/styles/var/color';
-
 .card-video {
     $self: &;
 
@@ -129,6 +129,22 @@ const formattedDate = computed(() => {
         border-radius: $border-radius-normal;
         opacity: .7;
         transition: .2s;
+    }
+
+    &__thumbnail-empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border-radius: $border-radius-normal;
+        background-color: $c-black-3;
+    }
+
+    &__spoiler-text {
+        font-style: italic;
+        font-size: rem(14px);
+        color: $c-black-20;
     }
 
     &__thumbnail-overlay {
