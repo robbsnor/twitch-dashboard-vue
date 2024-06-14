@@ -3,12 +3,12 @@ import { computed, onMounted, ref, watch } from 'vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import { TwitchService } from '../../shared/services/twitch.service';
 import CardVideo from '../components/CardVideo.vue';
-import FilterForm from '../components/FilterForm.vue';
 import { UserFactory } from '../factories/user.factory';
 import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
-import type { Form } from '../models/form.model';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
 import _ from 'lodash';
+import { useAppOptionsStore } from '@/app/base/stores/AppOptions.store';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps<{
     user: TwitchUser;
@@ -16,14 +16,11 @@ const props = defineProps<{
 
 const twitchService = new TwitchService();
 
+const appOptionsStore = useAppOptionsStore();
+const { options } = storeToRefs(appOptionsStore);
+
 const additionalVideosInfo = ref(LEKKER_SPELEN_VIDEOS);
-const _drawer = ref(false);
-const _form = ref<Form>({
-    search: null,
-    type: 'all',
-    showDuration: true,
-    showThumbnail: true,
-});
+const search = ref<string>();
 const _pagination = ref('');
 const _cards = ref<CardVideoModel[]>([]);
 const _loadingCards = ref(true);
@@ -74,7 +71,7 @@ const searchVideos = async (query: string | null) => {
 };
 
 watch(
-    () => _form.value.search,
+    () => search.value,
     _.debounce(async (query) => {
         searchVideos(query);
     }, 500)
@@ -95,9 +92,8 @@ onMounted(() => {
             <template #actions>
                 <div class="filter">
                     <v-combobox
-                        v-model="_form.search"
+                        v-model="search"
                         appendIcon="mdi-filter-variant"
-                        @click:append="_drawer = true"
                         :items="_categories"
                         placeholder="Search video..."
                         class="filter__search"
@@ -111,9 +107,9 @@ onMounted(() => {
                         v-for="card in _cards"
                         :key="card.id"
                         :card="card"
-                        :showDuration="_form.showDuration"
-                        :showThumbnail="_form.showThumbnail"
-                        @click:chapter="_form.search = $event.title"
+                        :showDuration="options.user.showDuration"
+                        :showThumbnail="options.user.showThumbnail"
+                        @click:chapter="search = $event.title"
                         class="cards__card"
                     />
                 </div>
@@ -124,12 +120,6 @@ onMounted(() => {
             <Spinner v-if="_loadingCards"/>
             <Button v-if="!_loadingCards && _pagination" @click="loadMore()">Load more</Button>
         </div>
-
-
-        <!-- drawer -->
-        <v-bottom-sheet v-model="_drawer">
-            <FilterForm :form="_form" />
-        </v-bottom-sheet>
     </div>
 </template>
 
