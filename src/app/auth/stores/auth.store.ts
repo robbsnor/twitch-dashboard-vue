@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import { TwitchService } from '../../shared/services/twitch.service';
 
-
 export const useAuthStore = defineStore('auth',
     () => {
         const user = ref<TwitchUser | null>();

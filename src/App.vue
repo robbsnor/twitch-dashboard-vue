@@ -1,16 +1,18 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/app/auth/stores/auth.store';
 import { onKeyStroke } from '@vueuse/core';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
-import { useAuthStore } from './app/auth/stores/auth.store';
-import Dropdown from './app/base/components/Dropdown.vue';
-import Footer from './app/base/components/Footer.vue';
-import Header from './app/base/components/Header.vue';
+import Dropdown from '@/app/base/components/Dropdown.vue';
+import Footer from '@/app/base/components/Footer.vue';
+import Header from '@/app/base/components/Header.vue';
+import AppOptionsDrawer from '@/app/base/containers/AppOptionsDrawer.vue';
 
 const authStore = useAuthStore();
 
 const menuOpen = ref(false);
 const mainMinHeight = ref(0);
+const settingsDrawer = ref(false);
 
 onKeyStroke(['w', 'W'], (e) => {
     const isFocusingBody = document.activeElement === document.body;
@@ -41,25 +43,33 @@ const getMainMinHeight = () => {
 </script>
 
 <template>
-    <Header
-        class="app__header"
-        :user="authStore.user"
-        @click-profile="authStore.signOut"
-        @click-logo="closeMenu"
-        @click-hamburger="toggleMenu"
-    />
+    <v-app class="app">
+        <Header
+            class="app__header"
+            :user="authStore.user"
+            @click-profile="authStore.signOut"
+            @click-logo="closeMenu"
+            @click-hamburger="toggleMenu"
+        />
 
-    <Dropdown
-        class="app__dropdown"
-        :open="menuOpen"
-        @closeMenu="toggleMenu"
-    />
+        <Dropdown
+            class="app__dropdown"
+            :open="menuOpen"
+            @closeMenu="toggleMenu"
+        />
 
-    <main class="app__main" :style="'min-height: ' + mainMinHeight + 'px'">
-        <RouterView />
-    </main>
+        <main class="app__main" :style="'min-height: ' + mainMinHeight + 'px'">
+            <RouterView />
+        </main>
 
-    <Footer class="app__footer"></Footer>
+        <Footer class="app__footer"></Footer>
+
+        <AppOptionsDrawer v-model:drawer="settingsDrawer" />
+
+        <div class="app__settings">
+            <v-btn color="purple" icon="mdi-cog" @click="settingsDrawer = !settingsDrawer"></v-btn>
+        </div>
+    </v-app>
 </template>
 
 <style scoped lang="scss">
@@ -73,6 +83,13 @@ const getMainMinHeight = () => {
         top: 0;
         right: 0;
         left: 0;
+        z-index: 100;
+    }
+
+    &__settings {
+        position: fixed;
+        bottom: rem($padding);
+        right: rem($padding);
         z-index: 100;
     }
 }

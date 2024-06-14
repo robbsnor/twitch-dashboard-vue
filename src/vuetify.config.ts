@@ -7,7 +7,16 @@ import '@mdi/font/css/materialdesignicons.css';
 
 export const vuetify = createVuetify({
     theme: {
-        defaultTheme: 'dark',
+        defaultTheme: 'twitchDashboardDark',
+        themes: {
+            twitchDashboardDark: {
+                dark: true,
+                colors: {
+                    primary: '#cdf620',
+                    background: '#000000',
+                }
+            }
+        }
     },
     defaults: {
         global: {
@@ -25,11 +34,12 @@ export const vuetify = createVuetify({
         },
         VSwitch: {
             hideDetails: true,
+            inset: true,
             color: 'primary',
         },
         VBtnToggle: {
             color: 'primary',
-        }
+        },
     },
     components,
     directives,
