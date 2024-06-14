@@ -22,14 +22,6 @@ import ZigZag from './app/shared/components/ZigZag.vue';
 const app = createApp(App);
 const pinia = createPinia();
 
-// plugins
-app.use(pinia);
-app.use(router);
-app.use(vuetify);
-app.use(autoAnimatePlugin);
-
-pinia.use(piniaPluginPersistedstate);
-
 // shared components
 app.component(VueFeather.name!, VueFeather);
 app.component('Button', Button);
@@ -41,5 +33,14 @@ app.component('Section', Section);
 app.component('Spinner', Spinner);
 app.component('Swirl', Swirl);
 app.component('ZigZag', ZigZag);
+
+// plugins
+app.use(pinia);
+app.use(router);
+app.use(vuetify);
+app.use(autoAnimatePlugin);
+
+// pinia
+pinia.use(piniaPluginPersistedstate);
 
 app.mount('#app');
