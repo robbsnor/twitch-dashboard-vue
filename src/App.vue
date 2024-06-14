@@ -66,9 +66,11 @@ const getMainMinHeight = () => {
 
         <AppOptionsDrawer v-model:drawer="settingsDrawer" />
 
-        <div class="app__settings">
-            <v-btn color="purple" icon="mdi-cog" @click="settingsDrawer = !settingsDrawer"></v-btn>
-        </div>
+        <v-btn
+            class="app__settings"
+            icon="mdi-cog"
+            @click="settingsDrawer = !settingsDrawer"
+        />
     </v-app>
 </template>
 
@@ -91,6 +93,14 @@ const getMainMinHeight = () => {
         bottom: rem($padding);
         right: rem($padding);
         z-index: 100;
+        background-color: transparent;
+        color: $c-black-20;
+        transition: .2s;
+
+        &:hover {
+            background-color: $c-black-2;
+            color: $c-primary;
+        }
     }
 }
 </style>
