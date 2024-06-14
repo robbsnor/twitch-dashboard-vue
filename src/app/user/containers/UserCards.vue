@@ -21,9 +21,9 @@ const { options } = storeToRefs(appOptionsStore);
 
 const additionalVideosInfo = ref(LEKKER_SPELEN_VIDEOS);
 const search = ref<string>();
-const _pagination = ref('');
-const _cards = ref<CardVideoModel[]>([]);
-const _loadingCards = ref(true);
+const pagination = ref('');
+const cards = ref<CardVideoModel[]>([]);
+const loadingCards = ref(true);
 
 const _categories = computed(() => {
     const duplicateCategories = additionalVideosInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
@@ -31,30 +31,30 @@ const _categories = computed(() => {
     return orderedCategories;
 });
 
-const getCards = async (amount = 20, pagination?: string) => {
-    _loadingCards.value = true;
+const getCards = async (amount = 20, _pagination?: string) => {
+    loadingCards.value = true;
 
-    const res = await twitchService.getVideosByUserId(Number(props.user.id), 'all', pagination, amount);
-    _pagination.value = res.pagination.cursor;
+    const res = await twitchService.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
+    pagination.value = res.pagination.cursor;
 
     const videos = res.data;
     const newCards = UserFactory.mapToCards(videos, additionalVideosInfo.value);
-    _cards.value = [..._cards.value, ...newCards];
+    cards.value = [...cards.value, ...newCards];
 
-    _loadingCards.value = false;
+    loadingCards.value = false;
 };
 
-const loadMore = () => getCards(100, _pagination.value);
+const loadMore = () => getCards(100, pagination.value);
 
 const init = () => {
-    _cards.value = [];
-    _pagination.value = '';
+    cards.value = [];
+    pagination.value = '';
     getCards();
 };
 
 const searchVideos = async (query: string | null) => {
-    _loadingCards.value = true;
-    _cards.value = [];
+    loadingCards.value = true;
+    cards.value = [];
 
     if (!query) return getCards();
 
@@ -65,9 +65,9 @@ const searchVideos = async (query: string | null) => {
     }).map(video => video.videoId);
 
     const res = await twitchService.getVideosByVideoIds(videoIds);
-    _cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
-    _pagination.value = '';
-    _loadingCards.value = false;
+    cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
+    pagination.value = '';
+    loadingCards.value = false;
 };
 
 watch(
@@ -104,7 +104,7 @@ onMounted(() => {
             <template #default>
                 <div class="cards">
                     <CardVideo
-                        v-for="card in _cards"
+                        v-for="card in cards"
                         :key="card.id"
                         :card="card"
                         :showDuration="options.user.showDuration"
@@ -117,8 +117,8 @@ onMounted(() => {
         </Section>
 
         <div class="user-cards__footer">
-            <Spinner v-if="_loadingCards"/>
-            <Button v-if="!_loadingCards && _pagination" @click="loadMore()">Load more</Button>
+            <Spinner v-if="loadingCards"/>
+            <Button v-if="!loadingCards && pagination" @click="loadMore()">Load more</Button>
         </div>
     </div>
 </template>
