@@ -34,7 +34,6 @@ export const vuetify = createVuetify({
         },
         VSwitch: {
             hideDetails: true,
-            inset: true,
             color: 'primary',
         },
         VBtnToggle: {
