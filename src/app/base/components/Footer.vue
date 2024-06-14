@@ -18,12 +18,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
-    padding: 50px rem($padding);
+    gap: rem(50px);
+    padding: rem(50px) rem($padding);
 
     &__icon-link {
         transition: .2s;
-        color: $c-black-6;
+        color: $c-black-8;
 
         &:hover {
             color: $c-primary;
