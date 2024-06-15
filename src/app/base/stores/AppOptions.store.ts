@@ -6,6 +6,9 @@ interface Options {
         showThumbnail: boolean;
         showDuration: boolean;
     },
+    app: {
+        vodDownloadURL?: string;
+    };
 }
 
 export const useAppOptionsStore = defineStore('app-options',
@@ -14,7 +17,8 @@ export const useAppOptionsStore = defineStore('app-options',
             user: {
                 showThumbnail: true,
                 showDuration: true,
-            }
+            },
+            app: {},
         });
 
         const toggleUserShowThumbnail = () => {

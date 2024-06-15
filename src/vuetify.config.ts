@@ -25,7 +25,6 @@ export const vuetify = createVuetify({
         VTextField: {
             variant: 'solo',
             clearable: true,
-            hideDetails: 'auto',
         },
         VCombobox: {
             variant: 'solo',

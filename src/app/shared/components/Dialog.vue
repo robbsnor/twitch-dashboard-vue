@@ -8,8 +8,12 @@ const dialog = defineModel<boolean>('dialog');
 const props = withDefaults(defineProps<{
     title?: string;
     description?: string;
+    width?: string | number;
+    closeIcon?: boolean;
 }>(), {
     title: 'Dialog',
+    width: 500,
+    closeIcon: true,
 });
 
 const close = () => {
@@ -19,7 +23,7 @@ const close = () => {
 </script>
 
 <template>
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="dialog" :width="props.width">
         <div class="dialog">
             <div class="dialog__header">
                 <h2 class="dialog__title">{{ props.title }}</h2>
@@ -30,12 +34,10 @@ const close = () => {
                 <slot></slot>
             </div>
 
-            <div class="dialog__footer">
-                <button @click="close()" class="dialog__close">
-                    <span class="sr-only">Close</span>
-                    <v-icon icon="mdi-window-close" class="dialog__close-icon" />
-                </button>
-            </div>
+            <button v-if="props.closeIcon" @click="close()" class="dialog__close">
+                <span class="sr-only">Close</span>
+                <v-icon icon="mdi-window-close" class="dialog__close-icon" />
+            </button>
         </div>
     </v-dialog>
 </template>
@@ -46,10 +48,12 @@ const close = () => {
 
     position: relative;
     padding: rem(30px);
+    border-radius: $border-radius-large;
     // background-color: orange;
-    // background-color: $c-black-1;
-    // border: 1px solid $c-black-4;
-    // border-radius: $border-radius-large;
+
+    &__header {
+        padding-bottom: rem($padding);
+    }
 
     &__body {
         max-height: 80vh;
@@ -57,30 +61,25 @@ const close = () => {
         padding-bottom: 60px + 10px;
     }
 
-    &__footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        pointer-events: none;
-        background-image: linear-gradient(to top, $c-black-1, transparent);
-    }
-
     &__close {
+        position: absolute;
+        right: -60px;
+        top: 30px;
         width: 60px;
         height: 60px;
-        border-bottom: 2px solid $c-white;
+        border-left: 2px solid $c-white;
         color: $c-white;
         pointer-events: all;
+        transition: .1s;
 
         &:hover {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .4) 100%);
+            background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .25) 100%);
+            background-color: white;
 
             #{ $self }__close-icon {
-                scale: 1.2;
+                // scale: 1.2;
+                color: black;
+                rotate: 90deg;
             }
         }
     }
