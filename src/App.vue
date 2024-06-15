@@ -45,6 +45,7 @@ const getMainMinHeight = () => {
         <Header
             class="app__header"
             :user="authStore.user"
+            :menuOpen="menuOpen"
             @click-profile="authStore.signOut"
             @click-logo="closeMenu"
             @click-hamburger="toggleMenu"

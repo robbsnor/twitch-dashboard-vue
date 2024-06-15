@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import HeaderAvatar from './HeaderAvatar.vue';
+import Hamburger from '@/app/base/components/Hamburger.vue';
+
+const emits = defineEmits(['click-hamburger', 'click-logo']);
 
 const props = defineProps<{
     user?: any;
+    menuOpen: boolean;
 }>();
 
 const items = ref([
@@ -23,19 +27,15 @@ const items = ref([
         icon: 'mdi-logout',
     },
 ]);
-
-const emits = defineEmits(['click-hamburger', 'click-logo']);
 </script>
 
 <template>
     <header class="header">
         <div class="header__container">
             <div class="header__left">
-                <button @click="emits('click-hamburger')" class="header__hamburger hamburger">
-                    <span class="sr-only">Menu</span>
-                    <div class="hamburger__stroke"></div>
-                    <div class="hamburger__stroke"></div>
-                </button>
+                <div class="header__hamburger">
+                    <Hamburger :menuOpen="props.menuOpen" @click="emits('click-hamburger')"/>
+                </div>
             </div>
 
             <RouterLink to="/following/live" @click="emits('click-logo')" class="header__logo">
@@ -103,50 +103,6 @@ const emits = defineEmits(['click-hamburger', 'click-logo']);
         display: flex;
         align-items: center;
         gap: rem(20px);
-    }
-}
-
-.hamburger {
-    $self: &;
-
-    &__stroke {
-        height: 2px;
-        width: rem(17px);
-        background-color: $c-white;
-        transition: transform .1s cubic-bezier(0.25, 0, 0.75, 1.3);
-
-        &:first-of-type {
-            width: rem(25px);
-            margin-bottom: rem(5px);
-        }
-    }
-
-    &:hover {
-        #{ $self }__stroke {
-
-            &:first-of-type {
-                transform: translateX(rem(2px));
-            }
-
-            &:last-of-type {
-                transform: translateX(rem(-2px));
-            }
-        }
-    }
-
-    &.is-open {
-        #{ $self }__stroke {
-            width: rem(25px);
-
-            &:first-of-type {
-                transform: rotate(-45deg);
-                margin-bottom: rem(-2px);
-            }
-
-            &:last-of-type {
-                transform: rotate(45deg);
-            }
-        }
     }
 }
 
