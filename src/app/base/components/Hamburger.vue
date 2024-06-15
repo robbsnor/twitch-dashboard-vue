@@ -26,6 +26,7 @@ const cssClass = computed(() => {
 <style scoped lang="scss">
 .hamburger {
     $self: &;
+    padding: rem(20px);
 
     &__stroke {
         height: 2px;

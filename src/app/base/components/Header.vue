@@ -91,7 +91,6 @@ const items = ref([
     }
 
     &__hamburger {
-        padding: rem(20px);
         margin-left: rem(-20px);
     }
 
