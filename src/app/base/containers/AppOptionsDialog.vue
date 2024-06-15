@@ -3,13 +3,12 @@ import { defineModel } from 'vue';
 import { useAppOptionsStore } from '../stores/AppOptions.store';
 
 const appOptionsStore = useAppOptionsStore();
-const drawer = defineModel<boolean>('drawer');
+const dialog = defineModel<boolean>('dialog');
 </script>
 
 <template>
-    <v-navigation-drawer v-model="drawer" temporary floating location="right" class="app-options-drawer">
-        <label>User profile:</label>
-
+    <Dialog v-model:dialog="dialog" title="App settings">
+        <h4>User profile:</h4>
         <v-switch
             v-model="appOptionsStore.options.user.showThumbnail"
             label="Show thumbnails"
@@ -20,11 +19,11 @@ const drawer = defineModel<boolean>('drawer');
             label="Show duration"
             @click="appOptionsStore.toggleUserShowDuration"
         />
-    </v-navigation-drawer>
+    </Dialog>
 </template>
 
 <style scoped lang="scss">
-.app-options-drawer {
+.app-options-dialog {
     width: 500px;
     padding: 20px;
 }

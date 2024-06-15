@@ -11,7 +11,7 @@ import './assets/styles/main.scss';
 // shared components
 import Button from './app/shared/components/Button.vue';
 import ButtonGroup from './app/shared/components/ButtonGroup.vue';
-import DialogBase from './app/shared/components/DialogBase.vue';
+import Dialog from './app/shared/components/Dialog.vue';
 import Logo from './app/shared/components/Logo.vue';
 import PageTabs from './app/shared/components/PageTabs.vue';
 import Section from './app/shared/components/Section.vue';
@@ -26,7 +26,7 @@ const pinia = createPinia();
 app.component(VueFeather.name!, VueFeather);
 app.component('Button', Button);
 app.component('ButtonGroup', ButtonGroup);
-app.component('DialogBase', DialogBase);
+app.component('Dialog', Dialog);
 app.component('Logo', Logo);
 app.component('PageTabs', PageTabs);
 app.component('Section', Section);

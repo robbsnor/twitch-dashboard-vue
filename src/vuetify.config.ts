@@ -25,15 +25,23 @@ export const vuetify = createVuetify({
         VTextField: {
             variant: 'solo',
             clearable: true,
-            hideDetails: true,
+            hideDetails: 'auto',
         },
         VCombobox: {
             variant: 'solo',
             clearable: true,
-            hideDetails: true,
+            hideDetails: 'auto',
+        },
+        VSelect: {
+            variant: 'solo',
+            clearable: true,
+            hideDetails: 'auto',
+        },
+        VCheckbox: {
+            color: 'primary',
         },
         VSwitch: {
-            hideDetails: true,
+            hideDetails: 'auto',
             color: 'primary',
         },
         VBtnToggle: {

@@ -6,13 +6,11 @@ import { RouterView } from 'vue-router';
 import Dropdown from '@/app/base/components/Dropdown.vue';
 import Footer from '@/app/base/components/Footer.vue';
 import Header from '@/app/base/components/Header.vue';
-import AppOptionsDrawer from '@/app/base/containers/AppOptionsDrawer.vue';
 
 const authStore = useAuthStore();
 
 const menuOpen = ref(false);
 const mainMinHeight = ref(0);
-const settingsDrawer = ref(false);
 
 onKeyStroke(['w', 'W'], (e) => {
     const isFocusingBody = document.activeElement === document.body;
@@ -62,15 +60,7 @@ const getMainMinHeight = () => {
             <RouterView />
         </main>
 
-        <Footer class="app__footer"></Footer>
-
-        <AppOptionsDrawer v-model:drawer="settingsDrawer" />
-
-        <v-btn
-            class="app__settings"
-            icon="mdi-cog"
-            @click="settingsDrawer = !settingsDrawer"
-        />
+        <Footer class="app__footer" />
     </v-app>
 </template>
 
@@ -82,21 +72,6 @@ const getMainMinHeight = () => {
         right: 0;
         left: 0;
         z-index: 100;
-    }
-
-    &__settings {
-        position: fixed;
-        bottom: rem($padding);
-        right: rem($padding);
-        z-index: 100;
-        background-color: transparent;
-        color: $c-black-6;
-        transition: .2s;
-
-        &:hover {
-            background-color: $c-black-2;
-            color: $c-primary;
-        }
     }
 }
 </style>
