@@ -46,6 +46,9 @@ export const vuetify = createVuetify({
         VBtnToggle: {
             color: 'primary',
         },
+        VTooltip: {
+            location: 'top',
+        },
     },
     components,
     directives,

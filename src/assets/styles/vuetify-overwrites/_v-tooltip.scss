@@ -1,0 +1,9 @@
+body {
+    .v-tooltip>.v-overlay {
+        &__content {
+            background-color: $c-black-4;
+            padding: 8px 16px;
+            color: $c-white;
+        }
+    }
+}
