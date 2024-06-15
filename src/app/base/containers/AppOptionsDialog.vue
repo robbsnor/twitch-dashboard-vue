@@ -38,12 +38,12 @@ const dialog = defineModel<boolean>('dialog');
             </div>
         </div>
 
-        <template #footer>
+        <!-- <template #footer>
             <div class="footer">
                 <Button color="secondary">Cancel</Button>
                 <Button>Save</Button>
             </div>
-        </template>
+        </template> -->
     </Dialog>
 </template>
 
