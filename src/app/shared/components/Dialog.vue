@@ -47,9 +47,9 @@ const close = () => {
     position: relative;
     padding: rem(30px);
     // background-color: orange;
-    background-color: $c-black-1;
-    border: 1px solid $c-black-4;
-    border-radius: $border-radius-large;
+    // background-color: $c-black-1;
+    // border: 1px solid $c-black-4;
+    // border-radius: $border-radius-large;
 
     &__body {
         max-height: 80vh;
