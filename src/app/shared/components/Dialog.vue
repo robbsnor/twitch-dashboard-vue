@@ -34,6 +34,10 @@ const close = () => {
                 <slot></slot>
             </div>
 
+            <div class="dialog__footer">
+                <slot name="footer"></slot>
+            </div>
+
             <button v-if="props.closeIcon" @click="close()" class="dialog__close">
                 <span class="sr-only">Close</span>
                 <v-icon icon="mdi-window-close" class="dialog__close-icon" />
@@ -58,7 +62,6 @@ const close = () => {
     &__body {
         max-height: 80vh;
         overflow: auto;
-        padding-bottom: 60px + 10px;
     }
 
     &__close {
@@ -86,6 +89,10 @@ const close = () => {
 
     &__close-icon {
         transition: .1s;
+    }
+
+    &__footer {
+        padding: 20px 0 0 0;
     }
 }
 </style>
