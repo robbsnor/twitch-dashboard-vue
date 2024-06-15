@@ -96,7 +96,8 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
     }
 
     &__followers {
-        font-size: rem(18px)
+        font-size: rem(18px);
+        color: $c-black-20;
     }
 
     &__favourite {

@@ -447,6 +447,7 @@ const viewers = computed(() => {
         width: 100%;
         font-size: rem(18px);
         font-weight: bold;
+        color: $c-black-20;
         padding: rem(6px) 0 0;
         margin-bottom: rem(10px);
         word-break: break-word;

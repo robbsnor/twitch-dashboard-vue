@@ -93,7 +93,6 @@ onMounted(() => {
                 <div class="filter">
                     <v-combobox
                         v-model="search"
-                        appendIcon="mdi-filter-variant"
                         :items="_categories"
                         placeholder="Search video..."
                         class="filter__search"
