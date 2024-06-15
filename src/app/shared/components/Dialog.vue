@@ -65,6 +65,7 @@ const close = () => {
     }
 
     &__close {
+        display: none;
         position: absolute;
         right: -60px;
         top: 30px;
@@ -93,6 +94,12 @@ const close = () => {
 
     &__footer {
         padding: 20px 0 0 0;
+    }
+
+    @include screen(1000px) {
+        &__close {
+            display: block;
+        }
     }
 }
 </style>
