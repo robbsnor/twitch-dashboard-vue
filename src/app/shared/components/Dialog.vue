@@ -25,6 +25,11 @@ const close = () => {
 <template>
     <v-dialog v-model="dialog" :width="props.width">
         <div class="dialog">
+            <button v-if="props.closeIcon" @click="close()" class="dialog__close">
+                <span class="sr-only">Close</span>
+                <v-icon icon="mdi-window-close" class="dialog__close-icon" />
+            </button>
+
             <div class="dialog__header">
                 <h2 class="dialog__title">{{ props.title }}</h2>
                 <p v-if="props.description" class="dialog__description">{{ props.description }}</p>
@@ -37,11 +42,6 @@ const close = () => {
             <div class="dialog__footer">
                 <slot name="footer"></slot>
             </div>
-
-            <button v-if="props.closeIcon" @click="close()" class="dialog__close">
-                <span class="sr-only">Close</span>
-                <v-icon icon="mdi-window-close" class="dialog__close-icon" />
-            </button>
         </div>
     </v-dialog>
 </template>
@@ -62,13 +62,12 @@ const close = () => {
     }
 
     &__close {
-        display: none;
         position: absolute;
-        right: -60px;
-        top: 30px;
+        top: -60px - 20px;
+        right: 0;
         width: 60px;
         height: 60px;
-        border-left: 2px solid $c-white;
+        border-bottom: 2px solid $c-white;
         color: $c-white;
         pointer-events: all;
         transition: .1s;
@@ -95,7 +94,10 @@ const close = () => {
 
     @include screen(1000px) {
         &__close {
-            display: block;
+            border-left: 2px solid $c-white;
+            border-bottom: 0;
+            right: -60px - 20px;
+            top: 30px;
         }
     }
 }
