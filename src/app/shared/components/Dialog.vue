@@ -51,9 +51,6 @@ const close = () => {
     $self: &;
 
     position: relative;
-    padding: rem(30px);
-    border-radius: $border-radius-large;
-    // background-color: orange;
 
     &__header {
         padding-bottom: rem($padding);
