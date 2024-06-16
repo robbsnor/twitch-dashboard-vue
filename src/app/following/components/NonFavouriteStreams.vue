@@ -78,7 +78,7 @@ const getMainMinHeight = () => {
         <div class="non-favourite" :style="'min-height: ' + mainMinHeight + 'px'">
             <div v-if="cards" class="non-favourite__cards">
                 <div v-for="card in cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
-                    <CardLive :card="card" :size="cardSize"></CardLive>
+                    <CardLive :card="card" :size="cardSize" />
                 </div>
             </div>
 

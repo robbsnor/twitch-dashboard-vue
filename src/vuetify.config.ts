@@ -7,9 +7,9 @@ import '@mdi/font/css/materialdesignicons.css';
 
 export const vuetify = createVuetify({
     theme: {
-        defaultTheme: 'TwitchDashboardDark',
+        defaultTheme: 'twitch-dashboard-dark',
         themes: {
-            TwitchDashboardDark: {
+            'twitch-dashboard-dark': {
                 dark: true,
                 colors: {
                     primary: '#cdf620',

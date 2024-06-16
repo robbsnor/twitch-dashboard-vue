@@ -427,6 +427,7 @@ const viewers = computed(() => {
         margin-left: auto;
         margin-right: rem(25px);
         font-weight: bold;
+        color: $c-black-20;
     }
 
     &__arrow {
@@ -509,4 +510,3 @@ const viewers = computed(() => {
     }
 }
 </style>
-../models/card-live.model
