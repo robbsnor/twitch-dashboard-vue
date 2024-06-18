@@ -154,6 +154,7 @@ const viewers = computed(() => {
         color: $c-white--dark;
         font-size: rem(16px);
         margin-bottom: rem(5px);
+        z-index: 1;
     }
 
     &__user {
