@@ -77,11 +77,11 @@ const close = () => {
 
         &:hover {
             background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .25) 100%);
-            background-color: white;
+            background-color: $c-white;
 
             #{ $self }__close-icon {
                 // scale: 1.2;
-                color: black;
+                color: $c-black-1;
                 rotate: 90deg;
             }
         }
