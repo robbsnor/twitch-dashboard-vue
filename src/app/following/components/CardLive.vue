@@ -150,6 +150,7 @@ const viewers = computed(() => {
 
     &__game {
         @include line-clamp(1);
+        position: relative;
         flex-shrink: 0;
         color: $c-white--dark;
         font-size: rem(16px);
