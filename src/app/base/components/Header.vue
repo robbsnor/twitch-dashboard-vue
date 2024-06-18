@@ -10,9 +10,9 @@ const props = defineProps<{
     user?: any;
     menuOpen: boolean;
 }>();
-const settingsDialog = ref(false);
 
-const items = ref([
+const settingsDialog = ref(false);
+const userMenuItems = ref([
     {
         title: 'account',
         url: '',
@@ -64,7 +64,7 @@ const doAction = (action?: string) => {
                     <v-menu location="bottom end" activator="parent">
                         <v-list>
                             <v-list-item
-                                v-for="(item, index) in items"
+                                v-for="(item, index) in userMenuItems"
                                 :key="index"
                                 :value="index"
                                 :to="item.url"
