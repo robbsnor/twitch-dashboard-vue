@@ -5,7 +5,6 @@ import { useFavouriteStore } from '../../shared/stores/favourites.store';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import { LiveService } from '../services/live.service';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
-import ZigZag from '../../shared/components/ZigZag.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 

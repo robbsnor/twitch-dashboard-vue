@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
 import { LiveFactory } from '../factories/live.factory';
@@ -13,7 +13,6 @@ const props = defineProps<{
 }>();
 
 const filter = ref<string>();
-const mainMinHeight = ref(0);
 const sectionEl = ref<HTMLElement | null>(null);
 
 const cards = computed(() => {
@@ -62,6 +61,7 @@ const setSearchToTopOfPage = (focused: boolean) => {
                     v-model="filter"
                     :items="categories"
                     placeholder="Search streams..."
+                    persistent-clear
                     @update:focused="setSearchToTopOfPage($event)"
                 />
             </div>
