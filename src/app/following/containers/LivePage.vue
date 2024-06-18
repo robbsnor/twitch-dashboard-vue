@@ -7,11 +7,11 @@ import { LiveService } from '../services/live.service';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
 import ZigZag from '../../shared/components/ZigZag.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
-import { useLiveStore } from '../stores/live.store';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
-const liveStore = useLiveStore();
+const twitchService = new TwitchService();
 
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
@@ -20,7 +20,7 @@ const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 onMounted(async () => {
     const favouriteIds = favourtieStore.getFavouriteStreamers();
 
-    allStreams.value = await liveStore.getAllStreams();
+    allStreams.value = await twitchService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.getFavourites(favouriteIds, allStreams.value);
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds, allStreams.value);
 });
