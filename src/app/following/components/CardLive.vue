@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { NumberService } from '@/app/shared/services/number.service';
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
+
+
+const emits = defineEmits({
+    'click:game': (game: string) => true,
+});
 
 interface Props {
     card: CardLiveModel;
@@ -33,7 +38,7 @@ const viewers = computed(() => {
         </div>
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
-            <div class="card-small__game">{{ card.game }}</div>
+            <button class="card-small__game" @click="emits('click:game', card.game)">{{ card.game }}</button>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar">
                 <div class="card-small__username">{{ card.name }}</div>
@@ -52,7 +57,7 @@ const viewers = computed(() => {
             <div class="card-normal__viewers">{{ viewers }}</div>
         </a>
         <div class="card-normal__title">{{ card.title }}</div>
-        <div class="card-normal__game">{{ card.game }}</div>
+        <button class="card-normal__game" @click="emits('click:game', card.game)">{{ card.game }}</button>
         <div class="card-normal__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar">
