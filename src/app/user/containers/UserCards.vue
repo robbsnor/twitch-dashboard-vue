@@ -94,7 +94,7 @@ onMounted(() => {
                     <v-combobox
                         v-model="search"
                         :items="_categories"
-                        placeholder="Search video..."
+                        placeholder="Search videos..."
                         class="filter__search"
                     />
                 </div>
