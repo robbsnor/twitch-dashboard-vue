@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import HeaderAvatar from './HeaderAvatar.vue';
 import Hamburger from '@/app/base/components/Hamburger.vue';
+import AppOptionsDialog from '@/app/base/containers/AppOptionsDialog.vue';
 
 const emits = defineEmits(['click-hamburger', 'click-logo']);
 
@@ -9,6 +10,7 @@ const props = defineProps<{
     user?: any;
     menuOpen: boolean;
 }>();
+const settingsDialog = ref(false);
 
 const items = ref([
     {
@@ -20,6 +22,7 @@ const items = ref([
         title: 'settings',
         url: '',
         icon: 'mdi-cog',
+        action: 'toggleSettingsDialog'
     },
     {
         title: 'logout',
@@ -27,6 +30,12 @@ const items = ref([
         icon: 'mdi-logout',
     },
 ]);
+
+const doAction = (action?: string) => {
+    if (action === 'toggleSettingsDialog') {
+        settingsDialog.value = !settingsDialog.value;
+    }
+};
 </script>
 
 <template>
@@ -60,6 +69,7 @@ const items = ref([
                                 :value="index"
                                 :to="item.url"
                                 :prepend-icon="item.icon"
+                                @click="doAction(item.action)"
                             >
                                 {{ item.title }}
                             </v-list-item>
@@ -68,6 +78,8 @@ const items = ref([
                 </button>
             </div>
         </div>
+
+        <AppOptionsDialog v-model:dialog="settingsDialog" />
     </header>
 </template>
 

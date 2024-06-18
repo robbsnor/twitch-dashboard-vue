@@ -15,15 +15,6 @@ const dialog = defineModel<boolean>('dialog');
     >
         <div class="body">
             <div class="body__section">
-                <h4>General:</h4>
-                <v-text-field
-                    v-model="appOptionsStore.options.app.vodDownloadURL"
-                    label="VOD downloader URL:"
-                    variant="solo"
-                />
-            </div>
-
-            <div class="body__section">
                 <h4>User profile:</h4>
                 <v-switch
                     v-model="appOptionsStore.options.user.showThumbnail"

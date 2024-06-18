@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppOptionsDialog from '@/app/base/containers/AppOptionsDialog.vue';
 import { ref } from 'vue';
 
 const settingsDialog = ref(false);
@@ -7,7 +6,6 @@ const settingsDialog = ref(false);
 
 <template>
   <footer class="footer">
-
         <v-tooltip text="Github Repo">
             <template v-slot:activator="{ props }">
                 <a v-bind="props" class="footer__icon-link" href="https://github.com/robbsnor/twitch-dashboard-vue" target="_blank">
@@ -23,16 +21,6 @@ const settingsDialog = ref(false);
                 </a>
             </template>
         </v-tooltip>
-
-        <v-tooltip text="App settings">
-            <template v-slot:activator="{ props }">
-                <div v-bind="props" class="footer__icon-link" @click="settingsDialog = !settingsDialog">
-                    <vue-feather class="footer__icon" type="settings"></vue-feather>
-                </div>
-            </template>
-        </v-tooltip>
-
-        <AppOptionsDialog v-model:dialog="settingsDialog" />
     </footer>
 </template>
 
