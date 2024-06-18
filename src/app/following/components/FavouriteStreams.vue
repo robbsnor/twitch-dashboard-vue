@@ -25,7 +25,7 @@ const cards = computed(() => {
                     <CardLive :card="card" size="fancy"></CardLive>
                 </div>
             </div>
-            <div v-else>No favourites online</div>
+            <p v-else>No favourite streamers online.</p>
         </div>
     </Section>
 </template>

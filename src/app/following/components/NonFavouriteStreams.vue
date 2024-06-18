@@ -85,7 +85,7 @@ const getMainMinHeight = () => {
             <Spinner padding v-else></Spinner>
 
             <div v-if="!cards?.length && filter?.length" class="non-favourite__not-found not-found">
-                No streams found matching <span class="not-found__query">"{{ filter }}"</span>.
+                <p>No streams found matching <span class="not-found__query">"{{ filter }}"</span>.</p>
             </div>
         </div>
     </Section>
