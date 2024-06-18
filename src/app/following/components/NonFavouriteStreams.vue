@@ -58,11 +58,11 @@ const setSearchToTopOfPage = (focused: boolean) => {
         <template #actions>
             <div class="filter">
                 <v-combobox
+                    class="filter__search"
                     v-model="filter"
                     :items="categories"
                     placeholder="Search streams..."
                     @update:focused="setSearchToTopOfPage($event)"
-                    class="filter__search"
                 />
             </div>
         </template>

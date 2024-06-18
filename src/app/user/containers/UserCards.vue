@@ -92,10 +92,10 @@ onMounted(() => {
             <template #actions>
                 <div class="filter">
                     <v-combobox
+                        class="filter__search"
                         v-model="search"
                         :items="_categories"
                         placeholder="Search videos..."
-                        class="filter__search"
                     />
                 </div>
             </template>
@@ -103,13 +103,13 @@ onMounted(() => {
             <template #default>
                 <div class="cards">
                     <CardVideo
+                        class="cards__card"
                         v-for="card in cards"
                         :key="card.id"
                         :card="card"
                         :showDuration="options.user.showDuration"
                         :showThumbnail="options.user.showThumbnail"
                         @click:chapter="search = $event.title"
-                        class="cards__card"
                     />
                 </div>
             </template>
