@@ -51,14 +51,6 @@ const setSearchToTopOfPage = (focused: boolean) => {
     const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
 };
-
-onMounted(() => {
-    mainMinHeight.value = getMainMinHeight();
-});
-
-const getMainMinHeight = () => {
-    return document.querySelector('.non-favourite__cards')?.clientHeight || 0;
-};
 </script>
 
 <template>
@@ -75,7 +67,7 @@ const getMainMinHeight = () => {
             </div>
         </template>
 
-        <div class="non-favourite" :style="'min-height: ' + mainMinHeight + 'px'">
+        <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards">
                 <div v-for="card in cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
                     <CardLive :card="card" :size="cardSize" @click:game="filter = $event" />
@@ -93,7 +85,7 @@ const getMainMinHeight = () => {
 
 <style scoped lang="scss">
 .non-favourite {
-    min-height: rem(330px);
+    min-height: rem(80vh);
 
     &__cards {
         display: grid;
