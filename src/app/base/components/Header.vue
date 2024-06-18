@@ -20,7 +20,6 @@ const userMenuItems = ref([
     },
     {
         title: 'settings',
-        url: '',
         icon: 'mdi-cog',
         action: 'toggleSettingsDialog'
     },
