@@ -40,10 +40,9 @@ const dialog = defineModel<boolean>('dialog');
 
 <style scoped lang="scss">
 .body {
-
-    &__section {
-        margin-bottom: 20px;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: rem($padding-larger);
 }
 
 .footer {

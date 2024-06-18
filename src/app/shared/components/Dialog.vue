@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { defineModel } from 'vue';
+import { defineModel, useSlots } from 'vue';
 
+const slots = useSlots();
 const emits = defineEmits(['close']);
 
 const dialog = defineModel<boolean>('dialog');
@@ -39,7 +40,7 @@ const close = () => {
                 <slot></slot>
             </div>
 
-            <div class="dialog__footer">
+            <div v-if="slots.footer" class="dialog__footer">
                 <slot name="footer"></slot>
             </div>
         </div>
@@ -60,6 +61,8 @@ const close = () => {
         max-height: 80vh;
         overflow: auto;
     }
+
+    &__footer {}
 
     &__close {
         position: absolute;

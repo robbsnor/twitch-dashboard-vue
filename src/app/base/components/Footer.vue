@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const settingsDialog = ref(false);
 </script>
 
 <template>
@@ -9,7 +6,7 @@ const settingsDialog = ref(false);
         <v-tooltip text="Github Repo">
             <template v-slot:activator="{ props }">
                 <a v-bind="props" class="footer__icon-link" href="https://github.com/robbsnor/twitch-dashboard-vue" target="_blank">
-                    <vue-feather class="footer__icon" type="github"></vue-feather>
+                    <vue-feather class="footer__icon" type="github" />
                 </a>
             </template>
         </v-tooltip>
@@ -17,7 +14,7 @@ const settingsDialog = ref(false);
         <v-tooltip text="Vercel">
             <template v-slot:activator="{ props }">
                 <a v-bind="props" class="footer__icon-link" href="https://vercel.com/robbsnor/twitch-dashboard-vue" target="_blank">
-                    <vue-feather class="footer__icon" type="activity"></vue-feather>
+                    <vue-feather class="footer__icon" type="activity" />
                 </a>
             </template>
         </v-tooltip>
