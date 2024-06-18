@@ -85,7 +85,7 @@ const setSearchToTopOfPage = (focused: boolean) => {
 
 <style scoped lang="scss">
 .non-favourite {
-    min-height: rem(80vh);
+    min-height: 80vh;
 
     &__cards {
         display: grid;
