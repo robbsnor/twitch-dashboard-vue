@@ -10,8 +10,8 @@ const dialog = defineModel<boolean>('dialog');
     <Dialog
         v-model:dialog="dialog"
         title="App settings"
-        description="Customize the behaviour of the App."
-        :width="400"
+        description="Customize your app settings, from user profile to app behaviour."
+        :width="420"
     >
         <div class="body">
             <div class="body__section">
