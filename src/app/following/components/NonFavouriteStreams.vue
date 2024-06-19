@@ -70,7 +70,7 @@ const setSearchToTopOfPage = (focused: boolean) => {
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards">
                 <div v-for="card in cards" :key="card.userId" class="non-favourite__card" v-auto-animate>
-                    <CardLive :card="card" :size="cardSize" @click:game="filter = $event" />
+                    <CardLive :card="card" :size="cardSize" @click:game="filter = $event; setSearchToTopOfPage(true)" />
                 </div>
             </div>
 

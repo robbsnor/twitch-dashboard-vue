@@ -21,6 +21,7 @@ export const vuetify = createVuetify({
     defaults: {
         global: {
             ripple: false,
+            flat: true,
         },
         VTextField: {
             variant: 'solo',
