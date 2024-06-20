@@ -16,15 +16,17 @@ const cards = computed(() => {
 
 <template>
     <Section title="Favourites">
-        <template #background-art>
+        <template #backgroundArt>
             <Swirl v-if="streams?.length"class="swirl"></Swirl>
         </template>
+
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
                 <div v-for="card in cards" :key="card.userId" class="favourites__card" v-auto-animate>
                     <CardLive :card="card" size="fancy"></CardLive>
                 </div>
             </div>
+
             <p v-else>No favourite streamers online.</p>
         </div>
     </Section>

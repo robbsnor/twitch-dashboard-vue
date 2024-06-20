@@ -23,8 +23,8 @@ const classes = computed(() => {
 
 <template>
     <section :class="classes">
-        <div class="section__background-art">
-            <slot name="background-art"></slot>
+        <div v-if="slots.backgroundArt" class="section__background-art">
+            <slot name="backgroundArt"></slot>
         </div>
 
         <div class="section__header">
