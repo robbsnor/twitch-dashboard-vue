@@ -75,6 +75,7 @@ const formattedDate = computed(() => {
         position: relative;
         aspect-ratio: 16 / 9;
         transition: .2s;
+        overflow: hidden;
 
         &:hover,
         &:focus-visible {
