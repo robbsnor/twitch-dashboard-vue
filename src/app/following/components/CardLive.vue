@@ -38,7 +38,9 @@ const viewers = computed(() => {
         </div>
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
-            <a class="card-small__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
+            <div class="card-small__game-container">
+                <a class="card-small__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
+            </div>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar">
                 <div class="card-small__username">{{ card.name }}</div>
@@ -148,13 +150,17 @@ const viewers = computed(() => {
         word-break: break-word;
     }
 
+    &__game-container {
+        // wrapper, so that the '&__game' can be inline-block :)
+    }
+
     &__game {
         @include line-clamp(1);
+        display: inline-block;
         position: relative;
-        flex-shrink: 0;
         color: $c-white--dark;
         font-size: rem(16px);
-        margin-bottom: rem(5px);
+        padding-bottom: rem(2px);
         z-index: 1;
     }
 
