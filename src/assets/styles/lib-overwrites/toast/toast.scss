@@ -1,0 +1,33 @@
+body {
+    .v-toast {
+        &__text {
+            color: $c-white;
+            font-size: 1rem;
+        }
+
+        &__item {
+            margin: 0;
+            background-color: $c-black-2;
+            border-radius: rem($border-radius-normal);
+            border: 2px solid $c-black-4;
+            border-left: 2px solid transparent;
+
+            &--success {
+                border-left-color: $c-success;
+            }
+
+            &--info {
+                border-left-color: $c-info;
+            }
+
+            &--error {
+                border-left-color: $c-error;
+            }
+        }
+
+        &--bottom {
+            gap: rem(10px);
+            padding: rem($padding);
+        }
+    }
+}

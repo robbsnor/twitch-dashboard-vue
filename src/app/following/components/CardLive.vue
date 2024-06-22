@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { NumberService } from '@/app/shared/services/number.service';
-import { computed, defineEmits } from 'vue';
+import { useClipboard } from '@vueuse/core';
+import { computed, defineEmits, onMounted } from 'vue';
+import { useToast } from 'vue-toast-notification';
 import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
 
+const toast = useToast();
 
 const emits = defineEmits({
     'click:game': (game: string) => true,
@@ -17,19 +20,23 @@ const props = withDefaults(defineProps<Props>(), {
     size: 'normal',
 });
 
-const classes = computed(() => {
-    const colorClass = props.card.color ? `card-${props.size}--${props.card.color}` : '';
-    return `${colorClass}`;
-});
-
 const viewers = computed(() => {
     return NumberService.abbreviateNumber(props.card.viewers);
 });
+
+const copyUserId = (card: CardLiveModel) => {
+    const { copy, copied } = useClipboard();
+
+    copy(card.userId.toString());
+    if (!copied.value) return toast.error('Failed to copy userId', { duration: 3000 });
+
+    toast.success(`Copied ID: ${card.userId}`, { duration: 3000 });
+};
 </script>
 
 <template>
     <!-- small -->
-    <div v-if="size === 'small'" :class="classes" class="card-small">
+    <div v-if="size === 'small'" class="card-small">
         <div class="card-small__thumbnail-container">
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
@@ -50,7 +57,7 @@ const viewers = computed(() => {
     </div>
 
     <!-- normal -->
-    <div v-if="size === 'normal'" :class="classes" class="card-normal" :data-user-id="card.userId">
+    <div v-if="size === 'normal'" class="card-normal" :data-user-id="card.userId">
         <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
             <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail">
@@ -65,12 +72,24 @@ const viewers = computed(() => {
                 <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar">
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
-            <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" class="card-normal__options"></button> -->
+            <v-menu>
+                <template #activator="{ props }">
+                    <v-btn
+                        class="card-normal__options"
+                        v-bind="props"
+                        icon="mdi-dots-vertical"
+                        size="small"
+                    />
+                </template>
+                <v-list>
+                    <v-list-item prepend-icon="mdi-content-copy" @click="copyUserId(card)">Copy userID</v-list-item>
+                </v-list>
+            </v-menu>
         </div>
     </div>
 
     <!-- fancy -->
-    <div v-if="size === 'fancy'" :class="classes" class="card-fancy">
+    <div v-if="size === 'fancy'" class="card-fancy">
         <div class="card-fancy__header">
             <RouterLink :to="`/user/${card.name}`" class="card-fancy__user">
                 <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar" alt="avatar">

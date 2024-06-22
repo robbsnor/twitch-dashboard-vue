@@ -1,0 +1,16 @@
+body {
+    .v-list-item {
+        $self: &;
+
+        font-size: 1rem;
+        font-weight: normal;
+
+        &__prepend {
+            &>.v-icon {
+                &~.v-list-item__spacer {
+                    width: rem(16px);
+                }
+            }
+        }
+    }
+}

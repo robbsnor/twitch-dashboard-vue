@@ -37,3 +37,8 @@ $c-orange:              #e67e22;
 $c-red:                 #e74c3c;
 $c-purple:              #8e44ad;
 $c-blue:                #3498db;
+
+// states
+$c-error:               $c-red;
+$c-success:             $c-primary;
+$c-info:                $c-blue;

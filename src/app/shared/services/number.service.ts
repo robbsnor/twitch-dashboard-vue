@@ -4,10 +4,11 @@ export class NumberService {
      * @param num - The number to be abbreviated.
      * @returns The abbreviated number as a string.
      */
-    public static abbreviateNumber(num: number) {
+    public static abbreviateNumber(num: number): string {
         if (Math.abs(num) > 999999) {
             return Math.sign(num) * (Number((Math.abs(num) / 1000000).toFixed(1))) + 'M';
         }
+
         if (Math.abs(num) > 999) {
             return Math.sign(num) * (Number((Math.abs(num) / 1000).toFixed(1))) + 'K';
         }

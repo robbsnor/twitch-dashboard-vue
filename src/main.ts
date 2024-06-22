@@ -3,9 +3,11 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { vuetify } from './vuetify.config';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import VueFeather from 'vue-feather';
 import App from './App.vue';
 import router from './router/router';
+import ToastPlugin from 'vue-toast-notification';
+import VueFeather from 'vue-feather';
+import 'vue-toast-notification/dist/theme-default.css';
 import './assets/styles/main.scss';
 
 // shared components
@@ -39,8 +41,9 @@ app.use(pinia);
 app.use(router);
 app.use(vuetify);
 app.use(autoAnimatePlugin);
+app.use(ToastPlugin);
 
-// pinia
+// pinia plugins
 pinia.use(piniaPluginPersistedstate);
 
 app.mount('#app');

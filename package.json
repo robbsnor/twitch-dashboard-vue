@@ -29,6 +29,7 @@
         "vue": "^3.4.21",
         "vue-feather": "^2.0.0",
         "vue-router": "^4.3.0",
+        "vue-toast-notification": "^3.1.2",
         "vuetify": "^3.5.11"
     },
     "devDependencies": {
