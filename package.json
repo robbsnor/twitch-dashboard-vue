@@ -5,10 +5,10 @@
     "scripts": {
         "build": "run-p type-check \"build-only {@}\" --",
         "build-only": "vite build",
-        "dev": "vite",
         "start:dev": "vite",
-        "preview": "vite preview",
-        "dev-host": "vite --host",
+        "start:dev-host": "vite --host",
+        "preview": "npx http-server dist --port 5173",
+        "preview-og": "vite preview",
         "type-check": "vue-tsc --build --force",
         "pwa-icons": "pwa-assets-generator"
     },
