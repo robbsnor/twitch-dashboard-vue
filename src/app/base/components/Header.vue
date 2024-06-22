@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import HeaderAvatar from './HeaderAvatar.vue';
 import Hamburger from '@/app/base/components/Hamburger.vue';
-import AppOptionsDialog from '@/app/base/containers/AppOptionsDialog.vue';
 
 const emits = defineEmits(['click-hamburger', 'click-logo']);
 
@@ -10,31 +9,6 @@ const props = defineProps<{
     user?: any;
     menuOpen: boolean;
 }>();
-
-const settingsDialog = ref(false);
-const userMenuItems = ref([
-    {
-        title: 'account',
-        url: '',
-        icon: 'mdi-account',
-    },
-    {
-        title: 'settings',
-        icon: 'mdi-cog',
-        action: 'toggleSettingsDialog'
-    },
-    {
-        title: 'logout',
-        url: '/auth/sign-out',
-        icon: 'mdi-logout',
-    },
-]);
-
-const doAction = (action?: string) => {
-    if (action === 'toggleSettingsDialog') {
-        settingsDialog.value = !settingsDialog.value;
-    }
-};
 </script>
 
 <template>
@@ -59,26 +33,9 @@ const doAction = (action?: string) => {
                         v-if="props.user"
                         :image="props.user.profile_image_url"
                     />
-
-                    <v-menu location="bottom end" activator="parent">
-                        <v-list>
-                            <v-list-item
-                                v-for="(item, index) in userMenuItems"
-                                :key="index"
-                                :value="index"
-                                :to="item.url"
-                                :prepend-icon="item.icon"
-                                @click="doAction(item.action)"
-                            >
-                                {{ item.title }}
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
                 </button>
             </div>
         </div>
-
-        <AppOptionsDialog v-model:dialog="settingsDialog" />
     </header>
 </template>
 
