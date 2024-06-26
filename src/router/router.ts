@@ -56,6 +56,12 @@ const router = createRouter({
             ]
         },
         {
+            path: '/games/:gameId',
+            name: 'game',
+            component: () => import('../app/games/containers/GamePage.vue'),
+            beforeEnter: [isLoggedWithTwitch],
+        },
+        {
             path: '/user/:userLogin',
             name: 'user',
             component: () => import('../app/user/containers/UserPage.vue'),

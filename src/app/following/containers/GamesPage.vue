@@ -9,10 +9,7 @@ TitleService.setTitle('Games');
         <Section>
             <ul>
                 <li>
-                    <a href="https://www.twitch.tv/directory/category/call-of-duty-black-ops" target="_blank">Call of Duty: Black Ops</a>
-                </li>
-                <li>
-                    <a href="https://www.twitch.tv/directory/category/valorant" target="_blank">VALORANT</a>
+                    <RouterLink to="/games/23894">Call of Duty: Black Ops</RouterLink>
                 </li>
             </ul>
         </Section>

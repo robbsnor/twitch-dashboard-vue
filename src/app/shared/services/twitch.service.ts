@@ -7,6 +7,7 @@ import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channe
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
 import type { VideoTypesModel } from "../models/twitch/video-types.model";
+import type { TwitchGetGameStreams } from "../models/twitch/game-streams.model";
 
 export interface UserIdsOrLogins {
     ids?: number[];
@@ -136,6 +137,14 @@ export class TwitchService {
         return res.data;
     }
 
+    public async getStreamsByGame(gameId: number): Promise<TwitchGetGameStreams> {
+        const url = new URL('https://api.twitch.tv/helix/streams');
+        url.searchParams.append('game_id', gameId.toString());
+
+        const res = await this.http.get<TwitchGetGameStreams>(url.toString());
+        return res.data;
+    }
+
     public async checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
         const url = new URL('https://api.twitch.tv/helix/subscriptions/user');
         url.searchParams.append('user_id', userId.toString());
@@ -147,6 +156,7 @@ export class TwitchService {
 
         return res;
     }
+
 
     // interceptors
     private authInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
