@@ -12,7 +12,7 @@ export class LiveFactory {
     }
 
     public static mapToCardLiveFancy(streams: TwitchFollowedStreamWithUser[]) {
-        return LiveFactory.mapToCardLive(streams, 470); // 470
+        return LiveFactory.mapToCardLive(streams, 720); // 470
     }
 
     private static mapToCardLive(streams: TwitchFollowedStreamWithUser[], thumbnailWidth?: number) {
