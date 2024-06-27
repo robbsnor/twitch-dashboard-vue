@@ -11,11 +11,7 @@ const cards = ref();
 
 onMounted(async () => {
     const res = await twitchApiService.getStreamsByGame(BLACK_OPS_ID);
-    console.log(res);
     cards.value = GamesFactory.mapToCardLive(res.data);
-
-
-
 });
 </script>
 
