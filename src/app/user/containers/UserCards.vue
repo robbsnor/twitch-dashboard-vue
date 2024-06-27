@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
-import { TwitchService } from '../../shared/services/twitch.service';
+import { TwitchApiService } from '../../shared/services/twitch-api.service';
 import CardVideo from '../components/CardVideo.vue';
 import { UserFactory } from '../factories/user.factory';
 import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
@@ -14,7 +14,7 @@ const props = defineProps<{
     user: TwitchUser;
 }>();
 
-const twitchService = new TwitchService();
+const twitchApiService = new TwitchApiService();
 
 const appOptionsStore = useAppOptionsStore();
 const { options } = storeToRefs(appOptionsStore);
@@ -34,7 +34,7 @@ const _categories = computed(() => {
 const getCards = async (amount = 20, _pagination?: string) => {
     loadingCards.value = true;
 
-    const res = await twitchService.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
+    const res = await twitchApiService.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
     pagination.value = res.pagination.cursor;
 
     const videos = res.data;
@@ -64,7 +64,7 @@ const searchVideos = async (query: string | null) => {
         return matchedTitle || matchedChapters;
     }).map(video => video.videoId);
 
-    const res = await twitchService.getVideosByVideoIds(videoIds);
+    const res = await twitchApiService.getVideosByVideoIds(videoIds);
     cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
     pagination.value = '';
     loadingCards.value = false;

@@ -1,5 +1,5 @@
-export class ImageService {
-    public static craftImage(
+export class TwitchService {
+    public static getThumbnail(
         url: string,
         width = 320,
         height?: number,

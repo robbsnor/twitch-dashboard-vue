@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useAuthStore } from '../../auth/stores/auth.store';
 import { TitleService } from '../../shared/services/title.service';
-import { TwitchService } from '@/app/shared/services/twitch.service';
+import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 
 const authStore = useAuthStore();
 TitleService.setTitle('Home');
 
-const singInUrl = TwitchService.getSignInURL();
+const singInUrl = TwitchApiService.getSignInURL();
 </script>
 
 <template>

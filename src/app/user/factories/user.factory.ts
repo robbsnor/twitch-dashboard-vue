@@ -1,7 +1,7 @@
 import type { AdditionalVideosInfo } from '../../shared/models/twitch-additional/additional-video-info.model';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import type { TwitchVideo } from '../../shared/models/twitch/videos.model';
-import { ImageService } from '../../shared/services/image.service';
+import { TwitchService } from '../../shared/services/image.service';
 import type { UserHeaderProps } from '../components/UserHeader.vue';
 import type { CardVideo } from '../models/card-video.model';
 
@@ -10,7 +10,7 @@ export class UserFactory {
         return videos.map<CardVideo>((video) => {
             const thumbnail = video.thumbnail_url.includes('404/404')
                 ? 'https://vod-secure.twitch.tv/_404/404_processing_320x180.png'
-                : ImageService.craftImage(video.thumbnail_url, undefined, undefined, '%{width}', '%{height}');
+                : TwitchService.getThumbnail(video.thumbnail_url, undefined, undefined, '%{width}', '%{height}');
 
             const additionalVideoInfo = additionalVideosInfo?.find((scrapedVideo: any) => scrapedVideo.videoId === Number(video.id));
             const chapters = additionalVideoInfo?.chapters.map((chapter) => ({ ...chapter, duration: Number(chapter.duration) }));

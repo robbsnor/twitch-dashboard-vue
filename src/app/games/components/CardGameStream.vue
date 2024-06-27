@@ -1,54 +1,34 @@
 <script setup lang="ts">
 import { NumberService } from '@/app/shared/services/number.service';
-import { useClipboard } from '@vueuse/core';
-import { computed, defineEmits, onMounted } from 'vue';
-import { useToast } from 'vue-toast-notification';
-import type { CardLive as CardLiveModel, CardLiveSize } from '@/app/following/models/card-live.model';
+import { computed } from 'vue';
+import type { CardGameStream as CardGameStreamModel } from '../models/card-game.model';
 
-const toast = useToast();
-
-const emits = defineEmits({
-    'click:game': (game: string) => true,
-});
 
 interface Props {
-    card: CardLiveModel;
-    size?: CardLiveSize;
+    card: CardGameStreamModel;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    size: 'normal',
-});
+const props = withDefaults(defineProps<Props>(), {});
 
 const viewers = computed(() => {
     return NumberService.abbreviateNumber(props.card.viewers);
 });
-
-const copyUserId = (card: CardLiveModel) => {
-    const { copy, copied } = useClipboard();
-
-    copy(card.userId.toString());
-    if (!copied.value) return toast.error('Failed to copy userId', { duration: 3000 });
-
-    toast.success(`Copied ID: ${card.userId}`, { duration: 3000 });
-};
 </script>
 
 <template>
-    <div class="card-normal" :data-user-id="card.userId">
-        <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
+    <div class="card-game-stream" :data-user-id="card.userId">
+        <a :href="card.link" target="_blank" class="card-game-stream__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail">
-            <div class="card-normal__thumbnail-overlay"></div>
-            <div class="card-normal__arrow">(icon)</div>
-            <div class="card-normal__viewers">{{ viewers }}</div>
+            <img :src="card.thumbnail" class="card-game-stream__thumbnail" alt="thumbnail">
+            <div class="card-game-stream__thumbnail-overlay"></div>
+            <div class="card-game-stream__arrow">(icon)</div>
+            <div class="card-game-stream__viewers">{{ viewers }}</div>
         </a>
-        <div class="card-normal__title">{{ card.title }}</div>
-        <a class="card-normal__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
-        <div class="card-normal__footer">
-            <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar">
-                <div class="card-normal__username">{{ card.name }}</div>
+        <div class="card-game-stream__title">{{ card.title }}</div>
+        <div class="card-game-stream__footer">
+            <RouterLink :to="`/user/${card.name}`" class="card-game-stream__user">
+                <img v-if="card.avatar" :src="card.avatar" class="card-game-stream__avatar" alt="avatar">
+                <div class="card-game-stream__username">{{ card.name }}</div>
             </RouterLink>
         </div>
     </div>
@@ -115,20 +95,6 @@ const copyUserId = (card: CardLiveModel) => {
         font-size: rem(16px);
         margin-bottom: rem(5px);
         word-break: break-word;
-    }
-
-    &__game-container {
-        // wrapper, so that the '&__game' can be inline-block :)
-    }
-
-    &__game {
-        @include line-clamp(1);
-        display: inline-block;
-        position: relative;
-        color: $c-white--dark;
-        font-size: rem(16px);
-        padding-bottom: rem(2px);
-        z-index: 1;
     }
 
     &__user {
@@ -208,7 +174,7 @@ const copyUserId = (card: CardLiveModel) => {
     }
 }
 
-.card-normal {
+.card-game-stream {
     $self: &;
 
     &__thumbnail-container {

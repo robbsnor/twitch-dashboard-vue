@@ -6,11 +6,11 @@ import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/fo
 import { LiveService } from '../services/live.service';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
-import { TwitchService } from '@/app/shared/services/twitch.service';
+import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
-const twitchService = new TwitchService();
+const twitchApiService = new TwitchApiService();
 
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
@@ -19,7 +19,7 @@ const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 onMounted(async () => {
     const favouriteIds = favourtieStore.getFavouriteStreamers();
 
-    allStreams.value = await twitchService.getFollowedStreamsWithUsers();
+    allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.getFavourites(favouriteIds, allStreams.value);
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds, allStreams.value);
 });

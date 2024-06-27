@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { TwitchService } from '@/app/shared/services/twitch.service';
+import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 import { onMounted, ref } from 'vue';
-import { GameFactory } from '../factories/game.factory';
+import { GamesFactory } from '../factories/games.factory';
 import CardLive from '@/app/following/components/CardLive.vue';
 
-const twitchService = new TwitchService();
+const twitchApiService = new TwitchApiService();
 const BLACK_OPS_ID = 23894;
 
 const cards = ref();
 
 onMounted(async () => {
-    const res = await twitchService.getStreamsByGame(BLACK_OPS_ID);
+    const res = await twitchApiService.getStreamsByGame(BLACK_OPS_ID);
     console.log(res);
-    cards.value = GameFactory.mapToCardLive(res.data);
+    cards.value = GamesFactory.mapToCardLive(res.data);
 
 
 

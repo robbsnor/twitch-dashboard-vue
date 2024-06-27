@@ -2,7 +2,7 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../../auth/stores/auth.store";
 import type { TwitchFollowedStream, TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
-import type { TwitchGetVideos, TwitchVideo } from './../models/twitch/videos.model';
+import type { TwitchGetVideos, TwitchVideo } from '../models/twitch/videos.model';
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
@@ -14,7 +14,7 @@ export interface UserIdsOrLogins {
     logins?: string[];
 }
 
-export class TwitchService {
+export class TwitchApiService {
     private http = axios.create();
     private accessToken: string;
     private authStore = useAuthStore();
