@@ -3,7 +3,7 @@ import { NumberService } from '@/app/shared/services/number.service';
 import { useClipboard } from '@vueuse/core';
 import { computed, defineEmits, onMounted } from 'vue';
 import { useToast } from 'vue-toast-notification';
-import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
+import type { CardLive as CardLiveModel, CardLiveSize } from '@/app/following/models/card-live.model';
 
 const toast = useToast();
 
