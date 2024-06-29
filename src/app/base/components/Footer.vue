@@ -13,7 +13,7 @@
 
         <v-tooltip text="Vercel">
             <template v-slot:activator="{ props }">
-                <a v-bind="props" class="footer__icon-link" href="https://vercel.com/robbsnor/twitch-dashboard-vue" target="_blank">
+                <a v-bind="props" class="footer__icon-link" href="https://vercel.com/robbsnors-projects/twitch-dashboard-vue/deployments" target="_blank">
                     <vue-feather class="footer__icon" type="activity" />
                 </a>
             </template>
