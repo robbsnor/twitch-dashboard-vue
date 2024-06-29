@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useLiveStore } from '../stores/live.store';
+import { useFollowingStore } from '../stores/following.store';
 
-const liveStore = useLiveStore();
+const followingStore = useFollowingStore();
 </script>
 
 <template>
     <div class="following">
         <Section first hideHeader class="following__tabs">
-            <PageTabs :title="liveStore.pageTabs.title" :pages="liveStore.pageTabs.paths" />
+            <PageTabs :title="followingStore.pageTabs.title" :pages="followingStore.pageTabs.paths" />
         </Section>
 
         <main class="following__body">

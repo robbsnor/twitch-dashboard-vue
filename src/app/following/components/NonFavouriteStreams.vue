@@ -10,9 +10,10 @@ const { width } = useWindowSize();
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
+    filter: string;
 }>();
 
-const filter = ref<string>();
+const filter = defineModel<string>('filter');
 const sectionEl = ref<HTMLElement | null>(null);
 
 const cards = computed(() => {

@@ -7,10 +7,15 @@ import { LiveService } from '../services/live.service';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
+import { useFollowingStore } from '../stores/following.store';
+import { storeToRefs } from 'pinia';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
+const followingStore = useFollowingStore();
 const twitchApiService = new TwitchApiService();
+
+const { filter } = storeToRefs(followingStore);
 
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
@@ -34,7 +39,7 @@ onMounted(async () => {
                 <ZigZag />
             </Section>
 
-            <NonFavouriteStreams :streams="nonFavouriteStreams" />
+            <NonFavouriteStreams :streams="nonFavouriteStreams" v-model:filter="filter" />
         </template>
 
         <Spinner v-else padding />

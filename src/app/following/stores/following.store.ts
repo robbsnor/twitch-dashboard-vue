@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useLiveStore = defineStore('live', () => {
+export const useFollowingStore = defineStore('following', () => {
+    const filter = ref<string>();
     const pageTabs = {
         title: 'Following',
         paths: [
@@ -21,5 +23,6 @@ export const useLiveStore = defineStore('live', () => {
 
     return {
         pageTabs,
+        filter,
     };
 });
