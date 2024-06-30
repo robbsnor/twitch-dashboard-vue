@@ -3,7 +3,7 @@ import { useWindowSize } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
-import { LiveFactory } from '../factories/live.factory';
+import { FollowingFactory } from '../factories/following.factory';
 import type { CardLiveSize } from '../models/card-live.model';
 
 const { width } = useWindowSize();
@@ -28,7 +28,7 @@ const cards = computed(() => {
     });
     if (!videos) return;
 
-    return LiveFactory.mapToCardLiveNormal(videos);
+    return FollowingFactory.mapToCardLiveNormal(videos);
 });
 
 const categories = computed(() => {

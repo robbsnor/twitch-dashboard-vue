@@ -2,17 +2,17 @@ import { TwitchService } from '../../shared/services/image.service';
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
 import type { CardLive } from "../models/card-live.model";
 
-export class LiveFactory {
+export class FollowingFactory {
     public static mapToCardLiveSmall(streams: TwitchFollowedStreamWithUser[]) {
-        return LiveFactory.mapToCardLive(streams);
+        return FollowingFactory.mapToCardLive(streams);
     }
 
     public static mapToCardLiveNormal(streams: TwitchFollowedStreamWithUser[]) {
-        return LiveFactory.mapToCardLive(streams);
+        return FollowingFactory.mapToCardLive(streams);
     }
 
     public static mapToCardLiveFancy(streams: TwitchFollowedStreamWithUser[]) {
-        return LiveFactory.mapToCardLive(streams, 720); // 470
+        return FollowingFactory.mapToCardLive(streams, 720); // 470
     }
 
     private static mapToCardLive(streams: TwitchFollowedStreamWithUser[], thumbnailWidth?: number) {

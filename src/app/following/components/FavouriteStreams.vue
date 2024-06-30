@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import CardLive from '../components/CardLive.vue';
-import { LiveFactory } from '../factories/live.factory';
+import { FollowingFactory } from '../factories/following.factory';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const cards = computed(() => {
     if (!props.streams) return;
-    return LiveFactory.mapToCardLiveFancy(props.streams);
+    return FollowingFactory.mapToCardLiveFancy(props.streams);
 });
 </script>
 
