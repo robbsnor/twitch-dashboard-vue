@@ -42,6 +42,8 @@ const getMainMinHeight = () => {
 
 <template>
     <v-app class="app">
+        <!-- <div class="app__background"></div> -->
+
         <Header
             class="app__header"
             :user="authStore.user"
@@ -67,6 +69,19 @@ const getMainMinHeight = () => {
 
 <style scoped lang="scss">
 .app {
+    &__background {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('https://images.unsplash.com/photo-1584204559709-ca7d413229eb?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        // background-image: url('https://plus.unsplash.com/premium_photo-1676272747130-348694463771?q=80&w=3538&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-position: center;
+        filter: blur(20px);
+        opacity: .2;
+    }
+
     &__header {
         position: fixed;
         top: 0;
