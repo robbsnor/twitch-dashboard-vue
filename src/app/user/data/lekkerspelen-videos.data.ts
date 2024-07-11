@@ -4,6 +4,342 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideosInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2192663587,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/c9bdafffe68a4669aa66_lekkerspelen_15371370050_6548788520/thumb/custom-ff3223a4-63c4-485b-a553-71f88c8230be-320x180.jpeg",
+        "title": "Als we 20 KEER VALLEN gaan we offline!",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2192554862,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/92e4578e27b0a188e0ae_lekkerspelen_40836319333_1720465030//thumb/thumb0-320x180.jpg",
+        "title": "Als we 20 KEER VALLEN gaan we offline!",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2192552104,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/489a555b9cda64e05199_lekkerspelen_40836313205_1720464838//thumb/thumb0-320x180.jpg",
+        "title": "Als we 20 KEER VALLEN gaan we offline!",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2192539160,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/5134a7d066a88fed22cc_lekkerspelen_42577053272_1720463798//thumb/thumb0-320x180.jpg",
+        "title": "Als we 20 KEER VALLEN gaan we offline!",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2188419029,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/a2f2f9eb3bbbab693151_lekkerspelen_79349324325_7136728558/thumb/custom-72e9766c-a892-41c4-b85f-a8bd911ee146-320x180.jpeg",
+        "title": "Potje Wii Party",
+        "chapters": [
+            {
+                "title": "Wii Party",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/28105_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2188324006,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/26c8d89dc5dfad49be9b_lekkerspelen_42555749704_1720031540//thumb/thumb0-320x180.jpg",
+        "title": "Potje Wii Party",
+        "chapters": [
+            {
+                "title": "Wii Party",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/28105_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2186767406,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/368e6662ee36a2c835f8_lekkerspelen_83359370448_8126752240/thumb/custom-535db97a-f999-4ef2-b488-64868ba36f47-320x180.jpeg",
+        "title": "Aan elkaar vastgebonden een berg beklimmen",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2186635296,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/8db95781e4f4ed82403e_lekkerspelen_51406475741_1719858573//thumb/thumb0-320x180.jpg",
+        "title": "Aan elkaar vastgebonden een berg beklimmen",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2182435429,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/90a5babc7699cd81f209_lekkerspelen_71072544789_1591106736/thumb/custom-79c6fbdf-46ff-476c-a7b5-18f3ba476a8a-320x180.jpeg",
+        "title": "PETER vs TIMON: Juni⭐",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2182364055,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/8bd41a93f226a8d300c0_lekkerspelen_40796426389_1719427112//thumb/thumb0-320x180.jpg",
+        "title": "PETER vs TIMON: Juni⭐",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2180780587,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/47f0a3b27dc806e86817_lekkerspelen_20400735129_9163352431/thumb/custom-f65a38b7-aef0-4722-ac0d-fdd4e4c31e0d-320x180.jpeg",
+        "title": "Lekker spelen Origins (deel 4)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2180650548,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/1d40befa6146caab2d4e_lekkerspelen_42516021512_1719254573//thumb/thumb0-320x180.jpg",
+        "title": "Lekker spelen Origins",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2176363305,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/a87f5f76ec036d8051da_lekkerspelen_73162368631_9762793799/thumb/custom-0ed6ec7f-b296-44b5-9480-fb5a98db0b0f-320x180.jpeg",
+        "title": "Lekker spelen Origins (deel 3)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2176231107,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/5c5976507cab7f91f871_lekkerspelen_42737310057_1718821814//thumb/thumb0-320x180.jpg",
+        "title": "Lekker spelen Origins",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2175466545,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/63ff1961e32907858832_lekkerspelen_11575776490_7996928367/thumb/custom-66ef89bc-3393-4c62-ab31-7fd6233e73dc-320x180.jpeg",
+        "title": "NINTENDO DIRECT 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2175179298,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/3378405bc7d62fed2ddf_lekkerspelen_42484328968_1718717917//thumb/thumb0-320x180.jpg",
+        "title": "NINTENDO DIRECT 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2174651996,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/28f2344ccc780c67d5aa_lekkerspelen_84073906399_4473220921/thumb/custom-357ea5b0-d895-4ddb-9422-d348be1020d3-320x180.jpeg",
+        "title": "Lekker spelen Origins (deel 2)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2174539274,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/d1041bf7668d0fe11a88_lekkerspelen_42480120584_1718649016//thumb/thumb0-320x180.jpg",
+        "title": "Lekker spelen Origins",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2170491752,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/aec9c56083ac64e0e27e_lekkerspelen_37491847025_4379206652/thumb/custom-e98c037d-76f2-40c5-bcaa-12504722b040-320x180.jpeg",
+        "title": "Lekker spelen Origins",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2170341734,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/d7e91a8201948e00a7ad_lekkerspelen_51306631613_1718217038//thumb/thumb0-320x180.jpg",
+        "title": "Lekker spelen Origins",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2168739201,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/6fca7ab2332c65a76fe8_lekkerspelen_99163862448_6706990421/thumb/custom-83e5ffee-faf6-4ca2-bc79-aa46c6f3f15a-320x180.jpeg",
+        "title": "UBISOFT FORWARD 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2168656865,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/f2ccf62ec93049be7464_lekkerspelen_40738688565_1718044107//thumb/thumb0-320x180.jpg",
+        "title": "UBISOFT FORWARD 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2167856007,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/2c4a7fe1cd166249fc38_lekkerspelen_57656305194_5854524530/thumb/custom-d48cd27b-d619-4537-aeeb-41f6a2dd8f9c-320x180.jpeg",
+        "title": "XBOX GAMES SHOWCASE 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2167765103,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/355e76fc50db0485f50e_lekkerspelen_42441057208_1717950614//thumb/thumb0-320x180.jpg",
+        "title": "XBOX GAMES SHOWCASE 2024 (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2166292476,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/7dcc97d6760f4b6ba587_lekkerspelen_13889660178_5225262702/thumb/custom-d4ef7050-bac5-48ef-b942-d490992ebfa1-320x180.jpeg",
         "title": "SUMMER GAME FEST 2024 (live reacties)",
