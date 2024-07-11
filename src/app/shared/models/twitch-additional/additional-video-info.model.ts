@@ -1,4 +1,4 @@
-export interface AdditionalVideosInfo {
+export interface AdditionalVideoInfo {
     userId: number;
     username: string;
     videoId: number;

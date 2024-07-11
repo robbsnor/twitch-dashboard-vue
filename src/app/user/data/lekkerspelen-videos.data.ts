@@ -1,6 +1,6 @@
-import type { AdditionalVideosInfo } from "../../shared/models/twitch-additional/additional-video-info.model";
+import type { AdditionalVideoInfo } from "../../shared/models/twitch-additional/additional-video-info.model";
 
-export const LEKKER_SPELEN_VIDEOS: AdditionalVideosInfo[] = [
+export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
