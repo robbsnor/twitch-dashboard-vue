@@ -17,7 +17,6 @@ const followingStore = useFollowingStore();
 const twitchApiService = new TwitchApiService();
 
 const { filter } = storeToRefs(followingStore);
-const visibility = useDocumentVisibility();
 
 const favouriteIds = ref<number[]>(favourtieStore.getFavouriteStreamers());
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
