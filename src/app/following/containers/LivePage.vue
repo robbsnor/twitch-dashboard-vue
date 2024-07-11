@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { TitleService } from '../../shared/services/title.service';
 import { useFavouriteStore } from '../../shared/stores/favourites.store';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
@@ -9,6 +9,7 @@ import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 import { useFollowingStore } from '../stores/following.store';
 import { storeToRefs } from 'pinia';
+import { useDocumentVisibility, useWindowSize } from '@vueuse/core';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
@@ -16,18 +17,42 @@ const followingStore = useFollowingStore();
 const twitchApiService = new TwitchApiService();
 
 const { filter } = storeToRefs(followingStore);
+const visibility = useDocumentVisibility();
 
+const favouriteIds = ref<number[]>(favourtieStore.getFavouriteStreamers());
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 
 onMounted(async () => {
-    const favouriteIds = favourtieStore.getFavouriteStreamers();
+    fetchStreams();
+    autoRefetchStreams();
+});
+
+const isMobile = computed(() => {
+    const { width } = useWindowSize();
+    return width.value < 1000;
+});
+
+const autoRefetchStreams = () => {
+    const fourSec = 4 * 1000;
+    const fourMins = 4 * 60 * 1000;
+    const twoMin = 2 * 60 * 1000;
+
+    setInterval(() => {
+        if (isMobile.value) return;
+        fetchStreams();
+    }, twoMin);
+};
+
+const fetchStreams = async () => {
+    console.log('Fetcing streams... ', new Date());
 
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
-    favouriteStreams.value = LiveService.getFavourites(favouriteIds, allStreams.value);
-    nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds, allStreams.value);
-});
+    favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
+    nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
+};
+
 </script>
 
 <template>
