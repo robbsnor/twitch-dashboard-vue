@@ -22,6 +22,7 @@ const favouriteIds = ref<number[]>(favourtieStore.getFavouriteStreamers());
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
+const fetchHistory = ref<string[]>([]);
 
 onMounted(async () => {
     fetchStreams();
@@ -45,7 +46,9 @@ const autoRefetchStreams = () => {
 };
 
 const fetchStreams = async () => {
-    console.log('Fetcing streams... ', new Date());
+    const str = `Fetcing streams..: ${new Date()}`;
+    console.log(str);
+    fetchHistory.value.push(str);
 
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
@@ -57,6 +60,14 @@ const fetchStreams = async () => {
 <template>
     <div class="live">
         <template v-if="allStreams">
+            <Section title="Fetch history:">
+                <code>
+                    <pre>
+                        {{ fetchHistory }}
+                    </pre>
+                </code>
+            </Section>
+
             <FavouriteStreams :streams="favouriteStreams" />
 
             <Section hideHeader>
