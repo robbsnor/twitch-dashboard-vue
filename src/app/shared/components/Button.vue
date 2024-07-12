@@ -13,10 +13,12 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const classes = computed(() => {
-    const iconClass = props.icon ? `button--icon button--icon-${props.icon}` : '';
-    const iconAlignclass = props.icon ? `button--icon-align-${props.iconAlign}` : '';
-
-    return `button button--${props.color} ${iconAlignclass} ${iconClass}`;
+    return {
+        'button': true,
+        [`button--${props.color}`]: true,
+        [`button--icon-align-${props.iconAlign}`]: props.icon,
+        [`button--icon button--icon-${props.icon}`]: props.icon,
+    };
 });
 </script>
 
