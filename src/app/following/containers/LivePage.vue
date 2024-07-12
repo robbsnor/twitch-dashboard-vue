@@ -60,13 +60,13 @@ const fetchStreams = async () => {
 <template>
     <div class="live">
         <template v-if="allStreams">
-            <Section title="Fetch history:">
+            <!-- <Section title="Fetch history:">
                 <code>
                     <pre>
                         {{ fetchHistory }}
                     </pre>
                 </code>
-            </Section>
+            </Section> -->
 
             <FavouriteStreams :streams="favouriteStreams" />
 
