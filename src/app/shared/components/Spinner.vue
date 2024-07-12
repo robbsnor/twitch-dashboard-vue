@@ -9,9 +9,10 @@ interface Props {
 const props = defineProps<Props>();
 
 const classes = computed(() => {
-    const paddingClass = props.padding ? `spinner--padding` : '';
-
-    return `spinner ${paddingClass}`;
+    return {
+        'spinner': true,
+        [`spinner--padding`]: props.padding,
+    };
 });
 </script>
 
