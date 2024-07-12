@@ -22,7 +22,8 @@ const classes = computed(() => {
             <div class="spinner__circle"></div>
             <div class="spinner__circle"></div>
         </div>
-        <div v-if="props.text" v-html="props.text" class="spinner__text"></div>
+
+        <div v-if="props.text" class="spinner__text">{{ props.text }}</div>
     </div>
 </template>
 
