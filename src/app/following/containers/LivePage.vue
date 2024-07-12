@@ -54,7 +54,6 @@ const fetchStreams = async () => {
     favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
 };
-
 </script>
 
 <template>
