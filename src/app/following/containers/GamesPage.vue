@@ -5,21 +5,13 @@ TitleService.setTitle('Games');
 </script>
 
 <template>
-    <div class="games">
-        <Section>
-            <ul>
-                <li>
-                    <RouterLink to="/games/23894">Call of Duty: Black Ops</RouterLink>
-                </li>
-            </ul>
-        </Section>
-    </div>
+    <Section>
+        <ul>
+            <li>
+                <RouterLink to="/games/23894">Call of Duty: Black Ops</RouterLink>
+            </li>
+        </ul>
+    </Section>
 </template>
 
-<style scoped lang="scss">
-.games {
-
-    // @include screen($desktop) {
-    // }
-}
-</style>
+<style scoped lang="scss"></style>
