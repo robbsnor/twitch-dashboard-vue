@@ -35,12 +35,12 @@ onMounted(async () => {
 
     &__cards {
         display: grid;
+        gap: rem(50px) rem($padding-larger);
     }
 
     @include screen($desktop) {
         &__cards {
             grid-template-columns: repeat(3, 1fr);
-            gap: rem(50px) rem($padding-larger);
         }
 
         &__card {
