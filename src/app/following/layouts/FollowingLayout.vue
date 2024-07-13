@@ -10,8 +10,6 @@ const followingStore = useFollowingStore();
             <PageTabs :title="followingStore.pageTabs.title" :pages="followingStore.pageTabs.paths" />
         </Section>
 
-        <main class="following__body">
-            <RouterView />
-        </main>
+        <RouterView />
     </div>
 </template>
