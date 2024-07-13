@@ -57,29 +57,17 @@ const fetchStreams = async () => {
 </script>
 
 <template>
-    <div class="live">
-        <template v-if="allStreams">
-            <!-- <Section title="Fetch history:">
-                <code>
-                    <pre>
-                        {{ fetchHistory }}
-                    </pre>
-                </code>
-            </Section> -->
+    <template v-if="allStreams">
+        <FavouriteStreams :streams="favouriteStreams" />
 
-            <FavouriteStreams :streams="favouriteStreams" />
+        <Section hideHeader>
+            <ZigZag />
+        </Section>
 
-            <Section hideHeader>
-                <ZigZag />
-            </Section>
+        <NonFavouriteStreams :streams="nonFavouriteStreams" v-model:filter="filter" />
+    </template>
 
-            <NonFavouriteStreams :streams="nonFavouriteStreams" v-model:filter="filter" />
-        </template>
-
-        <Spinner v-else padding />
-    </div>
+    <Spinner v-else padding />
 </template>
 
-<style scoped lang="scss">
-.live {}
-</style>
+<style scoped lang="scss"></style>

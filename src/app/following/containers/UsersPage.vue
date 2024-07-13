@@ -21,15 +21,13 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="users">
-        <Section title="Favourites">
-            <div v-if="favouriteUsers" class="user-cards">
-                <CardUser v-for="user in favouriteUsers" :name="user.name" :image="user.image" />
-            </div>
+    <Section title="Favourites">
+        <div v-if="favouriteUsers" class="user-cards">
+            <CardUser v-for="user in favouriteUsers" :name="user.name" :image="user.image" />
+        </div>
 
-            <Spinner v-else padding />
-        </Section>
-    </div>
+        <Spinner v-else padding />
+    </Section>
 </template>
 
 <style scoped lang="scss">

@@ -5,11 +5,9 @@ const followingStore = useFollowingStore();
 </script>
 
 <template>
-    <div class="following">
-        <Section first hideHeader class="following__tabs">
-            <PageTabs :title="followingStore.pageTabs.title" :pages="followingStore.pageTabs.paths" />
-        </Section>
+    <Section first hideHeader class="following__tabs">
+        <PageTabs :title="followingStore.pageTabs.title" :pages="followingStore.pageTabs.paths" />
+    </Section>
 
-        <RouterView />
-    </div>
+    <RouterView />
 </template>
