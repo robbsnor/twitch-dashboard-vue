@@ -1,24 +1,13 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-interface Options {
-    user: {
-        showThumbnail: boolean;
-        showDuration: boolean;
-    },
-    app: {
-        vodDownloadURL?: string;
-    };
-}
-
 export const useAppOptionsStore = defineStore('app-options',
     () => {
-        const options = ref<Options>({
+        const options = ref({
             user: {
                 showThumbnail: true,
                 showDuration: true,
             },
-            app: {},
         });
 
         const toggleUserShowThumbnail = () => {
