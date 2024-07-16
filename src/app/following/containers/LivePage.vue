@@ -47,8 +47,8 @@ const refetchStreamsOnFocus = (isFocued: boolean) => {
     fetchStreams();
 };
 
-watch(focused, (focused) => {
-    refetchStreamsOnFocus(focused);
+watch(focused, (newFocused) => {
+    refetchStreamsOnFocus(newFocused);
 });
 </script>
 
