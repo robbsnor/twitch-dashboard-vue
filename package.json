@@ -10,7 +10,7 @@
         "preview": "npx http-server dist --port 5173",
         "preview-og": "vite preview",
         "type-check": "vue-tsc --build --force",
-        "pwa-icons": "pwa-assets-generator"
+        "generate-pwa-icons": "pwa-assets-generator"
     },
     "dependencies": {
         "@formkit/auto-animate": "^0.8.1",
