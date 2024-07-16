@@ -3,13 +3,11 @@ import { computed, useSlots } from 'vue';
 
 const slots = useSlots();
 
-interface Props {
+const props = defineProps<{
     title?: string;
     first?: boolean;
     hideHeader?: boolean;
-}
-
-const props = defineProps<Props>();
+}>();
 
 const classes = computed(() => {
     return {

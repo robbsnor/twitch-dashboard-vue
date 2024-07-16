@@ -44,9 +44,7 @@ const setSearchToTopOfPage = (focused: boolean) => {
     const isMobile = width.value <= 1000;
     if (!isMobile) return;
 
-    const el = document.querySelector('.filter__search');
-    if (!el) return;
-
+    const el = document.querySelector('.filter__search')!;
     const yOffset = -120;
     const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
@@ -127,11 +125,6 @@ const setSearchToTopOfPage = (focused: boolean) => {
     gap: rem(8px);
     width: 100%;
     min-width: rem(336px);
-}
-
-.list {
-    color: $c-white;
-    padding: 10px 0;
 }
 
 .not-found {

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
+import { useWindowFocus } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import { onMounted, ref, watch } from 'vue';
+import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import { TitleService } from '../../shared/services/title.service';
 import { useFavouriteStore } from '../../shared/stores/favourites.store';
-import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
-import { LiveService } from '../services/live.service';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
+import { LiveService } from '../services/live.service';
 import { useFollowingStore } from '../stores/following.store';
-import { storeToRefs } from 'pinia';
-import { useDocumentVisibility, useWindowFocus, useWindowSize } from '@vueuse/core';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
@@ -60,7 +60,10 @@ watch(focused, (focused) => {
             <ZigZag />
         </Section>
 
-        <NonFavouriteStreams :streams="nonFavouriteStreams" v-model:filter="filter" />
+        <NonFavouriteStreams
+            v-model:filter="filter"
+            :streams="nonFavouriteStreams"
+        />
     </template>
 
     <Spinner v-else padding />
