@@ -97,6 +97,7 @@ onStartTyping(() => {
         display: grid;
         margin-left: rem(-$padding);
         margin-right: rem(-$padding);
+        overflow: hidden;
     }
 
     @include screen($desktop) {
