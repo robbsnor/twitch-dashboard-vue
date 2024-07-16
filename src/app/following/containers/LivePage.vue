@@ -53,8 +53,8 @@ const fetchStreams = async () => {
 const refetchStreamsOnFocus = (isFocued: boolean) => {
     if (!isFocued) return;
 
-    const isLongerThan10SecAgo = Date.now() - lastFetched.value > 10 * 1000;
-    if (!isLongerThan10SecAgo) return;
+    const isLongerThan1MinAgo = Date.now() - lastFetched.value > 1 * 60 * 1000;
+    if (!isLongerThan1MinAgo) return;
 
     fetchStreams();
 };
