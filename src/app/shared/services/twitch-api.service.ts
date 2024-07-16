@@ -9,11 +9,6 @@ import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followe
 import type { VideoTypesModel } from "../models/twitch/video-types.model";
 import type { TwitchGetGameStreams } from "../models/twitch/game-streams.model";
 
-export interface UserIdsOrLogins {
-    ids?: number[];
-    logins?: string[];
-}
-
 export class TwitchApiService {
     private http = axios.create();
     private accessToken: string;
@@ -30,7 +25,9 @@ export class TwitchApiService {
     }
 
     // api calls
-    public async getUsers(user: UserIdsOrLogins): Promise<TwitchGetUsers> {
+    public async getUsers(
+        user: { ids?: number[]; logins?: string[]; },
+    ): Promise<TwitchGetUsers> {
         const url = new URL('https://api.twitch.tv/helix/users');
         if (user.ids) user.ids.forEach(id => url.searchParams.append('id', id.toString()));
         if (user.logins) user.logins.forEach(login => url.searchParams.append('login', login));
@@ -85,9 +82,7 @@ export class TwitchApiService {
         return res.data;
     }
 
-    public async getVideosByVideoIds(
-        ids: number[],
-    ): Promise<TwitchGetVideos | { data: never[]; }> {
+    public async getVideosByVideoIds(ids: number[]): Promise<TwitchGetVideos | { data: never[]; }> {
         const url = new URL('https://api.twitch.tv/helix/videos');
         if (ids.length > 100) ids = ids.slice(0, 100);
         if (ids.length === 0) return { data: [] };
@@ -105,7 +100,6 @@ export class TwitchApiService {
         res.data.data = orderedVideos;
         return res.data;
     }
-
 
     public async getFollowedStreamsWithUsers(): Promise<TwitchFollowedStreamWithUser[]> {
         const followedStreams = await this.getFollowedStreams();
