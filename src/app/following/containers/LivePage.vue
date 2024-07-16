@@ -38,8 +38,8 @@ const fetchStreams = async () => {
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
 };
 
-const refetchStreamsOnFocus = (isFocued: boolean) => {
-    if (!isFocued) return;
+const refetchStreamsOnFocus = (isFocused: boolean) => {
+    if (!isFocused) return;
 
     const isLongerThan1MinAgo = Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
     if (!isLongerThan1MinAgo) return;
