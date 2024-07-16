@@ -30,12 +30,18 @@ onMounted(async () => {
     autoRefetchStreamsInterval();
 });
 
+const isMobile = computed(() => {
+    const { width } = useWindowSize();
+    return width.value <= 1000;
+});
+
 const autoRefetchStreamsInterval = () => {
     const fourSec = 4 * 1000;
     const fourMins = 4 * 60 * 1000;
     const twoMin = 2 * 60 * 1000;
 
     setInterval(() => {
+        if (isMobile) return;
         if (!focused.value) return;
         fetchStreams();
     }, twoMin);
