@@ -23,33 +23,15 @@ const favouriteIds = ref<number[]>(favourtieStore.getFavouriteStreamers());
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
-const lastFetched = ref<number>(0);
+const lastFetchedOn = ref<number>(0);
 
 onMounted(async () => {
     fetchStreams();
-    autoRefetchStreamsInterval();
 });
-
-const isMobile = computed(() => {
-    const { width } = useWindowSize();
-    return width.value <= 1000;
-});
-
-const autoRefetchStreamsInterval = () => {
-    const fourSec = 4 * 1000;
-    const fourMins = 4 * 60 * 1000;
-    const twoMin = 2 * 60 * 1000;
-
-    setInterval(() => {
-        if (isMobile) return;
-        if (!focused.value) return;
-        fetchStreams();
-    }, twoMin);
-};
 
 const fetchStreams = async () => {
     console.log(`Fetcing streams..: ${new Date()}`);
-    lastFetched.value = Date.now();
+    lastFetchedOn.value = Date.now();
 
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
@@ -59,7 +41,7 @@ const fetchStreams = async () => {
 const refetchStreamsOnFocus = (isFocued: boolean) => {
     if (!isFocued) return;
 
-    const isLongerThan1MinAgo = Date.now() - lastFetched.value > 1 * 60 * 1000;
+    const isLongerThan1MinAgo = Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
     if (!isLongerThan1MinAgo) return;
 
     fetchStreams();
