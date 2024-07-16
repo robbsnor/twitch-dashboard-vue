@@ -5,16 +5,19 @@ import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/fo
 import CardLive from '../components/CardLive.vue';
 import { FollowingFactory } from '../factories/following.factory';
 import type { CardLiveSize } from '../models/card-live.model';
-
-const { width } = useWindowSize();
+import { onStartTyping } from '@vueuse/core';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
     filter: string;
 }>();
 
+const { width } = useWindowSize();
+
 const filter = defineModel<string>('filter');
-const sectionEl = ref<HTMLElement | null>(null);
+
+const filterEl = ref<HTMLDivElement | any>();
+const sectionEl = ref<HTMLElement | any>();
 
 const cards = computed(() => {
     const videos = props.streams?.filter(stream => {
@@ -38,17 +41,20 @@ const categories = computed(() => {
 
 const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
 
-const setSearchToTopOfPage = (focused: boolean) => {
+const scrollToFilter = (focused: boolean) => {
     if (!focused) return;
 
-    const isMobile = width.value <= 1000;
-    if (!isMobile) return;
-
-    const el = document.querySelector('.filter__search')!;
     const yOffset = -120;
-    const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
 };
+
+onStartTyping(() => {
+    if (filterEl.value.active) return;
+    scrollToFilter(true);
+    filterEl.value.focus();
+})
+
 </script>
 
 <template>
@@ -61,7 +67,8 @@ const setSearchToTopOfPage = (focused: boolean) => {
                     :items="categories"
                     placeholder="Search streams..."
                     persistent-clear
-                    @update:focused="setSearchToTopOfPage($event)"
+                    ref="filterEl"
+                    @update:focused="scrollToFilter($event)"
                 />
             </div>
         </template>
@@ -69,7 +76,7 @@ const setSearchToTopOfPage = (focused: boolean) => {
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards" v-auto-animate>
                 <div v-for="card in cards" :key="card.userId" class="non-favourite__card">
-                    <CardLive :card="card" :size="cardSize" @click:game="filter = $event; setSearchToTopOfPage(true)" />
+                    <CardLive :card="card" :size="cardSize" @click:game="filter = $event; scrollToFilter(true)" />
                 </div>
             </div>
 
