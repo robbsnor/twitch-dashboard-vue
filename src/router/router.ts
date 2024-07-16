@@ -1,13 +1,7 @@
-import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
-import { useAuthStore } from '../app/auth/stores/auth.store';
-
-const isLoggedWithTwitch = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-    const authStore = useAuthStore();
-    const loggedIn = !!authStore.user;
-
-    if (!loggedIn) return next({ name: 'home' });
-    next();
-};
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { AuthGuard } from './guards/auth.guard';
+import { authRoutes } from './routes/auth.route';
+import { followingRoutes } from './routes/following.rout';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,57 +9,26 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('../app/home/containers/HomePage.vue'),
+            component: () => import('@/app/home/containers/HomePage.vue'),
         },
-        {
-            path: '/auth/sign-in',
-            name: 'sign-in',
-            component: () => import('../app/auth/containers/SignInPage.vue'),
-        },
-        {
-            path: '/auth/sign-out',
-            name: 'sign-out',
-            component: () => import('../app/auth/containers/SignOutPage.vue'),
-        },
-        {
-            path: '/playground',
-            name: 'playground',
-            component: () => import('../app/playground/containers/PlaygroundPage.vue'),
-        },
-        {
-            path: '/following',
-            name: 'following',
-            beforeEnter: [isLoggedWithTwitch],
-            component: () => import('../app/following/layouts/FollowingLayout.vue'),
-            children: [
-                {
-                    path: 'live',
-                    name: 'live',
-                    component: () => import('../app/following/containers/LivePage.vue'),
-                },
-                {
-                    path: 'users',
-                    name: 'users',
-                    component: () => import('../app/following/containers/UsersPage.vue'),
-                },
-                {
-                    path: 'games',
-                    name: 'games',
-                    component: () => import('../app/following/containers/GamesPage.vue'),
-                },
-            ]
-        },
+        ...authRoutes,
+        ...followingRoutes,
         {
             path: '/games/:gameId',
             name: 'game',
-            component: () => import('../app/games/containers/GamePage.vue'),
-            beforeEnter: [isLoggedWithTwitch],
+            component: () => import('@/app/games/containers/GamePage.vue'),
+            beforeEnter: [AuthGuard.isLoggedWithTwitch],
         },
         {
             path: '/user/:userLogin',
             name: 'user',
-            component: () => import('../app/user/containers/UserPage.vue'),
-            beforeEnter: [isLoggedWithTwitch],
+            component: () => import('@/app/user/containers/UserPage.vue'),
+            beforeEnter: [AuthGuard.isLoggedWithTwitch],
+        },
+        {
+            path: '/playground',
+            name: 'playground',
+            component: () => import('@/app/playground/containers/PlaygroundPage.vue'),
         },
     ]
 });

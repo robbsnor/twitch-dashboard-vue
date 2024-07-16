@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import { useAppOptionsStore } from '@/app/base/stores/AppOptions.store';
+import _ from 'lodash';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref, watch } from 'vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import { TwitchApiService } from '../../shared/services/twitch-api.service';
 import CardVideo from '../components/CardVideo.vue';
-import { UserFactory } from '../factories/user.factory';
-import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
-import _ from 'lodash';
-import { useAppOptionsStore } from '@/app/base/stores/AppOptions.store';
-import { storeToRefs } from 'pinia';
+import { UserFactory } from '../factories/user.factory';
+import type { CardVideo as CardVideoModel } from '../models/card-video.model';
 
 const props = defineProps<{
     user: TwitchUser;
