@@ -10,6 +10,7 @@ import FavouriteStreams from '../components/FavouriteStreams.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 import { LiveService } from '../services/live.service';
 import { useFollowingStore } from '../stores/following.store';
+import { PromiseService } from '@/app/shared/services/promise.service';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
@@ -32,6 +33,8 @@ onMounted(async () => {
 const fetchStreams = async () => {
     console.log(`Fetcing streams..: ${new Date()}`);
     lastFetchedOn.value = Date.now();
+
+    allStreams.value = undefined;
 
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
     favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
