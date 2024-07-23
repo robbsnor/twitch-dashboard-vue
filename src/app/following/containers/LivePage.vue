@@ -35,11 +35,10 @@ const fetchStreams = async () => {
     lastFetchedOn.value = Date.now();
 
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
-
     favouriteStreams.value = undefined;
-    favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
-
     nonFavouriteStreams.value = undefined;
+    PromiseService.sleep(200);
+    favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
 };
 
