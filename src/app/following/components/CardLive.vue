@@ -8,7 +8,7 @@ import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-liv
 const toast = useToast();
 
 const emits = defineEmits({
-    'click:game': (game: string) => true,
+    'click:filter-game': (game: string) => true,
 });
 
 interface Props {
@@ -46,7 +46,7 @@ const copyUserId = (card: CardLiveModel) => {
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game-container">
-                <a class="card-small__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
+                <a class="card-small__game" @click.prevent="emits('click:filter-game', card.game)">{{ card.game }}</a>
             </div>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
                 <v-img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar" />
@@ -66,13 +66,13 @@ const copyUserId = (card: CardLiveModel) => {
             <div class="card-normal__viewers">{{ viewers }}</div>
         </a>
         <div class="card-normal__title">{{ card.title }}</div>
-        <a class="card-normal__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
+        <div class="card-normal__game">{{ card.game }}</div>
         <div class="card-normal__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
                 <v-img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar" />
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
-            <v-menu>
+            <v-menu location="top right">
                 <template #activator="{ props }">
                     <v-btn
                         class="card-normal__options"
@@ -82,6 +82,9 @@ const copyUserId = (card: CardLiveModel) => {
                     />
                 </template>
                 <v-list>
+                    <v-list-item prepend-icon="mdi-magnify" @click.prevent="emits('click:filter-game', card.game)">Filter by <i class="primary">'{{ card.game }}'</i></v-list-item>
+                    <!-- <v-list-item prepend-icon="mdi-filter-variant" @click.prevent="emits('click:filter-game', card.game)">Filter by '{{ card.game }}'</v-list-item> -->
+                    <!-- <v-list-item prepend-icon="mdi-magnify">Search streams playing '{{ card.game }}'</v-list-item> -->
                     <v-list-item prepend-icon="mdi-content-copy" @click="copyUserId(card)">Copy userID</v-list-item>
                 </v-list>
             </v-menu>

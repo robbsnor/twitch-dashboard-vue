@@ -9,13 +9,11 @@ import { onStartTyping } from '@vueuse/core';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
-    filter: string;
 }>();
-
-const { width } = useWindowSize();
 
 const filter = defineModel<string>('filter');
 
+const { width } = useWindowSize();
 const filterEl = ref<HTMLDivElement | any>();
 const sectionEl = ref<HTMLElement | any>();
 
@@ -76,7 +74,11 @@ onStartTyping(() => {
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards" v-auto-animate>
                 <div v-for="card in cards" :key="card.userId" class="non-favourite__card">
-                    <CardLive :card="card" :size="cardSize" @click:game="filter = $event; scrollToFilter(true)" />
+                    <CardLive
+                        :card="card"
+                        :size="cardSize"
+                        @click:filter-game="filter = $event; scrollToFilter(true)"
+                    />
                 </div>
             </div>
 
