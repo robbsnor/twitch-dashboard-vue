@@ -203,6 +203,7 @@ const formattedDate = computed(() => {
     }
 
     &__box-art {
+        flex-grow: 0;
         width: rem(20px);
         border-radius: rem(3px);
     }
