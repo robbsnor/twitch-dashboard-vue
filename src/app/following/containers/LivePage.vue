@@ -2,7 +2,7 @@
 import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 import { useWindowFocus } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
 import { TitleService } from '../../shared/services/title.service';
 import { useFavouriteStore } from '../../shared/stores/favourites.store';
@@ -10,7 +10,6 @@ import FavouriteStreams from '../components/FavouriteStreams.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
 import { LiveService } from '../services/live.service';
 import { useFollowingStore } from '../stores/following.store';
-import { PromiseService } from '@/app/shared/services/promise.service';
 
 TitleService.setTitle('Live');
 const favourtieStore = useFavouriteStore();
@@ -37,7 +36,7 @@ const fetchStreams = async () => {
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
     favouriteStreams.value = undefined;
     nonFavouriteStreams.value = undefined;
-    PromiseService.sleep(200);
+    await nextTick();
     favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
 };
