@@ -36,7 +36,7 @@ const formattedDate = computed(() => {
     <div class="card-video">
         <a :href="props.card.link" target="_blank" class="card-video__thumbnail-container">
             <span class="sr-only">Watch {{ props.card.title }} video</span>
-            <img v-if="props.showThumbnail" :src="props.card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
+            <v-img v-if="props.showThumbnail" :src="props.card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
 
             <div v-else class="card-video__thumbnail-empty">
                 <div class="card-video__spoiler-text">Spoilers</div>
@@ -58,7 +58,7 @@ const formattedDate = computed(() => {
 
             <div v-if="props.card.chapters?.length" class="card-video__chapters">
                 <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emits('click:chapter', chapter)" class="card-video__chapter">
-                    <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
+                    <v-img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
                     <div class="card-video__chapter-title">{{ chapter.title }}</div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ const viewers = computed(() => {
     <div class="card-game-stream" :data-user-id="card.userId">
         <a :href="card.link" target="_blank" class="card-game-stream__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-game-stream__thumbnail" alt="thumbnail">
+            <v-img :src="card.thumbnail" class="card-game-stream__thumbnail" alt="thumbnail" />
             <div class="card-game-stream__thumbnail-overlay"></div>
             <div class="card-game-stream__arrow">(icon)</div>
             <div class="card-game-stream__viewers">{{ viewers }}</div>
@@ -27,7 +27,7 @@ const viewers = computed(() => {
         <div class="card-game-stream__title">{{ card.title }}</div>
         <div class="card-game-stream__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-game-stream__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-game-stream__avatar" alt="avatar">
+                <v-img v-if="card.avatar" :src="card.avatar" class="card-game-stream__avatar" alt="avatar" />
                 <div class="card-game-stream__username">{{ card.name }}</div>
             </RouterLink>
         </div>

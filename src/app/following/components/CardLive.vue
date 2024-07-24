@@ -41,7 +41,7 @@ const copyUserId = (card: CardLiveModel) => {
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-small__options"></button> -->
-            <img :src="card.thumbnail" class="card-small__thumbnail" alt="thumbnail">
+            <v-img :src="card.thumbnail" class="card-small__thumbnail" alt="thumbnail" />
         </div>
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
@@ -49,7 +49,7 @@ const copyUserId = (card: CardLiveModel) => {
                 <a class="card-small__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
             </div>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar">
+                <v-img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar" />
                 <div class="card-small__username">{{ card.name }}</div>
             </RouterLink>
         </div>
@@ -60,7 +60,7 @@ const copyUserId = (card: CardLiveModel) => {
     <div v-if="size === 'normal'" class="card-normal" :data-user-id="card.userId">
         <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail">
+            <v-img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail" />
             <div class="card-normal__thumbnail-overlay"></div>
             <div class="card-normal__arrow">(icon)</div>
             <div class="card-normal__viewers">{{ viewers }}</div>
@@ -69,7 +69,7 @@ const copyUserId = (card: CardLiveModel) => {
         <a class="card-normal__game" @click.prevent="emits('click:game', card.game)">{{ card.game }}</a>
         <div class="card-normal__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar">
+                <v-img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar" />
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
             <v-menu>
@@ -92,7 +92,7 @@ const copyUserId = (card: CardLiveModel) => {
     <div v-if="size === 'fancy'" class="card-fancy">
         <div class="card-fancy__header">
             <RouterLink :to="`/user/${card.name}`" class="card-fancy__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar" alt="avatar">
+                <v-img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar" alt="avatar" />
                 <div class="card-fancy__username">{{ card.name }}</div>
             </RouterLink>
             <div class="card-fancy__viewers">{{ viewers }}</div>
@@ -100,7 +100,7 @@ const copyUserId = (card: CardLiveModel) => {
         </div>
         <div class="card-fancy__game">{{ card.game }}</div>
         <div class="card-fancy__title">{{ card.title }}</div>
-        <img :src="card.thumbnail" class="card-fancy__thumbnail" alt="thumbnail">
+        <v-img :src="card.thumbnail" class="card-fancy__thumbnail" alt="thumbnail" />
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
         <a :href="card.link" target="_blank" class="card-fancy__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
     </div>

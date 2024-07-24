@@ -17,7 +17,7 @@ const toggleSettingsDialog = () => {
     <v-menu location="bottom end">
         <template #activator="activator">
             <a v-bind="activator.props" class="header-avatar">
-                <img :src="props.image" alt="" class="header-avatar__image">
+                <v-img :src="props.image" alt="" class="header-avatar__image" />
             </a>
         </template>
 

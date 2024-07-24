@@ -50,6 +50,9 @@ export const vuetify = createVuetify({
         VTooltip: {
             location: 'top',
         },
+        VImg: {
+            // transition: '',
+        }
     },
     components,
     directives,
