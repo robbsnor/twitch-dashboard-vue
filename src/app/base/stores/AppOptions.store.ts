@@ -7,6 +7,7 @@ export const useAppOptionsStore = defineStore('app-options',
             user: {
                 showThumbnail: true,
                 showDuration: true,
+                showCategories: true,
             },
         });
 
@@ -18,10 +19,15 @@ export const useAppOptionsStore = defineStore('app-options',
             options.value.user.showDuration = !options.value.user.showDuration;
         };
 
+        const toggleShowCategories = () => {
+            options.value.user.showCategories = !options.value.user.showCategories;
+        };
+
         return {
             options,
             toggleUserShowThumbnail,
             toggleUserShowDuration,
+            toggleShowCategories,
         };
     },
     {

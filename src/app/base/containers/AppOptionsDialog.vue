@@ -26,6 +26,11 @@ const dialog = defineModel<boolean>('dialog');
                     label="Show duration"
                     @click="appOptionsStore.toggleUserShowDuration"
                 />
+                <v-switch
+                    v-model="appOptionsStore.options.user.showCategories"
+                    label="Show categories"
+                    @click="appOptionsStore.toggleShowCategories"
+                />
             </div>
         </div>
 

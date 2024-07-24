@@ -109,6 +109,7 @@ onMounted(() => {
                         :card="card"
                         :showDuration="options.user.showDuration"
                         :showThumbnail="options.user.showThumbnail"
+                        :showCategories="options.user.showCategories"
                         @click:chapter="search = $event.title"
                     />
                 </div>

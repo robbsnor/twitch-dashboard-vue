@@ -9,11 +9,13 @@ interface Props {
     card: CardVideoModel;
     showDuration?: boolean;
     showThumbnail?: boolean;
+    showCategories?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     showDuration: true,
     showThumbnail: true,
+    showCategories: true,
 });
 
 const emits = defineEmits({
@@ -56,7 +58,7 @@ const formattedDate = computed(() => {
                 <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
             </div>
 
-            <div v-if="props.card.chapters?.length" class="card-video__chapters">
+            <div v-if="props.card.chapters?.length && props.showCategories" class="card-video__chapters">
                 <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emits('click:chapter', chapter)" class="card-video__chapter">
                     <v-img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
                     <div class="card-video__chapter-title">{{ chapter.title }}</div>
