@@ -4,6 +4,146 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2206408041,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/77e0975b6801d5b8e500_lekkerspelen_57682482020_7433907963/thumb/custom-41722715-96b3-4e44-8881-e33ee9a152b6-320x180.jpeg",
+        "title": "PETER vs TIMON: Juli ⭐",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2206254635,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/63506a21a455ba7b1d23_lekkerspelen_42649701880_1721845825//thumb/thumb0-320x180.jpg",
+        "title": "PETER vs TIMON: Juli ⭐",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2204583303,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/88a27638a5308f2c58ea_lekkerspelen_44090866326_8856142678/thumb/custom-e8b28edc-7447-45c5-bc7b-5ac5e4e89c6b-320x180.jpeg",
+        "title": "We gaan een WERELDRECORD verbreken! (speedrun training)",
+        "chapters": [
+            {
+                "title": "Nintendo World Championships: NES Edition",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1605297245_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2204487471,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/5bd6221d1ee8b45e700c_lekkerspelen_51581037629_1721673018//thumb/thumb0-320x180.jpg",
+        "title": "We gaan een WERELDRECORD verbreken! (speedrun training)",
+        "chapters": [
+            {
+                "title": "Nintendo World Championships: NES Edition",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1605297245_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2200283790,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/c6110d301212fd105202_lekkerspelen_83585337962_3629178976/thumb/custom-51e24337-c7b2-49e8-a171-b692c18f01de-320x180.jpeg",
+        "title": "Mario Kart Wii (team building)",
+        "chapters": [
+            {
+                "title": "Mario Kart Wii",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/18871_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2200180545,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/0c930e188c2e120f7ccc_lekkerspelen_42616947592_1721241454//thumb/thumb0-320x180.jpg",
+        "title": "Mario Kart Wii (team building)",
+        "chapters": [
+            {
+                "title": "Mario Kart Wii",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/18871_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2198545922,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/91aab4fc4f847c4063bd_lekkerspelen_16889985048_8990792628/thumb/custom-04f2c706-44e3-4162-baab-37684566ea9f-320x180.jpeg",
+        "title": "Geesten bestaan. (sceptisten kunnen dit bewijs niet langer weerstaan)",
+        "chapters": [
+            {
+                "title": "Supernatural",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1067866307_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2198429878,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/617c703aa7ddb7641f34_lekkerspelen_42607436744_1721069428//thumb/thumb0-320x180.jpg",
+        "title": "Geesten bestaan. (sceptisten kunnen dit bewijs niet langer weerstaan)",
+        "chapters": [
+            {
+                "title": "Psalm 5:9-13",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/862291283_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2195131658,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/3be361e10af11352de4d_lekkerspelen_67766668129_3629930911/thumb/custom-a7766ddc-1773-4077-b860-d5d4932ee5f6-320x180.jpeg",
+        "title": "We spelen door tot we hem uitspelen",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2195059329,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/e26799c8ac36f9f7c892_lekkerspelen_42589812408_1720722842//thumb/thumb0-320x180.jpg",
+        "title": "We spelen door tot we hem uitspelen",
+        "chapters": [
+            {
+                "title": "Chained Together",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/14842174_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2192663587,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/c9bdafffe68a4669aa66_lekkerspelen_15371370050_6548788520/thumb/custom-ff3223a4-63c4-485b-a553-71f88c8230be-320x180.jpeg",
         "title": "Als we 20 KEER VALLEN gaan we offline!",
