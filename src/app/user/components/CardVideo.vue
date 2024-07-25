@@ -60,7 +60,7 @@ const formattedDate = computed(() => {
 
             <div v-if="props.card.chapters?.length && props.showCategories" class="card-video__chapters">
                 <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emits('click:chapter', chapter)" class="card-video__chapter">
-                    <v-img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art" />
+                    <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art">
                     <div class="card-video__chapter-title">{{ chapter.title }}</div>
                 </div>
             </div>
