@@ -41,9 +41,7 @@ const fetchStreams = async () => {
     nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
 };
 
-const refetchStreamsOnFocus = (isFocused: boolean) => {
-    if (!isFocused) return;
-
+const refetchStreams = () => {
     const isLongerThan1MinAgo = Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
     if (!isLongerThan1MinAgo) return;
 
@@ -51,7 +49,9 @@ const refetchStreamsOnFocus = (isFocused: boolean) => {
 };
 
 watch(focused, (newFocused) => {
-    refetchStreamsOnFocus(newFocused);
+    if (newFocused) {
+        // refetchStreams();
+    }
 });
 </script>
 
