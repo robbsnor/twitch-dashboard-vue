@@ -8,7 +8,7 @@ TitleService.setTitle('Games');
     <Section>
         <ul>
             <li>
-                <RouterLink to="/games/23894">Call of Duty: Black Ops</RouterLink>
+                <RouterLink to="/games/Call of Duty: Black Ops">Call of Duty: Black Ops</RouterLink>
             </li>
         </ul>
     </Section>

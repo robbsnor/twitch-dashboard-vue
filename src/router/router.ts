@@ -14,7 +14,7 @@ const router = createRouter({
         ...authRoutes,
         ...followingRoutes,
         {
-            path: '/games/:gameId',
+            path: '/games/:gameSlug',
             name: 'game',
             component: () => import('@/app/games/containers/GamePage.vue'),
             beforeEnter: [AuthGuard.isLoggedWithTwitch],

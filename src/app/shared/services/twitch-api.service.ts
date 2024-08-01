@@ -131,11 +131,19 @@ export class TwitchApiService {
         return res.data;
     }
 
-    public async getStreamsByGame(gameId: number): Promise<TwitchGetGameStreams> {
+    public async getStreamsByGameId(id: number): Promise<TwitchGetGameStreams> {
         const url = new URL('https://api.twitch.tv/helix/streams');
-        url.searchParams.append('game_id', gameId.toString());
+        url.searchParams.append('game_id', id.toString());
 
         const res = await this.http.get<TwitchGetGameStreams>(url.toString());
+        return res.data;
+    }
+
+    public async getGames(name: string) {
+        const url = new URL('https://api.twitch.tv/helix/games');
+        url.searchParams.append('name', name);
+
+        const res = await this.http.get(url.toString());
         return res.data;
     }
 

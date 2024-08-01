@@ -3,20 +3,28 @@ import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 import { onMounted, ref } from 'vue';
 import { GamesFactory } from '../factories/games.factory';
 import CardLive from '@/app/following/components/CardLive.vue';
+import { useRoute } from 'vue-router';
 
 const twitchApiService = new TwitchApiService();
-const BLACK_OPS_ID = 23894;
+const route = useRoute();
 
 const cards = ref();
+const title = ref<string>();
 
 onMounted(async () => {
-    const res = await twitchApiService.getStreamsByGame(BLACK_OPS_ID);
-    cards.value = GamesFactory.mapToCardLive(res.data);
+    const gameSlug = route.params.gameSlug;
+    const gameRes = await twitchApiService.getGames(gameSlug);
+    const { id, name } = gameRes.data.find((game) => game.name === gameSlug);
+    if (!id) return console.error('Game not found');
+
+    const streamsRes = await twitchApiService.getStreamsByGameId(id);
+    title.value = name;
+    cards.value = GamesFactory.mapToCardLive(streamsRes.data);
 });
 </script>
 
 <template>
-    <Section title="Black ops">
+    <Section :title="title">
         <div class="game">
             <div v-if="cards" class="game__cards" v-auto-animate>
                 <div v-for="card in cards" :key="card.userId" class="game__card">
@@ -31,8 +39,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .game {
-    min-height: 80vh;
-
     &__cards {
         display: grid;
         gap: rem(50px) rem($padding-larger);
