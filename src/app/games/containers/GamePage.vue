@@ -12,9 +12,9 @@ const cards = ref();
 const title = ref<string>();
 
 onMounted(async () => {
-    const gameSlug = route.params.gameSlug;
+    const gameSlug = route.params.gameSlug as string;
     const gameRes = await twitchApiService.getGames(gameSlug);
-    const { id, name } = gameRes.data.find((game) => game.name === gameSlug);
+    const { id, name } = gameRes.data.find((game: any) => game.name === gameSlug);
     if (!id) return console.error('Game not found');
 
     const streamsRes = await twitchApiService.getStreamsByGameId(id);

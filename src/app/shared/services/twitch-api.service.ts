@@ -139,7 +139,7 @@ export class TwitchApiService {
         return res.data;
     }
 
-    public async getGames(name: string) {
+    public async getGames(name: string): Promise<any> {
         const url = new URL('https://api.twitch.tv/helix/games');
         url.searchParams.append('name', name);
 
