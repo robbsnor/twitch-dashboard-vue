@@ -2,10 +2,12 @@
 import { NumberService } from '@/app/shared/services/number.service';
 import { useClipboard } from '@vueuse/core';
 import { computed, defineEmits, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
 import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
 
 const toast = useToast();
+const router = useRouter();
 
 const emits = defineEmits({
     'click:filter-game': (game: string) => true,
@@ -20,10 +22,6 @@ const props = withDefaults(defineProps<Props>(), {
     size: 'normal',
 });
 
-const viewers = computed(() => {
-    return NumberService.abbreviateNumber(props.card.viewers);
-});
-
 const copyUserId = (card: CardLiveModel) => {
     const { copy, copied } = useClipboard();
 
@@ -32,6 +30,17 @@ const copyUserId = (card: CardLiveModel) => {
 
     toast.success(`Copied ID: ${card.userId}`, { duration: 3000 });
 };
+
+const goToGamePage = (game: string) => {
+    // change route to games page
+    console.log('goToGamePage', game);
+    router.push({ name: 'game', params: { gameSlug: game } });
+
+};
+
+const viewers = computed(() => {
+    return NumberService.abbreviateNumber(props.card.viewers);
+});
 </script>
 
 <template>
@@ -82,9 +91,9 @@ const copyUserId = (card: CardLiveModel) => {
                     />
                 </template>
                 <v-list>
-                    <v-list-item prepend-icon="mdi-magnify" @click.prevent="emits('click:filter-game', card.game)">Filter by <i class="primary">'{{ card.game }}'</i></v-list-item>
-                    <!-- <v-list-item prepend-icon="mdi-filter-variant" @click.prevent="emits('click:filter-game', card.game)">Filter by '{{ card.game }}'</v-list-item> -->
-                    <!-- <v-list-item prepend-icon="mdi-magnify">Search streams playing '{{ card.game }}'</v-list-item> -->
+                    <v-list-item prepend-icon="mdi-magnify" @click="goToGamePage(card.game)">Search streams: <b>'{{ card.game }}'</b></v-list-item>
+                    <v-list-item prepend-icon="mdi-filter-variant" @click.prevent="emits('click:filter-game', card.game)">Filter by: <b>'{{ card.game }}'</b></v-list-item>
+                    <Divider />
                     <v-list-item prepend-icon="mdi-content-copy" @click="copyUserId(card)">Copy userID</v-list-item>
                 </v-list>
             </v-menu>
