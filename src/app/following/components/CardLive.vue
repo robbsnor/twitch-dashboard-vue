@@ -32,10 +32,7 @@ const copyUserId = (card: CardLiveModel) => {
 };
 
 const goToGamePage = (game: string) => {
-    // change route to games page
-    console.log('goToGamePage', game);
     router.push({ name: 'game', params: { gameSlug: game } });
-
 };
 
 const viewers = computed(() => {
