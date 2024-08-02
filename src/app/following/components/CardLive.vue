@@ -24,7 +24,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const copyUserId = (card: CardLiveModel) => {
     const { copy, copied } = useClipboard();
-
     copy(card.userId.toString());
     if (!copied.value) return toast.error('Failed to copy userId', { duration: 3000 });
 
