@@ -144,12 +144,12 @@ export class TwitchApiService {
     }
 
     public async getStreamsByGameIdWithUsers(id: number): Promise<TwitchStreamsWithUser[]> {
-        const streams = await this.getStreamsByGameIds([id]);
-        const userIds = streams.data.map(stream => Number(stream.user_id));
+        const streams = (await this.getStreamsByGameIds([id])).data;
+        const userIds = streams.map(stream => Number(stream.user_id));
         const users = (await this.getUsers({ ids: userIds })).data;
-        const streamsWithUser = streams.data.map<TwitchStreamsWithUser>((stream, index) => {
+        const streamsWithUser = streams.map<TwitchStreamsWithUser>((stream, index) => {
             return {
-                ...streams.data[index],
+                ...streams[index],
                 ...users[index]
             };
         });
