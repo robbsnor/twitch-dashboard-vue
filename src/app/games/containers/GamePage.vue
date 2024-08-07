@@ -3,26 +3,28 @@ import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
 import { onMounted, ref } from "vue";
 import { GamesFactory } from "../factories/games.factory";
 import CardLive from "@/app/following/components/CardLive.vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import CardGameStream from "@/app/games/components/CardGameStream.vue";
 
 const twitchApiService = new TwitchApiService();
 const route = useRoute();
+const router = useRouter();
 
 const cards = ref();
 const title = ref<string>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
-    const game = (await twitchApiService.getGamesByName([gameName])).data.find(
+    const res = await twitchApiService.getGamesByName([gameName]);
+
+    const game = res.data.find(
         (game) => game.name.toLowerCase() === gameName.toLowerCase()
     );
-    if (!game) return;
+    if (!game) return router.push({ name: "home" });
 
     const streams = await twitchApiService.getStreamsByGameIdWithUsers(
         Number(game.id)
     );
-    console.log(streams);
     title.value = game.name;
     cards.value = GamesFactory.mapToCardLive(streams);
 });
