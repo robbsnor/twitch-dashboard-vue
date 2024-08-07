@@ -137,6 +137,7 @@ export class TwitchApiService {
     public async getStreamsByGameIds(ids: number[]): Promise<TwitchGetStreams> {
         const url = new URL('https://api.twitch.tv/helix/streams');
         ids.forEach(id => url.searchParams.append('game_id', id.toString()));
+        url.searchParams.append('first', '100');
 
         const res = await this.http.get<TwitchGetStreams>(url.toString());
         return res.data;
@@ -152,7 +153,6 @@ export class TwitchApiService {
                 ...users[index]
             };
         });
-
         return streamsWithUser;
     }
 
