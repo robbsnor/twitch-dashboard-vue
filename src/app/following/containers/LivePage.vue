@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
-import { useWindowFocus } from '@vueuse/core';
-import { storeToRefs } from 'pinia';
-import { nextTick, onMounted, ref, watch } from 'vue';
-import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
-import { TitleService } from '../../shared/services/title.service';
-import { useFavouriteStore } from '../../shared/stores/favourites.store';
-import FavouriteStreams from '../components/FavouriteStreams.vue';
-import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
-import { LiveService } from '../services/live.service';
-import { useFollowingStore } from '../stores/following.store';
+import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
+import { useWindowFocus } from "@vueuse/core";
+import { storeToRefs } from "pinia";
+import { nextTick, onMounted, ref, watch } from "vue";
+import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
+import { TitleService } from "../../shared/services/title.service";
+import { useFavouriteStore } from "../../shared/stores/favourites.store";
+import FavouriteStreams from "../components/FavouriteStreams.vue";
+import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
+import { LiveService } from "../services/live.service";
+import { useFollowingStore } from "../stores/following.store";
 
-TitleService.setTitle('Live');
+TitleService.setTitle("Live");
 const favourtieStore = useFavouriteStore();
 const followingStore = useFollowingStore();
 const focused = useWindowFocus();
@@ -37,12 +37,19 @@ const fetchStreams = async () => {
     favouriteStreams.value = undefined;
     nonFavouriteStreams.value = undefined;
     await nextTick();
-    favouriteStreams.value = LiveService.getFavourites(favouriteIds.value, allStreams.value);
-    nonFavouriteStreams.value = LiveService.getNonFavourites(favouriteIds.value, allStreams.value);
+    favouriteStreams.value = LiveService.getFavourites(
+        favouriteIds.value,
+        allStreams.value
+    );
+    nonFavouriteStreams.value = LiveService.getNonFavourites(
+        favouriteIds.value,
+        allStreams.value
+    );
 };
 
 const refetchStreams = () => {
-    const isLongerThan1MinAgo = Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
+    const isLongerThan1MinAgo =
+        Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
     if (!isLongerThan1MinAgo) return;
 
     fetchStreams();

@@ -1,5 +1,5 @@
 import { TwitchService } from '../../shared/services/image.service';
-import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
+import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import type { CardLive } from "../models/card-live.model";
 
 export class FollowingFactory {

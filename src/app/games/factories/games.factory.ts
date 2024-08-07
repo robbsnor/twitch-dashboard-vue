@@ -1,12 +1,10 @@
-import type { TwitchGameStreams } from '../../shared/models/twitch/game-streams.model';
-import type { TwitchUser } from '../../shared/models/twitch/users.model';
+import type { TwitchStreamsWithUser } from '../../shared/models/twitch/streams-with-user.model';
 import { TwitchService } from '../../shared/services/image.service';
 import type { CardGameStream } from '../models/card-game.model';
 
 export class GamesFactory {
-    public static mapToCardLive(streams: TwitchGameStreams[], users?: TwitchUser[]) {
+    public static mapToCardLive(streams: TwitchStreamsWithUser[]): CardGameStream[] {
         return streams.map<CardGameStream>((stream) => {
-            const user = users?.find((user) => user.id === stream.user_id);
 
             return {
                 userId: Number(stream.user_id),
@@ -16,7 +14,7 @@ export class GamesFactory {
                 viewers: stream.viewer_count,
                 name: stream.user_name,
                 game: stream.game_name ?? '-',
-                avatar: user?.profile_image_url,
+                avatar: stream.profile_image_url,
             };
         });
     }

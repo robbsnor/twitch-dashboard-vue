@@ -1,4 +1,4 @@
-import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams.model";
+import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 
 export class LiveService {
     public static getFavourites(favouriteIds: Number[], streams: TwitchFollowedStreamWithUser[]) {

@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { NumberService } from '@/app/shared/services/number.service';
-import { useClipboard } from '@vueuse/core';
-import { computed, defineEmits, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useToast } from 'vue-toast-notification';
-import type { CardLive as CardLiveModel, CardLiveSize } from '../models/card-live.model';
+import { NumberService } from "@/app/shared/services/number.service";
+import { useClipboard } from "@vueuse/core";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
+import type {
+    CardLive as CardLiveModel,
+    CardLiveSize,
+} from "../models/card-live.model";
 
 const toast = useToast();
 const router = useRouter();
 
 const emits = defineEmits({
-    'click:filter-game': (game: string) => true,
+    "click:filter-game": (game: string) => true,
 });
 
 interface Props {
@@ -19,19 +22,20 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 'normal',
+    size: "normal",
 });
 
 const copyUserId = (card: CardLiveModel) => {
     const { copy, copied } = useClipboard();
     copy(card.userId.toString());
-    if (!copied.value) return toast.error('Failed to copy userId', { duration: 3000 });
+    if (!copied.value)
+        return toast.error("Failed to copy userId", { duration: 3000 });
 
     toast.success(`Copied ID: ${card.userId}`, { duration: 3000 });
 };
 
 const goToGamePage = (game: string) => {
-    router.push({ name: 'game', params: { gameSlug: game } });
+    router.push({ name: "game", params: { gameSlug: game } });
 };
 
 const viewers = computed(() => {
@@ -46,26 +50,57 @@ const viewers = computed(() => {
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
             <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-small__options"></button> -->
-            <img :src="card.thumbnail" class="card-small__thumbnail" alt="thumbnail">
+            <img
+                :src="card.thumbnail"
+                class="card-small__thumbnail"
+                alt="thumbnail"
+            />
         </div>
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game-container">
-                <a class="card-small__game" @click.prevent="emits('click:filter-game', card.game)">{{ card.game }}</a>
+                <a
+                    class="card-small__game"
+                    @click.prevent="emits('click:filter-game', card.game)"
+                    >{{ card.game }}</a
+                >
             </div>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar">
+                <img
+                    v-if="card.avatar"
+                    :src="card.avatar"
+                    class="card-small__avatar"
+                    alt="avatar"
+                />
                 <div class="card-small__username">{{ card.name }}</div>
             </RouterLink>
         </div>
-        <a :href="card.link" target="_blank" class="card-small__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a
+            :href="card.link"
+            target="_blank"
+            class="card-small__link"
+            :data-user-id="card.userId"
+            ><span class="sr-only">Watch {{ card.name }}'s stream</span></a
+        >
     </div>
 
     <!-- normal -->
-    <div v-if="size === 'normal'" class="card-normal" :data-user-id="card.userId">
-        <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
+    <div
+        v-if="size === 'normal'"
+        class="card-normal"
+        :data-user-id="card.userId"
+    >
+        <a
+            :href="card.link"
+            target="_blank"
+            class="card-normal__thumbnail-container"
+        >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail">
+            <img
+                :src="card.thumbnail"
+                class="card-normal__thumbnail"
+                alt="thumbnail"
+            />
             <div class="card-normal__thumbnail-overlay"></div>
             <div class="card-normal__arrow">(icon)</div>
             <div class="card-normal__viewers">{{ viewers }}</div>
@@ -74,7 +109,12 @@ const viewers = computed(() => {
         <div class="card-normal__game">{{ card.game }}</div>
         <div class="card-normal__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar">
+                <img
+                    v-if="card.avatar"
+                    :src="card.avatar"
+                    class="card-normal__avatar"
+                    alt="avatar"
+                />
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
             <v-menu location="top right">
@@ -87,10 +127,22 @@ const viewers = computed(() => {
                     />
                 </template>
                 <v-list>
-                    <v-list-item prepend-icon="mdi-magnify" @click="goToGamePage(card.game)">Search streams: <b>'{{ card.game }}'</b></v-list-item>
-                    <v-list-item prepend-icon="mdi-filter-variant" @click.prevent="emits('click:filter-game', card.game)">Filter by: <b>'{{ card.game }}'</b></v-list-item>
+                    <v-list-item
+                        prepend-icon="mdi-magnify"
+                        @click="goToGamePage(card.game)"
+                        >Search streams: <b>'{{ card.game }}'</b></v-list-item
+                    >
+                    <v-list-item
+                        prepend-icon="mdi-filter-variant"
+                        @click.prevent="emits('click:filter-game', card.game)"
+                        >Filter by: <b>'{{ card.game }}'</b></v-list-item
+                    >
                     <Divider />
-                    <v-list-item prepend-icon="mdi-content-copy" @click="copyUserId(card)">Copy userID</v-list-item>
+                    <v-list-item
+                        prepend-icon="mdi-content-copy"
+                        @click="copyUserId(card)"
+                        >Copy userID</v-list-item
+                    >
                 </v-list>
             </v-menu>
         </div>
@@ -100,7 +152,12 @@ const viewers = computed(() => {
     <div v-if="size === 'fancy'" class="card-fancy">
         <div class="card-fancy__header">
             <RouterLink :to="`/user/${card.name}`" class="card-fancy__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-fancy__avatar" alt="avatar">
+                <img
+                    v-if="card.avatar"
+                    :src="card.avatar"
+                    class="card-fancy__avatar"
+                    alt="avatar"
+                />
                 <div class="card-fancy__username">{{ card.name }}</div>
             </RouterLink>
             <div class="card-fancy__viewers">{{ viewers }}</div>
@@ -108,9 +165,19 @@ const viewers = computed(() => {
         </div>
         <div class="card-fancy__game">{{ card.game }}</div>
         <div class="card-fancy__title">{{ card.title }}</div>
-        <img :src="card.thumbnail" class="card-fancy__thumbnail" alt="thumbnail">
+        <img
+            :src="card.thumbnail"
+            class="card-fancy__thumbnail"
+            alt="thumbnail"
+        />
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
-        <a :href="card.link" target="_blank" class="card-fancy__link" :data-user-id="card.userId"><span class="sr-only">Watch {{ card.name }}'s stream</span></a>
+        <a
+            :href="card.link"
+            target="_blank"
+            class="card-fancy__link"
+            :data-user-id="card.userId"
+            ><span class="sr-only">Watch {{ card.name }}'s stream</span></a
+        >
     </div>
 </template>
 
@@ -122,7 +189,7 @@ const viewers = computed(() => {
     display: grid;
     grid-template-columns: rem(150px) 1fr;
     padding: rem(10px) rem(20px);
-    transition: .2s;
+    transition: 0.2s;
 
     &__thumbnail-container {
         position: relative;
@@ -143,7 +210,11 @@ const viewers = computed(() => {
     }
 
     &__gradient {
-        background: linear-gradient(-70deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 50%);
+        background: linear-gradient(
+            -70deg,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0) 50%
+        );
         // background-color: red;
         position: absolute;
         top: 0;
@@ -275,15 +346,15 @@ const viewers = computed(() => {
         display: block;
         position: relative;
         aspect-ratio: 16 / 9;
-        transition: .2s;
+        transition: 0.2s;
         background-color: black;
 
         &:hover {
-            transform: translate(#{ rem(-5px) }, #{ rem(5px) });
+            transform: translate(#{rem(-5px)}, #{rem(5px)});
 
             #{ $self }__arrow {
                 opacity: 1;
-                transform: translate(#{ rem(10px) }, #{ rem(-10px) });
+                transform: translate(#{rem(10px)}, #{rem(-10px)});
             }
         }
     }
@@ -295,7 +366,7 @@ const viewers = computed(() => {
         color: $c-black-14;
         font-size: rem(16px);
         opacity: 0;
-        transition: .2s;
+        transition: 0.2s;
     }
 
     &__viewers {
@@ -309,7 +380,7 @@ const viewers = computed(() => {
         width: 100%;
         height: 100%;
         border-radius: $border-radius-normal;
-        transition: .2s;
+        transition: 0.2s;
     }
 
     &__thumbnail-overlay {
@@ -381,7 +452,7 @@ const viewers = computed(() => {
 
     &__options {
         opacity: 0;
-        transition: .2s;
+        transition: 0.2s;
         transform: translateX(10px);
     }
 
@@ -434,7 +505,7 @@ const viewers = computed(() => {
     $self: &;
 
     position: relative;
-    transition: .2s;
+    transition: 0.2s;
 
     &__header {
         display: flex;
@@ -471,7 +542,7 @@ const viewers = computed(() => {
     }
 
     &__arrow {
-        transition: .2s;
+        transition: 0.2s;
     }
 
     &__game {
@@ -519,7 +590,7 @@ const viewers = computed(() => {
 
     &:hover {
         #{ $self }__arrow {
-            transform: translate(#{ rem(10px) }, #{ rem(-10px) });
+            transform: translate(#{rem(10px)}, #{rem(-10px)});
         }
     }
 
@@ -531,8 +602,8 @@ const viewers = computed(() => {
         }
 
         &__options {
-            bottom: rem($padding * .5);
-            right: rem($padding * .25);
+            bottom: rem($padding * 0.5);
+            right: rem($padding * 0.25);
         }
 
         &__link {
@@ -541,7 +612,7 @@ const viewers = computed(() => {
         }
 
         &:hover {
-            transform: translate(#{ rem(-5px) }, #{ rem(5px) });
+            transform: translate(#{rem(-5px)}, #{rem(5px)});
 
             #{ $self }__link {
                 right: rem(-10px);

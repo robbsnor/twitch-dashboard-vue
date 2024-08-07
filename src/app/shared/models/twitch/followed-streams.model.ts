@@ -22,7 +22,3 @@ export interface TwitchFollowedStream {
     thumbnail_url: string;
     tag_ids: string[];
 }
-
-export interface TwitchFollowedStreamWithUser extends TwitchFollowedStream, TwitchUser { }
-
-

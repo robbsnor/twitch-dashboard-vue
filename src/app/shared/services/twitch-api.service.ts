@@ -1,13 +1,16 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../../auth/stores/auth.store";
-import type { TwitchFollowedStream, TwitchFollowedStreamWithUser, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchGetUsers, TwitchUser } from "../models/twitch/users.model";
 import type { TwitchGetVideos, TwitchVideo } from '../models/twitch/videos.model';
 import type { TwitchGetFollowedChannels } from "../models/twitch/followed-channels.model";
 import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-subscription.model";
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
 import type { VideoTypesModel } from "../models/twitch/video-types.model";
-import type { TwitchGetGameStreams } from "../models/twitch/game-streams.model";
+import type { TwitchGetStreams } from "../models/twitch/get-streams";
+import type { TwitchGetGames } from "../models/twitch/games.model";
+import type { TwitchFollowedStream, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
+import type { TwitchFollowedStreamWithUser } from "../models/twitch/followed-streams-with-user.model";
+import type { TwitchStreamsWithUser } from "../models/twitch/streams-with-user.model";
 
 export class TwitchApiService {
     private http = axios.create();
@@ -131,15 +134,29 @@ export class TwitchApiService {
         return res.data;
     }
 
-    public async getStreamsByGameId(id: number): Promise<TwitchGetGameStreams> {
+    public async getStreamsByGameId(id: number): Promise<TwitchGetStreams> {
         const url = new URL('https://api.twitch.tv/helix/streams');
         url.searchParams.append('game_id', id.toString());
 
-        const res = await this.http.get<TwitchGetGameStreams>(url.toString());
+        const res = await this.http.get<TwitchGetStreams>(url.toString());
         return res.data;
     }
 
-    public async getGames(name: string): Promise<any> {
+    public async getStreamsByGameIdWithUsers(id: number): Promise<TwitchStreamsWithUser[]> {
+        const streams = await this.getStreamsByGameId(id);
+        const userIds = streams.data.map(stream => Number(stream.user_id));
+        const users = (await this.getUsers({ ids: userIds })).data;
+        const streamsWithUser = streams.data.map<TwitchStreamsWithUser>((stream, index) => {
+            return {
+                ...streams.data[index],
+                ...users[index]
+            };
+        });
+
+        return streamsWithUser;
+    }
+
+    public async getGames(name: string): Promise<TwitchGetGames> {
         const url = new URL('https://api.twitch.tv/helix/games');
         url.searchParams.append('name', name);
 

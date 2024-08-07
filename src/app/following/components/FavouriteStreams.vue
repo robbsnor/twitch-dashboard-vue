@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
-import CardLive from '../components/CardLive.vue';
-import { FollowingFactory } from '../factories/following.factory';
+import { computed } from "vue";
+import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
+import CardLive from "../components/CardLive.vue";
+import { FollowingFactory } from "../factories/following.factory";
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -17,12 +17,17 @@ const cards = computed(() => {
 <template>
     <Section title="Favourites">
         <template #backgroundArt>
-            <Swirl v-if="streams?.length"class="swirl"></Swirl>
+            <Swirl v-if="streams?.length" class="swirl"></Swirl>
         </template>
 
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
-                <div v-for="card in cards" :key="card.userId" class="favourites__card" v-auto-animate>
+                <div
+                    v-for="card in cards"
+                    :key="card.userId"
+                    class="favourites__card"
+                    v-auto-animate
+                >
                     <CardLive :card="card" size="fancy"></CardLive>
                 </div>
             </div>

@@ -1,12 +1,12 @@
 import type { TwitchPagination } from "./pagination.model";
 
-export interface TwitchGetGameStreams {
-    data: TwitchGameStreams[];
+export interface TwitchGetStreams {
+    data: TwitchStreams[];
     pagination: TwitchPagination;
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-streams
-export interface TwitchGameStreams {
+export interface TwitchStreams {
     id: string;
     user_id: string;
     user_login: string;

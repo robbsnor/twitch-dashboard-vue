@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
-import { onMounted, ref } from 'vue';
-import { GamesFactory } from '../factories/games.factory';
-import CardLive from '@/app/following/components/CardLive.vue';
-import { useRoute } from 'vue-router';
+import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
+import { onMounted, ref } from "vue";
+import { GamesFactory } from "../factories/games.factory";
+import CardLive from "@/app/following/components/CardLive.vue";
+import { useRoute } from "vue-router";
 
 const twitchApiService = new TwitchApiService();
 const route = useRoute();
@@ -12,14 +12,17 @@ const cards = ref();
 const title = ref<string>();
 
 onMounted(async () => {
-    const gameSlug = route.params.gameSlug as string;
-    const gameRes = await twitchApiService.getGames(gameSlug);
-    const { id, name } = gameRes.data.find((game: any) => game.name === gameSlug);
-    if (!id) return console.error('Game not found');
+    const gameName = route.params.gameName as string;
+    const game = (await twitchApiService.getGames(gameName)).data.find(
+        (game) => game.name.toLowerCase() === gameName.toLowerCase()
+    );
+    if (!game) return;
 
-    const streamsRes = await twitchApiService.getStreamsByGameId(id);
-    title.value = name;
-    cards.value = GamesFactory.mapToCardLive(streamsRes.data);
+    const streams = await twitchApiService.getStreamsByGameIdWithUsers(
+        Number(game.id)
+    );
+    title.value = game.name;
+    cards.value = GamesFactory.mapToCardLive(streams);
 });
 </script>
 
@@ -27,7 +30,11 @@ onMounted(async () => {
     <Section :title="title">
         <div class="game">
             <div v-if="cards" class="game__cards" v-auto-animate>
-                <div v-for="card in cards" :key="card.userId" class="game__card">
+                <div
+                    v-for="card in cards"
+                    :key="card.userId"
+                    class="game__card"
+                >
                     <CardLive :card="card" />
                 </div>
             </div>

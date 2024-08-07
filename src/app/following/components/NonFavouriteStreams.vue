@@ -1,29 +1,35 @@
 <script setup lang="ts">
-import { useWindowSize } from '@vueuse/core';
-import { computed, ref } from 'vue';
-import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams.model';
-import CardLive from '../components/CardLive.vue';
-import { FollowingFactory } from '../factories/following.factory';
-import type { CardLiveSize } from '../models/card-live.model';
-import { onStartTyping } from '@vueuse/core';
+import { useWindowSize } from "@vueuse/core";
+import { computed, ref } from "vue";
+import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
+import CardLive from "../components/CardLive.vue";
+import { FollowingFactory } from "../factories/following.factory";
+import type { CardLiveSize } from "../models/card-live.model";
+import { onStartTyping } from "@vueuse/core";
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
 }>();
 
-const filter = defineModel<string>('filter');
+const filter = defineModel<string>("filter");
 
 const { width } = useWindowSize();
 const filterEl = ref<HTMLDivElement | any>();
 const sectionEl = ref<HTMLElement | any>();
 
 const cards = computed(() => {
-    const videos = props.streams?.filter(stream => {
+    const videos = props.streams?.filter((stream) => {
         if (!filter.value) return true;
 
-        const usernameMatch = stream.user_name.toLowerCase().includes(filter.value.toLowerCase());
-        const gameMatch = stream.game_name?.toLowerCase().includes(filter.value.toLowerCase());
-        const titleMatch = stream.title.toLowerCase().includes(filter.value.toLowerCase());
+        const usernameMatch = stream.user_name
+            .toLowerCase()
+            .includes(filter.value.toLowerCase());
+        const gameMatch = stream.game_name
+            ?.toLowerCase()
+            .includes(filter.value.toLowerCase());
+        const titleMatch = stream.title
+            .toLowerCase()
+            .includes(filter.value.toLowerCase());
 
         return usernameMatch || gameMatch || titleMatch;
     });
@@ -33,26 +39,31 @@ const cards = computed(() => {
 });
 
 const categories = computed(() => {
-    const duplicateCategories = props.streams?.map(stream => stream.game_name).sort().filter(Boolean);
+    const duplicateCategories = props.streams
+        ?.map((stream) => stream.game_name)
+        .sort()
+        .filter(Boolean);
     return [...new Set(duplicateCategories)];
 });
 
-const cardSize = computed((): CardLiveSize => width.value >= 1000 ? 'normal' : 'small');
+const cardSize = computed(
+    (): CardLiveSize => (width.value >= 1000 ? "normal" : "small")
+);
 
 const scrollToFilter = (focused: boolean) => {
     if (!focused) return;
 
     const yOffset = -120;
-    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    const y =
+        filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
 };
 
 onStartTyping(() => {
     if (filterEl.value.active) return;
     scrollToFilter(true);
     filterEl.value.focus();
-})
-
+});
 </script>
 
 <template>
@@ -73,19 +84,32 @@ onStartTyping(() => {
 
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards" v-auto-animate>
-                <div v-for="card in cards" :key="card.userId" class="non-favourite__card">
+                <div
+                    v-for="card in cards"
+                    :key="card.userId"
+                    class="non-favourite__card"
+                >
                     <CardLive
                         :card="card"
                         :size="cardSize"
-                        @click:filter-game="filter = $event; scrollToFilter(true)"
+                        @click:filter-game="
+                            filter = $event;
+                            scrollToFilter(true);
+                        "
                     />
                 </div>
             </div>
 
             <Spinner padding v-else></Spinner>
 
-            <div v-if="!cards?.length && filter?.length" class="non-favourite__not-found not-found">
-                <p>No streams found matching <span class="not-found__query">"{{ filter }}"</span>.</p>
+            <div
+                v-if="!cards?.length && filter?.length"
+                class="non-favourite__not-found not-found"
+            >
+                <p>
+                    No streams found matching
+                    <span class="not-found__query">"{{ filter }}"</span>.
+                </p>
             </div>
         </div>
     </Section>
