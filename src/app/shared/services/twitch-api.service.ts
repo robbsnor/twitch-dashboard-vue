@@ -134,16 +134,16 @@ export class TwitchApiService {
         return res.data;
     }
 
-    public async getStreamsByGameId(id: number): Promise<TwitchGetStreams> {
+    public async getStreamsByGameIds(ids: number[]): Promise<TwitchGetStreams> {
         const url = new URL('https://api.twitch.tv/helix/streams');
-        url.searchParams.append('game_id', id.toString());
+        ids.forEach(id => url.searchParams.append('game_id', id.toString()));
 
         const res = await this.http.get<TwitchGetStreams>(url.toString());
         return res.data;
     }
 
     public async getStreamsByGameIdWithUsers(id: number): Promise<TwitchStreamsWithUser[]> {
-        const streams = await this.getStreamsByGameId(id);
+        const streams = await this.getStreamsByGameIds([id]);
         const userIds = streams.data.map(stream => Number(stream.user_id));
         const users = (await this.getUsers({ ids: userIds })).data;
         const streamsWithUser = streams.data.map<TwitchStreamsWithUser>((stream, index) => {
@@ -156,9 +156,9 @@ export class TwitchApiService {
         return streamsWithUser;
     }
 
-    public async getGames(name: string): Promise<TwitchGetGames> {
+    public async getGamesByName(names: string[]): Promise<TwitchGetGames> {
         const url = new URL('https://api.twitch.tv/helix/games');
-        url.searchParams.append('name', name);
+        names.forEach(name => url.searchParams.append('name', name));
 
         const res = await this.http.get(url.toString());
         return res.data;
@@ -169,12 +169,11 @@ export class TwitchApiService {
         url.searchParams.append('user_id', userId.toString());
         url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
-        const res = await this.http.get<TwitchCheckUserSubscription>(url.toString())
+        return this.http.get<TwitchCheckUserSubscription>(url.toString())
             .then(() => true)
             .catch(() => false);
-
-        return res;
     }
+
 
 
     // interceptors

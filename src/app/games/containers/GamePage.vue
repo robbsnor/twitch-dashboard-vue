@@ -13,7 +13,7 @@ const title = ref<string>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
-    const game = (await twitchApiService.getGames(gameName)).data.find(
+    const game = (await twitchApiService.getGamesByName([gameName])).data.find(
         (game) => game.name.toLowerCase() === gameName.toLowerCase()
     );
     if (!game) return;
@@ -21,6 +21,7 @@ onMounted(async () => {
     const streams = await twitchApiService.getStreamsByGameIdWithUsers(
         Number(game.id)
     );
+    console.log(streams);
     title.value = game.name;
     cards.value = GamesFactory.mapToCardLive(streams);
 });
