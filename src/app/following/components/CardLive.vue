@@ -35,7 +35,7 @@ const copyUserId = (card: CardLiveModel) => {
 };
 
 const goToGamePage = (game: string) => {
-    router.push({ name: "game", params: { gameSlug: game } });
+    router.push({ name: "game", params: { gameName: game } });
 };
 
 const viewers = computed(() => {
