@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 import { GamesFactory } from "../factories/games.factory";
 import CardLive from "@/app/following/components/CardLive.vue";
 import { useRoute } from "vue-router";
+import CardGameStream from "@/app/games/components/CardGameStream.vue";
 
 const twitchApiService = new TwitchApiService();
 const route = useRoute();
@@ -36,7 +37,7 @@ onMounted(async () => {
                     :key="card.userId"
                     class="game__card"
                 >
-                    <CardLive :card="card" />
+                    <CardGameStream :card="card" />
                 </div>
             </div>
 
