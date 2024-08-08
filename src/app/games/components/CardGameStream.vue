@@ -84,7 +84,7 @@ const viewers = computed(() => {
         position: absolute;
         bottom: rem(7px);
         right: rem(10px);
-        color: $c-white--dark;
+        color: $c-primary;
     }
 
     &__thumbnail {
@@ -104,11 +104,6 @@ const viewers = computed(() => {
         z-index: -1;
     }
 
-    &__info {
-        overflow: hidden;
-        padding-top: rem(10px);
-    }
-
     &__title {
         @include line-clamp(1);
         flex-shrink: 0;
@@ -117,36 +112,10 @@ const viewers = computed(() => {
         word-break: break-word;
     }
 
-    &__game {
-        padding: rem(4px) 0 0;
-        font-size: rem(16px);
-        color: $c-white--dark;
-    }
-
     &__footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
-
-    &__user {
-        display: flex;
-        align-items: center;
-        color: $c-black-14;
-        font-size: rem(18px);
-        padding: rem(7px) 0;
-
-        // text overlow doenst work
-        text-decoration: none;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-
-        &:hover {
-            #{ $self }__username {
-                color: $c-black-16;
-            }
-        }
     }
 
     &__avatar {
@@ -159,20 +128,6 @@ const viewers = computed(() => {
 
     &__username {
         color: $c-black-14;
-    }
-
-    &__options {
-        opacity: 0;
-        transition: 0.2s;
-        transform: translateX(10px);
-    }
-
-    @include screen(800px) {
-        &:hover {
-            #{ $self }__options {
-                opacity: 1;
-            }
-        }
     }
 }
 </style>
