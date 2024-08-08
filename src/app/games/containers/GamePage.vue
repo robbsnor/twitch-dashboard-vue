@@ -15,7 +15,7 @@ const title = ref<string>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
-    const res = await twitchApiService.getGamesByName([gameName]);
+    const res = await twitchApiService.getGames({ names: [gameName] });
 
     const game = res.data.find(
         (game) => game.name.toLowerCase() === gameName.toLowerCase()

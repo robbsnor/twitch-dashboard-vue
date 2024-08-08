@@ -134,6 +134,15 @@ export class TwitchApiService {
         return res.data;
     }
 
+    public async getGames(game: { ids?: number[], names?: string[]; }): Promise<TwitchGetGames> {
+        const url = new URL('https://api.twitch.tv/helix/games');
+        if (game.ids) game.ids.forEach(id => url.searchParams.append('id', id.toString()));
+        if (game.names) game.names.forEach(name => url.searchParams.append('name', name));
+
+        const res = await this.http.get(url.toString());
+        return res.data;
+    }
+
     public async getStreamsByGameIds(ids: number[]): Promise<TwitchGetStreams> {
         const url = new URL('https://api.twitch.tv/helix/streams');
         ids.forEach(id => url.searchParams.append('game_id', id.toString()));
@@ -154,14 +163,6 @@ export class TwitchApiService {
             };
         });
         return streamsWithUser;
-    }
-
-    public async getGamesByName(names: string[]): Promise<TwitchGetGames> {
-        const url = new URL('https://api.twitch.tv/helix/games');
-        names.forEach(name => url.searchParams.append('name', name));
-
-        const res = await this.http.get(url.toString());
-        return res.data;
     }
 
     public async checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
