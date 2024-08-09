@@ -118,6 +118,26 @@ const viewers = computed(() => {
         align-items: center;
     }
 
+    &__user {
+        display: flex;
+        align-items: center;
+        color: $c-black-14;
+        font-size: rem(18px);
+        padding: rem(7px) 0;
+
+        // text overlow doenst work
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+
+        &:hover {
+            #{ $self }__username {
+                color: $c-black-16;
+            }
+        }
+    }
+
     &__avatar {
         display: block;
         width: rem(25px);
