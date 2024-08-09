@@ -16,6 +16,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
     const getFavouriteCategories = () => {
         return [
             'Call of Duty: Black Ops',
+            'VALORANT',
             'Minecraft',
             'Apex Legends',
         ];

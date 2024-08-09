@@ -7,7 +7,7 @@ import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-su
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
 import type { VideoTypesModel } from "../models/twitch/video-types.model";
 import type { TwitchGetStreams } from "../models/twitch/get-streams";
-import type { TwitchGetGames } from "../models/twitch/games.model";
+import type { TwitchGames, TwitchGetGames } from "../models/twitch/games.model";
 import type { TwitchFollowedStream, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchFollowedStreamWithUser } from "../models/twitch/followed-streams-with-user.model";
 import type { TwitchStreamsWithUser } from "../models/twitch/streams-with-user.model";
@@ -140,6 +140,18 @@ export class TwitchApiService {
         if (game.names) game.names.forEach(name => url.searchParams.append('name', name));
 
         const res = await this.http.get(url.toString());
+
+        let orderedGames: TwitchGames[] = [];
+
+        if (game.ids) {
+            orderedGames = game.ids.map((gameId) => res.data.data.find((game: any) => Number(game.id) === gameId));
+        }
+
+        if (game.names) {
+            orderedGames = game.names.map((gameName) => res.data.data.find((game: any) => game.name === gameName));
+        }
+
+        res.data.data = orderedGames;
         return res.data;
     }
 

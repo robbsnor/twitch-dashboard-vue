@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
     title: string;
-    pages: { name: string; path: string; }[];
+    pages: { name: string; path: string }[];
 }
 
 const props = defineProps<Props>();
@@ -12,14 +12,20 @@ const props = defineProps<Props>();
         <h3 class="page-tabs__title">{{ props.title }}</h3>
 
         <ul class="page-tabs__list">
-            <li v-for="page in props.pages" :key="page.name" class="page-tabs__list-item">
-                <router-link
+            <li
+                v-for="page in props.pages"
+                :key="page.name"
+                class="page-tabs__list-item"
+            >
+                <RouterLink
                     :to="page.path"
-                    :class="{ 'page-tabs__link--active': $route.path === page.path }"
+                    :class="{
+                        'page-tabs__link--active': $route.path === page.path,
+                    }"
                     class="page-tabs__link"
                 >
                     {{ page.name }}
-                </router-link>
+                </RouterLink>
             </li>
         </ul>
     </div>
@@ -46,7 +52,7 @@ const props = defineProps<Props>();
         text-decoration: none;
         font-size: rem(22px);
         font-weight: bold;
-        transition: .1s;
+        transition: 0.1s;
 
         &--active {
             color: $c-white;
