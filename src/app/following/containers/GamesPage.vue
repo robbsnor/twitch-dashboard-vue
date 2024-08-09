@@ -51,7 +51,7 @@ onMounted(() => {
 .fav-games {
     &__cards {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: rem($padding);
     }
 
