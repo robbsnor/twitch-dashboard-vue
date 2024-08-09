@@ -45,8 +45,6 @@ onMounted(() => {
             <Spinner padding v-else />
         </div>
     </Section>
-
-    <Section title="Popular games on Twitch"> </Section>
 </template>
 
 <style scoped lang="scss">
