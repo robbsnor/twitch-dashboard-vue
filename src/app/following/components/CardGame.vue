@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
-
 export interface CardGameModel {
     thumbnail: string;
     name: string;
 }
 
-const twitchApiService = new TwitchApiService();
 const props = defineProps<{ card: CardGameModel }>();
 </script>
 
