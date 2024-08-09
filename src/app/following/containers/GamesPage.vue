@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Section title="Favourite games">
+    <Section title="Favourites">
         <div class="fav-games">
             <div v-if="favCards" class="fav-games__cards" v-auto-animate>
                 <RouterLink

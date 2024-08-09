@@ -139,16 +139,17 @@ export class TwitchApiService {
         if (game.ids) game.ids.forEach(id => url.searchParams.append('id', id.toString()));
         if (game.names) game.names.forEach(name => url.searchParams.append('name', name));
 
-        const res = await this.http.get(url.toString());
+        const res = await this.http.get<TwitchGetGames>(url.toString());
 
         let orderedGames: TwitchGames[] = [];
 
+        // the ordering of the games could look prettier
         if (game.ids) {
-            orderedGames = game.ids.map((gameId) => res.data.data.find((game: any) => Number(game.id) === gameId));
+            orderedGames = game.ids.map((gameId) => res.data.data.find((game) => Number(game.id) === gameId)).filter(Boolean) as TwitchGames[];
         }
 
         if (game.names) {
-            orderedGames = game.names.map((gameName) => res.data.data.find((game: any) => game.name === gameName));
+            orderedGames = game.names.map((gameName) => res.data.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase())).filter(Boolean) as TwitchGames[];
         }
 
         res.data.data = orderedGames;

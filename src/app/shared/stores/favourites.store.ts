@@ -16,9 +16,16 @@ export const useFavouriteStore = defineStore('favourite', () => {
     const getFavouriteCategories = () => {
         return [
             'Call of Duty: Black Ops',
+            'Super Mario 64',
+            'Super Mario Sunshine',
+            'Super Mario Galaxy',
+            'Super Mario Galaxy 2',
+            'Software and Game Development',
             'VALORANT',
+            'Rocket League',
             'Minecraft',
             'Apex Legends',
+            'Beat Saber',
         ];
     };
 
