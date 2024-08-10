@@ -52,7 +52,7 @@ onMounted(async () => {
 .game {
     &__cards {
         display: grid;
-        gap: rem(50px) rem($padding-larger);
+        gap: rem($padding-larger);
     }
 
     @include screen($desktop) {
