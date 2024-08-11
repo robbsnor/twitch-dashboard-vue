@@ -68,6 +68,28 @@ export class TwitchApiService {
         return res.data.data;
     }
 
+    public async getFollowedStreamsWithUsers(): Promise<TwitchFollowedStreamWithUser[]> {
+        const followedStreams = await this.getFollowedStreams();
+        const userIds = followedStreams.map(stream => Number(stream.user_id));
+        const users = (await this.getUsers({ ids: userIds })).data;
+        const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
+            return {
+                ...followedStreams[index],
+                ...users[index]
+            };
+        });
+        return streamsWithUser;
+    }
+
+    public async getFollowedChannels(userId: number, broadcasterId?: number): Promise<TwitchGetFollowedChannels> {
+        const url = new URL('https://api.twitch.tv/helix/channels/followed');
+        url.searchParams.append('user_id', userId.toString());
+        if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
+
+        const res = await this.http.get<TwitchGetFollowedChannels>(url.toString());
+        return res.data;
+    }
+
     public async getVideosByUserId(
         userId: number,
         type: VideoTypesModel = 'all',
@@ -101,28 +123,6 @@ export class TwitchApiService {
         }, []);
 
         res.data.data = orderedVideos;
-        return res.data;
-    }
-
-    public async getFollowedStreamsWithUsers(): Promise<TwitchFollowedStreamWithUser[]> {
-        const followedStreams = await this.getFollowedStreams();
-        const userIds = followedStreams.map(stream => Number(stream.user_id));
-        const users = (await this.getUsers({ ids: userIds })).data;
-        const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
-            return {
-                ...followedStreams[index],
-                ...users[index]
-            };
-        });
-        return streamsWithUser;
-    }
-
-    public async getFollowedChannels(userId: number, broadcasterId?: number): Promise<TwitchGetFollowedChannels> {
-        const url = new URL('https://api.twitch.tv/helix/channels/followed');
-        url.searchParams.append('user_id', userId.toString());
-        if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
-
-        const res = await this.http.get<TwitchGetFollowedChannels>(url.toString());
         return res.data;
     }
 

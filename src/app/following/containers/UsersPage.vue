@@ -1,29 +1,37 @@
 <script setup lang="ts">
-import { TitleService } from '@/app/shared/services/title.service';
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
-import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import { onMounted, ref } from 'vue';
-import type { CardUserProps } from '../components/CardUser.vue';
-import CardUser from '../components/CardUser.vue';
-import { UserFactory } from '../factories/user.factory';
+import { TitleService } from "@/app/shared/services/title.service";
+import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
+import { useFavouriteStore } from "@/app/shared/stores/favourites.store";
+import { onMounted, ref } from "vue";
+import type { CardUserProps } from "../components/CardUser.vue";
+import CardUser from "../components/CardUser.vue";
+import { UserFactory } from "../factories/user.factory";
+import { useTwitchStore } from "@/app/shared/stores/twitch.store";
 
-TitleService.setTitle('Users');
+TitleService.setTitle("Users");
 const twitchApiService = new TwitchApiService();
 
 const favouriteStore = useFavouriteStore();
+const twitchStore = useTwitchStore();
 
 const favouriteUsers = ref<CardUserProps[]>();
 
 onMounted(async () => {
-    const res = await twitchApiService.getUsers({ ids: favouriteStore.getFavouriteStreamers() });
-    favouriteUsers.value = UserFactory.mapToCardUser(res.data);
+    const res2 = await twitchStore.getUsers({
+        ids: favouriteStore.getFavouriteStreamers(),
+    });
+    favouriteUsers.value = UserFactory.mapToCardUser(res2);
 });
 </script>
 
 <template>
     <Section title="Favourites">
         <div v-if="favouriteUsers" class="user-cards">
-            <CardUser v-for="user in favouriteUsers" :name="user.name" :image="user.image" />
+            <CardUser
+                v-for="user in favouriteUsers"
+                :name="user.name"
+                :image="user.image"
+            />
         </div>
 
         <Spinner v-else padding />
