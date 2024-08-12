@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { DateService } from '@/app/shared/services/date.service';
-import { NumberService } from '@/app/shared/services/number.service';
-import { TimeService } from '@/app/shared/services/time.service';
-import { computed } from 'vue';
-import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
+import { DateService } from "@/app/shared/services/date.service";
+import { NumberService } from "@/app/shared/services/number.service";
+import { TimeService } from "@/app/shared/services/time.service";
+import { useClipboard } from "@vueuse/core";
+import { computed } from "vue";
+import { useToast } from "vue-toast-notification";
+import { useAuthStore } from "../../auth/stores/auth.store";
+import type {
+    CardVideoChapter,
+    CardVideo as CardVideoModel,
+} from "../models/card-video.model";
 
 interface Props {
     card: CardVideoModel;
@@ -18,16 +24,29 @@ const props = withDefaults(defineProps<Props>(), {
     showCategories: true,
 });
 
+const authStore = useAuthStore();
+const toast = useToast();
+
 const emits = defineEmits({
-    'click:chapter': (chapter: CardVideoChapter) => true,
+    "click:chapter": (chapter: CardVideoChapter) => true,
 });
+
+const copyTwitchDlCommand = (card: CardVideoModel) => {
+    const { copy, copied } = useClipboard();
+    copy(`twitch-dl download ${card.id} -a ${authStore.accessToken}`);
+    toast.success(`Copied command!`);
+};
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
-const timeAgo = computed(() => DateService.getFormattedTimeBetweenDates(props.card.date));
+const timeAgo = computed(() =>
+    DateService.getFormattedTimeBetweenDates(props.card.date)
+);
 const formattedDate = computed(() => {
     const day = props.card.date.getDate();
-    const month = props.card.date.toLocaleDateString(undefined, { month: 'long' });
+    const month = props.card.date.toLocaleDateString(undefined, {
+        month: "long",
+    });
     const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
     const year = props.card.date.getFullYear();
     return `${day} ${capitalizedMonth} ${year}`;
@@ -36,9 +55,18 @@ const formattedDate = computed(() => {
 
 <template>
     <div class="card-video">
-        <a :href="props.card.link" target="_blank" class="card-video__thumbnail-container">
+        <a
+            :href="props.card.link"
+            target="_blank"
+            class="card-video__thumbnail-container"
+        >
             <span class="sr-only">Watch {{ props.card.title }} video</span>
-            <v-img v-if="props.showThumbnail" :src="props.card.thumbnail" class="card-video__thumbnail" alt="Stream thumbnail" />
+            <v-img
+                v-if="props.showThumbnail"
+                :src="props.card.thumbnail"
+                class="card-video__thumbnail"
+                alt="Stream thumbnail"
+            />
 
             <div v-else class="card-video__thumbnail-empty">
                 <div class="card-video__spoiler-text">Spoilers</div>
@@ -49,21 +77,58 @@ const formattedDate = computed(() => {
                 <app-myIcon icon="arrow"></app-myIcon>
             </div> -->
             <div class="card-video__views">{{ views }}</div>
-         <div v-if="props.showDuration" class="card-video__duration">{{ duration }}</div>
+            <div v-if="props.showDuration" class="card-video__duration">
+                {{ duration }}
+            </div>
         </a>
 
-        <div class="card-video__info">
-            <div class="card-video__title">{{ props.card.title }}</div>
-            <div class="card-video__date-wrapper">
-                <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
-            </div>
+        <div class="card-video__body">
+            <div class="card-video__copy">
+                <div class="card-video__title">{{ props.card.title }}</div>
+                <div class="card-video__date-wrapper">
+                    <span class="card-video__time-ago">{{ timeAgo }}</span>
+                    <span class="card-video__date">/ {{ formattedDate }}</span>
+                </div>
 
-            <div v-if="props.card.chapters?.length && props.showCategories" class="card-video__chapters">
-                <div v-for="(chapter, i) in props.card.chapters" :key="i" @click="emits('click:chapter', chapter)" class="card-video__chapter">
-                    <img :src="chapter.boxArt" class="card-video__box-art" alt="Chapter box art">
-                    <div class="card-video__chapter-title">{{ chapter.title }}</div>
+                <div
+                    v-if="props.card.chapters?.length && props.showCategories"
+                    class="card-video__chapters"
+                >
+                    <div
+                        v-for="(chapter, i) in props.card.chapters"
+                        :key="i"
+                        @click="emits('click:chapter', chapter)"
+                        class="card-video__chapter"
+                    >
+                        <img
+                            :src="chapter.boxArt"
+                            class="card-video__box-art"
+                            alt="Chapter box art"
+                        />
+                        <div class="card-video__chapter-title">
+                            {{ chapter.title }}
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <v-menu location="top right">
+                <template #activator="{ props }">
+                    <v-btn
+                        class="card-normal__options"
+                        v-bind="props"
+                        icon="mdi-dots-vertical"
+                        size="small"
+                    />
+                </template>
+                <v-list>
+                    <v-list-item
+                        prepend-icon="mdi-content-copy"
+                        @click="copyTwitchDlCommand(card)"
+                        >Copy twitch-dl cmd</v-list-item
+                    >
+                </v-list>
+            </v-menu>
         </div>
     </div>
 </template>
@@ -76,16 +141,16 @@ const formattedDate = computed(() => {
         display: block;
         position: relative;
         aspect-ratio: 16 / 9;
-        transition: .2s;
+        transition: 0.2s;
         overflow: hidden;
 
         &:hover,
         &:focus-visible {
-            transform: translate(#{ rem(-5px) }, #{ rem(5px) });
+            transform: translate(#{rem(-5px)}, #{rem(5px)});
 
             #{ $self }__arrow {
                 opacity: 1;
-                transform: translate(#{ rem(10px) }, #{ rem(-10px) });
+                transform: translate(#{rem(10px)}, #{rem(-10px)});
             }
 
             #{ $self }__username {
@@ -97,7 +162,7 @@ const formattedDate = computed(() => {
             }
 
             #{ $self }__options {
-                opacity: .8;
+                opacity: 0.8;
             }
         }
     }
@@ -109,7 +174,7 @@ const formattedDate = computed(() => {
         color: $c-black-14;
         font-size: rem(16px);
         opacity: 0;
-        transition: .2s;
+        transition: 0.2s;
     }
 
     &__views {
@@ -130,8 +195,8 @@ const formattedDate = computed(() => {
         width: 100%;
         height: 100%;
         border-radius: $border-radius-normal;
-        opacity: .7;
-        transition: .2s;
+        opacity: 0.7;
+        transition: 0.2s;
     }
 
     &__thumbnail-empty {
@@ -162,10 +227,13 @@ const formattedDate = computed(() => {
 
     &__options {
         transform: translateX(10px);
-        transition: .2s;
+        transition: 0.2s;
     }
 
-    &__info {
+    &__body {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
         padding-top: rem(12px);
     }
 
@@ -184,7 +252,7 @@ const formattedDate = computed(() => {
     }
 
     &__time-ago {
-        transition: .2s;
+        transition: 0.2s;
     }
 
     &__date {
