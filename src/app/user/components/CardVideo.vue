@@ -37,6 +37,12 @@ const copyTwitchDlCommand = (card: CardVideoModel) => {
     toast.success(`Copied command!`);
 };
 
+const copyVideoId = (card: CardVideoModel) => {
+    const { copy, copied } = useClipboard();
+    copy(card.id.toString());
+    toast.success(`Copied video ID!`);
+};
+
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
 const timeAgo = computed(() =>
@@ -119,13 +125,19 @@ const formattedDate = computed(() => {
                         v-bind="props"
                         icon="mdi-dots-vertical"
                         size="small"
+                        variant="text"
                     />
                 </template>
                 <v-list>
                     <v-list-item
-                        prepend-icon="mdi-content-copy"
+                        prepend-icon="mdi-console-line"
                         @click="copyTwitchDlCommand(card)"
                         >Copy twitch-dl cmd</v-list-item
+                    >
+                    <v-list-item
+                        prepend-icon="mdi-content-copy"
+                        @click="copyVideoId(card)"
+                        >Copy video ID</v-list-item
                     >
                 </v-list>
             </v-menu>

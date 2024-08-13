@@ -119,6 +119,7 @@ const viewers = computed(() => {
                     <v-btn
                         class="card-normal__options"
                         v-bind="props"
+                        variant="text"
                         icon="mdi-dots-vertical"
                         size="small"
                     />
