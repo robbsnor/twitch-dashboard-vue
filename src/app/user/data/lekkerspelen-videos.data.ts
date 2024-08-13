@@ -4,6 +4,134 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2222664459,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/5b5dc1fc8cda8294af39_lekkerspelen_34462676928_3777479992/thumb/custom-1e1ba4ec-47a1-4b95-aa3c-113baa131dad-320x180.jpeg",
+        "title": "Five nights at freddy's...😔",
+        "chapters": [
+            {
+                "title": "Five Nights at Freddy's: Into the Pit",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1263430436_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2222573707,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/78c8720be657b613b473_lekkerspelen_51748122813_1723487900//thumb/thumb0-320x180.jpg",
+        "title": "Five nights at freddy's...😔",
+        "chapters": [
+            {
+                "title": "Five Nights at Freddy's: Into the Pit",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1263430436_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2218468991,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/8cb2beedb08bbefab3ec_lekkerspelen_34289614013_9083281211/thumb/custom-d67163a9-97df-47d2-8c49-51721db07afd-320x180.jpeg",
+        "title": "Hoogtepunt: Werken in zo'n koffiehuis...",
+        "chapters": [
+            {
+                "title": "The Closing Shift",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1419063656_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2218331102,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/6ecc4a3279965872237d_lekkerspelen_42708971368_1723055892//thumb/thumb0-320x180.jpg",
+        "title": "Werken in zo'n koffiehuis...",
+        "chapters": [
+            {
+                "title": "The Closing Shift",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1419063656_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2216697519,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/0e4f75ad56e7d1e538c6_lekkerspelen_58522402916_8691556946/thumb/custom-fc8d7283-4e55-4b18-8951-ba7ee997f5d3-320x180.jpeg",
+        "title": "LEKKER SPELEN vs KIJKERS 2024 (De 'wat als' tijdlijn)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2216618277,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/729539fdd19a82806a77_lekkerspelen_42701649544_1722883647//thumb/thumb0-320x180.jpg",
+        "title": "LEKKER SPELEN vs KIJKERS 2024 (De 'wat als' tijdlijn)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2212417309,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/e7086ecfa75986245b8e_lekkerspelen_17151926287_3738381154/thumb/custom-2bc98b66-6383-4ed9-8fb2-e73c40ce5e49-320x180.jpeg",
+        "title": "LEKKER SPELEN vs KIJKERS 2024",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2212315337,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/7bc9d4864291f3182d56_lekkerspelen_51657775629_1722450683//thumb/thumb0-320x180.jpg",
+        "title": "LEKKER SPELEN vs KIJKERS 2024",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2210694017,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/d82a1f395ae705d06fa6_lekkerspelen_27081232273_3060493143/thumb/custom-7ded009f-0c8d-4b6f-bfa3-bea320c48cd8-320x180.jpeg",
+        "title": "De laatste training voor LEKKER SPELEN vs KIJKERS 2024",
+        "chapters": []
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2210610991,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/26178c3d2cd0872cdc02_lekkerspelen_51641260173_1722279336//thumb/thumb0-320x180.jpg",
+        "title": "De laatste training voor LEKKER SPELEN vs KIJKERS 2024",
+        "chapters": []
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2206408041,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/77e0975b6801d5b8e500_lekkerspelen_57682482020_7433907963/thumb/custom-41722715-96b3-4e44-8881-e33ee9a152b6-320x180.jpeg",
         "title": "PETER vs TIMON: Juli ⭐",
