@@ -33,7 +33,7 @@ const emits = defineEmits({
 
 const copyTwitchDlCommand = (card: CardVideoModel) => {
     const { copy, copied } = useClipboard();
-    copy(`twitch-dl download ${card.id} -a ${authStore.accessToken}`);
+    copy(`twitch-dl download ${card.id} -a ACCESSTOKEN`);
     toast.success(`Copied command!`);
 };
 

@@ -13,7 +13,6 @@ import './assets/styles/main.scss';
 // shared components
 import Button from './app/shared/components/Button.vue';
 import ButtonGroup from './app/shared/components/ButtonGroup.vue';
-import Card from './app/shared/components/Card.vue';
 import Dialog from './app/shared/components/Dialog.vue';
 import Divider from './app/shared/components/Divider.vue';
 import Logo from './app/shared/components/Logo.vue';
@@ -30,7 +29,6 @@ const pinia = createPinia();
 app.component(VueFeather.name!, VueFeather);
 app.component('Button', Button);
 app.component('ButtonGroup', ButtonGroup);
-app.component('Card', Card);
 app.component('Dialog', Dialog);
 app.component('Divider', Divider);
 app.component('Logo', Logo);
