@@ -30,6 +30,11 @@ const router = createRouter({
             name: 'playground',
             component: () => import('@/app/playground/containers/PlaygroundPage.vue'),
         },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'NotFound',
+            component: () => import('@/app/base/containers/404.vue'),
+        },
     ]
 });
 
