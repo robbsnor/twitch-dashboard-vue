@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 
 interface Props {
     padding?: boolean;
-    text?: string,
+    text?: string;
 }
 
 const props = defineProps<Props>();
 
 const classes = computed(() => {
     return {
-        'spinner': true,
+        spinner: true,
         [`spinner--padding`]: props.padding,
     };
 });
@@ -47,12 +47,13 @@ const classes = computed(() => {
         height: 100%;
         border-radius: 50%;
         animation: ripple 1.5s ease-out infinite;
+        animation-delay: -0.25s;
         border: rem(8px) solid $c-primary;
         transform: scale(0);
         opacity: 1;
 
         &:nth-child(2) {
-            animation-delay: .25s;
+            animation-delay: 0s;
         }
     }
 

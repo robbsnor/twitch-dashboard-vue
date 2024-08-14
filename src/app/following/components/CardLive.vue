@@ -454,42 +454,6 @@ const viewers = computed(() => {
         transform: translateX(10px);
     }
 
-    &--primary {
-        #{ $self }__username {
-            color: $c-primary;
-        }
-    }
-
-    &--yellow {
-        #{ $self }__username {
-            color: $c-yellow;
-        }
-    }
-
-    &--orange {
-        #{ $self }__username {
-            color: $c-orange;
-        }
-    }
-
-    &--red {
-        #{ $self }__username {
-            color: $c-red;
-        }
-    }
-
-    &--purple {
-        #{ $self }__username {
-            color: $c-purple;
-        }
-    }
-
-    &--blue {
-        #{ $self }__username {
-            color: $c-blue;
-        }
-    }
-
     @include screen(800px) {
         &:hover {
             #{ $self }__options {
