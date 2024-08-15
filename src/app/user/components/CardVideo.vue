@@ -92,8 +92,7 @@ const formattedDate = computed(() => {
             <div class="card-video__copy">
                 <div class="card-video__title">{{ props.card.title }}</div>
                 <div class="card-video__date-wrapper">
-                    <span class="card-video__time-ago">{{ timeAgo }}</span>
-                    <span class="card-video__date">/ {{ formattedDate }}</span>
+                    <span class="card-video__time-ago">{{ timeAgo }}</span> <span class="card-video__date">/ {{ formattedDate }}</span>
                 </div>
 
                 <div
