@@ -5,7 +5,7 @@ import { MOCK_FAVOURITES_FLUUMP, MOCK_FAVOURITES_HOPP } from '../mock-data/favou
 export const useFavouriteStore = defineStore('favourite', () => {
     const authStore = useAuthStore();
 
-    const getFavouriteStreamers = () => {
+    const getFavouriteStreamerIds = () => {
         const login = authStore.user?.login;
 
         if (login === 'robbsnor') return MOCK_FAVOURITES_HOPP;
@@ -30,7 +30,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
     };
 
     return {
-        getFavouriteStreamers,
+        getFavouriteStreamerIds,
         getFavouriteCategories,
     };
 });

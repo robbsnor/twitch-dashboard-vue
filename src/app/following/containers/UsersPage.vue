@@ -6,21 +6,19 @@ import { onMounted, ref } from "vue";
 import type { CardUserProps } from "../components/CardUser.vue";
 import CardUser from "../components/CardUser.vue";
 import { UserFactory } from "../factories/user.factory";
-import { useTwitchStore } from "@/app/shared/stores/twitch.store";
 
 TitleService.setTitle("Users");
 const twitchApiService = new TwitchApiService();
 
 const favouriteStore = useFavouriteStore();
-const twitchStore = useTwitchStore();
 
 const favouriteUsers = ref<CardUserProps[]>();
 
 onMounted(async () => {
-    const res2 = await twitchStore.getUsers({
-        ids: favouriteStore.getFavouriteStreamers(),
+    const res = await twitchApiService.getUsers({
+        ids: favouriteStore.getFavouriteStreamerIds(),
     });
-    favouriteUsers.value = UserFactory.mapToCardUser(res2);
+    favouriteUsers.value = UserFactory.mapToCardUser(res.data);
 });
 </script>
 

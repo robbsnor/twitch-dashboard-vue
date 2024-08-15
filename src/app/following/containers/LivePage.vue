@@ -19,7 +19,7 @@ const twitchApiService = new TwitchApiService();
 
 const { filter } = storeToRefs(followingStore);
 
-const favouriteIds = ref<number[]>(favourtieStore.getFavouriteStreamers());
+const favouriteIds = ref<number[]>(favourtieStore.getFavouriteStreamerIds());
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
