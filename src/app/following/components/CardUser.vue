@@ -67,11 +67,15 @@ const link = computed(() => `/user/${props.name}`);
         background-color: $c-primary;
 
         #{ $self }__avatar {
-            transform: scale(1.1) translateY(rem(-3px));
+            transform: scale(1.1)
         }
 
         #{ $self }__name {
             color: $c-black-1;
+        }
+
+        #{ $self }__background-image {
+            opacity: 0;
         }
     }
 }
