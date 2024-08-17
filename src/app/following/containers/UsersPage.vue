@@ -28,7 +28,9 @@ onMounted(async () => {
             <CardUser
                 v-for="user in favouriteUsers"
                 :name="user.name"
-                :image="user.image"
+                :avatar="user.avatar"
+                :backgroundImage="user.backgroundImage"
+                :key="user.name"
             />
         </div>
 

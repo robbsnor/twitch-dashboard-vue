@@ -6,7 +6,8 @@ export class UserFactory {
         return users.map<CardUserProps>((user) => {
             return {
                 name: user.display_name,
-                image: user.profile_image_url,
+                avatar: user.profile_image_url,
+                backgroundImage: user.offline_image_url?.replace('1920x1080', '192x108'),
             };
         });
     }
