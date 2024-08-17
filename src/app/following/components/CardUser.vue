@@ -66,7 +66,7 @@ const link = computed(() => `/user/${props.name}`);
     &:hover {
         background-color: $c-primary;
 
-        #{ $self }__image {
+        #{ $self }__avatar {
             transform: scale(1.1) translateY(rem(-3px));
         }
 
