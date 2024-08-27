@@ -1,4 +1,4 @@
-import { TwitchService } from '../../shared/services/image.service';
+import { TwitchService } from '../../shared/services/twitch.service';
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import type { CardLive } from "../models/card-live.model";
 

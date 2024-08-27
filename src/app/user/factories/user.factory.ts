@@ -1,7 +1,7 @@
 import type { AdditionalVideoInfo } from '../../shared/models/twitch-additional/additional-video-info.model';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
 import type { TwitchVideo } from '../../shared/models/twitch/videos.model';
-import { TwitchService } from '../../shared/services/image.service';
+import { TwitchService } from '../../shared/services/twitch.service';
 import type { UserHeaderProps } from '../components/UserHeader.vue';
 import type { CardVideo } from '../models/card-video.model';
 

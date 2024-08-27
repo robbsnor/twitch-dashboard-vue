@@ -10,11 +10,11 @@ const props = withDefaults(defineProps<{
     title?: string;
     description?: string;
     width?: string | number;
-    closeIcon?: boolean;
+    showCloseButton?: boolean;
 }>(), {
     title: 'Dialog',
     width: 500,
-    closeIcon: true,
+    showCloseButton: true,
 });
 
 const close = () => {
@@ -26,7 +26,7 @@ const close = () => {
 <template>
     <v-dialog v-model="dialog" :width="props.width">
         <div class="dialog">
-            <button v-if="props.closeIcon" @click="close()" class="dialog__close">
+            <button v-if="props.showCloseButton" @click="close()" class="dialog__close">
                 <span class="sr-only">Close</span>
                 <v-icon icon="mdi-window-close" class="dialog__close-icon" />
             </button>
@@ -58,7 +58,7 @@ const close = () => {
     }
 
     &__body {
-        max-height: 80vh;
+        max-height: 60vh;
         overflow: auto;
     }
 

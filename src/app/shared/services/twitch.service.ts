@@ -10,4 +10,11 @@ export class TwitchService {
 
         return url.replace(replaceWidthString, width.toString()).replace(replaceHeightString, height.toString());
     }
+
+    public static getGameThumbnail(url: string, width = 285, height?: number) {
+        const ratio = 1.333;
+        height = height ? height : Math.round(width * ratio);
+
+        return url.replace('{width}', width.toString()).replace('{height}', height.toString());
+    }
 }

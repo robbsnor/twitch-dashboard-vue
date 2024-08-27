@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWindowSize } from "@vueuse/core";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import CardLive from "../components/CardLive.vue";
 import { FollowingFactory } from "../factories/following.factory";
@@ -50,18 +50,20 @@ const cardSize = computed(
     (): CardLiveSize => (width.value >= 1000 ? "normal" : "small")
 );
 
-const scrollToFilter = (focused: boolean) => {
-    if (!focused) return;
-
+const scrollToFilter = () => {
     const yOffset = -120;
-    const y =
-        filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
+    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: "smooth" });
 };
 
+watch(filter, () => {
+    if (!filter.value) return;
+    scrollToFilter();
+});
+
 onStartTyping(() => {
     if (filterEl.value.active) return;
-    scrollToFilter(true);
+    scrollToFilter();
     filterEl.value.focus();
 });
 </script>
@@ -77,7 +79,7 @@ onStartTyping(() => {
                     placeholder="Search streams..."
                     persistent-clear
                     ref="filterEl"
-                    @update:focused="scrollToFilter($event)"
+                    @update:focused="scrollToFilter"
                 />
             </div>
         </template>
@@ -92,10 +94,7 @@ onStartTyping(() => {
                     <CardLive
                         :card="card"
                         :size="cardSize"
-                        @click:filter-game="
-                            filter = $event;
-                            scrollToFilter(true);
-                        "
+                        @click:filter-game="filter = $event; scrollToFilter()"
                     />
                 </div>
             </div>
