@@ -20,7 +20,7 @@ import PageTabs from './app/shared/components/PageTabs.vue';
 import Section from './app/shared/components/Section.vue';
 import Spinner from './app/shared/components/Spinner.vue';
 import Swirl from './app/shared/components/Swirl.vue';
-import Tab from './app/shared/components/Tab.vue';
+// import Tab from './app/shared/components/Tab.vue';
 import ZigZag from './app/shared/components/ZigZag.vue';
 
 const app = createApp(App);
@@ -37,7 +37,7 @@ app.component('PageTabs', PageTabs);
 app.component('Section', Section);
 app.component('Spinner', Spinner);
 app.component('Swirl', Swirl);
-app.component('Tab', Tab);
+// app.component('Tab', Tab);
 app.component('ZigZag', ZigZag);
 
 // plugins
