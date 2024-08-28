@@ -4,6 +4,106 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2234767865,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/43decf6a6fa219639a41_lekkerspelen_86955596773_4981880154/thumb/custom-3a0007de-1ff2-41e6-83e0-6ecfb0e53985-320x180.jpeg",
+        "title": "Hoe is het om een hond te zijn?",
+        "chapters": []
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2234672472,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/de664e7bec11948c24b9_lekkerspelen_42798701624_1724698363//thumb/thumb0-320x180.jpg",
+        "title": "Hoe is het om een hond te zijn?",
+        "chapters": []
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2230408125,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/65fa04eaa99ee4f50bbc_lekkerspelen_44802730984_7522833540/thumb/custom-f1f8c0d7-e399-44c7-a844-a0593c45b78c-320x180.jpeg",
+        "title": "PETER vs TIMON: Augustus ⭐ (MATCH POINT)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2230285106,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/a79115726f4dcfe51b07_lekkerspelen_42774441560_1724265737//thumb/thumb0-320x180.jpg",
+        "title": "PETER vs TIMON: Augustus ⭐ (MATCH POINT)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2228667793,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/bafa943ab3fe8bff9bd3_lekkerspelen_57997588130_9062544757/thumb/custom-925f5dcc-94bc-4e40-ac4a-4f274a6797d3-320x180.jpeg",
+        "title": "Live Storage Wars (yup)",
+        "chapters": [
+            {
+                "title": "Storage Hustle",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/572098971_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2228539686,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/0ed4fc1520710a01d679_lekkerspelen_51805289373_1724092571//thumb/thumb0-320x180.jpg",
+        "title": "Live Storage Wars (yup)",
+        "chapters": [
+            {
+                "title": "Storage Hustle",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/572098971_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2224342794,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/7c4ce72c7c08c027160f_lekkerspelen_22473151141_4502530131/thumb/custom-cac3b1dd-ffd4-43ad-ac3a-ed5c043e2e36-320x180.jpeg",
+        "title": "Roleplayen als dinosauriër 2024",
+        "chapters": [
+            {
+                "title": "The Isle",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/490948_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2224254979,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/215f793c30a4c1ee5d7a_lekkerspelen_42740246616_1723661399//thumb/thumb0-320x180.jpg",
+        "title": "Roleplayen als dinosauriër 2024",
+        "chapters": [
+            {
+                "title": "The Isle",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/490948_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2222664459,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/5b5dc1fc8cda8294af39_lekkerspelen_34462676928_3777479992/thumb/custom-1e1ba4ec-47a1-4b95-aa3c-113baa131dad-320x180.jpeg",
         "title": "Five nights at freddy's...😔",
