@@ -74,6 +74,12 @@ watch(focused, (newFocused) => {
             v-model:filter="filter"
             :streams="nonFavouriteStreams"
         />
+
+        <Section title="Continue watching">
+            <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
+                <Button color="secondary">Continue watching</Button>
+            </a>
+        </Section>
     </template>
 
     <Spinner v-else padding />
