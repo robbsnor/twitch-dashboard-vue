@@ -208,7 +208,7 @@ onStartTyping(() => {
 
     &__image {
         width: rem(30px);
-        margin-right: 10px;
+        margin-right: rem(10px);
         border-radius: rem(4px);
     }
 
