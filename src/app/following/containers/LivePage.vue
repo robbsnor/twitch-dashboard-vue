@@ -75,14 +75,28 @@ watch(focused, (newFocused) => {
             :streams="nonFavouriteStreams"
         />
 
-        <Section title="Continue watching">
-            <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
-                <Button color="secondary">Continue watching</Button>
-            </a>
+        <Section>
+            <ZigZag></ZigZag>
+        </Section>
+
+        <Section>
+            <div class="previous-streams">
+                <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
+                    <Button color="secondary">Previous streams</Button>
+                </a>
+            </div>
         </Section>
     </template>
 
     <Spinner v-else padding />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.previous-streams {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: rem(20px);
+}
+</style>
