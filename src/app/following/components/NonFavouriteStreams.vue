@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWindowSize, computedAsync } from "@vueuse/core";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import CardLive from "../components/CardLive.vue";
 import { FollowingFactory } from "../factories/following.factory";
@@ -42,7 +42,6 @@ const cards = computed(() => {
     return FollowingFactory.mapToCardLiveNormal(videos);
 });
 
-
 const categories = computedAsync( async() => {
     if (!props.streams) return [];
 
@@ -62,7 +61,7 @@ const categories = computedAsync( async() => {
         title: cat.name,
         value: cat.id,
         props: {
-            image: TwitchService.getGameThumbnail(cat.box_art_url, 40),
+            image: TwitchService.getGameThumbnail(cat.box_art_url, 30),
             amount: info.find(info => info.ids === Number(cat.id))!.amount,
         },
     }));
@@ -108,9 +107,9 @@ onStartTyping(() => {
                     <template #item="{ item }">
                         <!-- TODO: this div should be a v-list-item so the user can use their keyboard -->
                         <div @click="filter = item.title" class="item">
-                            <img class="item__image" :src="item.props.image" alt="">
+                            <img class="item__image" :src="item.props.image" :alt="`${item.props.title}'s thumbnail`">
                             <div class="item__name">{{ item.props.title }}</div>
-                            <div class="item__amount">({{ item.props.amount }})</div>
+                            <div class="item__amount"> / {{ item.props.amount }}</div>
                         </div>
                     </template>
                 </v-combobox>
@@ -203,23 +202,29 @@ onStartTyping(() => {
 .item {
     display: flex;
     align-items: center;
-    gap: rem(16px);
     padding: rem(8px);
     cursor: pointer;
     transition: 0.1s;
 
-    &:hover {
-        background-color: $c-black-8;
-    }
-
     &__image {
-        width: rem(40px);
+        width: rem(30px);
+        margin-right: 10px;
         border-radius: rem(4px);
     }
 
     &__name {
         font-size: rem(16px);
         font-weight: 500;
+    }
+
+    &__amount {
+        font-size: rem(12px);
+        color: $c-black-20;
+        margin-left: rem(8px);
+    }
+
+    &:hover {
+        background-color: $c-black-8;
     }
 }
 </style>
