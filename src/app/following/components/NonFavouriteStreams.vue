@@ -46,7 +46,7 @@ const cards = computed(() => {
 const categories = computedAsync( async() => {
     if (!props.streams) return [];
 
-    const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))]
+    const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
     if (!ids.length) return [];
 
     const info = ids.map(gameId => ({
