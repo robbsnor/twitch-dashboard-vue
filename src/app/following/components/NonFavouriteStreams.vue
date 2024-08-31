@@ -61,7 +61,7 @@ const categories = computedAsync( async() => {
         title: cat.name,
         value: cat.id,
         props: {
-            image: TwitchService.getGameThumbnail(cat.box_art_url, 30),
+            image: TwitchService.getGameThumbnail(cat.box_art_url, 50),
             amount: info.find(info => info.ids === Number(cat.id))!.amount,
         },
     }));
