@@ -140,8 +140,8 @@ const viewers = computed(() => {
 
     &__avatar {
         display: block;
-        width: rem(25px);
-        height: rem(25px);
+        width: rem(35px);
+        height: rem(35px);
         border-radius: 999px;
         margin-right: rem(10px);
     }
