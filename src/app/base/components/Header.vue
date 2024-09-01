@@ -74,12 +74,18 @@ const props = defineProps<{
 }
 
 .header-logo {
+    transition: .2s;
+
     &--desktop {
         display: none;
     }
 
     &--mobile {
         display: block;
+    }
+
+    &:hover {
+        scale: 1.02;
     }
 
     @include screen($desktop) {
