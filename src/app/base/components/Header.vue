@@ -74,7 +74,7 @@ const props = defineProps<{
 }
 
 .header-logo {
-    transition: .2s;
+    transition: .1s;
 
     &--desktop {
         display: none;
