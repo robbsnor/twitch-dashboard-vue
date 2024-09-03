@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { useWindowSize, computedAsync } from "@vueuse/core";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import CardLive from "../components/CardLive.vue";
 import { FollowingFactory } from "../factories/following.factory";
 import type { CardLiveSize } from "../models/card-live.model";
-import { onStartTyping } from "@vueuse/core";
 import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
 import { TwitchService } from "@/app/shared/services/twitch.service";
 
@@ -72,8 +71,6 @@ const cardSize = computed(
 );
 
 const scrollToFilter = () => {
-    return;
-
     const yOffset = -120;
     const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: "smooth" });
@@ -82,12 +79,6 @@ const scrollToFilter = () => {
 watch(filter, () => {
     if (!filter.value) return;
     scrollToFilter();
-});
-
-onStartTyping(() => {
-    if (filterEl.value.active) return;
-    scrollToFilter();
-    filterEl.value.focus();
 });
 </script>
 
@@ -148,7 +139,7 @@ onStartTyping(() => {
 
 <style scoped lang="scss">
 .non-favourite {
-    // min-height: 80vh;
+    min-height: 80vh;
 
     &__cards {
         display: grid;
