@@ -60,6 +60,7 @@ const viewers = computed(() => {
                 </template>
 
                 <div class="bs">
+                    <v-img :src="card.thumbnailLarge" alt="" class="bs__thumbnail"/>
                     <v-list>
                         <v-list-item
                             prepend-icon="mdi-magnify"
@@ -611,6 +612,12 @@ const viewers = computed(() => {
                 right: rem(-10px);
             }
         }
+    }
+}
+
+.bs {
+    &__thumbnail {
+        border-radius: rem($border-radius-large) rem($border-radius-large) 0 0;
     }
 }
 </style>

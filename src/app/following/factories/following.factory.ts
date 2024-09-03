@@ -20,7 +20,8 @@ export class FollowingFactory {
             return {
                 userId: Number(stream.user_id),
                 link: `https://www.twitch.tv/${stream.user_login}`,
-                thumbnail: TwitchService.getThumbnail(stream.thumbnail_url, thumbnailWidth),
+                thumbnail: TwitchService.getStreamThumbnail(stream.thumbnail_url, thumbnailWidth),
+                thumbnailLarge: TwitchService.getStreamThumbnail(stream.thumbnail_url),
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,

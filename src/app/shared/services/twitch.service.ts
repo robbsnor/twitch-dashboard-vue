@@ -1,5 +1,5 @@
 export class TwitchService {
-    public static getThumbnail(
+    public static getStreamThumbnail(
         url: string,
         width = 320,
         height?: number,
