@@ -10,7 +10,8 @@ export const MOCK_FAVOURITES_HOPP = [
     75738685, // insym
     183796200, // kraan
     41157071, // tangotek
-    64952353, // robertrayhart
+    31468943, // simpleflips
+    149141153, // slewya
     82653207, // marblr
     490592527, // valorant
     598902753, // valorant_emea

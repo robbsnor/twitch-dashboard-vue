@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NumberService } from "@/app/shared/services/number.service";
 import { useClipboard } from "@vueuse/core";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
 import type {
@@ -11,6 +11,7 @@ import type {
 
 const toast = useToast();
 const router = useRouter();
+const sheet = ref(false);
 
 const emits = defineEmits({
     "click:filter-game": (game: string) => true,
@@ -46,7 +47,39 @@ const viewers = computed(() => {
         <div class="card-small__thumbnail-container">
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
-            <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" size="small" class="card-small__options"></button> -->
+            <v-bottom-sheet v-model="sheet" inset max-width="500">
+                <template v-slot:activator="{ props }">
+                    <v-btn
+                        class="card-small__options"
+                        v-bind="props"
+                        variant="text"
+                        icon="mdi-dots-vertical"
+                        size="small"
+                    />
+                    <!-- <v-btn v-bind="props" text="Click Me" class="card-small__options"></v-btn> -->
+                </template>
+
+                <div class="bs">
+                    <v-list>
+                        <v-list-item
+                            prepend-icon="mdi-magnify"
+                            @click="goToGamePage(card.game)"
+                            >Search streams: <b>'{{ card.game }}'</b></v-list-item
+                        >
+                        <v-list-item
+                            prepend-icon="mdi-filter-variant"
+                            @click.prevent="emits('click:filter-game', card.game); sheet = false"
+                            >Filter by: <b>'{{ card.game }}'</b></v-list-item
+                        >
+                        <Divider />
+                        <v-list-item
+                            prepend-icon="mdi-content-copy"
+                            @click="copyUserId(card)"
+                            >Copy userID</v-list-item
+                        >
+                    </v-list>
+                </div>
+            </v-bottom-sheet>
             <img
                 :src="card.thumbnail"
                 class="card-small__thumbnail"
@@ -208,11 +241,9 @@ const viewers = computed(() => {
     }
 
     &__gradient {
-        background: linear-gradient(
-            -70deg,
-            rgba(0, 0, 0, 1) 0%,
-            rgba(0, 0, 0, 0) 50%
-        );
+        background: linear-gradient(-70deg,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0) 50%);
         // background-color: red;
         position: absolute;
         top: 0;
