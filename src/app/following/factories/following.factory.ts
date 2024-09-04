@@ -17,11 +17,13 @@ export class FollowingFactory {
 
     private static mapToCardLive(streams: TwitchFollowedStreamWithUser[], thumbnailWidth?: number) {
         return streams.map<CardLive>((stream) => {
+            const thumbnail = TwitchService.getStreamThumbnail(stream.thumbnail_url, thumbnailWidth);
+
             return {
                 userId: Number(stream.user_id),
                 link: `https://www.twitch.tv/${stream.user_login}`,
-                thumbnail: TwitchService.getStreamThumbnail(stream.thumbnail_url, thumbnailWidth),
-                thumbnailLarge: TwitchService.getStreamThumbnail(stream.thumbnail_url),
+                thumbnail: thumbnail,
+                thumbnailLarge: thumbnail,
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,
