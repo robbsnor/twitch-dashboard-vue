@@ -41,7 +41,7 @@ const cards = computed(() => {
     return FollowingFactory.mapToCardLiveNormal(videos);
 });
 
-const categories = computedAsync( async() => {
+const categories = computedAsync(async () => {
     if (!props.streams) return [];
 
     const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
@@ -93,7 +93,6 @@ watch(filter, () => {
                     placeholder="Search streams..."
                     persistent-clear
                     ref="filterEl"
-                    @update:focused="scrollToFilter"
                 >
                     <template #item="{ item }">
                         <!-- TODO: this div should be a v-list-item so the user can use their keyboard -->
