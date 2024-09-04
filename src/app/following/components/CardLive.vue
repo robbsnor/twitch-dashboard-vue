@@ -63,9 +63,23 @@ const viewers = computed(() => {
                     <v-img :src="card.thumbnailLarge" alt="" class="bs__thumbnail"/>
                     <v-list>
                         <v-list-item
+                            prepend-icon="mdi-account"
+                            :to="{ name: 'user', params: { userLogin: card.name } }"
+                        >
+                            View {{ card.name }}'s profile
+                        </v-list-item>
+                        <v-list-item
+                            prepend-icon="mdi-play"
+                            :href="`https://www.twitch.tv/${card.name}`"
+                            target="_blank"
+                        >
+                            Watch stream
+                        </v-list-item>
+                        <Divider />
+                        <v-list-item
                             prepend-icon="mdi-magnify"
                             @click="goToGamePage(card.game)"
-                            >Search streams: <b>'{{ card.game }}'</b></v-list-item
+                            >Search other streams by: <b>'{{ card.game }}'</b></v-list-item
                         >
                         <v-list-item
                             prepend-icon="mdi-filter-variant"
