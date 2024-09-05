@@ -168,7 +168,7 @@ const viewers = computed(() => {
                 />
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
-            <v-menu location="top right">
+            <v-menu location="bottom right" offset="-45px">
                 <template #activator="{ props }">
                     <v-btn
                         class="card-normal__options"
@@ -180,21 +180,43 @@ const viewers = computed(() => {
                 </template>
                 <v-list>
                     <v-list-item
+                        prepend-icon="mdi-heart"
+                        link
+                    >
+                        Add to favourites
+                    </v-list-item>
+                    <v-list-item
+                        prepend-icon="mdi-account"
+                        :to="{ name: 'user', params: { userLogin: card.name } }"
+                    >
+                        View {{ card.name }}'s profile
+                    </v-list-item>
+                    <v-list-item
+                        prepend-icon="mdi-play"
+                        :to="{ name: 'user', params: { userLogin: card.name } }"
+                    >
+                        Watch stream
+                    </v-list-item>
+                    <Divider />
+                    <v-list-item
                         prepend-icon="mdi-magnify"
                         @click="goToGamePage(card.game)"
-                        >Search streams: <b>'{{ card.game }}'</b></v-list-item
                     >
+                        Search streams: {{ card.game }}
+                    </v-list-item>
                     <v-list-item
                         prepend-icon="mdi-filter-variant"
                         @click.prevent="emits('click:filter-game', card.game)"
-                        >Filter by: <b>'{{ card.game }}'</b></v-list-item
                     >
+                        Filter by: {{ card.game }}
+                    </v-list-item>
                     <Divider />
                     <v-list-item
                         prepend-icon="mdi-content-copy"
                         @click="copyUserId(card)"
-                        >Copy userID</v-list-item
                     >
+                        Copy user id
+                    </v-list-item>
                 </v-list>
             </v-menu>
         </div>
@@ -501,7 +523,7 @@ const viewers = computed(() => {
     }
 
     &__options {
-        opacity: 0;
+        // opacity: 0;
         transition: 0.2s;
         transform: translateX(10px);
     }
