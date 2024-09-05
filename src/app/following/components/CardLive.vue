@@ -56,11 +56,10 @@ const viewers = computed(() => {
                         icon="mdi-dots-vertical"
                         size="small"
                     />
-                    <!-- <v-btn v-bind="props" text="Click Me" class="card-small__options"></v-btn> -->
                 </template>
 
                 <div class="bs">
-                    <v-img :src="card.thumbnailLarge" alt="" class="bs__thumbnail"/>
+                    <v-img :src="card.thumbnailLarge" alt="" class="bs__thumbnail" eager />
                     <v-list>
                         <Divider :text="card.name"/>
                         <v-list-item
@@ -87,7 +86,8 @@ const viewers = computed(() => {
                         <v-list-item
                             prepend-icon="mdi-filter-variant"
                             @click.prevent="emits('click:filter-game', card.game); sheet = false"
-                            >Filter streams by: <b>'{{ card.game }}'</b>
+                        >
+                            Filter streams by: <b>'{{ card.game }}'</b>
                         </v-list-item>
 
                         <Divider />
@@ -95,8 +95,9 @@ const viewers = computed(() => {
                         <v-list-item
                             prepend-icon="mdi-content-copy"
                             @click="copyUserId(card)"
-                            >Copy userID</v-list-item
                         >
+                            Copy userID
+                        </v-list-item>
                     </v-list>
                 </div>
             </v-bottom-sheet>
