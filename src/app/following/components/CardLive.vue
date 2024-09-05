@@ -1,40 +1,22 @@
 <script setup lang="ts">
 import { NumberService } from "@/app/shared/services/number.service";
-import { useClipboard } from "@vueuse/core";
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useToast } from "vue-toast-notification";
+import CardLiveOptions from "./CardLiveOptions.vue";
 import type {
     CardLive as CardLiveModel,
     CardLiveSize,
 } from "../models/card-live.model";
 
-const toast = useToast();
-const router = useRouter();
 const sheet = ref(false);
 
-const emits = defineEmits({
-    "click:filter-game": (game: string) => true,
-});
-
-interface Props {
+const props = withDefaults(defineProps<{
     card: CardLiveModel;
     size?: CardLiveSize;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
     size: "normal",
 });
 
-const copyUserId = (card: CardLiveModel) => {
-    const { copy, copied } = useClipboard();
-    copy(card.userId.toString());
-    toast.success(`Copied ID: ${card.userId}`, { duration: 3000 });
-};
-
-const goToGamePage = (game: string) => {
-    router.push({ name: "game", params: { gameName: game } });
-};
+const filter = defineModel<string>('filter');
 
 const viewers = computed(() => {
     return NumberService.abbreviateNumber(props.card.viewers);
@@ -47,7 +29,7 @@ const viewers = computed(() => {
         <div class="card-small__thumbnail-container">
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
-            <v-bottom-sheet v-model="sheet" inset max-width="500">
+            <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
                     <v-btn
                         class="card-small__options"
@@ -60,45 +42,13 @@ const viewers = computed(() => {
 
                 <div class="bs">
                     <v-img :src="card.thumbnailLarge" alt="" class="bs__thumbnail" eager />
-                    <v-list>
-                        <Divider :text="card.name"/>
-                        <v-list-item
-                            prepend-icon="mdi-heart"
-                            link
-                        >
-                            Add to favourites
-                        </v-list-item>
-                        <v-list-item
-                            prepend-icon="mdi-account"
-                            :to="{ name: 'user', params: { userLogin: card.name } }"
-                        >
-                            View profile
-                        </v-list-item>
-
-                        <Divider />
-
-                        <v-list-item
-                            prepend-icon="mdi-magnify"
-                            @click="goToGamePage(card.game)"
-                        >
-                            Search other streams by: <b>'{{ card.game }}'</b>
-                        </v-list-item>
-                        <v-list-item
-                            prepend-icon="mdi-filter-variant"
-                            @click.prevent="emits('click:filter-game', card.game); sheet = false"
-                        >
-                            Filter streams by: <b>'{{ card.game }}'</b>
-                        </v-list-item>
-
-                        <Divider />
-
-                        <v-list-item
-                            prepend-icon="mdi-content-copy"
-                            @click="copyUserId(card)"
-                        >
-                            Copy userID
-                        </v-list-item>
-                    </v-list>
+                    <CardLiveOptions
+                        :game="card.game"
+                        :username="card.name"
+                        :userId="card.userId"
+                        v-model:filter="filter"
+                        v-model:sheet="sheet"
+                    />
                 </div>
             </v-bottom-sheet>
             <img
@@ -110,11 +60,7 @@ const viewers = computed(() => {
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
             <div class="card-small__game-container">
-                <a
-                    class="card-small__game"
-                    @click.prevent="emits('click:filter-game', card.game)"
-                    >{{ card.game }}</a
-                >
+                <div class="card-small__game">{{ card.game }}</div>
             </div>
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
                 <img
@@ -131,8 +77,9 @@ const viewers = computed(() => {
             target="_blank"
             class="card-small__link"
             :data-user-id="card.userId"
-            ><span class="sr-only">Watch {{ card.name }}'s stream</span></a
         >
+            <span class="sr-only">Watch {{ card.name }}'s stream</span>
+        </a>
     </div>
 
     <!-- normal -->
@@ -178,46 +125,12 @@ const viewers = computed(() => {
                         size="small"
                     />
                 </template>
-                <v-list>
-                    <v-list-item
-                        prepend-icon="mdi-heart"
-                        link
-                    >
-                        Add to favourites
-                    </v-list-item>
-                    <v-list-item
-                        prepend-icon="mdi-account"
-                        :to="{ name: 'user', params: { userLogin: card.name } }"
-                    >
-                        View {{ card.name }}'s profile
-                    </v-list-item>
-                    <v-list-item
-                        prepend-icon="mdi-play"
-                        :to="{ name: 'user', params: { userLogin: card.name } }"
-                    >
-                        Watch stream
-                    </v-list-item>
-                    <Divider />
-                    <v-list-item
-                        prepend-icon="mdi-magnify"
-                        @click="goToGamePage(card.game)"
-                    >
-                        Search streams: {{ card.game }}
-                    </v-list-item>
-                    <v-list-item
-                        prepend-icon="mdi-filter-variant"
-                        @click.prevent="emits('click:filter-game', card.game)"
-                    >
-                        Filter by: {{ card.game }}
-                    </v-list-item>
-                    <Divider />
-                    <v-list-item
-                        prepend-icon="mdi-content-copy"
-                        @click="copyUserId(card)"
-                    >
-                        Copy user id
-                    </v-list-item>
-                </v-list>
+                <CardLiveOptions
+                    :game="card.game"
+                    :username="card.name"
+                    :userId="card.userId"
+                    v-model:filter="filter"
+                />
             </v-menu>
         </div>
     </div>

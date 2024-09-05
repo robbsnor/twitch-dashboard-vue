@@ -116,7 +116,7 @@ watch(filter, () => {
                     <CardLive
                         :card="card"
                         :size="cardSize"
-                        @click:filter-game="filter = $event; scrollToFilter()"
+                        v-model:filter="filter"
                     />
                 </div>
             </div>
