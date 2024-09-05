@@ -43,6 +43,8 @@ const cssClass = computed(() => {
 
     &__text {
         color: $c-black-12;
+        font-size: 14px;
+
     }
 
     &--padding {

@@ -168,7 +168,7 @@ const viewers = computed(() => {
                 />
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
-            <v-menu location="bottom right" offset="-45px">
+            <v-menu location="bottom right" origin="overlap">
                 <template #activator="{ props }">
                     <v-btn
                         class="card-normal__options"
