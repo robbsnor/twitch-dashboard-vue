@@ -1,0 +1,22 @@
+body {
+    .v-menu {
+        >.v-overlay__content {
+
+            >.v-card,
+            >.v-sheet,
+            >.v-list {
+                opacity: 1;
+                background-color: rgba($c-black-1, .75);
+                backdrop-filter: blur(5px);
+                border: 1px solid $c-black-5;
+            }
+        }
+    }
+
+    .v-menu>.v-overlay__content>.v-card,
+    .v-menu>.v-overlay__content>.v-sheet,
+    .v-menu>.v-overlay__content>.v-list {
+        // background-color: red;
+        border-radius: rem($border-radius-large);
+    }
+}

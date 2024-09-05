@@ -1,0 +1,13 @@
+body {
+    .v-list-item {
+        &--density-default {
+
+            &.v-list-item {
+                &--one-line {
+                    // background-color: $c-black-2;
+                }
+            }
+        }
+    }
+
+}

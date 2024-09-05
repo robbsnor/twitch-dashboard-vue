@@ -2,8 +2,46 @@ body {
     .v-list-item {
         $self: &;
 
+        margin-left: 8px;
+        margin-right: 8px;
+        border-radius: $border-radius-large !important;
         font-size: 1rem;
         font-weight: normal;
+
+        &__prepend {
+            >.v-icon {
+                &~.v-list-item__spacer {
+                    width: 8px !important;
+                }
+            }
+        }
+
+        &:hover {
+            background-color: rgba($c-white, .05);
+        }
+
+        &--density-default {
+            &.v-list-item {
+                &--one-line {
+                    min-height: 32px;
+
+                }
+            }
+
+            &:not(.v-list-item--nav) {
+                &.v-list-item {
+                    &--one-line {
+                        padding-inline: 8px;
+                    }
+                }
+            }
+
+            .v-icon {
+                &--size-default {
+                    font-size: 18px;
+                }
+            }
+        }
 
         &__prepend {
             &>.v-icon {

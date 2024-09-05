@@ -38,7 +38,7 @@ const cssClass = computed(() => {
     &__line {
         flex: 1;
         height: 1px;
-        background-color: $c-black-10;
+        background-color: $c-black-5;
     }
 
     &__text {
