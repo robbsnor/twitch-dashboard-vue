@@ -7,7 +7,8 @@ import type {
     CardLiveSize,
 } from "../models/card-live.model";
 
-const sheet = ref(false);
+const sheetSmall = ref(false);
+const sheetFancy = ref(false);
 
 const props = withDefaults(defineProps<{
     card: CardLiveModel;
@@ -29,7 +30,7 @@ const viewers = computed(() => {
         <div class="card-small__thumbnail-container">
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
-            <v-bottom-sheet v-model="sheet" inset>
+            <v-bottom-sheet v-model="sheetSmall" inset>
                 <template v-slot:activator="{ props }">
                     <v-btn
                         class="card-small__options"
@@ -47,7 +48,7 @@ const viewers = computed(() => {
                         :username="card.name"
                         :userId="card.userId"
                         v-model:filter="filter"
-                        v-model:sheet="sheet"
+                        v-model:sheet="sheetSmall"
                     />
                 </div>
             </v-bottom-sheet>
@@ -157,6 +158,24 @@ const viewers = computed(() => {
             class="card-fancy__thumbnail"
             alt="thumbnail"
         />
+
+        <v-menu location="bottom right" origin="overlap">
+            <template #activator="{ props }">
+                <v-btn
+                    class="card-fancy__options"
+                    v-bind="props"
+                    variant="text"
+                    icon="mdi-dots-vertical"
+                    size="small"
+                />
+            </template>
+            <CardLiveOptions
+                :game="card.game"
+                :username="card.name"
+                :userId="card.userId"
+                v-model:filter="filter"
+            />
+        </v-menu>
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
         <a
             :href="card.link"

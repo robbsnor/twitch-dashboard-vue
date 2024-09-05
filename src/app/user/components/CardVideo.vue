@@ -118,7 +118,7 @@ const formattedDate = computed(() => {
                 </div>
             </div>
 
-            <v-menu location="top right">
+            <v-menu location="bottom right" origin="overlap">
                 <template #activator="{ props }">
                     <v-btn
                         class="card-normal__options"
@@ -137,7 +137,7 @@ const formattedDate = computed(() => {
                     <v-list-item
                         prepend-icon="mdi-content-copy"
                         @click="copyVideoId(card)"
-                        >Copy video ID</v-list-item
+                        >Copy video id</v-list-item
                     >
                 </v-list>
             </v-menu>
