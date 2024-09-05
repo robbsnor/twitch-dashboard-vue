@@ -10,6 +10,7 @@ const props = defineProps<{
     username: string;
     userId: number;
     game: string;
+    isFavourite: boolean;
 }>();
 
 const filter = defineModel<string>('filter');
@@ -29,14 +30,32 @@ const doFiltering = () => {
     filter.value = props.game;
     sheet.value = false;
 };
+
+const addToFavourites = () => {
+    sheet.value = false;
+    console.log('Adding to favourites...');
+};
+
+const removeFromFavourites = () => {
+    sheet.value = false;
+    console.log('Removing from favourites...');
+};
 </script>
 
 <template>
     <v-list>
         <Divider :text="props.username" />
         <v-list-item
+            v-if="props.isFavourite"
+            prepend-icon="mdi-heart-remove"
+            @click="removeFromFavourites()"
+        >
+            Remove from favourites
+        </v-list-item>
+        <v-list-item
+            v-else
             prepend-icon="mdi-heart"
-            link
+            @click="addToFavourites()"
         >
             Add to favourites
         </v-list-item>

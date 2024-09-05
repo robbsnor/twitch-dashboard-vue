@@ -47,6 +47,7 @@ const viewers = computed(() => {
                         :game="card.game"
                         :username="card.name"
                         :userId="card.userId"
+                        :isFavourite="false"
                         v-model:filter="filter"
                         v-model:sheet="sheetSmall"
                     />
@@ -130,6 +131,7 @@ const viewers = computed(() => {
                     :game="card.game"
                     :username="card.name"
                     :userId="card.userId"
+                    :isFavourite="false"
                     v-model:filter="filter"
                 />
             </v-menu>
@@ -173,6 +175,7 @@ const viewers = computed(() => {
                 :game="card.game"
                 :username="card.name"
                 :userId="card.userId"
+                :isFavourite="true"
                 v-model:filter="filter"
             />
         </v-menu>
