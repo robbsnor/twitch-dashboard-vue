@@ -123,15 +123,13 @@ watch(filter, () => {
 
             <Spinner padding v-else></Spinner>
 
-            <div
+            <Empty
                 v-if="!cards?.length && filter?.length"
-                class="non-favourite__not-found not-found"
             >
-                <p>
-                    No streams found matching
-                    <span class="not-found__query">"{{ filter }}"</span>.
-                </p>
-            </div>
+                <div class="not-found">
+                    No streams found for: <span class="not-found__query">"{{ filter }}"</span>.
+                </div>
+            </Empty>
         </div>
     </Section>
 </template>
@@ -183,6 +181,8 @@ watch(filter, () => {
 }
 
 .not-found {
+    color: $c-black-14;
+
     &__query {
         display: inline-block;
         color: $c-primary;
