@@ -51,7 +51,7 @@ const refetchStreams = async () => {
         new Date().getTime() - lastFetchedOn.value.getTime() > 60000;
     if (!hasBeenOneMinute) return;
 
-    // allStreams.value = undefined;
+    allStreams.value = undefined;
     fetchStreams();
 };
 
