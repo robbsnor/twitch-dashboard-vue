@@ -70,7 +70,8 @@ const removeFromFavourites = () => {
         </v-list-item>
         <v-list-item
             prepend-icon="mdi-play"
-            :to="{ name: 'user', params: { userLogin: props.username } }"
+            :href="`https://www.twitch.tv/${props.username}/`"
+            target="_blank"
         >
             Watch stream
         </v-list-item>
