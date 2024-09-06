@@ -47,6 +47,7 @@ const classes = computed(() => {
     padding: 0 rem(18px);
 
     border-radius: $border-radius-normal;
+    border: 1px solid;
 
     color: $c-black-1;
     font-weight: bold;
@@ -76,6 +77,7 @@ const classes = computed(() => {
     &--primary {
         color: $c-black-1;
         background-color: $c-primary;
+        border-color: $c-primary--light;
 
         &:hover {
             background-color: $c-primary--lighter;
@@ -85,9 +87,10 @@ const classes = computed(() => {
     &--secondary {
         color: $c-black-1;
         background-color: $c-black-10;
+        border-color: $c-black-12;
 
         &:hover {
-            background-color: $c-white--dark;
+            background-color: $c-black-14;
         }
     }
 
