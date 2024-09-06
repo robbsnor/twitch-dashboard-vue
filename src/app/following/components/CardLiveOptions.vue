@@ -6,12 +6,15 @@ import { useToast } from "vue-toast-notification";
 const router = useRouter();
 const toast = useToast();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     username: string;
     userId: number;
     game: string;
     isFavourite: boolean;
-}>();
+    showFilterBy?: boolean;
+}>(), {
+    showFilterBy: true,
+});
 
 const filter = defineModel<string>('filter');
 const sheet = defineModel<boolean>('sheet');
@@ -79,6 +82,7 @@ const removeFromFavourites = () => {
             Search streams: {{ props.game }}
         </v-list-item>
         <v-list-item
+            v-if="props.showFilterBy"
             prepend-icon="mdi-filter-variant"
             @click="doFiltering()"
         >

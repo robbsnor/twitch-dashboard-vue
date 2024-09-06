@@ -7,8 +7,7 @@ import type {
     CardLiveSize,
 } from "../models/card-live.model";
 
-const sheetSmall = ref(false);
-const sheetFancy = ref(false);
+const sheet = ref(false);
 
 const props = withDefaults(defineProps<{
     card: CardLiveModel;
@@ -30,7 +29,7 @@ const viewers = computed(() => {
         <div class="card-small__thumbnail-container">
             <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
-            <v-bottom-sheet v-model="sheetSmall" inset>
+            <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
                     <v-btn
                         class="card-small__options"
@@ -49,7 +48,7 @@ const viewers = computed(() => {
                         :userId="card.userId"
                         :isFavourite="false"
                         v-model:filter="filter"
-                        v-model:sheet="sheetSmall"
+                        v-model:sheet="sheet"
                     />
                 </div>
             </v-bottom-sheet>
@@ -176,6 +175,7 @@ const viewers = computed(() => {
                 :username="card.name"
                 :userId="card.userId"
                 :isFavourite="true"
+                :showFilterBy="false"
                 v-model:filter="filter"
             />
         </v-menu>
