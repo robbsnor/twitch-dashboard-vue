@@ -25,6 +25,10 @@ const close = () => {
 
 <template>
     <v-dialog v-model="dialog" :width="props.width">
+        <template v-slot:activator="{ props }">
+            <slot name="activator" v-bind="props" />
+        </template>
+
         <div class="dialog">
             <button v-if="props.showCloseButton" @click="close()" class="dialog__close">
                 <span class="sr-only">Close</span>
