@@ -10,6 +10,7 @@ import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
 import { LiveService } from "../services/live.service";
 import { useFollowingStore } from "../stores/following.store";
+import { PromiseService } from "@/app/shared/services/promise.service";
 
 TitleService.setTitle("Live");
 const favourtieStore = useFavouriteStore();
@@ -30,13 +31,11 @@ onMounted(async () => {
 });
 
 const fetchStreams = async () => {
-    console.log(`Fetcing streams..: ${new Date()}`);
+    console.log(`Fetching streams..: ${new Date()}`);
     lastFetchedOn.value = Date.now();
 
     allStreams.value = await twitchApiService.getFollowedStreamsWithUsers();
-    favouriteStreams.value = undefined;
-    nonFavouriteStreams.value = undefined;
-    await nextTick();
+
     favouriteStreams.value = LiveService.getFavourites(
         favouriteIds.value,
         allStreams.value
@@ -47,17 +46,19 @@ const fetchStreams = async () => {
     );
 };
 
-const refetchStreams = () => {
-    const isLongerThan1MinAgo =
-        Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
+const refetchStreams = async () => {
+    const isLongerThan1MinAgo = Date.now() - lastFetchedOn.value > 1 * 60 * 1000;
     if (!isLongerThan1MinAgo) return;
+
+    console.log(`Refetching streams...`);
+    allStreams.value = undefined;
 
     fetchStreams();
 };
 
-watch(focused, (newFocused) => {
-    if (newFocused) {
-        // refetchStreams();
+watch(focused, (isFocussed) => {
+    if (isFocussed) {
+        refetchStreams();
     }
 });
 </script>
