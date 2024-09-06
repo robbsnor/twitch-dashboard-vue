@@ -185,8 +185,9 @@ const viewers = computed(() => {
             target="_blank"
             class="card-fancy__link"
             :data-user-id="card.userId"
-            ><span class="sr-only">Watch {{ card.name }}'s stream</span></a
         >
+            <span class="sr-only">Watch {{ card.name }}'s stream</span>
+        </a>
     </div>
 </template>
 

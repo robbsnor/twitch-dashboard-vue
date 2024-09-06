@@ -40,7 +40,7 @@ const copyTwitchDlCommand = (card: CardVideoModel) => {
 const copyVideoId = (card: CardVideoModel) => {
     const { copy, copied } = useClipboard();
     copy(card.id.toString());
-    toast.success(`Copied video ID!`);
+    toast.success(`Copied video id!`);
 };
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
