@@ -6,4 +6,5 @@ export interface CardGameStream {
     viewers: number;
     avatar?: string;
     name: string;
+    tags: string[];
 }

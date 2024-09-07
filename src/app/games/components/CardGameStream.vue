@@ -46,6 +46,9 @@ const viewers = computed(() => {
                 <div class="card-game-stream__username">{{ card.name }}</div>
             </RouterLink>
         </div>
+        <div class="card-game-stream__tags">
+            <v-chip v-for="tag in card.tags" :key="tag" >{{ tag }}</v-chip>
+        </div>
     </div>
 </template>
 
@@ -148,6 +151,13 @@ const viewers = computed(() => {
 
     &__username {
         color: $c-black-14;
+    }
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: rem(5px);
+        padding-top: rem(5px);
     }
 }
 </style>
