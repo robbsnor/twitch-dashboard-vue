@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NumberService } from "@/app/shared/services/number.service";
 import { computed } from "vue";
-import type { CardGameStream as CardGameStreamModel } from "../models/card-game.model";
+import type { CardGameStream as CardGameStreamModel } from "@/app/games/models/card-game-stream.model";
 
 interface Props {
     card: CardGameStreamModel;
