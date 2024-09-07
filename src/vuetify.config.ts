@@ -32,6 +32,9 @@ export const vuetify = createVuetify({
             clearable: true,
             hideDetails: 'auto',
         },
+        VDialog: {
+            transition: "slide-y-reverse-transition",
+        },
         VSelect: {
             variant: 'solo',
             clearable: true,
