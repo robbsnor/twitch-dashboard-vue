@@ -57,7 +57,7 @@ const refetchStreams = async () => {
 
 watch(visibility, (value) => {
     if (value === 'visible') {
-        refetchStreams();
+        // refetchStreams();
     }
 })
 </script>
