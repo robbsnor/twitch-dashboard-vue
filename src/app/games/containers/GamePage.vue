@@ -5,7 +5,7 @@ import { GamesFactory } from "../factories/games.factory";
 import CardLive from "@/app/following/components/CardLive.vue";
 import { useRoute, useRouter } from "vue-router";
 import CardGameStream from "@/app/games/components/CardGameStream.vue";
-import type { CardGameStream as CardGameStreamModel } from "@/app/games/models/card-game-stream.model";
+import type { CardGameStream as CardGameStreamModel } from "@/app/games/models/card-game.model";
 
 const twitchApiService = new TwitchApiService();
 const route = useRoute();
