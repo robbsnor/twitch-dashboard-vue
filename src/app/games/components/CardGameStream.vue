@@ -47,7 +47,7 @@ const viewers = computed(() => {
             </RouterLink>
         </div>
         <div class="card-game-stream__tags">
-            <v-chip v-for="tag in card.tags" :key="tag">{{ tag }}</v-chip>
+            <v-chip v-for="tag in card.tags" :key="tag" size="small">{{ tag }}</v-chip>
         </div>
     </div>
 </template>
