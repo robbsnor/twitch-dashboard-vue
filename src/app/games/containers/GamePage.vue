@@ -1,39 +1,40 @@
 <script setup lang="ts">
 import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { GamesFactory } from "../factories/games.factory";
 import { useRoute, useRouter } from "vue-router";
 import CardGameStream from "@/app/games/components/CardGameStream.vue";
 import type { CardGameStream as CardGameStreamModel } from "@/app/games/models/card-game-stream.model";
+import type { TwitchGame } from "../../shared/models/twitch/games.model";
 
 const twitchApiService = new TwitchApiService();
 const route = useRoute();
 const router = useRouter();
 
 const cards = ref<CardGameStreamModel[]>();
-const title = ref<string>();
+const game = ref<TwitchGame>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
     const res = await twitchApiService.getGames({ names: [gameName] });
 
-    const game = res.data.find(
+    const _game = res.data.find(
         (game) => game.name.toLowerCase() === gameName.toLowerCase()
     );
-    if (!game) return router.push({ name: "home" });
+    if (!_game) return router.push({ name: "home" });
 
     const streams = await twitchApiService.getStreamsByGameIdWithUsers(
-        Number(game.id)
+        Number(_game.id)
     );
-    title.value = game.name;
+    game.value = _game;
     cards.value = GamesFactory.mapToCardLive(streams);
 });
 </script>
 
 <template>
-    <Section :title="title">
+    <Section v-if="game" :title="game.name">
         <div class="game">
-            <div v-if="cards" class="game__cards" v-auto-animate>
+            <div class="game__cards" v-auto-animate>
                 <div
                     v-for="card in cards"
                     :key="card.userId"
@@ -42,10 +43,10 @@ onMounted(async () => {
                     <CardGameStream :card="card" />
                 </div>
             </div>
-
-            <Spinner padding v-else></Spinner>
         </div>
     </Section>
+
+    <Spinner padding v-else></Spinner>
 </template>
 
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 import type { CardGameModel } from '../../following/components/CardGame.vue';
-import type { TwitchGames, TwitchGetGames } from '../../shared/models/twitch/games.model';
+import type { TwitchGame, TwitchGetGames } from '../../shared/models/twitch/games.model';
 import type { TwitchStreamsWithUser } from '../../shared/models/twitch/streams-with-user.model';
 import { TwitchService } from '../../shared/services/twitch.service';
 import type { CardGameStream } from '../models/card-game-stream.model';
@@ -22,7 +22,7 @@ export class GamesFactory {
         });
     }
 
-    public static mapToCardGame(games: TwitchGames[]): CardGameModel[] {
+    public static mapToCardGame(games: TwitchGame[]): CardGameModel[] {
         return games.map<CardGameModel>((game) => {
             return {
                 thumbnail: TwitchService.getGameThumbnail(game.box_art_url),

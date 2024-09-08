@@ -7,7 +7,7 @@ import type { TwitchCheckUserSubscription } from "../models/twitch/check-user-su
 import type { TwitchGetChannelFollowers } from "../models/twitch/channel-followers.model";
 import type { VideoTypesModel } from "../models/twitch/video-types.model";
 import type { TwitchGetStreams } from "../models/twitch/get-streams";
-import type { TwitchGames, TwitchGetGames } from "../models/twitch/games.model";
+import type { TwitchGame, TwitchGetGames } from "../models/twitch/games.model";
 import type { TwitchFollowedStream, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchFollowedStreamWithUser } from "../models/twitch/followed-streams-with-user.model";
 import type { TwitchStreamsWithUser } from "../models/twitch/streams-with-user.model";
@@ -141,15 +141,15 @@ export class TwitchApiService {
 
         const res = await this.http.get<TwitchGetGames>(url.toString());
 
-        let orderedGames: TwitchGames[] = [];
+        let orderedGames: TwitchGame[] = [];
 
         // the ordering of the games could look prettier
         if (game.ids) {
-            orderedGames = game.ids.map((gameId) => res.data.data.find((game) => Number(game.id) === gameId)).filter(Boolean) as TwitchGames[];
+            orderedGames = game.ids.map((gameId) => res.data.data.find((game) => Number(game.id) === gameId)).filter(Boolean) as TwitchGame[];
         }
 
         if (game.names) {
-            orderedGames = game.names.map((gameName) => res.data.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase())).filter(Boolean) as TwitchGames[];
+            orderedGames = game.names.map((gameName) => res.data.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase())).filter(Boolean) as TwitchGame[];
         }
 
         res.data.data = orderedGames;

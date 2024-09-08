@@ -1,8 +1,8 @@
 export interface TwitchGetGames {
-    data: TwitchGames[];
+    data: TwitchGame[];
 }
 
-export interface TwitchGames {
+export interface TwitchGame {
     id: string;
     name: string;
     box_art_url: string;

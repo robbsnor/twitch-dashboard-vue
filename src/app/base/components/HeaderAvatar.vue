@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppOptionsDialog from '@/app/base/containers/AppOptionsDialog.vue';
+import { useAuthStore } from '../../auth/stores/auth.store';
+import { storeToRefs } from 'pinia';
+
+const authStore = useAuthStore();
 
 const props = defineProps<{
     image: string;
 }>();
 
+const { user } = storeToRefs(authStore);
 const settingsDialog = ref(false);
 
 const toggleSettingsDialog = () => {
@@ -21,8 +26,8 @@ const toggleSettingsDialog = () => {
             </a>
         </template>
 
-        <v-list>
-            <v-list-item disabled prepend-icon="mdi-account"><s>Account</s></v-list-item>
+        <v-list min-width="150">
+            <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: user?.login } }">Profile</v-list-item>
             <v-list-item prepend-icon="mdi-cog" @click="toggleSettingsDialog">Settings</v-list-item>
             <Divider />
             <v-list-item :to="{ name: 'sign-out' }" prepend-icon="mdi-logout">Logout</v-list-item>

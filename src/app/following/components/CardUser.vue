@@ -16,7 +16,7 @@ const link = computed(() => `/user/${props.name}`);
     <RouterLink :to="link" class="card-user">
         <img :src="props.avatar" :alt="`${props.name}'s avatar`" class="card-user__avatar" />
         <h3 class="card-user__name">{{ name }}</h3>
-        <v-img :src="props.backgroundImage" :alt="`${props.name}'s' offline image`" class="card-user__background-image"/>
+        <img :src="props.backgroundImage" :alt="`${props.name}'s' offline image`" class="card-user__background-image"/>
     </RouterLink>
 </template>
 
