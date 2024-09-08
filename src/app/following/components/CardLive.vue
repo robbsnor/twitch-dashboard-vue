@@ -135,7 +135,7 @@ const viewers = computed(() => {
                 />
             </v-menu>
         </div>
-        <div class="card-game-stream__tags">
+        <div class="card-normal__tags">
             <v-chip v-for="tag in card.tags" :key="tag" size="small">{{ tag }}</v-chip>
         </div>
     </div>
