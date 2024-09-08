@@ -135,6 +135,9 @@ const viewers = computed(() => {
                 />
             </v-menu>
         </div>
+        <div class="card-game-stream__tags">
+            <v-chip v-for="tag in card.tags" :key="tag" size="small">{{ tag }}</v-chip>
+        </div>
     </div>
 
     <!-- fancy -->
@@ -456,6 +459,13 @@ const viewers = computed(() => {
 
     &__username {
         color: $c-black-14;
+    }
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: rem(5px);
+        padding-top: rem(10px);
     }
 
     &__options {

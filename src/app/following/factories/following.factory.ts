@@ -27,8 +27,9 @@ export class FollowingFactory {
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,
-                game: stream.game_name ?? '-',
+                game: stream.game_name ? stream.game_name : '-',
                 avatar: stream.profile_image_url,
+                tags: stream.tags,
             };
         });
     }

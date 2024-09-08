@@ -5,10 +5,10 @@ export interface CardLive {
     thumbnailLarge: string;
     title: string;
     viewers: number;
-    avatar?: string;
+    avatar: string;
     name: string;
     game: string;
-    color?: string;
+    tags: string[];
 }
 
 export type CardLiveSize = 'small' | 'normal' | 'fancy';
