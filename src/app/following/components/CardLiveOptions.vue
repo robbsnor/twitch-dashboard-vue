@@ -80,7 +80,7 @@ const removeFromFavourites = () => {
             prepend-icon="mdi-magnify"
             @click="goToGamePage(props.game)"
         >
-            Search streams: {{ props.game }}
+            Search category: {{ props.game }}
         </v-list-item>
         <v-list-item
             v-if="props.showFilterBy"
