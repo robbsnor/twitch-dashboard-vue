@@ -6,21 +6,20 @@ const slots = useSlots();
 const props = defineProps<{
     title?: string;
     first?: boolean;
-    hideHeader?: boolean;
 }>();
 
-const classes = computed(() => {
+const cssClass = computed(() => {
     return {
         'section': true,
         'section--first': props.first,
         'section--no-title': !props.title,
-        'section--hide-header': props.hideHeader,
+        'section--hide-header': !props.title && !slots.actions,
     };
 });
 </script>
 
 <template>
-    <section :class="classes">
+    <section :class="cssClass">
         <div v-if="slots.backgroundArt" class="section__background-art">
             <slot name="backgroundArt"></slot>
         </div>

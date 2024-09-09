@@ -6,6 +6,8 @@ import { useRoute, useRouter } from "vue-router";
 import CardGameStream from "@/app/games/components/CardGameStream.vue";
 import type { CardGameStream as CardGameStreamModel } from "@/app/games/models/card-game-stream.model";
 import type { TwitchGame } from "../../shared/models/twitch/games.model";
+import GamePageHeader from "../components/GamePageHeader.vue";
+import { TwitchService } from "@/app/shared/services/twitch.service";
 
 const twitchApiService = new TwitchApiService();
 const route = useRoute();
@@ -29,22 +31,27 @@ onMounted(async () => {
     game.value = _game;
     cards.value = GamesFactory.mapToCardLive(streams);
 });
+
 </script>
 
 <template>
-    <Section v-if="game" :title="game.name">
-        <div class="game">
-            <div class="game__cards" v-auto-animate>
-                <div
-                    v-for="card in cards"
-                    :key="card.userId"
-                    class="game__card"
-                >
-                    <CardGameStream :card="card" />
+    <template v-if="game">
+        <GamePageHeader :image="TwitchService.getGameThumbnail(game.box_art_url)" :name="game.name" />
+
+        <Section>
+            <div class="game">
+                <div class="game__cards" v-auto-animate>
+                    <div
+                        v-for="card in cards"
+                        :key="card.userId"
+                        class="game__card"
+                    >
+                        <CardGameStream :card="card" />
+                    </div>
                 </div>
             </div>
-        </div>
-    </Section>
+        </Section>
+    </template>
 
     <Spinner padding v-else></Spinner>
 </template>
