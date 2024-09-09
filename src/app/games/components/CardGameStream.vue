@@ -22,7 +22,7 @@ const viewers = computed(() => {
             class="card-game-stream__thumbnail-container"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <v-img
+            <img
                 :src="card.thumbnail"
                 class="card-game-stream__thumbnail"
                 alt="thumbnail"
@@ -37,7 +37,7 @@ const viewers = computed(() => {
                 :to="`/user/${card.name}`"
                 class="card-game-stream__user"
             >
-                <v-img
+                <img
                     v-if="card.avatar"
                     :src="card.avatar"
                     class="card-game-stream__avatar"
