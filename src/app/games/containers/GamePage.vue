@@ -36,7 +36,7 @@ onMounted(async () => {
 
 <template>
     <template v-if="game">
-        <GamePageHeader :image="TwitchService.getGameThumbnail(game.box_art_url)" :name="game.name" />
+        <GamePageHeader class="game-header" :image="TwitchService.getGameThumbnail(game.box_art_url)" :name="game.name" />
 
         <Section>
             <div class="game">
@@ -57,6 +57,10 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+.game-header {
+    margin-top: -$header-height;
+}
+
 .game {
     &__cards {
         display: grid;

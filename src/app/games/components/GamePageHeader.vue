@@ -6,22 +6,22 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="gph">
-        <img class="gph__background-image" :src="props.image" />
+    <div class="game-page-header">
+        <img class="game-page-header__background-image" :src="props.image" />
 
-        <div class="gph__container">
-            <div class="gph__info">
-                <img class="gph__image" :src="props.image" alt="game image" />
-                <h1 class="gph__title">{{ props.name }}</h1>
+        <div class="game-page-header__container">
+            <div class="game-page-header__info">
+                <img class="game-page-header__image" :src="props.image" alt="game image" />
+                <h1 class="game-page-header__title">{{ props.name }}</h1>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-.gph {
+.game-page-header {
     position: relative;
-    height: 200px;
+    height: 300px;
     overflow: hidden;
     background-color: $c-black-1;
 
@@ -65,7 +65,7 @@ const props = defineProps<{
     }
 
     @include screen($desktop) {
-        height: 350px;
+        height: 450px;
 
         &__image {
             width: 150px;
