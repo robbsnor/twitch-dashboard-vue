@@ -136,7 +136,15 @@ const viewers = computed(() => {
             </v-menu>
         </div>
         <div class="card-normal__tags">
-            <v-chip v-for="tag in card.tags" :key="tag" size="small">{{ tag }}</v-chip>
+            <v-chip
+                v-for="tag in card.tags"
+                :key="tag"
+                size="small"
+                :href="`https://www.twitch.tv/directory/all/tags/${tag}`"
+                target="_blank"
+            >
+                {{ tag }}
+            </v-chip>
         </div>
     </div>
 
