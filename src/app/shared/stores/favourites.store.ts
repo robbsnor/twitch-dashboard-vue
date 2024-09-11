@@ -21,6 +21,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
             'Super Mario Galaxy',
             'Super Mario Galaxy 2',
             'Software and Game Development',
+            'Shapez 2',
             'VALORANT',
             'Rocket League',
             'Minecraft',
