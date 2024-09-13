@@ -24,11 +24,11 @@ export const vuetify = createVuetify({
             flat: true,
         },
         VTextField: {
-            variant: 'outlined',
+            variant: 'solo',
             clearable: true,
         },
         VCombobox: {
-            variant: 'outlined',
+            variant: 'solo',
             clearable: true,
             hideDetails: 'auto',
         },
@@ -36,7 +36,7 @@ export const vuetify = createVuetify({
             transition: "slide-y-reverse-transition",
         },
         VSelect: {
-            variant: 'outlined',
+            variant: 'solo',
             clearable: true,
             hideDetails: 'auto',
         },
