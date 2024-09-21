@@ -24,6 +24,9 @@ import Swirl from './app/shared/components/Swirl.vue';
 // import Tab from './app/shared/components/Tab.vue';
 import ZigZag from './app/shared/components/ZigZag.vue';
 
+// directives
+import { fadeStagger } from './app/base/directives/fade-stagger.directive';
+
 const app = createApp(App);
 const pinia = createPinia();
 
@@ -41,6 +44,9 @@ app.component('Spinner', Spinner);
 app.component('Swirl', Swirl);
 // app.component('Tab', Tab);
 app.component('ZigZag', ZigZag);
+
+// directives
+app.directive('fadeStagger', fadeStagger);
 
 // plugins
 app.use(pinia);

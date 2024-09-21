@@ -23,8 +23,9 @@ const cards = computed(() => {
         <div class="favourites">
             <div v-if="cards?.length" class="favourites__cards">
                 <div
-                    v-for="card in cards"
+                    v-for="(card, index) in cards"
                     :key="card.userId"
+                    v-fade-stagger="{index}"
                     class="favourites__card"
                     v-auto-animate
                 >
