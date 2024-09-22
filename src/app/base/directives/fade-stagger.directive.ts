@@ -1,27 +1,27 @@
 import type { DirectiveBinding } from "vue";
 
 interface FadeStaggerBinding {
-    index: number;
     delay?: number;
 }
 
-
 export const fadeStagger = {
     beforeMount(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
-        // Set the initial state of the element
-        const index = binding.value.index;
-        const delay = binding.value.delay || 10; // default delay is 10ms
+        const children = Array.from(el.children) as HTMLElement[];
 
-        el.style.opacity = '0';
-        el.style.transition = `opacity 0.5s ease ${index * delay}ms`;
+        children.forEach((child, index) => {
+            child.style.opacity = '0';
+            child.style.transition = `opacity .5s`;
+        });
+
     },
-    mounted(el: any, binding: any) {
-        // Apply the fade-in effect after the component is mounted
-        const index = binding.value.index;
-        const delay = binding.value.delay || 10;
+    mounted(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
+        const children = Array.from(el.children) as HTMLElement[];
+        const delay = binding.value?.delay || 40;
 
-        setTimeout(() => {
-            el.style.opacity = 1;
-        }, index * delay);
+        children.forEach((child, index) => {
+            setTimeout(() => {
+                child.style.opacity = '1';
+            }, index * delay);
+        });
     }
 };

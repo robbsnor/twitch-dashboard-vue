@@ -107,11 +107,10 @@ watch(filter, () => {
         </template>
 
         <div class="non-favourite">
-            <div v-if="cards" class="non-favourite__cards" v-auto-animate>
+            <div v-if="cards" class="non-favourite__cards" v-fade-stagger v-auto-animate>
                 <div
-                    v-for="(card, index) in cards"
+                    v-for="card in cards"
                     :key="card.userId"
-                    v-fade-stagger="{index}"
                     class="non-favourite__card"
                 >
                     <CardLive

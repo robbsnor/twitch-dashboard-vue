@@ -21,11 +21,10 @@ const cards = computed(() => {
         </template>
 
         <div class="favourites">
-            <div v-if="cards?.length" class="favourites__cards">
+            <div v-if="cards?.length" class="favourites__cards" v-fade-stagger>
                 <div
-                    v-for="(card, index) in cards"
+                    v-for="card in cards"
                     :key="card.userId"
-                    v-fade-stagger="{index}"
                     class="favourites__card"
                     v-auto-animate
                 >
