@@ -282,6 +282,13 @@ const formattedDate = computed(() => {
         display: flex;
         align-items: center;
         gap: rem(10px);
+        cursor: pointer;
+
+        &:hover {
+            #{ $self }__chapter-title {
+                color: $c-white;
+            }
+        }
     }
 
     &__box-art {
@@ -292,6 +299,7 @@ const formattedDate = computed(() => {
 
     &__chapter-title {
         font-size: rem(16px);
+        color: $c-white--dark;
     }
 
     @include screen(1000px) {
