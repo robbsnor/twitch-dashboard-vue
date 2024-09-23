@@ -33,8 +33,11 @@ const cards = computed(() => {
         const titleMatch = stream.title
             .toLowerCase()
             .includes(filter.value.toLowerCase());
+        const tagsMatch = stream.tags
+            .map(tagId => tagId.toString())
+            .some(tagId => tagId.toLowerCase().includes(filter.value!.toLowerCase()));
 
-        return usernameMatch || gameMatch || titleMatch;
+        return usernameMatch || gameMatch || titleMatch || tagsMatch;
     });
     if (!videos) return;
 
