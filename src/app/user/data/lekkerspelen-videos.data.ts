@@ -4,6 +4,210 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2258666921,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/fde81f21f55ac5a08c2d_lekkerspelen_64273606112_2354169228/thumb/custom-1d9d6400-43ea-487a-a609-87866f4e2f54-320x180.jpeg",
+        "title": "We openen onze Pokémon kaarten winkel!",
+        "chapters": [
+            {
+                "title": "TCG Card Shop Simulator",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1230742965_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2258573177,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/00c48247311d28150944_lekkerspelen_41093444933_1727116220//thumb/thumb0-320x180.jpg",
+        "title": "We openen onze Pokémon kaarten winkel!",
+        "chapters": [
+            {
+                "title": "TCG Card Shop Simulator",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1230742965_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2254460467,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/cfd2ad459d9e0ad4826f_lekkerspelen_92068283662_3834835635/thumb/custom-3145bffe-f1aa-4325-80b5-fe4715d74d97-320x180.jpeg",
+        "title": "ASTRO BOT",
+        "chapters": [
+            {
+                "title": "ASTRO BOT",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/2109666737_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2254380088,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/d262c476c5455462f732_lekkerspelen_52019234413_1726684231//thumb/thumb0-320x180.jpg",
+        "title": "ASTRO BOT",
+        "chapters": [
+            {
+                "title": "ASTRO BOT",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/2109666737_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2252824466,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/b86411b1fb95eff53d95_lekkerspelen_44099303294_9040391644/thumb/custom-285135fb-9ff2-4236-bf96-22dcd0f3a033-320x180.jpeg",
+        "title": "WII PLAY",
+        "chapters": [
+            {
+                "title": "Wii Play",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/8660_IGDB_en-gb-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2252741423,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/fea8766629007e8da0b4_lekkerspelen_42880143560_1726511504//thumb/thumb0-320x180.jpg",
+        "title": "WII PLAY",
+        "chapters": [
+            {
+                "title": "Wii Play",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/8660_IGDB_en-gb-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2248620052,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/670902ffc9996cdb1b41_lekkerspelen_10077103401_3845228320/thumb/custom-abb9a20d-234a-4dba-852b-4f6b0c6291f1-320x180.jpeg",
+        "title": "GEHEIM PROJECT REVEAL 2024!",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2248524965,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/371b8b355aa22624bb23_lekkerspelen_42853841512_1726079416//thumb/thumb0-320x180.jpg",
+        "title": "GEHEIM PROJECT REVEAL 2024!",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2246984958,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/f5d41e95da0739efafc6_lekkerspelen_16816422947_9358787819/thumb/custom-14f830ab-9efb-4c09-bb36-e5e2a5d2afa6-320x180.jpeg",
+        "title": "PARTY omdat woensdag het geheime project gerevealed wordt!",
+        "chapters": [
+            {
+                "title": "Wii Party",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/28105_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2246875047,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/1f828f00be20ea571aa8_lekkerspelen_41057185189_1725906779//thumb/thumb0-320x180.jpg",
+        "title": "PARTY omdat woensdag het geheime project gerevealed wordt!",
+        "chapters": [
+            {
+                "title": "Wii Party",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/28105_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2242659592,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/096eccbbe7fc091e9f76_lekkerspelen_60334036084_7891025003/thumb/custom-686aa33c-798f-46f3-8017-3ceb5e824d92-320x180.jpeg",
+        "title": "Wanneer wordt het GEHEIME PROJECT gerevealed...?",
+        "chapters": [
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2242571198,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/6b3083632a35d01d86d2_lekkerspelen_42825164600_1725474962//thumb/thumb0-320x180.jpg",
+        "title": "Wanneer wordt het GEHEIME PROJECT gerevealed...?",
+        "chapters": [
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2240977770,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/cffd6b090fa1f0b14c2e_lekkerspelen_73145091680_9188830494/thumb/custom-5bb3b76f-6efa-424a-8009-77fb2c3dcf8e-320x180.jpeg",
+        "title": "Een eekhoorn met een pistool",
+        "chapters": [
+            {
+                "title": "Squirrel with a Gun",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1639504976_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2240865193,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/7c332ddf39f401248901_lekkerspelen_42817177128_1725301788//thumb/thumb0-320x180.jpg",
+        "title": "Een eekhoorn met een pistool",
+        "chapters": [
+            {
+                "title": "Squirrel with a Gun",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/1639504976_IGDB-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2236478146,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/eda8272f376f84a99093_lekkerspelen_57214047639_8353467380/thumb/custom-6e93e380-fd73-4968-9380-535c24da75bb-320x180.jpeg",
+        "title": "Is dit hem?!",
+        "chapters": [
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2236385983,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/6e0baf7569ec30fe9f1b_lekkerspelen_51881174013_1724870542//thumb/thumb0-320x180.jpg",
+        "title": "Is dit hem?!",
+        "chapters": [
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2234767865,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/43decf6a6fa219639a41_lekkerspelen_86955596773_4981880154/thumb/custom-3a0007de-1ff2-41e6-83e0-6ecfb0e53985-320x180.jpeg",
         "title": "Hoe is het om een hond te zijn?",
