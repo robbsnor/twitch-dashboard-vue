@@ -31,7 +31,7 @@ onMounted(() => {
 <template>
     <Section title="Favourites">
         <div class="fav-games">
-            <div v-if="favCards" class="fav-games__cards" v-auto-animate>
+            <div v-if="favCards" class="fav-games__cards" v-auto-animate v-fade-stagger>
                 <RouterLink
                     class="fav-games__card"
                     v-for="card in favCards"

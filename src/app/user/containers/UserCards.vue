@@ -101,7 +101,7 @@ onMounted(() => {
             </template>
 
             <template #default>
-                <div class="cards">
+                <div class="cards" v-fade-stagger>
                     <CardVideo
                         class="cards__card"
                         v-for="card in cards"

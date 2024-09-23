@@ -40,7 +40,7 @@ onMounted(async () => {
 
         <Section>
             <div class="game">
-                <div class="game__cards" v-auto-animate>
+                <div class="game__cards" v-auto-animate v-fade-stagger>
                     <div
                         v-for="card in cards"
                         :key="card.userId"
