@@ -12,7 +12,6 @@ export const fadeStagger = {
             child.style.opacity = '0';
             child.style.transition = `opacity .5s`;
         });
-
     },
     mounted(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
         const children = Array.from(el.children) as HTMLElement[];
