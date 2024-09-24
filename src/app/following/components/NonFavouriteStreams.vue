@@ -95,6 +95,7 @@ watch(filter, () => {
                     :items="categories"
                     placeholder="Search streams..."
                     persistent-clear
+                    eager
                     ref="filterEl"
                 >
                     <template #item="{ item }">
