@@ -21,7 +21,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: $c-white;
+    color: $c-text-headers;
     font-weight: bold;
 }
 
@@ -46,7 +46,7 @@ h4 {
 }
 
 p {
-    color: $c-black-14;
+    color: $c-text-base;
     padding-bottom: rem($padding);
 }
 

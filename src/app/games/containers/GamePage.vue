@@ -40,6 +40,7 @@ onMounted(async () => {
 
         <Section>
             <div class="game">
+                <Empty v-if="!cards?.length" title="No streamers atm..." description="Come back later"></Empty>
                 <div class="game__cards" v-auto-animate v-fade-stagger>
                     <div
                         v-for="card in cards"
