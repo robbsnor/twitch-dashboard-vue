@@ -21,7 +21,7 @@ const props = defineProps<{
 <style scoped lang="scss">
 .game-page-header {
     position: relative;
-    height: 300px;
+    height: 200px;
     overflow: hidden;
     background-color: $c-black-1;
 
@@ -54,7 +54,7 @@ const props = defineProps<{
     }
 
     &__image {
-        width: 80px;
+        width: 50px;
         border-radius: $border-radius-normal;
     }
 
@@ -65,14 +65,14 @@ const props = defineProps<{
     }
 
     @include screen($desktop) {
-        height: 450px;
+        height: 350px;
 
         &__image {
-            width: 150px;
+            width: 100px;
         }
 
         &__title {
-            font-size: 60px;
+            font-size: 40px;
         }
     }
 }
