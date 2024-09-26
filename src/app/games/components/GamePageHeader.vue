@@ -49,8 +49,8 @@ const props = defineProps<{
     &__info {
         display: flex;
         align-items: flex-end;
-        gap: rem($padding-larger);
-        padding-bottom: 30px;
+        gap: rem($padding);
+        padding-bottom: rem($padding);
     }
 
     &__image {
