@@ -14,7 +14,7 @@ const route = useRoute();
 const router = useRouter();
 
 const cards = ref<CardGameStreamModel[]>();
-const game = ref<TwitchGame>();
+const game = ref<TwitchGame | null>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
@@ -23,7 +23,7 @@ onMounted(async () => {
     const _game = res.data.find(
         (game) => game.name.toLowerCase() === gameName.toLowerCase()
     );
-    if (!_game) return router.push({ name: "home" });
+    if (!_game) return game.value = null;
 
     const streams = await twitchApiService.getStreamsByGameIdWithUsers(
         Number(_game.id)
@@ -54,7 +54,12 @@ onMounted(async () => {
         </Section>
     </template>
 
-    <Spinner padding v-else></Spinner>
+    <Spinner v-if="game === undefined" padding></Spinner>
+    <Empty
+        v-if="game === null"
+        :title='`Game not found: <span style="color: white;">${route.params.gameName}</span>`'
+        description="Try something else"
+    />
 </template>
 
 <style scoped lang="scss">
