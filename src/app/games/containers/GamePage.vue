@@ -20,14 +20,10 @@ onMounted(async () => {
     const gameName = route.params.gameName as string;
     const res = await twitchApiService.getGames({ names: [gameName] });
 
-    const _game = res.data.find(
-        (game) => game.name.toLowerCase() === gameName.toLowerCase()
-    );
+    const _game = res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
     if (!_game) return game.value = null;
 
-    const streams = await twitchApiService.getStreamsByGameIdWithUsers(
-        Number(_game.id)
-    );
+    const streams = await twitchApiService.getStreamsByGameIdWithUsers(Number(_game.id));
     game.value = _game;
     cards.value = GamesFactory.mapToCardLive(streams);
 });
