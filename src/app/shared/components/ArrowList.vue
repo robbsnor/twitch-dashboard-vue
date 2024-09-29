@@ -63,7 +63,7 @@ const emits = defineEmits(['click:item']);
     }
 
     &__indicator {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 0;
