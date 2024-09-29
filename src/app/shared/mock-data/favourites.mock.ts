@@ -3,6 +3,8 @@ export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
     128856353, // mande
     101936909, // stormen
+    149141153, // slewya
+    57357891, // furretcanwalk
     51929371, // ml7support
     26991127, // hiko
     27765748, // bumpaah
@@ -11,8 +13,6 @@ export const MOCK_FAVOURITES_HOPP = [
     183796200, // kraan
     41157071, // tangotek
     31468943, // simpleflips
-    149141153, // slewya
-    57357891, // furretcanwalk
     82653207, // marblr
     490592527, // valorant
     598902753, // valorant_emea
