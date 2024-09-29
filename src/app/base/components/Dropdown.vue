@@ -53,15 +53,7 @@ const emits = defineEmits(['closeMenu']);
                 <div class="dropdown__navs">
                     <nav v-for="menu of menus" class="nav dropdown__nav">
                         <h2 class="nav__title">{{ menu.title }}</h2>
-                        <ul>
-                            <li v-for="item in menu.items">
-                                <RouterLink
-                                    @click="emits('closeMenu')"
-                                    :to="item.url"
-                                    class="nav__menu-link"
-                                >{{ item.text }}</RouterLink>
-                            </li>
-                        </ul>
+                        <ArrowList :items="menu.items" @click:item="emits('closeMenu')"></ArrowList>
                     </nav>
                 </div>
             </div>
@@ -150,11 +142,6 @@ const emits = defineEmits(['closeMenu']);
         font-size: rem(38px);
         color: white;
         padding-bottom: rem(15px);
-    }
-
-    &__menu-link {
-        padding: rem(10px) 0;
-        display: block;
     }
 }
 </style>

@@ -11,6 +11,7 @@ import 'vue-toast-notification/dist/theme-default.css';
 import './assets/styles/main.scss';
 
 // shared components
+import ArrowList from './app/shared/components/ArrowList.vue';
 import Button from './app/shared/components/Button.vue';
 import ButtonGroup from './app/shared/components/ButtonGroup.vue';
 import Dialog from './app/shared/components/Dialog.vue';
@@ -32,6 +33,7 @@ const pinia = createPinia();
 
 // shared components
 app.component(VueFeather.name!, VueFeather);
+app.component('ArrowList', ArrowList);
 app.component('Button', Button);
 app.component('ButtonGroup', ButtonGroup);
 app.component('Dialog', Dialog);
