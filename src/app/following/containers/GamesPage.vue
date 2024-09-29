@@ -17,7 +17,7 @@ const favCards = ref<CardGameModel[]>();
 
 const getFavouriteCards = async () => {
     const res = await twitchApiService.getGames({
-        names: favouriteStore.getFavouriteCategories(),
+        names: favouriteStore.favouriteCategories,
     });
 
     favCards.value = GamesFactory.mapToCardGame(res.data);

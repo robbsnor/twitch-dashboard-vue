@@ -16,7 +16,7 @@ const favouriteUsers = ref<CardUserProps[]>();
 
 onMounted(async () => {
     const res = await twitchApiService.getUsers({
-        ids: favouriteStore.getFavouriteStreamerIds(),
+        ids: favouriteStore.favouriteStreamerIds,
     });
     favouriteUsers.value = UserFactory.mapToCardUser(res.data);
 });
