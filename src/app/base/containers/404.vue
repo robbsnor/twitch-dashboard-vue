@@ -2,9 +2,9 @@
     <Section>
         <div class="four">
             <h1 class="four__title">404 - Page not found</h1>
-            <RouterLink class="four__link" :to="{ name: 'home' }"
-                >Go back home</RouterLink
-            >
+            <RouterLink class="four__link" :to="{ name: 'home' }">
+                Go back home
+            </RouterLink>
         </div>
     </Section>
 </template>
