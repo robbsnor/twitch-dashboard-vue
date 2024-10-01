@@ -11,7 +11,7 @@ export const fadeStagger = {
         children.forEach((child, index) => {
             child.style.opacity = '0';
             child.style.transition = `.5s`;
-            child.style.transform = 'translateY(10px)';
+            // child.style.transform = 'translateY(10px)';
         });
     },
     mounted(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
@@ -21,7 +21,7 @@ export const fadeStagger = {
         children.forEach((child, index) => {
             setTimeout(() => {
                 child.style.opacity = '1';
-                child.style.transform = 'translateY(0)';
+                // child.style.transform = 'translateY(0)';
             }, index * delay);
         });
     }
