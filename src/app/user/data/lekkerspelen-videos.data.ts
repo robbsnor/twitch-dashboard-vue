@@ -4,6 +4,104 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2264443960,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/0f275aa7e8dc6dd14a8f_lekkerspelen_25534618285_8604773860/thumb/custom-626df660-e7c8-4425-8cb0-4d6b8bf18163-320x180.jpeg",
+        "title": "Peters laatste DONKEY KONG SPEEDRUN 2024",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2264361270,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/0692d64dbae6ef8bea3f_lekkerspelen_42931183000_1727721397//thumb/thumb0-320x180.jpg",
+        "title": "Peters laatste DONKEY KONG SPEEDRUN 2024",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2264357524,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/6e76da418a62e74d6e1a_lekkerspelen_42931160984_1727721095//thumb/thumb0-320x180.jpg",
+        "title": "Peters laatste DONKEY KONG SPEEDRUN 2024",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2260299537,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/9d1b16f2447557f0bfc4_lekkerspelen_99626575828_9527959330/thumb/custom-33581f04-2f56-4265-81b9-a99276b21e91-320x180.jpeg",
+        "title": "GROTE VERANDERINGEN 2025 + SUPER SMASH TOERNOOI",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2260198638,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/8becfde739ff194485a2_lekkerspelen_42912653960_1727289599//thumb/thumb0-320x180.jpg",
+        "title": "SUPER SMASH TOERNOOI + GROTE VERANDERINGEN 2025",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2259555758,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/69b45d8b7ef08b418a94_lekkerspelen_19090354043_8990032654/thumb/custom-ba5b3b1d-9bf8-4b40-8549-a64337256813-320x180.jpeg",
+        "title": "PLAYSTATION STATE OF PLAY (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2259502264,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/88f9b85fc7500a6b5168_lekkerspelen_42909903368_1727213385//thumb/thumb0-320x180.jpg",
+        "title": "PLAYSTATION STATE OF PLAY (live reacties)",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2258666921,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/fde81f21f55ac5a08c2d_lekkerspelen_64273606112_2354169228/thumb/custom-1d9d6400-43ea-487a-a609-87866f4e2f54-320x180.jpeg",
         "title": "We openen onze Pokémon kaarten winkel!",
