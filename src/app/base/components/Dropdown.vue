@@ -18,6 +18,10 @@ const menus: Menu[] = [
                 url: '/following/users'
             },
             {
+                text: 'Games',
+                url: '/following/games',
+            },
+            {
                 text: 'Playground',
                 url: '/playground'
             },
