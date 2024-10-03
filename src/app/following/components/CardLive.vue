@@ -95,6 +95,7 @@ const viewers = computed(() => {
             class="card-normal__thumbnail-container"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
+            <div class="card-normal__gradient"></div>
             <img
                 :src="card.thumbnail"
                 class="card-normal__thumbnail"
@@ -378,6 +379,18 @@ const viewers = computed(() => {
         }
     }
 
+    &__gradient {
+        background: linear-gradient(-45deg,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0) 50%);
+        // background-color: red;
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        right: 0;
+        bottom: 0;
+    }
+
     &__arrow {
         position: absolute;
         top: rem(20px);
@@ -392,7 +405,7 @@ const viewers = computed(() => {
         position: absolute;
         bottom: rem(7px);
         right: rem(10px);
-        color: $c-white--dark;
+        color: $c-primary;
     }
 
     &__thumbnail {
