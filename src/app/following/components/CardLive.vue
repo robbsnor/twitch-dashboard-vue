@@ -405,7 +405,7 @@ const viewers = computed(() => {
         position: absolute;
         bottom: rem(7px);
         right: rem(10px);
-        color: $c-primary;
+        color: $c-white--dark;
     }
 
     &__thumbnail {
