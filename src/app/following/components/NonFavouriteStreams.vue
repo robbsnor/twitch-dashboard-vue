@@ -47,6 +47,9 @@ const cards = computed(() => {
 const categories = computedAsync(async () => {
     if (!props.streams) return [];
 
+    return [...new Set(props.streams.map(stream => stream.game_name))].sort();
+
+    // for custom dropdown element
     const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
     if (!ids.length) return [];
 
@@ -98,14 +101,14 @@ watch(filter, () => {
                     eager
                     ref="filterEl"
                 >
-                    <template #item="{ item }">
+                    <!-- <template #item="{ item }"> -->
                         <!-- TODO: this div should be a v-list-item so the user can use their keyboard -->
-                        <div @click="filter = item.title" class="item">
+                        <!-- <div @click="filter = item.title" class="item">
                             <img class="item__image" :src="item.props.image" :alt="`${item.props.title}'s thumbnail`">
                             <div class="item__name">{{ item.props.title }}</div>
                             <div class="item__amount"> / {{ item.props.amount }}</div>
                         </div>
-                    </template>
+                    </template> -->
                 </v-combobox>
             </div>
         </template>
