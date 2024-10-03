@@ -48,28 +48,27 @@ const categories = computedAsync(async () => {
     if (!props.streams) return [];
 
     return [...new Set(props.streams.map(stream => stream.game_name))].sort();
-
     // for custom dropdown element
-    const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
-    if (!ids.length) return [];
-
-    const info = ids.map(gameId => ({
-        ids: gameId,
-        amount: props.streams!.filter(stream => Number(stream.game_id) === gameId).length,
-    }));
-
-    const { data: resCategories } = await twitchApiService.getGames({ ids: ids });
-    if (!resCategories.length) return [];
-
-    const sorted = resCategories.sort((a, b) => a.name.localeCompare(b.name));
-    return sorted.map(cat => ({
-        title: cat.name,
-        value: cat.id,
-        props: {
-            image: TwitchService.getGameThumbnail(cat.box_art_url, 50),
-            amount: info.find(info => info.ids === Number(cat.id))!.amount,
-        },
-    }));
+//     const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
+//     if (!ids.length) return [];
+//
+//     const info = ids.map(gameId => ({
+//         ids: gameId,
+//         amount: props.streams!.filter(stream => Number(stream.game_id) === gameId).length,
+//     }));
+//
+//     const { data: resCategories } = await twitchApiService.getGames({ ids: ids });
+//     if (!resCategories.length) return [];
+//
+//     const sorted = resCategories.sort((a, b) => a.name.localeCompare(b.name));
+//     return sorted.map(cat => ({
+//         title: cat.name,
+//         value: cat.id,
+//         props: {
+//             image: TwitchService.getGameThumbnail(cat.box_art_url, 50),
+//             amount: info.find(info => info.ids === Number(cat.id))!.amount,
+//         },
+//     }));
 });
 
 const cardSize = computed(
