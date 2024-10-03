@@ -4,6 +4,34 @@ export const LEKKER_SPELEN_VIDEOS: AdditionalVideoInfo[] = [
     {
         "userId": 999999,
         "username": "lekkerspelen",
+        "videoId": 2266049440,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/78523cc9af808ec1479f_lekkerspelen_26435112627_5887969607/thumb/custom-de0f0891-9b2b-45a2-b5c2-3ab93c8013f2-320x180.jpeg",
+        "title": "HORROR MAAND 2024 IS BEGONNEN!",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
+        "videoId": 2265957222,
+        "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/dgeft87wbj63p/71f2f001cc584e9b7d3c_lekkerspelen_42941417320_1727894431//thumb/thumb0-320x180.jpg",
+        "title": "HORROR MAAND 2024 IS BEGONNEN!",
+        "chapters": [
+            {
+                "title": "Special Events",
+                "boxArt": "https://static-cdn.jtvnw.net/ttv-boxart/509663-40x56.jpg",
+                "duration": "222"
+            }
+        ]
+    },
+    {
+        "userId": 999999,
+        "username": "lekkerspelen",
         "videoId": 2264443960,
         "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/0f275aa7e8dc6dd14a8f_lekkerspelen_25534618285_8604773860/thumb/custom-626df660-e7c8-4425-8cb0-4d6b8bf18163-320x180.jpeg",
         "title": "Peters laatste DONKEY KONG SPEEDRUN 2024",
