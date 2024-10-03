@@ -27,6 +27,9 @@ export const vuetify = createVuetify({
             variant: 'solo',
             clearable: true,
         },
+        VMenu: {
+            scrollStrategy: 'none',
+        },
         VCombobox: {
             variant: 'solo',
             clearable: true,
