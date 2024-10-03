@@ -6,60 +6,60 @@ import 'vuetify/styles';
 import '@mdi/font/css/materialdesignicons.css';
 
 export const vuetify = createVuetify({
-    theme: {
-        defaultTheme: 'twitch-dashboard-dark',
-        themes: {
-            'twitch-dashboard-dark': {
-                dark: true,
-                colors: {
-                    primary: '#cdf620',
-                    background: '#000000',
-                }
-            }
-        }
-    },
+    components,
     defaults: {
         global: {
-            ripple: false,
             flat: true,
-        },
-        VTextField: {
-            variant: 'solo',
-            clearable: true,
-        },
-        VMenu: {
-            scrollStrategy: 'none',
-        },
-        VCombobox: {
-            variant: 'solo',
-            clearable: true,
-            hideDetails: 'auto',
-        },
-        VDialog: {
-            transition: "slide-y-reverse-transition",
-        },
-        VSelect: {
-            variant: 'solo',
-            clearable: true,
-            hideDetails: 'auto',
-        },
-        VCheckbox: {
-            color: 'primary',
-        },
-        VSwitch: {
-            hideDetails: 'auto',
-            color: 'primary',
+            ripple: false,
         },
         VBtnToggle: {
             color: 'primary',
         },
-        VTooltip: {
-            location: 'top',
+        VCheckbox: {
+            color: 'primary',
+        },
+        VCombobox: {
+            clearable: true,
+            hideDetails: 'auto',
+            variant: 'solo',
+        },
+        VDialog: {
+            transition: "slide-y-reverse-transition",
         },
         VImg: {
             // transition: '',
-        }
+        },
+        VMenu: {
+            scrollStrategy: 'none',
+        },
+        VSelect: {
+            clearable: true,
+            hideDetails: 'auto',
+            variant: 'solo',
+        },
+        VSwitch: {
+            color: 'primary',
+            hideDetails: 'auto',
+        },
+        VTextField: {
+            clearable: true,
+            variant: 'solo',
+        },
+        VTooltip: {
+            location: 'top',
+        },
     },
-    components,
     directives,
+    theme: {
+        defaultTheme: 'twitch-dashboard-dark',
+        themes: {
+            'twitch-dashboard-dark': {
+                colors: {
+                    background: '#000000',
+                    primary: '#cdf620',
+                },
+                dark: true,
+            },
+        },
+    },
 });
