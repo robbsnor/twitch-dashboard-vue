@@ -47,7 +47,7 @@ const cards = computed(() => {
 const categories = computedAsync(async () => {
     if (!props.streams) return [];
 
-    return [...new Set(props.streams.map(stream => stream.game_name))].sort();
+    return [...new Set(props.streams.map(stream => stream.game_name))].sort().filter(Boolean);
     // for custom dropdown element
 //     const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
 //     if (!ids.length) return [];

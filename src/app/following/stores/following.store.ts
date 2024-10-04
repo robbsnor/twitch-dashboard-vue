@@ -28,4 +28,5 @@ export const useFollowingStore = defineStore('following', () => {
 },
     {
         persist: true,
-    });
+    }
+);
