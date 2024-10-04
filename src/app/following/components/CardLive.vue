@@ -279,7 +279,6 @@ const viewers = computed(() => {
         color: $c-white--dark;
         font-size: rem(16px);
         padding-bottom: rem(2px);
-        z-index: 1;
     }
 
     &__user {
