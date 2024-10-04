@@ -25,4 +25,7 @@ export const useFollowingStore = defineStore('following', () => {
         pageTabs,
         filter,
     };
-});
+},
+    {
+        persist: true,
+    });
