@@ -1,14 +1,13 @@
 
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
-    19840041, // sheepolution
     128856353, // mande
     101936909, // stormen
     149141153, // slewya
     57357891, // furretcanwalk
     51929371, // ml7support
     26991127, // hiko
-    27765748, // bumpaah
+    19840041, // sheepolution
     23220337, // emongg
     75738685, // insym
     183796200, // kraan
