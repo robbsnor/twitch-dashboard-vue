@@ -129,8 +129,9 @@ watch(filter, () => {
 
             <Spinner padding v-else></Spinner>
 
+            <!-- not working -->
             <Empty
-                v-if="!cards?.length && filter?.length"
+                v-if="!cards?.length && !!filter?.length"
             >
                 <div class="not-found">
                     No streams found for: <span class="not-found__query">"{{ filter }}"</span>.
