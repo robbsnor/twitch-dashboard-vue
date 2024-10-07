@@ -14,6 +14,7 @@ export interface UserHeaderProps {
 const props = defineProps<UserHeaderProps>();
 
 const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(props.followers)} Followers`);
+const followersWithDots = computed(() => props.followers.toLocaleString());
 </script>
 
 <template>
@@ -25,7 +26,12 @@ const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(prop
                 <img class="user-header__avatar" :src="props.avatar" :alt="`${props.username}'s avatar`">
                 <div class="user-header__info">
                     <a class="user-header__name" :href="`https://www.twitch.tv/${props.username}/videos?filter=all&sort=time`" target="_blank">{{ props.username }}</a>
-                    <div class="user-header__followers">{{ formattedFollowers }}</div>
+
+                    <v-tooltip :text="followersWithDots" location="bottom">
+                        <template v-slot:activator="{ props }">
+                            <div v-bind="props" class="user-header__followers">{{ formattedFollowers }}</div>
+                        </template>
+                    </v-tooltip>
                 </div>
             </div>
 
