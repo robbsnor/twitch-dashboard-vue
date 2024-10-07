@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import { TitleService } from "../../shared/services/title.service";
 import { useFavouriteStore } from "../../shared/stores/favourites.store";
@@ -10,6 +10,7 @@ import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
 import { LiveService } from "../services/live.service";
 import { useFollowingStore } from "../stores/following.store";
 import { useDocumentVisibility } from '@vueuse/core'
+import type { TwitchStreamSchedule } from "@/app/shared/models/twitch/schedule.model";
 
 TitleService.setTitle("Live");
 const favourtieStore = useFavouriteStore();
@@ -24,9 +25,11 @@ const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const lastFetchedOn = ref<Date>();
+const schedules = ref<TwitchStreamSchedule[]>();
 
 onMounted(async () => {
     fetchStreams();
+    fetchSchedule();
 });
 
 const fetchStreams = async () => {
@@ -44,6 +47,31 @@ const fetchStreams = async () => {
         allStreams.value
     );
 };
+
+const fetchSchedule = async () => {
+    console.log(`Fetching schedule..: ${new Date()}`);
+    schedules.value  = await twitchApiService.getStreamSchedule(favourtieStore.favouriteStreamerIds);
+};
+
+const nextStreams = computed(() => {
+    if (!schedules.value) return;
+
+    return schedules.value.map(schedule => {
+        const segments = schedule.segments;
+        if (!segments) return;
+
+        const firtStream = segments[0];
+        if (!firtStream) return;
+
+        return {
+            name: schedule.broadcaster_name,
+            nextStream: {
+                title: firtStream.title || '-',
+                start: firtStream.start_time,
+            },
+        }
+    }).filter(Boolean);
+})
 
 const refetchStreams = async () => {
     const hasBeenOneMinute =
@@ -74,6 +102,20 @@ watch(visibility, (value) => {
             v-model:filter="filter"
             :streams="nonFavouriteStreams"
         />
+
+        <Section>
+            <ZigZag></ZigZag>
+        </Section>
+
+        <Section title="Schedule">
+            <div class="schedule">
+                <code>
+                    <pre>
+                        {{ nextStreams }}
+                    </pre>
+                </code>
+            </div>
+        </Section>
 
         <Section>
             <ZigZag></ZigZag>
