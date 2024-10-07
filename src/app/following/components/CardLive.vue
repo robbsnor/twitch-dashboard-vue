@@ -136,17 +136,6 @@ const viewers = computed(() => {
                 />
             </v-menu>
         </div>
-        <div class="card-normal__tags">
-            <v-chip
-                v-for="tag in card.tags"
-                :key="tag"
-                size="small"
-                :href="`https://www.twitch.tv/directory/all/tags/${tag}`"
-                target="_blank"
-            >
-                {{ tag }}
-            </v-chip>
-        </div>
     </div>
 
     <!-- fancy -->
@@ -479,13 +468,6 @@ const viewers = computed(() => {
 
     &__username {
         color: $c-black-14;
-    }
-
-    &__tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: rem(5px);
-        padding-top: rem(10px);
     }
 
     &__options {

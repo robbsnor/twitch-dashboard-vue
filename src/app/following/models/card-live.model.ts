@@ -8,7 +8,6 @@ export interface CardLive {
     avatar: string;
     name: string;
     game: string;
-    tags: string[];
 }
 
 export type CardLiveSize = 'small' | 'normal' | 'fancy';
