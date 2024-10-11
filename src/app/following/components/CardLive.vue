@@ -31,7 +31,6 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
     <!-- small -->
     <div v-if="size === 'small'" class="card-small">
         <div class="card-small__thumbnail-container">
-            <div class="card-small__gradient"></div>
             <div class="card-small__viewers">{{ viewers }}</div>
             <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
@@ -99,7 +98,6 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
             class="card-normal__thumbnail-container"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <div class="card-normal__gradient"></div>
             <img
                 :src="card.thumbnail"
                 class="card-normal__thumbnail"
@@ -224,18 +222,6 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
 
     &__info {
         overflow: hidden;
-    }
-
-    &__gradient {
-        background: linear-gradient(-70deg,
-                rgba(0, 0, 0, 1) 0%,
-                rgba(0, 0, 0, 0) 50%);
-        // background-color: red;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
     }
 
     &__viewers {
@@ -373,18 +359,6 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         }
     }
 
-    &__gradient {
-        background: linear-gradient(-45deg,
-                rgba(0, 0, 0, 1) 0%,
-                rgba(0, 0, 0, 0) 50%);
-        // background-color: red;
-        position: absolute;
-        width: 120px;
-        height: 120px;
-        right: 0;
-        bottom: 0;
-    }
-
     &__arrow {
         position: absolute;
         top: rem(20px);
@@ -397,8 +371,18 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
 
     &__viewers {
         position: absolute;
-        bottom: rem(7px);
-        right: rem(10px);
+        bottom: 0;
+        right: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        aspect-ratio: 1 / 1;
+        background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        pointer-events: none;
+        position: absolute;
+        height: 150px;
+        aspect-ratio: 1 / 1;
+        padding: rem(7px) rem(10px);
         color: $c-white--dark;
     }
 
