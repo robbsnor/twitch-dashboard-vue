@@ -6,6 +6,7 @@ import type {
     CardLive as CardLiveModel,
     CardLiveSize,
 } from "../models/card-live.model";
+import { TimeService } from "@/app/shared/services/time.service";
 
 const sheet = ref(false);
 
@@ -21,6 +22,9 @@ const filter = defineModel<string>('filter');
 const viewers = computed(() => {
     return NumberService.abbreviateNumber(props.card.viewers);
 });
+
+const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
+
 </script>
 
 <template>
@@ -104,6 +108,7 @@ const viewers = computed(() => {
             <div class="card-normal__thumbnail-overlay"></div>
             <div class="card-normal__arrow">(icon)</div>
             <div class="card-normal__viewers">{{ viewers }}</div>
+            <div class="card-normal__uptime">{{ uptime }}</div>
         </a>
         <div class="card-normal__title">{{ card.title }}</div>
         <div class="card-normal__game">{{ card.game }}</div>
@@ -161,6 +166,7 @@ const viewers = computed(() => {
             alt="thumbnail"
         />
 
+        <div class="card-fancy__uptime">{{ uptime }}</div>
         <v-menu location="bottom right" origin="overlap">
             <template #activator="{ props }">
                 <v-btn
@@ -396,6 +402,22 @@ const viewers = computed(() => {
         color: $c-white--dark;
     }
 
+    &__uptime {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: flex-end;
+        aspect-ratio: 1 / 1;
+        background: linear-gradient(45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        pointer-events: none;
+        position: absolute;
+        height: 150px;
+        aspect-ratio: 1 / 1;
+        padding: rem(7px) rem(10px);
+        color: $c-white--dark;
+    }
+
     &__thumbnail {
         width: 100%;
         height: 100%;
@@ -556,6 +578,20 @@ const viewers = computed(() => {
         margin-left: rem(-$padding);
     }
 
+    &__uptime {
+        position: absolute;
+        bottom: 0;
+        left: rem(-$padding);
+        display: flex;
+        align-items: flex-end;
+        aspect-ratio: 1 / 1;
+        height: rem(200px);
+        padding: rem(10px) rem(17px);
+        color: $c-white--dark;
+        background: linear-gradient(45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        pointer-events: none;
+    }
+
     &__options {
         position: absolute;
         right: rem(-13px);
@@ -583,6 +619,10 @@ const viewers = computed(() => {
             max-width: 100%;
             margin-left: 0;
             border-radius: $border-radius-normal;
+        }
+
+        &__uptime {
+            left: 0;
         }
 
         &__options {
