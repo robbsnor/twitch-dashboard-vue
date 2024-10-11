@@ -226,11 +226,20 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
 
     &__viewers {
         position: absolute;
-        bottom: rem(5px);
-        right: rem(8px);
-        font-size: rem(14px);
+        bottom: 0;
+        right: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        aspect-ratio: 1 / 1;
+        background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        pointer-events: none;
+        position: absolute;
+        height: 60px;
+        aspect-ratio: 1 / 1;
+        padding: rem(5px) rem(8px);
         color: $c-white--dark;
-        line-height: 1;
+        font-size: rem(14px);
     }
 
     &__options {
