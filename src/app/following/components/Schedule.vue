@@ -70,7 +70,6 @@ const timeUntil = computed(() => {
         font-size: 24px;
     }
 
-
     &__avatar {
         width: 50px;
         height: 50px;
