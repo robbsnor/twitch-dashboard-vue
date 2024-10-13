@@ -23,7 +23,7 @@ const schedules = ref<ScheduleModel[]>();
 
 onMounted(async () => {
     streams.value = await FollowingFacade.getStreams();
-    schedules.value = await LiveService.getSchedule();
+    schedules.value = await FollowingFacade.getSchedules();
 });
 </script>
 

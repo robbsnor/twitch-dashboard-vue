@@ -31,7 +31,7 @@ export class FollowingFacade {
         } as Streams;
     }
 
-    async getSchedule() {
+    public static async getSchedules() {
         return LiveService.getSchedule();
     }
 }
