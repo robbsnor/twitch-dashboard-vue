@@ -87,7 +87,7 @@ const fetchSchedule = async () => {
         </div>
     </Section>
 
-    <Spinner v-if="!allStreams" />
+    <Spinner v-if="!allStreams" padding />
 </template>
 
 <style scoped lang="scss">
