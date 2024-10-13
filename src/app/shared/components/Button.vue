@@ -85,12 +85,12 @@ const classes = computed(() => {
     }
 
     &--secondary {
-        color: $c-black-1;
-        background-color: $c-black-10;
-        border-color: $c-black-12;
+        color: $c-black-16;
+        background-color: $c-black-4;
+        border-color: $c-black-5;
 
         &:hover {
-            background-color: $c-black-14;
+            background-color: $c-black-6;
         }
     }
 
