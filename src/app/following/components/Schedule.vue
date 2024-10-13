@@ -17,11 +17,13 @@ const title = computed(() =>  props.schedule.title || '-');
 
 const startDate = computed(() => {
     const options = { day: '2-digit', month: 'short', hour: 'numeric', minute: 'numeric', hour12: true };
+    // @ts-ignore
     return new Date(props.schedule.startTime).toLocaleString('nl-NL', options).toLowerCase();
 });
 
 const endDate = computed(() => {
     const options = { day: '2-digit', month: 'short', hour: 'numeric', minute: 'numeric', hour12: true };
+    // @ts-ignore
     return new Date(props.schedule.endTime).toLocaleString('nl-NL', options).toLowerCase();
 });
 
