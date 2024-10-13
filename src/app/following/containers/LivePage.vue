@@ -69,25 +69,25 @@ const fetchSchedule = async () => {
         </Section>
     </template>
 
-    <Spinner v-else padding />
-
     <Section v-if="schedules" title="Upcomming favourite streams">
         <div class="schedules">
             <Schedule v-for="schedule in schedules" :key="schedule.id" :schedule="schedule" />
         </div>
+
+        <Section>
+            <ZigZag></ZigZag>
+        </Section>
     </Section>
 
-    <Section>
-        <ZigZag></ZigZag>
-    </Section>
-
-    <Section>
+    <Section v-if="allStreams">
         <div class="previous-streams">
             <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
                 <Button color="secondary">Previous streams</Button>
             </a>
         </div>
     </Section>
+
+    <Spinner v-if="!allStreams" />
 </template>
 
 <style scoped lang="scss">
