@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import { TitleService } from "../../shared/services/title.service";
 import { useFavouriteStore } from "../../shared/stores/favourites.store";
 import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
-import { LiveService } from "../services/live.service";
+import { LiveService, type ScheduleModel } from "../services/live.service";
 import { useFollowingStore } from "../stores/following.store";
-import { useDocumentVisibility } from '@vueuse/core'
-import type { TwitchStreamSchedule } from "@/app/shared/models/twitch/schedule.model";
+import Schedule from "../components/Schedule.vue";
 
 TitleService.setTitle("Live");
 const favourtieStore = useFavouriteStore();
@@ -18,16 +17,15 @@ const followingStore = useFollowingStore();
 const twitchApiService = new TwitchApiService();
 
 const { filter } = storeToRefs(followingStore);
-const visibility = useDocumentVisibility()
 
 const favouriteIds = ref<number[]>(favourtieStore.favouriteStreamerIds);
 const allStreams = ref<TwitchFollowedStreamWithUser[]>();
 const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
 const lastFetchedOn = ref<Date>();
-const schedules = ref<TwitchStreamSchedule[]>();
+const schedules = ref<ScheduleModel[]>();
 
-onMounted(async () => {
+onMounted(() => {
     fetchStreams();
     fetchSchedule();
 });
@@ -49,45 +47,8 @@ const fetchStreams = async () => {
 };
 
 const fetchSchedule = async () => {
-    console.log(`Fetching schedule..: ${new Date()}`);
-    schedules.value  = await twitchApiService.getStreamSchedule(favourtieStore.favouriteStreamerIds);
+    schedules.value = await LiveService.getSchedule();
 };
-
-const nextStreams = computed(() => {
-    if (!schedules.value) return;
-
-    return schedules.value.map(schedule => {
-        const segments = schedule.segments;
-        if (!segments) return;
-
-        const firtStream = segments[0];
-        if (!firtStream) return;
-
-        return {
-            name: schedule.broadcaster_name,
-            nextStream: {
-                title: firtStream.title || '-',
-                start: firtStream.start_time,
-            },
-        }
-    }).filter(Boolean);
-})
-
-const refetchStreams = async () => {
-    const hasBeenOneMinute =
-        lastFetchedOn.value &&
-        new Date().getTime() - lastFetchedOn.value.getTime() > 60000;
-    if (!hasBeenOneMinute) return;
-
-    allStreams.value = undefined;
-    fetchStreams();
-};
-
-watch(visibility, (value) => {
-    if (value === 'visible') {
-        // refetchStreams();
-    }
-})
 </script>
 
 <template>
@@ -107,30 +68,29 @@ watch(visibility, (value) => {
             <ZigZag></ZigZag>
         </Section>
 
-        <Section title="Schedule">
-            <div class="schedule">
-                <code>
-                    <pre>
-                        {{ nextStreams }}
-                    </pre>
-                </code>
-            </div>
-        </Section>
-
-        <Section>
-            <ZigZag></ZigZag>
-        </Section>
-
-        <Section>
-            <div class="previous-streams">
-                <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
-                    <Button color="secondary">Previous streams</Button>
-                </a>
-            </div>
-        </Section>
     </template>
 
     <Spinner v-else padding />
+
+    <Section title="Upcomming favourite streams">
+        <div v-if="schedules" class="schedules">
+            <Schedule v-for="schedule in schedules" :key="schedule.id" :schedule="schedule" />
+        </div>
+
+        <Spinner v-else padding />
+    </Section>
+
+    <Section>
+        <ZigZag></ZigZag>
+    </Section>
+
+    <Section>
+        <div class="previous-streams">
+            <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
+                <Button color="secondary">Previous streams</Button>
+            </a>
+        </div>
+    </Section>
 </template>
 
 <style scoped lang="scss">
@@ -140,5 +100,20 @@ watch(visibility, (value) => {
     justify-content: center;
     align-items: center;
     gap: rem(20px);
+}
+
+.schedules {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+
+
+    @include screen($desktop) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include screen(1400px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 </style>

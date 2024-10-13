@@ -11,7 +11,8 @@ import type { TwitchGame, TwitchGetGames } from "../models/twitch/games.model";
 import type { TwitchFollowedStream, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchFollowedStreamWithUser } from "../models/twitch/followed-streams-with-user.model";
 import type { TwitchStreamsWithUser } from "../models/twitch/streams-with-user.model";
-import type { TwitchStreamSchedule } from "../models/twitch/schedule.model";
+import type { TwitchGetSchedule } from "../models/twitch/schedule.model";
+import type { TwitchScheduleWithUser } from "../models/twitch/schedule-with-user.model";
 
 export class TwitchApiService {
     private http = axios.create();
@@ -179,6 +180,28 @@ export class TwitchApiService {
         return streamsWithUser;
     }
 
+    public async getSchedule(userIds: number[]) {
+        const promises = userIds.map(async (userId) => {
+            const url = new URL('https://api.twitch.tv/helix/schedule');
+            url.searchParams.append('broadcaster_id', userId.toString());
+            return await this.http.get<TwitchGetSchedule>(url.toString()).catch(() => null);
+        });
+
+        return (await Promise.all(promises)).filter(Boolean).map((res) => res!.data.data);
+    }
+
+    public async getScheduleWithUsers(userIds: number[]) {
+        const schedules = await this.getSchedule(userIds);
+        const users = (await this.getUsers({ ids: userIds })).data;
+
+        return schedules.map<TwitchScheduleWithUser>((schedule, index) => {
+            return {
+                schedule: schedules[index],
+                user: users[index]
+            };
+        });
+    }
+
     public async checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
         const url = new URL('https://api.twitch.tv/helix/subscriptions/user');
         url.searchParams.append('user_id', userId.toString());
@@ -187,17 +210,6 @@ export class TwitchApiService {
         return this.http.get<TwitchCheckUserSubscription>(url.toString())
             .then(() => true)
             .catch(() => false);
-    }
-
-    public async getStreamSchedule(userIds: number[]) {
-        const schedulesPromises = userIds.map(async (userId) => {
-            const url = new URL('https://api.twitch.tv/helix/schedule');
-            url.searchParams.append('broadcaster_id', userId.toString());
-            return this.http.get(url.toString()).catch(() => null);
-        });
-        const axiosRes = (await Promise.all(schedulesPromises)).filter(Boolean);
-        console.log(axiosRes);
-        return axiosRes.map((res: any) => res.data.data) as TwitchStreamSchedule[];
     }
 
 
