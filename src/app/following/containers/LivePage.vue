@@ -13,11 +13,9 @@ import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
 
 TitleService.setTitle("Live");
-const favourtieStore = useFavouriteStore();
 const followingStore = useFollowingStore();
 
 const { filter } = storeToRefs(followingStore);
-
 const streams = ref<Streams>();
 const schedules = ref<ScheduleModel[]>();
 
