@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
-import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import { TitleService } from "../../shared/services/title.service";
-import { useFavouriteStore } from "../../shared/stores/favourites.store";
 import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
-import { LiveService, type ScheduleModel } from "../services/live.service";
+import { type ScheduleModel } from "../services/live.service";
 import { useFollowingStore } from "../stores/following.store";
 import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
