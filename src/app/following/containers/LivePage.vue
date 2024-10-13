@@ -72,12 +72,10 @@ const fetchSchedule = async () => {
 
     <Spinner v-else padding />
 
-    <Section title="Upcomming favourite streams">
-        <div v-if="schedules" class="schedules">
+    <Section v-if="schedules" title="Upcomming favourite streams">
+        <div class="schedules">
             <Schedule v-for="schedule in schedules" :key="schedule.id" :schedule="schedule" />
         </div>
-
-        <Spinner v-else padding />
     </Section>
 
     <Section>
