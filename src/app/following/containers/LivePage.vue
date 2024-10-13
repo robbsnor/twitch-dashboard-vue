@@ -67,7 +67,6 @@ const fetchSchedule = async () => {
         <Section>
             <ZigZag></ZigZag>
         </Section>
-
     </template>
 
     <Spinner v-else padding />
