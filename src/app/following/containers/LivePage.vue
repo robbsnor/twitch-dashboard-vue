@@ -69,7 +69,7 @@ const fetchSchedule = async () => {
         </Section>
     </template>
 
-    <Section v-if="schedules" title="Upcomming favourite streams">
+    <Section v-if="schedules" title="Upcomming streams">
         <div class="schedules">
             <Schedule v-for="schedule in schedules" :key="schedule.id" :schedule="schedule" />
         </div>
@@ -103,7 +103,6 @@ const fetchSchedule = async () => {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 30px;
-
 
     @include screen($desktop) {
         grid-template-columns: repeat(2, 1fr);
