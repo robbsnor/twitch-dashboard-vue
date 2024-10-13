@@ -41,32 +41,36 @@ const getMainMinHeight = () => {
 </script>
 
 <template>
-    <v-app class="app">
-        <Header
-            class="app__header"
-            :user="authStore.user"
-            :menuOpen="menuOpen"
-            @click-profile="authStore.signOut"
-            @click-logo="closeMenu"
-            @click-hamburger="toggleMenu"
-        />
+    <v-app>
+        <div class="app">
+            <Header
+                class="app__header"
+                :user="authStore.user"
+                :menuOpen="menuOpen"
+                @click-profile="authStore.signOut"
+                @click-logo="closeMenu"
+                @click-hamburger="toggleMenu"
+            />
 
-        <Dropdown
-            class="app__dropdown"
-            :open="menuOpen"
-            @closeMenu="toggleMenu"
-        />
+            <Dropdown
+                class="app__dropdown"
+                :open="menuOpen"
+                @closeMenu="toggleMenu"
+            />
 
-        <main class="app__main" :style="'min-height: ' + mainMinHeight + 'px'">
-            <RouterView />
-        </main>
+            <main class="app__main" :style="'min-height: ' + mainMinHeight + 'px'">
+                <RouterView />
+            </main>
 
-        <Footer class="app__footer" />
+            <Footer class="app__footer" />
+        </div>
     </v-app>
 </template>
 
 <style scoped lang="scss">
 .app {
+    padding-top: $header-height;
+
     &__header {
         position: fixed;
         top: 0;

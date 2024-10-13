@@ -140,7 +140,6 @@ watch(filter, () => {
 
 <style scoped lang="scss">
 .non-favourite {
-    min-height: 80vh;
 
     &__cards {
         display: grid;

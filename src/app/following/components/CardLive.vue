@@ -396,6 +396,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
     }
 
     &__uptime {
+        opacity: 0;
         position: absolute;
         bottom: 0;
         left: 0;
@@ -409,6 +410,8 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         aspect-ratio: 1 / 1;
         padding: rem(7px) rem(10px);
         color: $c-white--dark;
+        opacity: 0;
+        transition: .2s;
     }
 
     &__thumbnail {
@@ -489,6 +492,12 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         // opacity: 0;
         transition: 0.2s;
         transform: translateX(10px);
+    }
+
+    &:hover {
+        #{ $self }__uptime {
+            opacity: 1;
+        }
     }
 
     @include screen(800px) {
