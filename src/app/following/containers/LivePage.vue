@@ -49,10 +49,10 @@ onMounted(async () => {
                     :schedule="schedule"
                 />
             </div>
+        </Section>
 
-            <Section>
-                <ZigZag></ZigZag>
-            </Section>
+        <Section>
+            <ZigZag></ZigZag>
         </Section>
     </template>
 
