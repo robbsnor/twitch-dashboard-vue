@@ -40,15 +40,21 @@ onMounted(async () => {
         </Section>
     </template>
 
-    <Section v-if="schedules" title="Upcomming streams">
-        <div class="schedules">
-            <Schedule v-for="schedule in schedules" :key="schedule.id" :schedule="schedule" />
-        </div>
+    <template v-if="schedules">
+        <Section title="Upcomming streams">
+            <div class="schedules">
+                <Schedule
+                    v-for="schedule in schedules"
+                    :key="schedule.id"
+                    :schedule="schedule"
+                />
+            </div>
 
-        <Section>
-            <ZigZag></ZigZag>
+            <Section>
+                <ZigZag></ZigZag>
+            </Section>
         </Section>
-    </Section>
+    </template>
 
     <Section v-if="streams">
         <div class="previous-streams">
