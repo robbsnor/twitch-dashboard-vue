@@ -23,8 +23,8 @@ export class TwitchApiService {
         this.accessToken = accessToken ?? this.authStore.accessToken!;
 
         this.http.interceptors.request.use((config) => {
-            this.authInterceptorFunction(config);
-            this.clientIdInterceptorFunction(config);
+            config.headers.set('Authorization', `Bearer ${this.accessToken}`);
+            config.headers.set('Client-Id', `bpjttmchlxdfo9t47z8g3b7snhr9h4`);
             return config;
         });
     }
@@ -213,17 +213,6 @@ export class TwitchApiService {
     }
 
 
-
-    // interceptors
-    private authInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
-        config.headers.set('Authorization', `Bearer ${this.accessToken}`);
-        return config;
-    };
-
-    private clientIdInterceptorFunction(config: InternalAxiosRequestConfig<any>) {
-        config.headers.set('Client-Id', `bpjttmchlxdfo9t47z8g3b7snhr9h4`);
-        return config;
-    }
 
     // static methods
     public static async validateToken(accessToken: string) {
