@@ -3,8 +3,8 @@ body {
         $self: &;
         color: $c-white--dark;
 
-        margin-left: 8px;
-        margin-right: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
         border-radius: $border-radius-large !important;
         font-size: 1rem;
         font-weight: normal;
@@ -31,8 +31,8 @@ body {
             &:not(.v-list-item--nav) {
                 &.v-list-item {
                     &--one-line {
-                        padding-left: 8px;
-                        padding-right: 12px;
+                        padding-left: 10px;
+                        padding-right: 14px;
                     }
                 }
             }
