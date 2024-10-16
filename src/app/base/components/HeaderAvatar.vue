@@ -26,7 +26,7 @@ const toggleSettingsDialog = () => {
             </a>
         </template>
 
-        <v-list min-width="150">
+        <v-list min-width="160">
             <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: user?.login } }">Profile</v-list-item>
             <v-list-item prepend-icon="mdi-cog" @click="toggleSettingsDialog">Settings</v-list-item>
             <Divider />
