@@ -137,7 +137,6 @@ watch(filter, () => {
 
 <style scoped lang="scss">
 .non-favourite {
-
     &__cards {
         display: grid;
         margin-left: rem(-$padding);
@@ -149,8 +148,10 @@ watch(filter, () => {
         &__cards {
             grid-template-columns: repeat(3, 1fr);
             gap: rem(50px) rem($padding-larger);
-            margin-left: 0;
-            margin-right: 0;
+            margin-left: -50px;
+            margin-right: -50px;
+            padding-left: 50px;
+            padding-right: 50px;
         }
 
         &__card {
