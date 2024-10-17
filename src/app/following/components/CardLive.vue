@@ -165,15 +165,16 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         />
 
         <div class="card-fancy__uptime">{{ uptime }}</div>
-        <v-menu location="bottom right" origin="overlap">
+        <v-menu location="bottom right" origin="overlap" :offset="[0, 10]">
             <template #activator="{ props }">
-                <v-btn
-                    class="card-fancy__options"
-                    v-bind="props"
-                    variant="text"
-                    icon="mdi-dots-vertical"
-                    size="small"
-                />
+                <div class="card-fancy__options">
+                    <v-btn
+                        v-bind="props"
+                        variant="text"
+                        icon="mdi-dots-vertical"
+                        size="small"
+                    />
+                </div>
             </template>
             <CardLiveOptions
                 :game="card.game"
@@ -596,8 +597,16 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
 
     &__options {
         position: absolute;
-        right: rem(-13px);
-        bottom: rem(7px);
+        bottom: 0;
+        right: rem(-$padding);
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        aspect-ratio: 1 / 1;
+        height: rem(200px);
+        padding: rem(10px);
+        color: $c-white--dark;
+        background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
         z-index: 1;
     }
 
@@ -628,8 +637,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         }
 
         &__options {
-            bottom: rem($padding * 0.5);
-            right: rem($padding * 0.25);
+            right: 0;
         }
 
         &__link {
