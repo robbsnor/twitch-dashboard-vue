@@ -167,9 +167,10 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         <div class="card-fancy__uptime">{{ uptime }}</div>
         <v-menu location="bottom right" origin="overlap" :offset="[0, 10]">
             <template #activator="{ props }">
-                <div class="card-fancy__options">
+                <div class="card-fancy__options-bg">
                     <v-btn
                         v-bind="props"
+                        class="card-fancy__options"
                         variant="text"
                         icon="mdi-dots-vertical"
                         size="small"
@@ -595,7 +596,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         pointer-events: none;
     }
 
-    &__options {
+    &__options-bg {
         position: absolute;
         bottom: 0;
         right: rem(-$padding);
@@ -607,6 +608,9 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         padding: rem(10px);
         color: $c-white--dark;
         background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+    }
+
+    &__options {
         z-index: 1;
     }
 
@@ -636,7 +640,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
             left: 0;
         }
 
-        &__options {
+        &__options-bg {
             right: 0;
         }
 
