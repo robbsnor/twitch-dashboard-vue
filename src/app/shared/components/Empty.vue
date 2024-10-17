@@ -15,8 +15,9 @@ const cssClass = computed(() => {
 
 <template>
     <div :class="cssClass">
-        <h3 v-html="props.title" class="empty__title" />
-        <p class="empty__description">{{ props.description }}</p>
+        <h3 v-if="props.title" class="empty__title">{{ props.title }}</h3>
+        <p v-if="props.description" class="empty__description">{{ props.description }}</p>
+        <slot></slot>
     </div>
 </template>
 
