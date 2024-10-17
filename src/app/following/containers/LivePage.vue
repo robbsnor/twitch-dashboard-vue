@@ -81,7 +81,7 @@ onMounted(async () => {
     grid-template-columns: repeat(1, 1fr);
     gap: 30px;
 
-    @include screen($desktop) {
+    @include screen(800px) {
         grid-template-columns: repeat(2, 1fr);
     }
 
