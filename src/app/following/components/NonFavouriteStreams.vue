@@ -126,7 +126,7 @@ watch(filter, () => {
 
             <Spinner padding v-else></Spinner>
 
-            <Empty v-if="!cards?.length && !!filter">
+            <Empty v-if="!cards?.length && !!filter" icon="mdi-movie-search-outline">
                 <div class="not-found">
                     No streams found for: <span class="not-found__query">"{{ filter }}"</span>.
                 </div>
@@ -182,7 +182,7 @@ watch(filter, () => {
 }
 
 .not-found {
-    color: $c-black-14;
+    color: $c-text-base;
 
     &__query {
         display: inline-block;
