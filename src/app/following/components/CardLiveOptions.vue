@@ -49,6 +49,13 @@ const removeFromFavourites = () => {
     <v-list>
         <Divider :text="props.username" />
         <v-list-item
+            prepend-icon="mdi-content-copy"
+            @click="copyuserId(props.userId)"
+        >
+            Copy user id
+        </v-list-item>
+        <Divider />
+        <v-list-item
             v-if="props.isFavourite"
             prepend-icon="mdi-heart-remove"
             @click="removeFromFavourites()"
@@ -88,13 +95,6 @@ const removeFromFavourites = () => {
             @click="doFiltering()"
         >
             Filter by: {{ props.game }}
-        </v-list-item>
-        <Divider />
-        <v-list-item
-            prepend-icon="mdi-content-copy"
-            @click="copyuserId(props.userId)"
-        >
-            Copy user id
         </v-list-item>
     </v-list>
 </template>
