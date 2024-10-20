@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { TitleService } from "../../shared/services/title.service";
 import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
@@ -8,18 +8,33 @@ import { type ScheduleModel } from "../services/live.service";
 import { useFollowingStore } from "../stores/following.store";
 import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
+import { useWindowFocus } from "@vueuse/core";
 
 TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
 
-const { filter } = storeToRefs(followingStore);
+const { filter, lastFetchedOn } = storeToRefs(followingStore);
 const streams = ref<Streams>();
 const schedules = ref<ScheduleModel[]>();
+const focused = useWindowFocus()
 
 onMounted(async () => {
     streams.value = await FollowingFacade.getStreams();
     schedules.value = await FollowingFacade.getSchedules();
+    lastFetchedOn.value = new Date().getTime();
 });
+
+watch(focused, async (isFocused) => {
+    if (!isFocused) return;
+    if (!lastFetchedOn.value) return;
+
+    const isLongerThan2SecAgo = new Date().getTime() - lastFetchedOn.value > 1000 * 2;
+    if (!isLongerThan2SecAgo) return;
+
+    streams.value = await FollowingFacade.getStreams();
+    schedules.value = await FollowingFacade.getSchedules();
+});
+
 </script>
 
 <template>

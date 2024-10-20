@@ -16,14 +16,16 @@ export class FollowingFactory {
     }
 
     private static mapToCardLive(streams: TwitchFollowedStreamWithUser[], thumbnailWidth?: number) {
+        const randomString = Date.now();
+
         return streams.map<CardLive>((stream) => {
             const thumbnail = TwitchService.getStreamThumbnail(stream.thumbnail_url, thumbnailWidth);
+            const thumbnailToPreventCaching = `${thumbnail}?t=${randomString}`;
 
             return {
                 userId: Number(stream.user_id),
                 link: `https://www.twitch.tv/${stream.user_login}`,
-                thumbnail: thumbnail,
-                thumbnailLarge: thumbnail,
+                thumbnail: thumbnailToPreventCaching,
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,

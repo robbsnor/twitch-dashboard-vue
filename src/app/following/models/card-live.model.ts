@@ -2,7 +2,6 @@ export interface CardLive {
     userId: number;
     link: string;
     thumbnail: string;
-    thumbnailLarge: string;
     title: string;
     viewers: number;
     avatar: string;

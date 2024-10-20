@@ -44,7 +44,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
                 </template>
 
                 <div class="bs">
-                    <v-img :src="card.thumbnailLarge" alt="" class="bs__thumbnail" eager />
+                    <v-img :src="card.thumbnail" alt="" class="bs__thumbnail" eager />
                     <CardLiveOptions
                         :game="card.game"
                         :username="card.name"

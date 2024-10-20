@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 export const useFollowingStore = defineStore('following', () => {
     const filter = ref<string>();
+    const lastFetchedOn = ref<number>();
     const pageTabs = {
         title: 'Following',
         paths: [
@@ -24,5 +25,6 @@ export const useFollowingStore = defineStore('following', () => {
     return {
         pageTabs,
         filter,
+        lastFetchedOn,
     };
 });
