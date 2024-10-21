@@ -9,9 +9,11 @@ import { useFollowingStore } from "../stores/following.store";
 import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
 import { useWindowFocus } from "@vueuse/core";
+import { useToast } from "vue-toast-notification";
 
 TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
+const toast = useToast();
 
 const { filter, lastFetchedOn } = storeToRefs(followingStore);
 const streams = ref<Streams>();
@@ -28,11 +30,11 @@ watch(focused, async (isFocused) => {
     if (!isFocused) return;
     if (!lastFetchedOn.value) return;
 
-    const isLongerThan2SecAgo = new Date().getTime() - lastFetchedOn.value > 1000 * 2;
-    if (!isLongerThan2SecAgo) return;
+    const isLongerThan30SecAgo = new Date().getTime() - lastFetchedOn.value > 1000 * 3; // 30 og
+    if (!isLongerThan30SecAgo) return;
 
+    toast.success(`Refreshing...`, { duration: 1500 });
     streams.value = await FollowingFacade.getStreams();
-    schedules.value = await FollowingFacade.getSchedules();
 });
 
 </script>
