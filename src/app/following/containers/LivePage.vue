@@ -15,7 +15,7 @@ TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
 const toast = useToast();
 
-const { filter, lastFetchedOn } = storeToRefs(followingStore);
+const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
 const streams = ref<Streams>();
 const schedules = ref<ScheduleModel[]>();
 const focused = useWindowFocus()
@@ -23,18 +23,19 @@ const focused = useWindowFocus()
 onMounted(async () => {
     streams.value = await FollowingFacade.getStreams();
     schedules.value = await FollowingFacade.getSchedules();
-    lastFetchedOn.value = new Date().getTime();
+    streamsLastFetchedOn.value = new Date().getTime();
 });
 
 watch(focused, async (isFocused) => {
     if (!isFocused) return;
-    if (!lastFetchedOn.value) return;
+    if (!streamsLastFetchedOn.value) return;
 
-    const isLongerThan30SecAgo = new Date().getTime() - lastFetchedOn.value > 1000 * 30;
+    const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
     if (!isLongerThan30SecAgo) return;
 
     toast.success(`Refreshing...`, { duration: 2000 });
     streams.value = await FollowingFacade.getStreams();
+    streamsLastFetchedOn.value = new Date().getTime();
 });
 
 </script>
