@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { TitleService } from "../../shared/services/title.service";
 import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
@@ -10,6 +10,7 @@ import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
 import { useWindowFocus } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
+import { PromiseService } from "@/app/shared/services/promise.service";
 
 TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
@@ -19,6 +20,7 @@ const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
 const streams = ref<Streams>();
 const schedules = ref<ScheduleModel[]>();
 const focused = useWindowFocus()
+const loading = ref(false);
 
 onMounted(async () => {
     streams.value = await FollowingFacade.getStreams();
@@ -30,18 +32,29 @@ watch(focused, async (isFocused) => {
     if (!isFocused) return;
     if (!streamsLastFetchedOn.value) return;
 
-    const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
-    if (!isLongerThan30SecAgo) return;
+    // const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
+    // if (!isLongerThan30SecAgo) return;
+
+    loading.value = true;
 
     toast.success(`Refreshing...`, { duration: 2000 });
     streams.value = await FollowingFacade.getStreams();
     streamsLastFetchedOn.value = new Date().getTime();
+
+    loading.value = false;
+});
+
+const cssClass = computed(() => {
+    return {
+        'stream-wrapper': true,
+        'stream-wrapper--fade-out': loading.value,
+    };
 });
 
 </script>
 
 <template>
-    <template v-if="streams">
+    <div v-if="streams" :class="cssClass">
         <FavouriteStreams :streams="streams.favouriteStreams" />
 
         <Section hideHeader>
@@ -56,7 +69,7 @@ watch(focused, async (isFocused) => {
         <Section>
             <ZigZag></ZigZag>
         </Section>
-    </template>
+    </div>
 
     <template v-if="schedules">
         <Section title="Upcomming streams">
@@ -105,6 +118,16 @@ watch(focused, async (isFocused) => {
 
     @include screen(1400px) {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+.stream-wrapper {
+    transition: .2s;
+
+    &--fade-out {
+        scale: .96;
+        filter: blur(50px);
+        opacity: .3;
+        transition: none;
     }
 }
 </style>
