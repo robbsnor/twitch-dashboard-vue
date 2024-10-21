@@ -32,8 +32,8 @@ watch(focused, async (isFocused) => {
     if (!isFocused) return;
     if (!streamsLastFetchedOn.value) return;
 
-    // const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
-    // if (!isLongerThan30SecAgo) return;
+    const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
+    if (!isLongerThan30SecAgo) return;
 
     loading.value = true;
 
