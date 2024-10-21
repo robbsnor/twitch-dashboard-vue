@@ -33,7 +33,7 @@ watch(focused, async (isFocused) => {
     if (!streamsLastFetchedOn.value) return;
 
     const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
-    if (!isLongerThan30SecAgo) return;
+    // if (!isLongerThan30SecAgo) return;
 
     loading.value = true;
 
@@ -119,12 +119,13 @@ const cssClass = computed(() => {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
 .stream-wrapper {
     transition: .2s;
 
     &--fade-out {
-        scale: .96;
-        filter: blur(50px);
+        filter: blur(10px);
+        transform: translateY(10px);
         opacity: .3;
         transition: none;
     }
