@@ -37,7 +37,6 @@ watch(focused, async (isFocused) => {
 
     loading.value = true;
 
-    toast.success(`Refreshing...`, { duration: 2000 });
     streams.value = await FollowingFacade.getStreams();
     streamsLastFetchedOn.value = new Date().getTime();
 
