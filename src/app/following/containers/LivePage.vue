@@ -60,7 +60,7 @@ watch(focused, async (isFocused) => {
 
     <template v-if="schedules">
         <Section title="Upcomming streams">
-            <div class="schedules">
+            <div v-fade-stagger class="schedules">
                 <Schedule
                     v-for="schedule in schedules"
                     :key="schedule.id"
