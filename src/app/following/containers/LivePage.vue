@@ -33,7 +33,7 @@ watch(focused, async (isFocused) => {
     if (!streamsLastFetchedOn.value) return;
 
     const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
-    if (!isLongerThan30SecAgo) return;
+    // if (!isLongerThan30SecAgo) return;
 
     loading.value = true;
 
@@ -124,8 +124,8 @@ const cssClass = computed(() => {
     transition: .2s;
 
     &--fade-out {
-        filter: blur(10px);
-        transform: translateY(10px);
+        filter: blur(3px);
+        transform: translateY(5px);
         opacity: .3;
         transition: none;
     }
