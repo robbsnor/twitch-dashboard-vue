@@ -30,7 +30,7 @@ watch(focused, async (isFocused) => {
     if (!isFocused) return;
     if (!lastFetchedOn.value) return;
 
-    const isLongerThan30SecAgo = new Date().getTime() - lastFetchedOn.value > 1000 * 3; // 30 og
+    const isLongerThan30SecAgo = new Date().getTime() - lastFetchedOn.value > 1000 * 30; // 30 og
     if (!isLongerThan30SecAgo) return;
 
     toast.success(`Refreshing...`, { duration: 1500 });
