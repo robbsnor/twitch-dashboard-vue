@@ -10,7 +10,6 @@ import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
 import { useWindowFocus } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
-import { PromiseService } from "@/app/shared/services/promise.service";
 
 TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
