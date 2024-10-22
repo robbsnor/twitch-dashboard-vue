@@ -583,6 +583,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
     }
 
     &__uptime {
+        opacity: 0;
         position: absolute;
         bottom: 0;
         left: rem(-$padding);
@@ -593,6 +594,7 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
         padding: rem(10px) rem(17px);
         color: $c-white--dark;
         background: linear-gradient(45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        transition: .2s;
         pointer-events: none;
     }
 
@@ -626,6 +628,10 @@ const uptime = computed(() => TimeService.formatUptime(props.card.startedAt));
     &:hover {
         #{ $self }__arrow {
             transform: translate(#{rem(10px)}, #{rem(-10px)});
+        }
+
+        #{ $self }__uptime {
+            opacity: 1;
         }
     }
 
