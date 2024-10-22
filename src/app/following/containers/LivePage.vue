@@ -23,9 +23,9 @@ const focused = useWindowFocus()
 const loading = ref(false);
 
 onMounted(async () => {
+    streamsLastFetchedOn.value = new Date().getTime();
     streams.value = await FollowingFacade.getStreams();
     schedules.value = await FollowingFacade.getSchedules();
-    streamsLastFetchedOn.value = new Date().getTime();
 });
 
 watch(focused, async (isFocused) => {
