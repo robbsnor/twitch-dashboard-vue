@@ -20,6 +20,7 @@
         "@vueuse/router": "^10.9.0",
         "axios": "^1.6.7",
         "feather-icons": "^4.29.1",
+        "gsap": "^3.12.5",
         "lodash": "^4.17.21",
         "luxon": "^3.4.4",
         "pinia": "^2.1.7",
