@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import gsap from "gsap";
 
-const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true });
 
 onMounted(() => {
     gsapGo();
@@ -11,7 +11,6 @@ onMounted(() => {
 const close = () => {
     tl.reverse()
 }
-
 
 const gsapGo = () => {
     const offsetBottom = 50;
@@ -24,8 +23,6 @@ const gsapGo = () => {
 
     // set initial position
     tl.set(".tit", {
-        // y: window.innerHeight / 2,
-        // x: window.innerWidth / 2,
         width: 20,
         height: 20,
         padding: 0,
@@ -56,7 +53,8 @@ const gsapGo = () => {
     tl.to(".tit__inner", {
         opacity: 1,
         y: 0,
-        duration: .2,
+        duration: .5,
+        ease: 'back.out'
     }, '<');
 };
 </script>
