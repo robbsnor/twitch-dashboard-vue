@@ -2,55 +2,62 @@
 import { onMounted, ref } from "vue";
 import gsap from "gsap";
 
+const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+
 onMounted(() => {
     gsapGo();
 });
 
+const close = () => {
+    tl.reverse()
+}
+
+
 const gsapGo = () => {
-    const centerX = window.innerWidth / 2;
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
-    const initialWidth = Math.ceil(document.querySelector('.box')!.getBoundingClientRect().width);
-    const initialHeight = Math.ceil(document.querySelector('.box')!.getBoundingClientRect().height);
+    const offsetBottom = 50;
+
+    const titEl = document.querySelector('.tit')!
+    const initialWidth = Math.ceil(titEl.getBoundingClientRect().width);
+    const initialHeigth = Math.ceil(titEl.getBoundingClientRect().height);
+
+    const initialPadding = window.getComputedStyle(titEl).padding;
 
     // set initial position
-    tl.set(".box", {
-        y: window.innerHeight,
-        x: centerX,
-        width: 0,
-        height: 0,
+    tl.set(".tit", {
+        // y: window.innerHeight / 2,
+        // x: window.innerWidth / 2,
+        width: 20,
+        height: 20,
         padding: 0,
+        opacity: 0,
     });
 
-    tl.set('.box__inner', {
+    tl.set('.tit__inner', {
         opacity: 0,
-        translateY: -10,
+        y: -20,
     });
 
     // bounce up
-    tl.to(".box", {
-        y: '-=50px',
+    tl.to(".tit", {
+        y: -offsetBottom - initialHeigth,
         duration: .5,
-        width: 20,
         opacity: 1,
-        height: 20,
-        left: -10,
-        top: -10,
         ease: 'back.out',
     });
 
     // end
-    tl.to(".box", {
+    tl.to(".tit", {
         width: initialWidth,
-        height: initialHeight,
-        duration: .5,
-        ease: 'expo',
+        height: 'unset',
+        duration: .2,
+        padding: initialPadding
     }, '-=.1');
 
-    tl.to(".box__inner", {
+    tl.to(".tit__inner", {
         opacity: 1,
-        translateY: 0,
+        y: 0,
         duration: .2,
-    }, '-=.4');
+    }, '<');
 };
 </script>
 
@@ -58,31 +65,42 @@ const gsapGo = () => {
     <div class="playground">
         <Section title="Playground">
 
-
         </Section>
     </div>
 
-    <div class="box">
-        <div class="box__inner">Big booty bitches in the house!</div>
+    <div class="tits">
+        <div class="tit" @click="close()">
+            <div class="tit__inner">
+                Welcome back, Hopp!
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
 .playground {}
 
-.box {
+.tits {
     position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    top: 100vh;
+}
+
+.tit {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: $c-primary;
     color: black;
-    padding: 10px 30px;
-    border-radius: 999px;
-    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    border-radius: 10px;
+    overflow: hidden;
 
     &__inner {
         text-align: center;
+        flex-shrink: 0;
     }
 }
 </style>
