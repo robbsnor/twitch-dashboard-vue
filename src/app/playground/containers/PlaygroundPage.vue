@@ -2,12 +2,10 @@
 import { onMounted, ref } from "vue";
 import gsap from "gsap";
 
-const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true });
+let tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true }).pause();
 
 onMounted(() => {
-    setTimeout(() => {
-        gsapGo();
-    }, 2000);
+    setTimeout(() => gsapGo(), 2000);
 });
 
 const close = () => {
@@ -15,6 +13,7 @@ const close = () => {
 }
 
 const gsapGo = () => {
+    tl.play();
     const offsetBottom = 50;
 
     const titEl = document.querySelector('.tit')!
