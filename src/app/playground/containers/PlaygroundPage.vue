@@ -5,7 +5,9 @@ import gsap from "gsap";
 const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true });
 
 onMounted(() => {
-    gsapGo();
+    setTimeout(() => {
+        gsapGo();
+    }, 2000);
 });
 
 const close = () => {
