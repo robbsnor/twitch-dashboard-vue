@@ -2,10 +2,10 @@
 import { onMounted, ref } from "vue";
 import gsap from "gsap";
 
-let tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true }).pause();
+let tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true });
 
 onMounted(() => {
-    setTimeout(() => gsapGo(), 2000);
+    gsapGo()
 });
 
 const close = () => {
@@ -13,7 +13,6 @@ const close = () => {
 }
 
 const gsapGo = () => {
-    tl.play();
     const offsetBottom = 50;
 
     const titEl = document.querySelector('.tit')!
@@ -24,8 +23,8 @@ const gsapGo = () => {
 
     // set initial position
     tl.set(".tit", {
-        width: 20,
-        height: 20,
+        width: 0,
+        height: 0,
         padding: 0,
         opacity: 0,
     });
@@ -38,6 +37,8 @@ const gsapGo = () => {
     // bounce up
     tl.to(".tit", {
         y: -offsetBottom - initialHeigth,
+        width: 20,
+        height: 20,
         duration: .5,
         opacity: 1,
         ease: 'back.out',
