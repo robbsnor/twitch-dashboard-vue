@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { useWindowSize, computedAsync } from "@vueuse/core";
+import { computedAsync } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
-import CardLive from "../components/CardLive.vue";
+import CardLiveSmall from "../components/CardLiveSmall.vue";
+import CardLiveNormal from "../components/CardLiveNormal.vue";
 import { FollowingFactory } from "../factories/following.factory";
-import type { CardLiveSize } from "../models/card-live.model";
-import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
-import { TwitchService } from "@/app/shared/services/twitch.service";
-
-const twitchApiService = new TwitchApiService();
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -16,7 +12,6 @@ const props = defineProps<{
 
 const filter = defineModel<string>("filter");
 
-const { width } = useWindowSize();
 const filterEl = ref<HTMLDivElement | any>();
 const sectionEl = ref<HTMLElement | any>();
 
@@ -43,34 +38,8 @@ const cards = computed(() => {
 
 const categories = computedAsync(async () => {
     if (!props.streams) return [];
-
     return [...new Set(props.streams.map(stream => stream.game_name))].sort().filter(Boolean);
-    // for custom dropdown element
-//     const ids = [...new Set(props.streams.map(stream => Number(stream.game_id)))];
-//     if (!ids.length) return [];
-//
-//     const info = ids.map(gameId => ({
-//         ids: gameId,
-//         amount: props.streams!.filter(stream => Number(stream.game_id) === gameId).length,
-//     }));
-//
-//     const { data: resCategories } = await twitchApiService.getGames({ ids: ids });
-//     if (!resCategories.length) return [];
-//
-//     const sorted = resCategories.sort((a, b) => a.name.localeCompare(b.name));
-//     return sorted.map(cat => ({
-//         title: cat.name,
-//         value: cat.id,
-//         props: {
-//             image: TwitchService.getGameThumbnail(cat.box_art_url, 50),
-//             amount: info.find(info => info.ids === Number(cat.id))!.amount,
-//         },
-//     }));
 });
-
-const cardSize = computed(
-    (): CardLiveSize => (width.value >= 1000 ? "normal" : "small")
-);
 
 const scrollToFilter = () => {
     const yOffset = -120;
@@ -96,32 +65,27 @@ watch(filter, () => {
                     persistent-clear
                     eager
                     ref="filterEl"
-                >
-                    <!-- <template #item="{ item }"> -->
-                        <!-- TODO: this div should be a v-list-item so the user can use their keyboard -->
-                        <!-- <div @click="filter = item.title" class="item">
-                            <img class="item__image" :src="item.props.image" :alt="`${item.props.title}'s thumbnail`">
-                            <div class="item__name">{{ item.props.title }}</div>
-                            <div class="item__amount"> / {{ item.props.amount }}</div>
-                        </div>
-                    </template> -->
-                </v-combobox>
+                />
             </div>
         </template>
 
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards" v-fade-stagger v-auto-animate>
-                <div
-                    v-for="card in cards"
-                    :key="card.userId"
-                    class="non-favourite__card"
-                >
-                    <CardLive
-                        :card="card"
-                        :size="cardSize"
-                        v-model:filter="filter"
-                    />
-                </div>
+                <template v-for="card in cards" :key="card.userId">
+                    <div class="non-favourite__card-small">
+                        <CardLiveSmall
+                            :card="card"
+                            v-model:filter="filter"
+                        />
+                    </div>
+
+                    <div class="non-favourite__card-normal">
+                        <CardLiveNormal
+                            :card="card"
+                            v-model:filter="filter"
+                        />
+                    </div>
+                </template>
             </div>
 
             <Spinner padding v-else></Spinner>
@@ -144,6 +108,10 @@ watch(filter, () => {
         overflow: hidden;
     }
 
+    &__card-normal {
+        display: none;
+    }
+
     @include screen($desktop) {
         &__cards {
             grid-template-columns: repeat(3, 1fr);
@@ -154,7 +122,12 @@ watch(filter, () => {
             padding-right: 50px;
         }
 
-        &__card {
+        &__card-small {
+            display: none;
+        }
+
+        &__card-normal {
+            display: block;
             margin-left: 0;
             margin-right: 0;
         }

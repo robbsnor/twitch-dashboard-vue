@@ -9,5 +9,3 @@ export interface CardLive {
     game: string;
     startedAt: Date;
 }
-
-export type CardLiveSize = 'small' | 'normal' | 'fancy';

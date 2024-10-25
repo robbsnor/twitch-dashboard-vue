@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
-import CardLive from "../components/CardLive.vue";
+import CardLiveFancy from "../components/CardLiveFancy.vue";
 import { FollowingFactory } from "../factories/following.factory";
 
 const props = defineProps<{
@@ -28,7 +28,7 @@ const cards = computed(() => {
                     class="favourites__card"
                     v-auto-animate
                 >
-                    <CardLive :card="card" size="fancy"></CardLive>
+                    <CardLiveFancy :card="card" />
                 </div>
             </div>
 
