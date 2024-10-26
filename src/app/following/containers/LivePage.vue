@@ -27,15 +27,34 @@ onMounted(async () => {
     schedules.value = await FollowingFacade.getSchedules();
 });
 
-watch(focused, async (isFocused) => {
-    if (!isFocused) return;
+const refetch = async () => {
     if (!streamsLastFetchedOn.value) return;
 
     const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
     if (!isLongerThan30SecAgo) return;
 
-    streams.value = await FollowingFacade.getStreams();
+    const newStreams = await FollowingFacade.getStreams();
+
+    streams.value = newStreams;
     streamsLastFetchedOn.value = new Date().getTime();
+
+    notifyNewStreams();
+}
+
+const notifyNewStreams = async () => {
+    const newStreams = await FollowingFacade.getStreams();
+    const oldUsers = streams.value?.favouriteStreams.map((stream) => stream.display_name);
+    const newUsers = newStreams.favouriteStreams.map((stream) => stream.display_name);
+    const newUsersAdded = newUsers.filter((user) => !oldUsers!.includes(user));
+
+    newUsersAdded.forEach((user, index) => {
+        setTimeout(() => toast.success(`${user} is now live!`), index * 100);
+    });
+}
+
+watch(focused, (isFocused) => {
+    if (!isFocused) return;
+    refetch();
 });
 
 const cssClass = computed(() => {
