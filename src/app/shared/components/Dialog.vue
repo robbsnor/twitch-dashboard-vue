@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
     description?: string;
     width?: string | number;
     showCloseButton?: boolean;
+    icon?: string
 }>(), {
     title: 'Dialog',
     width: 500,
@@ -36,8 +37,14 @@ const close = () => {
             </button>
 
             <div class="dialog__header">
-                <h2 class="dialog__title">{{ props.title }}</h2>
-                <p v-if="props.description" class="dialog__description">{{ props.description }}</p>
+                <div v-if="props.icon" class="dialog__icon">
+                    <v-icon>{{ props.icon }}</v-icon>
+                </div>
+
+                <div class="dialog__copy">
+                    <h2 class="dialog__title">{{ props.title }}</h2>
+                    <p v-if="props.description" class="dialog__description">{{ props.description }}</p>
+                </div>
             </div>
 
             <div class="dialog__body">
@@ -58,7 +65,18 @@ const close = () => {
     position: relative;
 
     &__header {
+        display: flex;
+        gap: rem($padding);
         padding-bottom: rem($padding);
+    }
+
+    &__icon {
+        font-size: 2rem;
+        padding: 11px;
+        background-color: red;
+        flex-shrink: 0;
+        align-self: flex-start;
+        border-radius: 6px;
     }
 
     &__body {

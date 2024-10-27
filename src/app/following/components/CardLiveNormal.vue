@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
 import type { CardLive as CardLiveModel } from "../models/card-live.model";
 import CardLiveOptions from "./CardLiveOptions.vue";
+import AddFavouriteDialog from './AddFavouriteDialog.vue';
 
 const props = defineProps<{
     card: CardLiveModel;
 }>();
 
 const filter = defineModel<string>('filter');
+
+const favDialog = ref<boolean>(false);
 
 const cssClass = computed(() => {
     return {
@@ -18,6 +21,16 @@ const cssClass = computed(() => {
 
 const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
+
+const userForAddFavourite = computed(() => {
+    return {
+        name: props.card.name,
+        avatar: props.card.avatar,
+        id: props.card.userId,
+    };
+});
+
+const openFavouriteDialog = () => favDialog.value = true;
 </script>
 
 <template>
@@ -65,15 +78,18 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
                 </template>
 
                 <CardLiveOptions
+                    v-model:filter="filter"
                     :game="card.game"
                     :username="card.name"
                     :userId="card.userId"
                     :isFavourite="false"
-                    v-model:filter="filter"
+                    @add-favourite="openFavouriteDialog()"
                 />
             </v-menu>
         </div>
     </div>
+
+    <AddFavouriteDialog v-model:dialog="favDialog" :user="userForAddFavourite" />
 </template>
 
 <style scoped lang="scss">

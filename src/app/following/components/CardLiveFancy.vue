@@ -62,12 +62,12 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
             </template>
 
             <CardLiveOptions
+                v-model:filter="filter"
                 :game="card.game"
                 :username="card.name"
                 :userId="card.userId"
                 :isFavourite="true"
                 :showFilterBy="false"
-                v-model:filter="filter"
             />
         </v-menu>
 

@@ -40,12 +40,12 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                     <v-img :src="card.thumbnail" alt="" class="bs__thumbnail" eager />
 
                     <CardLiveOptions
+                        v-model:filter="filter"
+                        v-model:sheet="sheet"
                         :game="card.game"
                         :username="card.name"
                         :userId="card.userId"
                         :isFavourite="false"
-                        v-model:filter="filter"
-                        v-model:sheet="sheet"
                     />
                 </div>
             </v-bottom-sheet>

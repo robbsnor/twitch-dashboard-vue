@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { useClipboard } from "@vueuse/core";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
+import type { AddFavourtieUserProps } from "./AddFavouriteDialog.vue";
 
 const router = useRouter();
 const toast = useToast();
+
+const emits = defineEmits<{
+    'add-favourite': (user: AddFavourtieUserProps) => void;
+}>();
 
 const props = withDefaults(defineProps<{
     username: string;
@@ -36,6 +42,7 @@ const doFiltering = () => {
 
 const addToFavourites = () => {
     sheet.value = false;
+    emits('add-favourite', props.userId);
     console.log('Adding to favourites...');
 };
 
@@ -64,7 +71,7 @@ const removeFromFavourites = () => {
         </v-list-item>
         <v-list-item
             v-else
-            prepend-icon="mdi-heart"
+            prepend-icon="mdi-heart-plus"
             @click="addToFavourites()"
         >
             Add to favourites

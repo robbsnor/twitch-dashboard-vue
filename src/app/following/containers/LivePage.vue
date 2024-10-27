@@ -45,9 +45,10 @@ const notifyNewStreams = async () => {
     const newStreams = await FollowingFacade.getStreams();
     const oldUsers = streams.value?.favouriteStreams.map((stream) => stream.display_name);
     const newUsers = newStreams.favouriteStreams.map((stream) => stream.display_name);
-    const newUsersAdded = newUsers.filter((user) => !oldUsers!.includes(user));
+    const newUsersOnline = newUsers.filter((user) => !oldUsers!.includes(user));
+    console.log('newUsersOnline: ', newUsersOnline);
 
-    newUsersAdded.forEach((user, index) => {
+    newUsersOnline.forEach((user, index) => {
         setTimeout(() => toast.success(`${user} is now live!`), index * 100);
     });
 }
