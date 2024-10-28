@@ -8,9 +8,7 @@ import type { AddFavourtieUserProps } from "./AddFavouriteDialog.vue";
 const router = useRouter();
 const toast = useToast();
 
-const emits = defineEmits<{
-    'add-favourite': (user: AddFavourtieUserProps) => void;
-}>();
+const emits = defineEmits(['add-favourite']);
 
 const props = withDefaults(defineProps<{
     username: string;
