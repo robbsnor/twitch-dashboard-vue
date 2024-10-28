@@ -187,13 +187,18 @@ export class TwitchApiService {
             return await this.http.get<TwitchGetSchedule>(url.toString()).catch(() => null);
         });
 
-        return (await Promise.all(promises)).filter(Boolean).map((res) => res!.data.data);
+        const bob = (await Promise.all(promises)).filter(Boolean).map((res) => res!.data.data);
+        return bob;
     }
 
     public async getScheduleWithUsers(userIds: number[]) {
         const schedules = await this.getSchedule(userIds);
+        userIds = schedules.map(schedule => Number(schedule.broadcaster_id));
         const users = (await this.getUsers({ ids: userIds })).data;
 
+        console.log('schedy: ', schedules);
+
+        // TODO: Dont use index, find userid
         return schedules.map<TwitchScheduleWithUser>((schedule, index) => {
             return {
                 schedule: schedules[index],
