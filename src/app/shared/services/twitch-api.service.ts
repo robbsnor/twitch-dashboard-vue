@@ -197,7 +197,7 @@ export class TwitchApiService {
         const usersWithSchedules = (await this.getUsers({ ids: userIdsWithSchedules })).data;
 
         return usersWithSchedules.map(user => {
-            const schedule = schedules.find(schedule => Number(schedule.broadcaster_id) === Number(user.id));
+            const schedule = schedules.find(schedule => Number(schedule.broadcaster_id) === Number(user.id))!;
 
             return {
                 schedule: schedule,
