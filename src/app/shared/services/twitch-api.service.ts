@@ -11,7 +11,7 @@ import type { TwitchGame, TwitchGetGames } from "../models/twitch/games.model";
 import type { TwitchFollowedStream, TwitchGetFollowedStreams } from "../models/twitch/followed-streams.model";
 import type { TwitchFollowedStreamWithUser } from "../models/twitch/followed-streams-with-user.model";
 import type { TwitchStreamsWithUser } from "../models/twitch/streams-with-user.model";
-import type { TwitchGetSchedule } from "../models/twitch/schedule.model";
+import type { TwitchGetSchedule, TwitchSchedule } from "../models/twitch/schedule.model";
 import type { TwitchScheduleWithUser } from "../models/twitch/schedule-with-user.model";
 
 export class TwitchApiService {
@@ -180,18 +180,17 @@ export class TwitchApiService {
         return streamsWithUser;
     }
 
-    public async getSchedule(userIds: number[]) {
+    public async getSchedule(userIds: number[]): Promise<TwitchSchedule[]> {
         const promises = userIds.map(async (userId) => {
             const url = new URL('https://api.twitch.tv/helix/schedule');
             url.searchParams.append('broadcaster_id', userId.toString());
             return await this.http.get<TwitchGetSchedule>(url.toString()).catch(() => null);
         });
 
-        const bob = (await Promise.all(promises)).filter(Boolean).map((res) => res!.data.data);
-        return bob;
+        return (await Promise.all(promises)).filter(Boolean).map((res) => res!.data.data);
     }
 
-    public async getScheduleWithUsers(userIds: number[]) {
+    public async getScheduleWithUsers(userIds: number[]): Promise<TwitchScheduleWithUser[]> {
         const schedules = await this.getSchedule(userIds);
         const userIdsWithSchedules = schedules.map(schedule => Number(schedule.broadcaster_id));
         const usersWithSchedules = (await this.getUsers({ ids: userIdsWithSchedules })).data;
@@ -199,10 +198,7 @@ export class TwitchApiService {
         return usersWithSchedules.map(user => {
             const schedule = schedules.find(schedule => Number(schedule.broadcaster_id) === Number(user.id))!;
 
-            return {
-                schedule: schedule,
-                user: user,
-            };
+            return { schedule, user, };
         });
     }
 
