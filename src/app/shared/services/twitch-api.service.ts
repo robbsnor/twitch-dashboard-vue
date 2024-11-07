@@ -193,16 +193,15 @@ export class TwitchApiService {
 
     public async getScheduleWithUsers(userIds: number[]) {
         const schedules = await this.getSchedule(userIds);
-        userIds = schedules.map(schedule => Number(schedule.broadcaster_id));
-        const users = (await this.getUsers({ ids: userIds })).data;
+        const userIdsWithSchedules = schedules.map(schedule => Number(schedule.broadcaster_id));
+        const usersWithSchedules = (await this.getUsers({ ids: userIdsWithSchedules })).data;
 
-        console.log('schedy: ', schedules);
+        return usersWithSchedules.map(user => {
+            const schedule = schedules.find(schedule => Number(schedule.broadcaster_id) === Number(user.id));
 
-        // TODO: Dont use index, find userid
-        return schedules.map<TwitchScheduleWithUser>((schedule, index) => {
             return {
-                schedule: schedules[index],
-                user: users[index]
+                schedule: schedule,
+                user: user,
             };
         });
     }
