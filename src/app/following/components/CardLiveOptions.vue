@@ -68,6 +68,12 @@ const removeFromFavourites = () => {
             Add to favourites
         </v-list-item>
         <v-list-item
+            prepend-icon="mdi-content-copy"
+            @click="copyuserId(props.userId)"
+        >
+            Copy user id
+        </v-list-item>
+        <v-list-item
             prepend-icon="mdi-account"
             :to="{ name: 'user', params: { userLogin: props.username } }"
         >
@@ -80,32 +86,19 @@ const removeFromFavourites = () => {
         >
             Watch stream <v-icon :size="12" class="small-icon">mdi-open-in-new</v-icon>
         </v-list-item>
-        <v-list-item
-            prepend-icon="mdi-content-copy"
-            @click="copyuserId(props.userId)"
-        >
-            Copy user id
-        </v-list-item>
-        <Divider text="Caregory" />
-        <v-list-item
-            prepend-icon="mdi-twitch"
-            :href="`https://www.twitch.tv/directory/game/${game}`"
-            target="_blank"
-        >
-            Open in Twitch <v-icon :size="12" class="small-icon">mdi-open-in-new</v-icon>
-        </v-list-item>
+        <Divider :text="props.game" />
         <v-list-item
             prepend-icon="mdi-magnify"
             @click="goToGamePage(props.game)"
         >
-            Search category
+            Search other streams
         </v-list-item>
         <v-list-item
             v-if="props.showFilterBy"
             prepend-icon="mdi-filter-variant"
             @click="doFiltering()"
         >
-            Filter streams
+            Filter following streams
         </v-list-item>
     </v-list>
 </template>
