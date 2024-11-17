@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useClipboard } from "@vueuse/core";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
 import type { AddFavourtieUserProps } from "./AddFavouriteDialog.vue";
@@ -54,13 +54,6 @@ const removeFromFavourites = () => {
     <v-list>
         <Divider :text="props.username" />
         <v-list-item
-            prepend-icon="mdi-content-copy"
-            @click="copyuserId(props.userId)"
-        >
-            Copy user id
-        </v-list-item>
-        <Divider />
-        <v-list-item
             v-if="props.isFavourite"
             prepend-icon="mdi-heart-remove"
             @click="removeFromFavourites()"
@@ -85,24 +78,41 @@ const removeFromFavourites = () => {
             :href="`https://www.twitch.tv/${props.username}/`"
             target="_blank"
         >
-            Watch stream
+            Watch stream <v-icon :size="12" class="small-icon">mdi-open-in-new</v-icon>
         </v-list-item>
-        <Divider />
+        <v-list-item
+            prepend-icon="mdi-content-copy"
+            @click="copyuserId(props.userId)"
+        >
+            Copy user id
+        </v-list-item>
+        <Divider text="Caregory" />
+        <v-list-item
+            prepend-icon="mdi-twitch"
+            :href="`https://www.twitch.tv/directory/game/${game}`"
+            target="_blank"
+        >
+            Open in Twitch <v-icon :size="12" class="small-icon">mdi-open-in-new</v-icon>
+        </v-list-item>
         <v-list-item
             prepend-icon="mdi-magnify"
             @click="goToGamePage(props.game)"
         >
-            Search category: {{ props.game }}
+            Search category
         </v-list-item>
         <v-list-item
             v-if="props.showFilterBy"
             prepend-icon="mdi-filter-variant"
             @click="doFiltering()"
         >
-            Filter by: {{ props.game }}
+            Filter streams
         </v-list-item>
     </v-list>
 </template>
 
 <style scoped lang="scss">
+.small-icon {
+    margin-left: 4px;
+    color: $c-black-12;
+}
 </style>
