@@ -91,7 +91,7 @@ const removeFromFavourites = () => {
             prepend-icon="mdi-magnify"
             @click="goToGamePage(props.game)"
         >
-            Search other streams
+            Find other streams
         </v-list-item>
         <v-list-item
             v-if="props.showFilterBy"
