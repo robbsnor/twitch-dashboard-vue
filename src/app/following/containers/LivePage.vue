@@ -104,7 +104,7 @@ const cssClass = computed(() => {
     <Section v-if="streams">
         <div class="previous-streams">
             <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
-                <Button color="secondary">Previous streams</Button>
+                <Button color="secondary" icon="twitch">Previous streams</Button>
             </a>
         </div>
     </Section>

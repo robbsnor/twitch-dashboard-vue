@@ -16,8 +16,8 @@ const classes = computed(() => {
     return {
         'button': true,
         [`button--${props.color}`]: true,
-        [`button--icon-align-${props.iconAlign}`]: !!props.iconAlign,
         [`button--icon button--icon-${props.icon}`]: !!props.icon,
+        [`button--icon-align-${props.iconAlign}`]: !!props.icon,
     };
 });
 </script>
