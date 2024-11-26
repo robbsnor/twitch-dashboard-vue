@@ -25,7 +25,7 @@ const classes = computed(() => {
 <template>
     <button :class="classes">
         <slot></slot>
-        <vue-feather v-if="icon" :type="icon" size="1.2rem" stroke-width="2.2" class="button__icon"></vue-feather>
+        <vue-feather v-if="icon" :type="icon" size="1.2rem" stroke-width="2.2" class="button__icon"/>
     </button>
 </template>
 
