@@ -150,7 +150,7 @@ const downloads = ref([
         justify-self: end;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 24px;
     }
 
     &__user {
