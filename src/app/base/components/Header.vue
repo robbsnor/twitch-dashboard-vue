@@ -62,7 +62,7 @@ const downloads = ref([
                             <div class="download__info">
                                 <div class="download__title">{{ download.title }}</div>
                                 <router-link class="download__user" :to="{ name: 'user', params: { userLogin: download.user.login } }">{{ download.user.name }}</router-link>
-                                <v-progress-linear class="download__progress" color="primary" :model-value="download.percentage" />
+                                <v-progress-linear class="download__progress" color="primary" :model-value="download.percentage" rounded />
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,6 @@ const downloads = ref([
     background-color: black;
     border: 1px solid $c-black-4;
 }
-
 
 .download-button {
     cursor: pointer;
@@ -115,6 +114,7 @@ const downloads = ref([
     }
 
     &__user {
+        display: block;
         font-size: 14px;
         padding-bottom: 10px;
     }
