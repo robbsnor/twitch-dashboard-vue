@@ -13,27 +13,28 @@ const props = defineProps<{
 const downloads = ref([
     {
         title: 'Laatste horror stream',
-        image: 'https://via.placeholder.com/1280/720',
+        image: 'https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/3cbe4a8a50f63227aeac_lekkerspelen_35677554686_6368170938/thumb/custom-d01f86a9-06a4-421d-9758-cbde29fde39e-320x180.jpeg',
         videoId: 123123,
         user: {
             id: 111111,
             name: 'Lekkerspelen',
+            login: 'lekkerspelen',
         },
         percentage: 50,
     },
     {
         title: 'Mario kart',
-        image: 'https://via.placeholder.com/1280/720',
+        image: 'https://static-cdn.jtvnw.net/cf_vods/d2nvs31859zcd8/feac9eab98b09d75d416_lekkerspelen_27320463437_9101370573/thumb/custom-c46a3380-6e60-4b01-b442-2887604a1cb7-320x180.jpeg',
         videoId: 8979879078,
         user: {
             id: 2132131,
             name: 'Etho',
+            login: 'ethoslab',
         },
         percentage: 100,
     },
 ]);
 </script>
-
 <template>
     <header class="header">
         <div class="header__container">
@@ -53,21 +54,19 @@ const downloads = ref([
             <div class="header__right">
                 <v-menu>
                     <template v-slot:activator="{ props }">
-                        <vue-feather class="header__downloads" v-bind="props" type="download" />
+                        <vue-feather class="header__downloads download-button" v-bind="props" type="download" />
                     </template>
-
                     <div class="menu">
                         <div class="download" v-for="download in downloads" :key="download.videoId">
                             <img class="download__image" :src="download.image" :alt="download.title" />
                             <div class="download__info">
                                 <div class="download__title">{{ download.title }}</div>
-                                <div class="download__user">{{ download.user.name }}</div>
+                                <router-link class="download__user" :to="{ name: 'user', params: { userLogin: download.user.login } }">{{ download.user.name }}</router-link>
                                 <v-progress-linear class="download__progress" color="primary" :model-value="download.percentage" />
                             </div>
                         </div>
                     </div>
                 </v-menu>
-
                 <button class="header__user">
                     <span class="sr-only">Username</span>
                     <HeaderAvatar v-if="props.user" :image="props.user.profile_image_url" />
@@ -81,7 +80,18 @@ const downloads = ref([
     border-radius: 6px;
     overflow: hidden;
     background-color: black;
-    border: 1px solid $c-black-10;
+    border: 1px solid $c-black-4;
+}
+
+
+.download-button {
+    cursor: pointer;
+    color: $c-black-20;
+    transition: .2s;
+
+    &:hover {
+        color: $c-white;
+    }
 }
 
 .download {
@@ -89,30 +99,29 @@ const downloads = ref([
     gap: 16px;
     padding: 16px;
 
-     &__image {
-        width: 50px;
-        height: auto;
+    &__image {
+        width: 100px;
         border-radius: 6px;
         flex-shrink: 0;
-     }
+    }
 
-     &__info {
+    &__info {
         flex-grow: 1;
-     }
+    }
 
-     &__title {
+    &__title {
         color: white;
         padding-bottom: 2px;
-     }
+    }
 
-     &__user {
+    &__user {
         font-size: 14px;
         padding-bottom: 10px;
-     }
+    }
 
-     &__progress {
+    &__progress {
         width: 100%;
-     }
+    }
 }
 
 .header {
