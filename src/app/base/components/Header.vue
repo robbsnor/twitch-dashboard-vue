@@ -117,6 +117,12 @@ const downloads = ref([
         display: block;
         font-size: 14px;
         padding-bottom: 10px;
+        color: $c-black-18;
+        transition: .2s;
+
+        &:hover {
+            color: $c-white--dark;
+        }
     }
 
     &__progress {
