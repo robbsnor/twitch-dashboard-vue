@@ -6,6 +6,7 @@ export const MOCK_FAVOURITES_HOPP = [
     912918849, // 223lab, ruski
     101936909, // stormen
     26490481, // summit1g
+    70225218, // tenz
     149141153, // slewya
     847810318, // prompy_wompy
     57357891, // furretcanwalk
