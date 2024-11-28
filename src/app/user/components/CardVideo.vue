@@ -37,6 +37,24 @@ const copyTwitchDlCommand = (card: CardVideoModel) => {
     toast.success(`Copied command!`);
 };
 
+export type TwtichDlQuality = '1080p60'| '720p60'| '480p'| 'Audio Only'| '360p'| '160p';
+
+const downloadVideoById = async (id: number) => {
+    const quality: TwtichDlQuality = '720p60';
+
+    const url = new URL('http://localhost:4000/download');
+    url.searchParams.set('id', id.toString());
+    url.searchParams.set('quality', quality);
+
+    const res = await fetch(url.toString())
+    if (!res.ok) {
+        return toast.error(`Failed to download video ${id}: ${res}`);
+    }
+
+    toast.success(`Download completed`);
+    console.log('Download completed');
+};
+
 const copyVideoId = (card: CardVideoModel) => {
     const { copy, copied } = useClipboard();
     copy(card.id.toString());
@@ -129,15 +147,28 @@ const formattedDate = computed(() => {
                     />
                 </template>
                 <v-list>
+
+
+                    <v-list-item
+                        prepend-icon="mdi-download"
+                        @click="downloadVideoById(card.id)"
+                        >
+                        Download
+                        </v-list-item
+                    >
                     <v-list-item
                         prepend-icon="mdi-console-line"
                         @click="copyTwitchDlCommand(card)"
-                        >Copy twitch-dl cmd</v-list-item
+                        >
+                        Copy twitch-dl cmd
+                        </v-list-item
                     >
                     <v-list-item
                         prepend-icon="mdi-content-copy"
                         @click="copyVideoId(card)"
-                        >Copy video id</v-list-item
+                        >
+                        Copy video id
+                        </v-list-item
                     >
                 </v-list>
             </v-menu>

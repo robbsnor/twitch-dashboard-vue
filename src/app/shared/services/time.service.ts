@@ -8,12 +8,8 @@ export class TimeService {
      * @returns The formatted time string.
      */
     public static formatTime(time: string): string {
-        console.log(time);
         const timeArray = time.replace('h', ':').replace('m', ':').replace('s', '').split(':');
-        console.log(timeArray);
-
         const formattedTime = timeArray.map((timeUnit) => NumberService.singleToDoubleDigits(parseInt(timeUnit))).join(':');
-
         return formattedTime;
     }
 
