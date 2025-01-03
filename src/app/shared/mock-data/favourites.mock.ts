@@ -8,6 +8,7 @@ export const MOCK_FAVOURITES_HOPP = [
     26490481, // summit1g
     70225218, // tenz
     149141153, // slewya
+    239356777, // tailscanfly
     847810318, // prompy_wompy
     57357891, // furretcanwalk
     51929371, // ml7support
