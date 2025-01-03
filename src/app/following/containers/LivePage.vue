@@ -102,9 +102,9 @@ const cssClass = computed(() => {
     </template>
 
     <Section v-if="streams">
-        <div class="previous-streams">
+        <div class="button-wrapper">
             <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
-                <Button color="secondary" icon="twitch">Previous streams</Button>
+                <Button color="secondary" icon="twitch">Continue Watching</Button>
             </a>
         </div>
     </Section>
@@ -113,7 +113,7 @@ const cssClass = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.previous-streams {
+.button-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
