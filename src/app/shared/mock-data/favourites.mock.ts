@@ -2,11 +2,10 @@
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
     128856353, // mande
-    121706139, // toosefn, ruski
+    70225218, // tenz
+    183796200, // kraan
     912918849, // 223lab, ruski
     101936909, // stormen
-    26490481, // summit1g
-    70225218, // tenz
     149141153, // slewya
     239356777, // tailscanfly
     847810318, // prompy_wompy
@@ -16,7 +15,6 @@ export const MOCK_FAVOURITES_HOPP = [
     19840041, // sheepolution
     23220337, // emongg
     75738685, // insym
-    183796200, // kraan
     41157071, // tangotek
     31468943, // simpleflips
     82653207, // marblr
