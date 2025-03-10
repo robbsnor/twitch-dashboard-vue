@@ -10,21 +10,35 @@ import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
 import { useWindowFocus } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
+import type { TwitchSchedule } from "@/app/shared/models/twitch/schedule.model";
+import type { TwitchScheduleWithUser } from "@/app/shared/models/twitch/schedule-with-user.model";
+import { TwitchUser } from "../../shared/models/twitch/users.model";
+import { TwitchApiService } from "../../shared/services/twitch-api.service";
+import { useFavouriteStore } from "../../shared/stores/favourites.store";
 
 TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
+const favourtieStore = useFavouriteStore();
 const toast = useToast();
+const twitchApiService = new TwitchApiService();
 
 const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
 const streams = ref<Streams>();
-const schedules = ref<ScheduleModel[]>();
 const focused = useWindowFocus()
 const loading = ref(false);
+
+const scheduleUsers = ref<TwitchUser[]>();
+const schedules = ref<TwitchSchedule[]>();
 
 onMounted(async () => {
     streamsLastFetchedOn.value = new Date().getTime();
     streams.value = await FollowingFacade.getStreams();
-    schedules.value = await FollowingFacade.getSchedules();
+
+
+    scheduleUsers.value = (await twitchApiService.getUsers({ids: favourtieStore.favouriteStreamerIds})).data;
+    schedules.value = (await twitchApiService.getSchedule(favourtieStore.favouriteStreamerIds));
+
+    // schedules.value = await FollowingFacade.getSchedules();
 });
 
 const refetch = async () => {
@@ -85,16 +99,8 @@ const cssClass = computed(() => {
         </Section>
     </div>
 
-    <template v-if="schedules">
-        <Section title="Upcomming streams">
-            <div v-fade-stagger class="schedules">
-                <Schedule
-                    v-for="schedule in schedules"
-                    :key="schedule.id"
-                    :schedule="schedule"
-                />
-            </div>
-        </Section>
+    <template v-if="schedules && scheduleUsers">
+        <Schedule :schedules="schedules" :users="scheduleUsers" />
 
         <Section>
             <ZigZag></ZigZag>
@@ -119,20 +125,6 @@ const cssClass = computed(() => {
     justify-content: center;
     align-items: center;
     gap: rem(20px);
-}
-
-.schedules {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 30px;
-
-    @include screen(800px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include screen(1400px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
 .stream-wrapper {

@@ -1,89 +1,163 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { ScheduleModel } from '../services/live.service';
+import { group } from 'console';
+import { computed, onMounted, ref } from 'vue';
+import { TwitchSchedule } from '../../shared/models/twitch/schedule.model';
+import { TwitchUser } from '../../shared/models/twitch/users.model';
 
-const props = withDefaults(defineProps<{
-    schedule: ScheduleModel;
-}>(), {
- });
+const props = defineProps<{
+    schedules: TwitchSchedule[];
+    users: TwitchUser[];
+}>();
 
-const cssClass = computed(() => {
-    return {
-        schedule: true,
-    };
+const timeRange = computed(() => {
+    const schedules = props.schedules.flatMap(schedule => schedule.segments);
+    const startTimes = schedules.map(schedule => new Date(schedule.start_time).getHours());
+    const endTimes = schedules.map(schedule => new Date(schedule.end_time).getHours());
+
+    const lowestStartTime = Math.min(...startTimes);
+    const highestEndTime = Math.max(...endTimes);
+    const numbers = Array.from({ length: highestEndTime - lowestStartTime + 1 }, (_, i) => `${ i + lowestStartTime }:00`); // real
+
+    return numbers;
 });
 
-const title = computed(() =>  props.schedule.title || '-');
+const mappedSchedules = computed(() => {
+    const today = new Date();
+    const sevenDaysFromNow = new Date(today.setDate(today.getDate() + 6));
 
-const startDate = computed(() => {
-    const options = { weekday: 'short', day: '2-digit', month: 'short', hour: 'numeric', minute: 'numeric', hour12: true };
-    // @ts-ignore
-    return new Date(props.schedule.startTime).toLocaleString('nl-NL', options).toLowerCase();
+    const schedules = props.schedules
+        .flatMap(schedule =>
+            schedule.segments.map(segment => {
+                const user = props.users.find(user => user.id === schedule.broadcaster_id);
+                return { user, ...segment };
+            })
+        )
+        .filter(schedule => {
+            const scheduleDate = new Date(schedule.start_time);
+            return scheduleDate < sevenDaysFromNow;
+        })
+        .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+
+    const mapped = schedules.reduce((acc, schedule) => {
+        const date = new Date(schedule.start_time).toISOString().split('T')[0];
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(schedule);
+        return acc;
+    }, {});
+
+    const groupedByDate = Object.keys(mapped).map(date => ({
+        date,
+        streams: mapped[date]
+    }));
+
+    return groupedByDate;
 });
 
-const endDate = computed(() => {
-    const options = { weekday: 'short', day: '2-digit', month: 'short', hour: 'numeric', minute: 'numeric', hour12: true };
-    // @ts-ignore
-    return new Date(props.schedule.endTime).toLocaleString('nl-NL', options).toLowerCase();
-});
+const getTitle = (date: String) => {
+    const today = new Date();
+    const tomorrow = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0];
+    const afterTomorrow = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0];
 
-const timeUntil = computed(() => {
-    const now = new Date();
-    const startTime = new Date(props.schedule.startTime);
-    const diff = startTime.getTime() - now.getTime();
-    const diffInMinutes = Math.floor(diff / 1000 / 60);
-    return diffInMinutes;
-});
+    if (date === new Date().toISOString().split('T')[0]) {
+        return 'Today';
+    } else if (date === tomorrow) {
+        return 'Tomorrow';
+    } else {
+        return new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+    }
+}
+
 </script>
 
 <template>
-    <div :class="cssClass">
-        <RouterLink class="schedule__user" :to="{ name: 'user', params: { userLogin: props.schedule.name } }">
-            <img class="schedule__avatar" :src="props.schedule.avatar" alt="">
-            <h2 class="schedule__username">{{ props.schedule.name }}</h2>
-        </RouterLink>
+    <Section title="Upcomming streams">
+        <div class="wrapper">
+            <div class="schedule">
+                <div v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
+                    <div class="day">{{ getTitle(schedule.date) }}</div>
 
-        <h2 class="schedule__title">{{ title }}</h2>
+                    <div class="streams">
+                        <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
+                            <v-tooltip :text="stream.user.display_name">
+                                <template v-slot:activator="{ props }">
+                                    <img :to="{ name: 'user', params: { userLogin: stream.user.display_name } }" v-bind="props" :src="stream.user.profile_image_url" class="avatar" alt="">
+                                </template>
+                            </v-tooltip>
 
-        <div class="schedule__date">
-            <span class="schedule__start-time">{{ startDate }}</span> - <span class="schedule__end-time">{{ endDate }}</span>
+                            <div>
+                                <h4 class="title">{{ stream.title ? stream.title : '-' }}</h4>
+                                <h6 class="game">{{ stream.category ? stream.category.name : '-' }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </Section>
 </template>
 
 <style scoped lang="scss">
+.wrapper {
+    overflow-x: auto;
+}
+
 .schedule {
+    display: flex;
+    gap: rem($padding-larger);
+    flex-wrap: nowrap;
+}
+
+.day {
+    min-width: 500px;
+    flex-shrink: 0;
+    font-size: 24px;
+    font-weight: bold;
+    padding-bottom: 4px;
+}
+
+.streams {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
     background-color: $c-black-3;
     border: 1px solid $c-black-5;
-    padding: 30px;
     border-radius: rem($border-radius-large);
+    max-height: 380px;
+    overflow: auto;
+}
 
-    &__user {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        padding-bottom: 20px;
-    }
+.stream {
+    display: flex;
+    gap: 16px;
+    padding: 8px 16px;
+    border-bottom: 1px solid $c-black-5;
 
-    &__username {
-        padding: 0;
-        font-size: 24px;
+    &:last-child {
+        border-bottom: none;
     }
+}
 
-    &__avatar {
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-        border-radius: 999px;
-    }
+.title {
+    padding-bottom: 4px;
+}
 
-    &__title {
-        color: $c-white--dark;
-        font-size: 20px;
-    }
+.game {
+    color: $c-black-16;
+}
 
-    &__date {
-        color: $c-black-20;
-    }
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $c-black-10;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    flex-shrink: 0;
 }
 </style>
