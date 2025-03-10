@@ -12,7 +12,7 @@ import { useWindowFocus } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
 import type { TwitchSchedule } from "@/app/shared/models/twitch/schedule.model";
 import type { TwitchScheduleWithUser } from "@/app/shared/models/twitch/schedule-with-user.model";
-import { TwitchUser } from "../../shared/models/twitch/users.model";
+import type { TwitchUser } from "../../shared/models/twitch/users.model";
 import { TwitchApiService } from "../../shared/services/twitch-api.service";
 import { useFavouriteStore } from "../../shared/stores/favourites.store";
 

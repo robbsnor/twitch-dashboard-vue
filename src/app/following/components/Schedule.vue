@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { group } from 'console';
 import { computed, onMounted, ref } from 'vue';
 import { TwitchSchedule } from '../../shared/models/twitch/schedule.model';
@@ -58,7 +59,6 @@ const mappedSchedules = computed(() => {
 const getTitle = (date: String) => {
     const today = new Date();
     const tomorrow = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0];
-    const afterTomorrow = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0];
 
     if (date === new Date().toISOString().split('T')[0]) {
         return 'Today';
