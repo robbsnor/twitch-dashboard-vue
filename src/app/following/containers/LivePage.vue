@@ -4,14 +4,12 @@ import { computed, onMounted, ref, watch } from "vue";
 import { TitleService } from "../../shared/services/title.service";
 import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
-import { type ScheduleModel } from "../services/live.service";
 import { useFollowingStore } from "../stores/following.store";
 import Schedule from "../components/Schedule.vue";
 import { FollowingFacade, type Streams } from "../facade/following.facade";
 import { useWindowFocus } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
 import type { TwitchSchedule } from "@/app/shared/models/twitch/schedule.model";
-import type { TwitchScheduleWithUser } from "@/app/shared/models/twitch/schedule-with-user.model";
 import type { TwitchUser } from "../../shared/models/twitch/users.model";
 import { TwitchApiService } from "../../shared/services/twitch-api.service";
 import { useFavouriteStore } from "../../shared/stores/favourites.store";
@@ -34,11 +32,8 @@ onMounted(async () => {
     streamsLastFetchedOn.value = new Date().getTime();
     streams.value = await FollowingFacade.getStreams();
 
-
     scheduleUsers.value = (await twitchApiService.getUsers({ids: favourtieStore.favouriteStreamerIds})).data;
-    schedules.value = (await twitchApiService.getSchedule(favourtieStore.favouriteStreamerIds));
-
-    // schedules.value = await FollowingFacade.getSchedules();
+    schedules.value = (await twitchApiService.getSchedules(favourtieStore.favouriteStreamerIds));
 });
 
 const refetch = async () => {

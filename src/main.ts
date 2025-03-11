@@ -8,6 +8,9 @@ import router from './router/router';
 import ToastPlugin from 'vue-toast-notification';
 import VueFeather from 'vue-feather';
 import 'vue-toast-notification/dist/theme-default.css';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+
 import './assets/styles/main.scss';
 
 // shared components
@@ -46,6 +49,10 @@ app.component('Spinner', Spinner);
 app.component('Swirl', Swirl);
 app.component('VueDraggable', VueDraggable);
 app.component('ZigZag', ZigZag);
+
+// swiper
+app.component('Swiper', Swiper);
+app.component('SwiperSlide', SwiperSlide);
 
 // directives
 app.directive('fadeStagger', fadeStagger);

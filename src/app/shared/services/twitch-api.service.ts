@@ -180,10 +180,11 @@ export class TwitchApiService {
         return streamsWithUser;
     }
 
-    public async getSchedule(userIds: number[]): Promise<TwitchSchedule[]> {
+    public async getSchedules(userIds: number[], amount = 25): Promise<TwitchSchedule[]> {
         const promises = userIds.map(async (userId) => {
             const url = new URL('https://api.twitch.tv/helix/schedule');
             url.searchParams.append('broadcaster_id', userId.toString());
+            url.searchParams.append('first', amount.toString());
             return await this.http.get<TwitchGetSchedule>(url.toString()).catch(() => null);
         });
 
@@ -191,7 +192,7 @@ export class TwitchApiService {
     }
 
     public async getScheduleWithUsers(userIds: number[]): Promise<TwitchScheduleWithUser[]> {
-        const schedules = await this.getSchedule(userIds);
+        const schedules = await this.getSchedules(userIds);
         const userIdsWithSchedules = schedules.map(schedule => Number(schedule.broadcaster_id));
         const usersWithSchedules = (await this.getUsers({ ids: userIdsWithSchedules })).data;
 

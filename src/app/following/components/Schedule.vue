@@ -4,8 +4,7 @@ import { group } from 'console';
 import { computed, onMounted, ref } from 'vue';
 import { TwitchSchedule } from '../../shared/models/twitch/schedule.model';
 import { TwitchUser } from '../../shared/models/twitch/users.model';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
+import { Mousewheel } from 'swiper/modules';
 
 const props = defineProps<{
     schedules: TwitchSchedule[];
@@ -32,7 +31,7 @@ const mappedSchedules = computed(() => {
         .flatMap(schedule =>
             schedule.segments.map(segment => {
                 const user = props.users.find(user => user.id === schedule.broadcaster_id);
-                return { user, ...segment };
+                    return { user, ...segment };
             })
         )
         .filter(schedule => {
@@ -55,6 +54,8 @@ const mappedSchedules = computed(() => {
         streams: mapped[date]
     }));
 
+    console.log('groupedByDate: ', groupedByDate);
+
     return groupedByDate;
 });
 
@@ -71,6 +72,9 @@ const getTitle = (date: String) => {
     }
 }
 
+const formatTime = (time: Date) => {
+    return new Date(time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
 </script>
 
 <template>
@@ -78,8 +82,6 @@ const getTitle = (date: String) => {
         <swiper
             slides-per-view="auto"
             :space-between="50"
-            @swiper="onSwiper"
-            @slideChange="onSlideChange"
         >
 
             <swiper-slide v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
@@ -96,6 +98,7 @@ const getTitle = (date: String) => {
                         <div>
                             <h4 class="title">{{ stream.title ? stream.title : '-' }}</h4>
                             <h6 class="game">{{ stream.category ? stream.category.name : '-' }}</h6>
+                            <h6 class="game">{{ formatTime(stream.start_time) }}</h6>
                         </div>
                     </div>
                 </div>
@@ -121,6 +124,7 @@ const getTitle = (date: String) => {
     font-size: 24px;
     font-weight: bold;
     padding-bottom: 4px;
+    min-width: 400px;
 }
 
 .streams {
@@ -130,8 +134,6 @@ const getTitle = (date: String) => {
     background-color: $c-black-3;
     border: 1px solid $c-black-5;
     border-radius: rem($border-radius-large);
-    max-height: 380px;
-    overflow: auto;
 }
 
 .stream {
