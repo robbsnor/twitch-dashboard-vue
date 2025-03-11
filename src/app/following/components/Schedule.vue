@@ -4,6 +4,8 @@ import { group } from 'console';
 import { computed, onMounted, ref } from 'vue';
 import { TwitchSchedule } from '../../shared/models/twitch/schedule.model';
 import { TwitchUser } from '../../shared/models/twitch/users.model';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
 
 const props = defineProps<{
     schedules: TwitchSchedule[];
@@ -73,28 +75,32 @@ const getTitle = (date: String) => {
 
 <template>
     <Section title="Upcomming streams">
-        <div class="wrapper">
-            <div class="schedule">
-                <div v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
-                    <div class="day">{{ getTitle(schedule.date) }}</div>
+        <swiper
+            slides-per-view="auto"
+            :space-between="50"
+            @swiper="onSwiper"
+            @slideChange="onSlideChange"
+        >
 
-                    <div class="streams">
-                        <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
-                            <v-tooltip :text="stream.user.display_name">
-                                <template v-slot:activator="{ props }">
-                                    <img :to="{ name: 'user', params: { userLogin: stream.user.display_name } }" v-bind="props" :src="stream.user.profile_image_url" class="avatar" alt="">
-                                </template>
-                            </v-tooltip>
+            <swiper-slide v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
+                <div class="day">{{ getTitle(schedule.date) }}</div>
 
-                            <div>
-                                <h4 class="title">{{ stream.title ? stream.title : '-' }}</h4>
-                                <h6 class="game">{{ stream.category ? stream.category.name : '-' }}</h6>
-                            </div>
+                <div class="streams">
+                    <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
+                        <v-tooltip :text="stream.user.display_name">
+                            <template v-slot:activator="{ props }">
+                                <img :to="{ name: 'user', params: { userLogin: stream.user.display_name } }" v-bind="props" :src="stream.user.profile_image_url" class="avatar" alt="">
+                            </template>
+                        </v-tooltip>
+
+                        <div>
+                            <h4 class="title">{{ stream.title ? stream.title : '-' }}</h4>
+                            <h6 class="game">{{ stream.category ? stream.category.name : '-' }}</h6>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </swiper-slide>
+        </swiper>
     </Section>
 </template>
 
@@ -110,7 +116,7 @@ const getTitle = (date: String) => {
 }
 
 .day {
-    min-width: 500px;
+    width: auto;
     flex-shrink: 0;
     font-size: 24px;
     font-weight: bold;
