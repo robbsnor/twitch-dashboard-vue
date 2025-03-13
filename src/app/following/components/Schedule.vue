@@ -95,7 +95,9 @@ const formatTime = (time: Date) => {
                     <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
                         <v-tooltip :text="stream.user.display_name">
                             <template v-slot:activator="{ props }">
-                                <img :to="{ name: 'user', params: { userLogin: stream.user.display_name } }" v-bind="props" :src="stream.user.profile_image_url" class="avatar" alt="">
+                                <RouterLink v-bind="props" :to="{ name: 'user', params: { userLogin: stream.user.display_name } }">
+                                    <img :src="stream.user.profile_image_url" class="avatar" alt="">
+                                </RouterLink>
                             </template>
                         </v-tooltip>
 
@@ -154,6 +156,7 @@ const formatTime = (time: Date) => {
 
 .stream {
     display: flex;
+    align-items: flex-start;
     gap: 16px;
     padding: 8px 16px;
     border-bottom: 1px solid $c-black-5;
