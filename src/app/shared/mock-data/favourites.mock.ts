@@ -2,9 +2,9 @@
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
     128856353, // mande
-    70225218, // tenz
-    31239503, // ESLCS
     43683025, // ohnepixel
+    31239503, // ESLCS
+    70225218, // tenz
     183796200, // kraan
     912918849, // 223lab, ruski
     101936909, // stormen
