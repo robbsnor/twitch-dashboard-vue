@@ -4,8 +4,11 @@ import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/fo
 import CardLiveFancy from "../components/CardLiveFancy.vue";
 import { FollowingFactory } from "../factories/following.factory";
 
+const filter = defineModel<string>("filter");
+
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
+    categories: string[];
 }>();
 
 const cards = computed(() => {
@@ -18,6 +21,20 @@ const cards = computed(() => {
     <Section title="Favourites">
         <template #backgroundArt>
             <Swirl v-if="streams?.length" class="swirl"></Swirl>
+        </template>
+
+        <template #actions>
+            <div class="filter">
+                <v-combobox
+                    class="filter__search"
+                    v-model="filter"
+                    :items="props.categories"
+                    placeholder="Search streams..."
+                    persistent-clear
+                    eager
+                    ref="filterEl"
+                />
+            </div>
         </template>
 
         <div class="favourites">

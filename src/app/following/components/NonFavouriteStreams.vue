@@ -7,7 +7,7 @@ import CardLiveNormal from "../components/CardLiveNormal.vue";
 import { FollowingFactory } from "../factories/following.factory";
 
 const props = defineProps<{
-    streams?: TwitchFollowedStreamWithUser[];
+    streams: TwitchFollowedStreamWithUser[];
 }>();
 
 const filter = defineModel<string>("filter");
@@ -16,29 +16,7 @@ const filterEl = ref<HTMLDivElement | any>();
 const sectionEl = ref<HTMLElement | any>();
 
 const cards = computed(() => {
-    const videos = props.streams?.filter((stream) => {
-        if (!filter.value) return true;
-
-        const usernameMatch = stream.user_name
-            .toLowerCase()
-            .includes(filter.value.toLowerCase());
-        const gameMatch = stream.game_name
-            ?.toLowerCase()
-            .includes(filter.value.toLowerCase());
-        const titleMatch = stream.title
-            .toLowerCase()
-            .includes(filter.value.toLowerCase());
-
-            return usernameMatch || gameMatch || titleMatch;
-    });
-    if (!videos) return;
-
-    return FollowingFactory.mapToCardLiveNormal(videos);
-});
-
-const categories = computedAsync(async () => {
-    if (!props.streams) return [];
-    return [...new Set(props.streams.map(stream => stream.game_name))].sort().filter(Boolean);
+    return FollowingFactory.mapToCardLiveNormal(props.streams);
 });
 
 const scrollToFilter = () => {
@@ -47,28 +25,14 @@ const scrollToFilter = () => {
     window.scrollTo({ top: y, behavior: "smooth" });
 };
 
-watch(filter, () => {
-    if (!filter.value) return;
-    scrollToFilter();
-});
+// watch(filter, () => {
+//     if (!filter.value) return;
+//     scrollToFilter();
+// });
 </script>
 
 <template>
     <Section title="Live channels" ref="sectionEl">
-        <template #actions>
-            <div class="filter">
-                <v-combobox
-                    class="filter__search"
-                    v-model="filter"
-                    :items="categories"
-                    placeholder="Search streams..."
-                    persistent-clear
-                    eager
-                    ref="filterEl"
-                />
-            </div>
-        </template>
-
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards" v-fade-stagger v-auto-animate>
                 <template v-for="card in cards" :key="card.userId">

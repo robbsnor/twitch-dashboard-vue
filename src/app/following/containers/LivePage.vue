@@ -21,11 +21,9 @@ const favourtieStore = useFavouriteStore();
 const twitchApiService = new TwitchApiService();
 
 const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
-const favouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
-const nonFavouriteStreams = ref<TwitchFollowedStreamWithUser[]>();
+const streams = ref<TwitchFollowedStreamWithUser[]>();
 const focused = useWindowFocus()
 const loading = ref(false);
-
 const scheduleUsers = ref<TwitchUser[]>();
 const schedules = ref<TwitchSchedule[]>();
 
@@ -34,19 +32,43 @@ onMounted(async () => {
     fetchSchedules();
 });
 
+const favouriteStreams = computed (() => {
+    if (!streams.value) return;
+
+    const favouriteStreams = LiveService.getFavourites(
+        favourtieStore.favouriteStreamerIds,
+        streams.value
+    );
+
+    return filterStreams(favouriteStreams);
+});
+
+const nonFavouriteStreams = computed(() => {
+    if (!streams.value) return;
+
+    const nonFavouriteStreams = LiveService.getNonFavourites(
+        favourtieStore.favouriteStreamerIds,
+        streams.value
+    );
+
+    return filterStreams(nonFavouriteStreams);
+});
+
+const categories = computed( () => {
+    if (!streams.value) return [];
+    return [...new Set(streams.value.map(stream => stream.game_name))].sort().filter(Boolean);
+});
+
+const cssClass = computed(() => {
+    return {
+        'stream-wrapper': true,
+        'stream-wrapper--fade-out': loading.value,
+    };
+});
+
 const fetchStreams = async () => {
     streamsLastFetchedOn.value = new Date().getTime();
-    const streams = await twitchApiService.getFollowedStreamsWithUser();
-
-    favouriteStreams.value = LiveService.getFavourites(
-        favourtieStore.favouriteStreamerIds,
-        streams
-    );
-
-    nonFavouriteStreams.value = LiveService.getNonFavourites(
-        favourtieStore.favouriteStreamerIds,
-        streams
-    );
+    streams.value = await twitchApiService.getFollowedStreamsWithUser();
 };
 
 const fetchSchedules = async () => {
@@ -63,30 +85,46 @@ const refetch = async () => {
     fetchStreams();
 }
 
+const filterStreams = (streams: TwitchFollowedStreamWithUser[]) => {
+    return streams.filter((stream) => {
+        if (!filter.value) return true;
+
+        const usernameMatch = stream.user_name
+            .toLowerCase()
+            .includes(filter.value.toLowerCase());
+        const gameMatch = stream.game_name
+            ?.toLowerCase()
+            .includes(filter.value.toLowerCase());
+        const titleMatch = stream.title
+            .toLowerCase()
+            .includes(filter.value.toLowerCase());
+
+            return usernameMatch || gameMatch || titleMatch;
+    });
+}
+
 watch(focused, (isFocused) => {
     if (!isFocused) return;
     refetch();
 });
-
-const cssClass = computed(() => {
-    return {
-        'stream-wrapper': true,
-        'stream-wrapper--fade-out': loading.value,
-    };
-});
-
 </script>
 
 <template>
-    <template v-if="favouriteStreams && nonFavouriteStreams">
+    <template v-if="streams">
         <div :class="cssClass">
-            <FavouriteStreams :streams="favouriteStreams" />
+            <FavouriteStreams
+                v-if="favouriteStreams"
+                v-model:filter="filter"
+                :streams="favouriteStreams"
+                :categories="categories"
+            />
 
             <Section hideHeader>
                 <ZigZag />
             </Section>
 
             <NonFavouriteStreams
+                v-if="nonFavouriteStreams"
                 v-model:filter="filter"
                 :streams="nonFavouriteStreams"
             />
