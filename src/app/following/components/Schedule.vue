@@ -103,7 +103,7 @@ const formatTime = (time: Date) => {
 
                         <div>
                             <h4 class="title">{{ stream.title ? stream.title : '-' }}</h4>
-                            <h6 class="game">{{ stream.category ? stream.category.name : '-' }}</h6>
+                            <h6 class="game" style="margin-bottom: 02px;">{{ stream.category ? stream.category.name : '-' }}</h6>
                             <h6 class="game">{{ formatTime(stream.start_time) }} - {{ formatTime(stream.end_time) }}</h6>
                         </div>
                     </div>
