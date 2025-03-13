@@ -72,6 +72,10 @@ const getTitle = (date: String) => {
     }
 }
 
+const getDateTitle = (date: String) => {
+    return new Date(date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+}
+
 const formatTime = (time: Date) => {
     return new Date(time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
@@ -85,7 +89,7 @@ const formatTime = (time: Date) => {
         >
 
             <swiper-slide v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
-                <div class="day-title">{{ getTitle(schedule.date) }}</div>
+                <div class="day-title">{{ getTitle(schedule.date) }} <span class="date">{{ getDateTitle(schedule.date) }}</span></div>
 
                 <div class="streams">
                     <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
@@ -127,8 +131,16 @@ const formatTime = (time: Date) => {
 }
 
 .day-title {
+    display: flex;
+    gap: 8px;
     font-weight: bold;
-    margin-bottom: 4px;
+    padding-bottom: 8px;
+}
+
+.date {
+    margin-top: 10px;
+    color: $c-black-14;
+    font-size: rem(14px);
 }
 
 .streams {
