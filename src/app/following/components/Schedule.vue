@@ -85,7 +85,7 @@ const formatTime = (time: Date) => {
         >
 
             <swiper-slide v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
-                <div class="day">{{ getTitle(schedule.date) }}</div>
+                <div class="day-title">{{ getTitle(schedule.date) }}</div>
 
                 <div class="streams">
                     <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
@@ -122,9 +122,13 @@ const formatTime = (time: Date) => {
     width: auto;
     flex-shrink: 0;
     font-size: 24px;
-    font-weight: bold;
-    padding-bottom: 4px;
     min-width: 400px;
+    height: unset;
+}
+
+.day-title {
+    font-weight: bold;
+    margin-bottom: 4px;
 }
 
 .streams {
