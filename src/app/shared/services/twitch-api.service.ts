@@ -70,7 +70,7 @@ export class TwitchApiService {
         return res.data.data;
     }
 
-    public async getFollowedStreamsWithUsers(): Promise<TwitchFollowedStreamWithUser[]> {
+    public async getFollowedStreamsWithUser(): Promise<TwitchFollowedStreamWithUser[]> {
         const followedStreams = await this.getFollowedStreams();
         const userIds = followedStreams.map(stream => Number(stream.user_id));
         const users = (await this.getUsers({ ids: userIds })).data;

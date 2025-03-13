@@ -25,7 +25,12 @@ const cssClass = computed(() => {
         </div>
 
         <div class="section__header">
-            <h2 v-if="props.title" class="section__title">{{ props.title }}</h2>
+            <div class="section__header-left">
+                <h2 v-if="props.title" class="section__title">{{ props.title }}</h2>
+                <div v-if="slots.description">
+                    <slot name="description"></slot>
+                </div>
+            </div>
 
             <div v-if="slots.actions" class="section__actions">
                 <slot name="actions"></slot>

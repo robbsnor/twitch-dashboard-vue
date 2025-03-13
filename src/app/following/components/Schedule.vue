@@ -83,6 +83,10 @@ const formatTime = (time: Date) => {
 
 <template>
     <Section title="Upcomming streams">
+        <template v-slot:description>
+            <p>A schedule for your favourite streamers.</p>
+        </template>
+
         <swiper
             slides-per-view="auto"
             :space-between="50"
