@@ -68,12 +68,12 @@ const getTitle = (date: String) => {
     } else if (date === tomorrow) {
         return 'Tomorrow';
     } else {
-        return new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+        return new Date(date).toLocaleDateString('en-GB', { weekday: 'long' });
     }
 }
 
 const getDateTitle = (date: String) => {
-    return new Date(date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+    return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
 }
 
 const formatTime = (time: Date) => {
