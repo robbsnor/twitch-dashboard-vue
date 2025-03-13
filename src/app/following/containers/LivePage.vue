@@ -33,7 +33,7 @@ onMounted(async () => {
     streams.value = await FollowingFacade.getStreams();
 
     scheduleUsers.value = (await twitchApiService.getUsers({ids: favourtieStore.favouriteStreamerIds})).data;
-    schedules.value = (await twitchApiService.getSchedules(favourtieStore.favouriteStreamerIds));
+    schedules.value = (await twitchApiService.getSchedules(favourtieStore.favouriteStreamerIds, 14));
 });
 
 const refetch = async () => {
