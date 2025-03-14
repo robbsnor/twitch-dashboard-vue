@@ -43,6 +43,7 @@ watch(filter, () => {
                     v-model="filter"
                     :items="props.categories"
                     placeholder="Search streams..."
+                    @click="scrollToFilter"
                     persistent-clear
                     eager
                     ref="filterEl"
