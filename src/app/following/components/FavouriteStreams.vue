@@ -3,6 +3,7 @@ import { computed, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import CardLiveFancy from "../components/CardLiveFancy.vue";
 import { FollowingFactory } from "../factories/following.factory";
+import StreamFilter from "./StreamFilter.vue";
 
 const filter = defineModel<string>("filter");
 
@@ -11,44 +12,24 @@ const props = defineProps<{
     categories?: string[];
 }>();
 
-const filterEl = ref<HTMLDivElement | any>();
-
 const cards = computed(() => {
     if (!props.streams) return;
     return FollowingFactory.mapToCardLiveFancy(props.streams);
 });
-
-const scrollToFilter = () => {
-    const yOffset = -120;
-    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
-};
-
-watch(filter, () => {
-    if (!filter.value) return;
-    scrollToFilter();
-});
 </script>
 
 <template>
+    <div class="top">
+        <StreamFilter v-model:filter="filter" :categories="props.categories" />
+    </div>
+
     <Section title="Favourites">
         <template #backgroundArt>
             <Swirl v-if="streams?.length" class="swirl"></Swirl>
         </template>
 
         <template #actions>
-            <div class="filter">
-                <v-combobox
-                    class="filter__search"
-                    v-model="filter"
-                    :items="props.categories"
-                    placeholder="Search streams..."
-                    @click="scrollToFilter"
-                    persistent-clear
-                    eager
-                    ref="filterEl"
-                />
-            </div>
+            <StreamFilter class="filter" v-model:filter="filter" :categories="props.categories" />
         </template>
 
         <div class="favourites">
@@ -69,6 +50,22 @@ watch(filter, () => {
 </template>
 
 <style scoped lang="scss">
+.top {
+    @include container();
+
+    @include screen($desktop) {
+        display: none;
+    }
+}
+
+.filter {
+    display: none;
+
+    @include screen($desktop) {
+        display: block;
+    }
+}
+
 .favourites-swirl {
     position: absolute;
     top: 330px;

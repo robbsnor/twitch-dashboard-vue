@@ -24,6 +24,10 @@ const cssClass = computed(() => {
             <slot name="backgroundArt"></slot>
         </div>
 
+        <div v-if="slots.top" class="section__top">
+            <slot name="top"></slot>
+        </div>
+
         <div class="section__header">
             <div class="section__header-left">
                 <h2 v-if="props.title" class="section__title">{{ props.title }}</h2>
