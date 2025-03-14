@@ -82,14 +82,16 @@ const formatTime = (time: Date) => {
 </script>
 
 <template>
-    <Section title="Upcomming streams">
+    <Section title="Upcomming streams" modifier="schedule">
         <template v-slot:description>
             <p>A schedule for your favourite streamers.</p>
         </template>
 
         <swiper
-            slides-per-view="auto"
-            :space-between="50"
+            slides-per-view="1.8"
+            :slideToClickedSlide="true"
+            :center="true"
+            :speed="1000"
         >
 
             <swiper-slide v-for="schedule in mappedSchedules" :key="schedule.date" class="day">
@@ -99,7 +101,7 @@ const formatTime = (time: Date) => {
                     <div v-for="stream in schedule.streams" :key="stream.user.id" class="stream">
                         <v-tooltip :text="stream.user.display_name">
                             <template v-slot:activator="{ props }">
-                                <RouterLink v-bind="props" :to="{ name: 'user', params: { userLogin: stream.user.display_name } }">
+                                <RouterLink v-bind="props" :to="{ name: 'user', params: { userLogin: stream.user.display_name } }" class="avatar-link">
                                     <img :src="stream.user.profile_image_url" class="avatar" alt="">
                                 </RouterLink>
                             </template>
@@ -184,11 +186,22 @@ const formatTime = (time: Date) => {
     gap: 8px;
     color: $c-black-10;
 }
+.avatar-link {
+    flex-shrink: 0;
+}
 
 .avatar {
     width: 40px;
     height: 40px;
     border-radius: 999px;
-    flex-shrink: 0;
+}
+
+.swiper-slide {
+    transition: 1000ms;
+
+    &:not(.swiper-slide-active) {
+        scale: .9;
+        opacity: .5;
+    }
 }
 </style>

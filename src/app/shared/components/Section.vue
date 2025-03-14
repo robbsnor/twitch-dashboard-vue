@@ -6,6 +6,7 @@ const slots = useSlots();
 const props = defineProps<{
     title?: string;
     first?: boolean;
+    modifier?: string;
 }>();
 
 const cssClass = computed(() => {
@@ -14,6 +15,7 @@ const cssClass = computed(() => {
         'section--first': props.first,
         'section--no-title': !props.title,
         'section--hide-header': !props.title && !slots.actions,
+        [`section--${props.modifier}`]: props.modifier
     };
 });
 </script>
@@ -104,6 +106,12 @@ const cssClass = computed(() => {
             #{ $self }__actions {
                 margin-left: auto;
             }
+        }
+    }
+
+    &--schedule {
+        #{ $self }__body {
+            @include container($container-default-width + 200px);
         }
     }
 }
