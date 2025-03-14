@@ -67,7 +67,6 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
                 :username="card.name"
                 :userId="card.userId"
                 :isFavourite="true"
-                :showFilterBy="false"
             />
         </v-menu>
 

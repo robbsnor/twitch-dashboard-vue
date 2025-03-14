@@ -59,7 +59,7 @@ watch(filter, () => {
                     class="favourites__card"
                     v-auto-animate
                 >
-                    <CardLiveFancy :card="card" />
+                    <CardLiveFancy :card="card" v-model:filter="filter"/>
                 </div>
             </div>
 

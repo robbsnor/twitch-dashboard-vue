@@ -3,7 +3,6 @@ import { useClipboard } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
-import type { AddFavourtieUserProps } from "./AddFavouriteDialog.vue";
 
 const router = useRouter();
 const toast = useToast();
@@ -94,7 +93,6 @@ const removeFromFavourites = () => {
             Find other streams
         </v-list-item>
         <v-list-item
-            v-if="props.showFilterBy"
             prepend-icon="mdi-filter-variant"
             @click="doFiltering()"
         >
