@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 
 const props = defineProps<{
-    categories: string[];
+    categories?: string[];
 }>();
 
 const filter = defineModel<string>("filter");
