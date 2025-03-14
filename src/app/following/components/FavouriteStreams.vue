@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import CardLiveFancy from "../components/CardLiveFancy.vue";
 import { FollowingFactory } from "../factories/following.factory";
@@ -8,12 +8,25 @@ const filter = defineModel<string>("filter");
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
-    categories: string[];
+    categories?: string[];
 }>();
+
+const filterEl = ref<HTMLDivElement | any>();
 
 const cards = computed(() => {
     if (!props.streams) return;
     return FollowingFactory.mapToCardLiveFancy(props.streams);
+});
+
+const scrollToFilter = () => {
+    const yOffset = -120;
+    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+};
+
+watch(filter, () => {
+    if (!filter.value) return;
+    scrollToFilter();
 });
 </script>
 

@@ -11,24 +11,11 @@ const props = defineProps<{
 }>();
 
 const filter = defineModel<string>("filter");
-
-const filterEl = ref<HTMLDivElement | any>();
 const sectionEl = ref<HTMLElement | any>();
 
 const cards = computed(() => {
     return FollowingFactory.mapToCardLiveNormal(props.streams);
 });
-
-const scrollToFilter = () => {
-    const yOffset = -120;
-    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
-};
-
-// watch(filter, () => {
-//     if (!filter.value) return;
-//     scrollToFilter();
-// });
 </script>
 
 <template>

@@ -23,7 +23,6 @@ const twitchApiService = new TwitchApiService();
 const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
 const streams = ref<TwitchFollowedStreamWithUser[]>();
 const focused = useWindowFocus()
-const loading = ref(false);
 const scheduleUsers = ref<TwitchUser[]>();
 const schedules = ref<TwitchSchedule[]>();
 
@@ -32,38 +31,38 @@ onMounted(async () => {
     fetchSchedules();
 });
 
+const filteredStreams = computed(() => {
+    if (!streams.value || !filter.value) return streams.value;
+
+    const query = filter.value.toLowerCase();
+    return streams.value.filter(({ user_name, game_name, title }) => {
+        return [user_name, game_name, title].some(field =>
+            field?.toLowerCase().includes(query)
+        );
+    });
+});
+
 const favouriteStreams = computed (() => {
-    if (!streams.value) return;
+    if (!filteredStreams.value) return;
 
-    const favouriteStreams = LiveService.getFavourites(
+    return LiveService.getFavourites(
         favourtieStore.favouriteStreamerIds,
-        streams.value
+        filteredStreams.value
     );
-
-    return filterStreams(favouriteStreams);
 });
 
 const nonFavouriteStreams = computed(() => {
-    if (!streams.value) return;
+    if (!filteredStreams.value) return;
 
-    const nonFavouriteStreams = LiveService.getNonFavourites(
+    return LiveService.getNonFavourites(
         favourtieStore.favouriteStreamerIds,
-        streams.value
+        filteredStreams.value
     );
-
-    return filterStreams(nonFavouriteStreams);
 });
 
 const categories = computed( () => {
-    if (!streams.value) return [];
+    if (!streams.value) return;
     return [...new Set(streams.value.map(stream => stream.game_name))].sort().filter(Boolean);
-});
-
-const cssClass = computed(() => {
-    return {
-        'stream-wrapper': true,
-        'stream-wrapper--fade-out': loading.value,
-    };
 });
 
 const fetchStreams = async () => {
@@ -85,24 +84,6 @@ const refetch = async () => {
     fetchStreams();
 }
 
-const filterStreams = (streams: TwitchFollowedStreamWithUser[]) => {
-    return streams.filter((stream) => {
-        if (!filter.value) return true;
-
-        const usernameMatch = stream.user_name
-            .toLowerCase()
-            .includes(filter.value.toLowerCase());
-        const gameMatch = stream.game_name
-            ?.toLowerCase()
-            .includes(filter.value.toLowerCase());
-        const titleMatch = stream.title
-            .toLowerCase()
-            .includes(filter.value.toLowerCase());
-
-            return usernameMatch || gameMatch || titleMatch;
-    });
-}
-
 watch(focused, (isFocused) => {
     if (!isFocused) return;
     refetch();
@@ -111,28 +92,26 @@ watch(focused, (isFocused) => {
 
 <template>
     <template v-if="streams">
-        <div :class="cssClass">
-            <FavouriteStreams
-                v-if="favouriteStreams"
-                v-model:filter="filter"
-                :streams="favouriteStreams"
-                :categories="categories"
-            />
+        <FavouriteStreams
+            v-if="favouriteStreams"
+            v-model:filter="filter"
+            :streams="favouriteStreams"
+            :categories="categories"
+        />
 
-            <Section hideHeader>
-                <ZigZag />
-            </Section>
+        <Section>
+            <ZigZag />
+        </Section>
 
-            <NonFavouriteStreams
-                v-if="nonFavouriteStreams"
-                v-model:filter="filter"
-                :streams="nonFavouriteStreams"
-            />
+        <NonFavouriteStreams
+            v-if="nonFavouriteStreams"
+            v-model:filter="filter"
+            :streams="nonFavouriteStreams"
+        />
 
-            <Section>
-                <ZigZag></ZigZag>
-            </Section>
-        </div>
+        <Section>
+            <ZigZag></ZigZag>
+        </Section>
 
         <template v-if="schedules && scheduleUsers">
             <Schedule :schedules="schedules" :users="scheduleUsers" />
@@ -161,16 +140,5 @@ watch(focused, (isFocused) => {
     justify-content: center;
     align-items: center;
     gap: rem(20px);
-}
-
-.stream-wrapper {
-    transition: .2s;
-
-    &--fade-out {
-        filter: blur(3px);
-        transform: translateY(5px);
-        opacity: .3;
-        transition: none;
-    }
 }
 </style>
