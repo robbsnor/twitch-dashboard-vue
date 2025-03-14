@@ -75,7 +75,7 @@ const fetchSchedules = async () => {
     schedules.value = (await twitchApiService.getSchedules(favourtieStore.favouriteStreamerIds, 14));
 };
 
-const refetch = async () => {
+const refetchStreams = async () => {
     if (!streamsLastFetchedOn.value) return;
 
     const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
@@ -86,7 +86,7 @@ const refetch = async () => {
 
 watch(focused, (isFocused) => {
     if (!isFocused) return;
-    refetch();
+    refetchStreams();
 });
 </script>
 
