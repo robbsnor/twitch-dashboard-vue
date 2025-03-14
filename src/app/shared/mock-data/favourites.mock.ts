@@ -8,9 +8,6 @@ export const MOCK_FAVOURITES_HOPP = [
     183796200, // kraan
     912918849, // 223lab, ruski
     101936909, // stormen
-    149141153, // slewya
-    239356777, // tailscanfly
-    847810318, // prompy_wompy
     57357891, // furretcanwalk
     51929371, // ml7support
     26991127, // hiko
@@ -18,6 +15,9 @@ export const MOCK_FAVOURITES_HOPP = [
     23220337, // emongg
     75738685, // insym
     41157071, // tangotek
+    149141153, // slewya
+    239356777, // tailscanfly
+    847810318, // prompy_wompy
     31468943, // simpleflips
     82653207, // marblr
     490592527, // valorant
