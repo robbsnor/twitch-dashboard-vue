@@ -216,7 +216,7 @@ const openFavouriteDialog = () => favDialog.value = true;
 
         &:hover {
             #{ $self }__username {
-                color: $c-black-16;
+                color: $c-primary--lighter;
             }
         }
     }
@@ -230,7 +230,7 @@ const openFavouriteDialog = () => favDialog.value = true;
     }
 
     &__username {
-        color: $c-black-14;
+        color: $c-primary;
     }
 
     &__options {

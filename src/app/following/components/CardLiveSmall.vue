@@ -80,7 +80,6 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
             :href="card.link"
             target="_blank"
             class="card-small__link"
-            :data-user-id="card.userId"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
         </a>
@@ -173,7 +172,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 
         &:hover {
             #{ $self }__username {
-                color: $c-black-16;
+                color: $c-primary--lighter;
             }
         }
     }
@@ -186,7 +185,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
     }
 
     &__username {
-        color: $c-black-14;
+        color: $c-primary;
     }
 
     &__link {
