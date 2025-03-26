@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineModel } from 'vue';
 import { useAppOptionsStore } from '../stores/AppOptions.store';
 
 const appOptionsStore = useAppOptionsStore();

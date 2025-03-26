@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, ref } from 'vue';
+import { ref } from 'vue';
 
 const favUsers = ref(["Etho", "Lekkerspelen", "ML7Support", "Emongg", "Ruski Fortnice player", "Slewya", "FurretCanWalk", "Shroud"]);
 

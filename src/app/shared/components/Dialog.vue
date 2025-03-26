@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, useSlots } from 'vue';
+import { useSlots } from 'vue';
 
 const slots = useSlots();
 const emits = defineEmits(['close']);
