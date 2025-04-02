@@ -65,6 +65,7 @@ const open = () => dialog.value = true;
 .user {
     &__drag-icon {
         cursor: grab;
+        margin-right: 10px;
     }
 }
 
