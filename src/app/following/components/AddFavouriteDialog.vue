@@ -35,7 +35,7 @@ const open = () => dialog.value = true;
                 handle=".user__drag-icon"
             >
                 <li v-for="(user, i) in favUsers" :key="user" class="user">
-                    <v-icon class="user__drag-icon">mdi-drag-horizontal-variant</v-icon> {{ i + 1 }} {{ user }}
+                    <v-icon class="user__drag-icon">mdi-drag-horizontal-variant</v-icon>{{ user }}
                 </li>
             </VueDraggable>
         </div>
