@@ -2,15 +2,17 @@ import type { DirectiveBinding } from "vue";
 
 interface FadeStaggerBinding {
     delay?: number;
+    time?: number;
 }
 
 export const fadeStagger = {
     beforeMount(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
         const children = Array.from(el.children) as HTMLElement[];
+        const time = binding.value?.time || 0.5;
 
         children.forEach((child, index) => {
             child.style.opacity = '0';
-            child.style.transition = `.5s`;
+            child.style.transition = `${time}s`;
             // child.style.transform = 'translateY(10px)';
         });
     },
