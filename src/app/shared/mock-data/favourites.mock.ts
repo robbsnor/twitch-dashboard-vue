@@ -6,6 +6,7 @@ export const MOCK_FAVOURITES_HOPP = [
     26991127, // hiko
     31239503, // ESLCS
     70225218, // tenz
+    218059024, // spawnsgg
     183796200, // kraan
     414805368, // st0m, ruski
     912918849, // 223lab, ruski
