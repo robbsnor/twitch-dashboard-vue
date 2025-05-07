@@ -3,7 +3,6 @@ import { computed, ref, watch } from "vue";
 import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
 import CardLiveFancy from "../components/CardLiveFancy.vue";
 import { FollowingFactory } from "../factories/following.factory";
-import StreamFilter from "./StreamFilter.vue";
 
 const filter = defineModel<string>("filter");
 
@@ -19,17 +18,9 @@ const cards = computed(() => {
 </script>
 
 <template>
-    <div class="top">
-        <StreamFilter v-model:filter="filter" :categories="props.categories" />
-    </div>
-
     <Section title="Favourites">
         <template #backgroundArt>
             <Swirl v-if="streams?.length" class="swirl"></Swirl>
-        </template>
-
-        <template #actions>
-            <StreamFilter class="filter" v-model:filter="filter" :categories="props.categories" />
         </template>
 
         <div class="favourites">
@@ -50,21 +41,6 @@ const cards = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.top {
-    @include container();
-
-    @include screen($desktop) {
-        display: none;
-    }
-}
-
-.filter {
-    display: none;
-
-    @include screen($desktop) {
-        display: block;
-    }
-}
 
 .favourites-swirl {
     position: absolute;

@@ -6,7 +6,7 @@ import FavouriteStreams from "../components/FavouriteStreams.vue";
 import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
 import { useFollowingStore } from "../stores/following.store";
 import Schedule from "../components/Schedule.vue";
-import { useWindowFocus } from "@vueuse/core";
+import { computedAsync, useWindowFocus } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
 import type { TwitchSchedule } from "@/app/shared/models/twitch/schedule.model";
 import type { TwitchUser } from "../../shared/models/twitch/users.model";
@@ -14,6 +14,8 @@ import { TwitchApiService } from "../../shared/services/twitch-api.service";
 import { useFavouriteStore } from "../../shared/stores/favourites.store";
 import { LiveService } from "../services/live.service";
 import type { TwitchFollowedStreamWithUser } from "@/app/shared/models/twitch/followed-streams-with-user.model";
+import { TwitchService } from "@/app/shared/services/twitch.service";
+import StreamFilter from "../components/StreamFilter.vue";
 
 TitleService.setTitle("Live");
 const followingStore = useFollowingStore();
@@ -65,6 +67,37 @@ const categories = computed( () => {
     return [...new Set(streams.value.map(stream => stream.game_name))].sort().filter(Boolean);
 });
 
+const categoriesWithimage = computedAsync(async () => {
+    if (!streams.value) return;
+
+    const categoryIds = [...new Set(streams.value.map(stream => Number(stream.game_id)))].filter(Boolean);
+    const twitchCategories = (await twitchApiService.getGames({ids: categoryIds})).data;
+
+    const categories = streams.value
+        .reduce((acc, stream) => {
+            const category = acc.find(cat => cat.name === stream.game_name);
+            const image = twitchCategories.find(cat => Number(cat.id) === Number(stream.game_id))?.box_art_url;
+
+            if (category) {
+                category.viewers += stream.viewer_count;
+                category.amountOfStreamers += 1;
+            } else {
+                acc.push({
+                    name: stream.game_name,
+                    viewers: stream.viewer_count,
+                    amountOfStreamers: 1,
+                    id: Number(stream.game_id),
+                    image: image ? TwitchService.getGameThumbnail(image, 100) : undefined,
+                });
+            }
+            return acc;
+        }, [] as { name: string; viewers: number; amountOfStreamers: number; id: number; image?: string }[])
+        .sort((a, b) => b.viewers - a.viewers);
+
+        console.log(categories)
+        return categories
+})
+
 const fetchStreams = async () => {
     streamsLastFetchedOn.value = new Date().getTime();
     streams.value = await twitchApiService.getFollowedStreamsWithUser();
@@ -92,11 +125,42 @@ watch(focused, (isFocused) => {
 
 <template>
     <template v-if="streams">
+        <Section title="Categories">
+            <div style="position: relative;">
+                <div style="display: flex; gap: 1rem; flex-wrap: nowrap; overflow-x: auto; padding-right: 30px;">
+                    <img
+                        v-for="category in categoriesWithimage"
+                        :key="category.id"
+                        :src="category.image"
+                        alt="category"
+                        style="flex-shrink: 0; transition: .2s; border-radius: 4px;"
+                        @click="filter = category.name"
+                        :style="{opacity: filter === category.name ? 1 : 0.7}"
+                    />
+                    <div
+                        style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            width: 30px;
+                            flex-shrink: 0;
+                        "
+                        class="fade"
+                    ></div>
+                </div>
+            </div>
+
+
+            <template #actions>
+                <StreamFilter class="filter" v-model:filter="filter" :categories="categories" />
+            </template>
+        </Section>
+
         <FavouriteStreams
             v-if="favouriteStreams"
             v-model:filter="filter"
             :streams="favouriteStreams"
-            :categories="categories"
         />
 
         <Section>
@@ -140,5 +204,9 @@ watch(focused, (isFocused) => {
     justify-content: center;
     align-items: center;
     gap: rem(20px);
+}
+
+.fade {
+    background: linear-gradient(to left, rgba(black, 1), rgba(black, 0));
 }
 </style>

@@ -16,7 +16,7 @@ const scrollToFilter = () => {
 
 watch(filter, () => {
     if (!filter.value) return;
-    scrollToFilter();
+    // scrollToFilter();
 });
 </script>
 
@@ -26,7 +26,6 @@ watch(filter, () => {
         v-model="filter"
         :items="props.categories"
         placeholder="Search streams..."
-        @click="scrollToFilter"
         persistent-clear
         eager
         ref="filterEl"

@@ -1,3 +1,4 @@
+// https://dev.twitch.tv/docs/api/reference/#get-games
 export interface TwitchGetGames {
     data: TwitchGame[];
 }
