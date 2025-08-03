@@ -1,8 +1,10 @@
-
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
     128856353, // mande
     43683025, // ohnepixel
+    149141153, // slewya
+    57357891, // furretcanwalk
+    239356777, // tailscanfly
     26991127, // hiko
     31239503, // ESLCS
     70225218, // tenz
@@ -16,9 +18,6 @@ export const MOCK_FAVOURITES_HOPP = [
     23220337, // emongg
     75738685, // insym
     41157071, // tangotek
-    149141153, // slewya
-    57357891, // furretcanwalk
-    239356777, // tailscanfly
     847810318, // prompy_wompy
     31468943, // simpleflips
     82653207, // marblr
