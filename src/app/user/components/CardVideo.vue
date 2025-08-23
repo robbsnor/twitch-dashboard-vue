@@ -58,7 +58,7 @@ const downloadVideoById = async (id: number) => {
 const copyVideoId = (card: CardVideoModel) => {
     const { copy, copied } = useClipboard();
     copy(card.id.toString());
-    toast.success(`Copied video id!`);
+    toast.success(`Copied video id! (${card.id})`);
 };
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
