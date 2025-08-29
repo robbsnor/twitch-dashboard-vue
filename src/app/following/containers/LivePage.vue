@@ -30,7 +30,7 @@ const schedules = ref<TwitchSchedule[]>();
 
 onMounted(async () => {
     fetchStreams();
-    fetchSchedules();
+    // fetchSchedules();
 });
 
 const filteredStreams = computed(() => {
