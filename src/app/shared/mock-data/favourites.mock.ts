@@ -11,7 +11,6 @@ export const MOCK_FAVOURITES_HOPP = [
     70225218, // tenz
     218059024, // spawnsgg
     183796200, // kraan
-    414805368, // st0m, ruski
     912918849, // 223lab, ruski
     101936909, // stormen
     51929371, // ml7support
