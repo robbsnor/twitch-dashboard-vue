@@ -1,12 +1,12 @@
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
     128856353, // mande
-    43683025, // ohnepixel
-    149141153, // slewya
     504661144, // DJ_Dave
+    149141153, // slewya
     57357891, // furretcanwalk
     239356777, // tailscanfly
     26991127, // hiko
+    43683025, // ohnepixel
     31239503, // ESLCS
     70225218, // tenz
     218059024, // spawnsgg
