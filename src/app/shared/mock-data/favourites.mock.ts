@@ -1,5 +1,6 @@
 export const MOCK_FAVOURITES_HOPP = [
     52385053, // lekkerspelen
+    603776329, // ariathome
     128856353, // mande
     504661144, // DJ_Dave
     149141153, // slewya
@@ -9,9 +10,10 @@ export const MOCK_FAVOURITES_HOPP = [
     43683025, // ohnepixel
     31239503, // ESLCS
     70225218, // tenz
+    912918849, // 223lab, ruski
     218059024, // spawnsgg
     183796200, // kraan
-    912918849, // 223lab, ruski
+    102220212, // xxLUSHx
     101936909, // stormen
     51929371, // ml7support
     19840041, // sheepolution
