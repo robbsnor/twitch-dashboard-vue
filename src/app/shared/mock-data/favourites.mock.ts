@@ -4,6 +4,7 @@ export const MOCK_FAVOURITES_HOPP = [
     128856353, // mande
     504661144, // DJ_Dave
     149141153, // slewya
+    629320451, // infs___
     57357891, // furretcanwalk
     239356777, // tailscanfly
     26991127, // hiko
