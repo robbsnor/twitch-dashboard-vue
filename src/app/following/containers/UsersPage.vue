@@ -41,7 +41,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .user-cards {
     display: grid;
-    gap: $padding;
+    gap: $padding / 2;
     grid-template-columns: repeat(1, 1fr);
 
     @include screen($desktop) {

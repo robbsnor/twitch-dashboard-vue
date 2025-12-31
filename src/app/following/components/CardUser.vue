@@ -18,6 +18,12 @@ const link = computed(() => `/user/${props.name}`);
         <h3 class="card-user__name">{{ name }}</h3>
         <!-- <img :src="props.backgroundImage" :alt="`${props.name}'s' offline image`" class="card-user__background-image"/> -->
     </RouterLink>
+
+    <RouterLink :to="link" class="card-user-large">
+        <img :src="props.avatar" :alt="`${props.name}'s avatar`" class="card-user-large__avatar" />
+        <h3 class="card-user-large__name">{{ name }}</h3>
+        <!-- <img :src="props.backgroundImage" :alt="`${props.name}'s' offline image`" class="card-user-large__background-image"/> -->
+    </RouterLink>
 </template>
 
 <style scoped lang="scss">
@@ -27,6 +33,67 @@ const link = computed(() => `/user/${props.name}`);
     background-color: $c-black-3;
     position: relative;
     display: flex;
+    gap: rem(10px);
+    border-radius: $border-radius-normal;
+    align-items: center;
+    padding: rem(12px);
+    overflow: hidden;
+    transition: 0.2s;
+    z-index: 1;
+
+    &__avatar {
+        border-radius: 999px;
+        width: 40px;
+        height: 40px;
+        transition: 0.2s;
+    }
+
+    &__name {
+        margin: 0;
+        padding: 0;
+        font-size: rem(20px);
+        transition: 0.2s;
+    }
+
+    &__background-image {
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: 0.2s;
+        opacity: .1;
+        z-index: -1;
+    }
+
+    &:hover {
+        background-color: $c-primary;
+
+        #{ $self }__avatar {
+            transform: scale(1.1)
+        }
+
+        #{ $self }__name {
+            color: $c-black-1;
+        }
+
+        #{ $self }__background-image {
+            opacity: 0;
+        }
+    }
+
+    @include screen($desktop) {
+        display: none;
+    }
+}
+
+.card-user-large {
+    $self: &;
+
+    background-color: $c-black-3;
+    position: relative;
+    display: none;
     flex-direction: column;
     gap: rem(10px);
     border-radius: $border-radius-normal;
@@ -78,5 +145,10 @@ const link = computed(() => `/user/${props.name}`);
             opacity: 0;
         }
     }
+
+    @include screen($desktop) {
+        display: flex;
+    }
 }
+
 </style>
