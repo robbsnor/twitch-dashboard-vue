@@ -27,34 +27,28 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 
             <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
-                    <v-btn
-                        class="card-small__options"
-                        v-bind="props"
-                        variant="text"
-                        icon="mdi-dots-vertical"
-                        size="small"
-                    />
+                    <v-btn class="card-small__options" v-bind="props" variant="text" icon="mdi-dots-vertical"
+                        size="small" />
                 </template>
 
                 <div class="bs">
                     <v-img :src="card.thumbnail" alt="" class="bs__thumbnail" eager />
 
-                    <CardLiveOptions
-                        v-model:filter="filter"
-                        v-model:sheet="sheet"
-                        :game="card.game"
-                        :username="card.name"
-                        :userId="card.userId"
-                        :isFavourite="false"
-                    />
+                    <div style="background-color: rgba(0, 0, 0, 0.8); padding: 16px; padding-bottom: 4px; ">
+                        <div style="color: white ; margin-bottom: 4px;">
+                            {{ card.title }}
+                        </div>
+                        <div style="font-size: 1rem;">
+                            {{ CardLiveService.getUptime(card.startedAt) }}
+                        </div>
+                    </div>
+
+                    <CardLiveOptions v-model:filter="filter" v-model:sheet="sheet" :game="card.game"
+                        :username="card.name" :userId="card.userId" :isFavourite="false" />
                 </div>
             </v-bottom-sheet>
 
-            <img
-                :src="card.thumbnail"
-                class="card-small__thumbnail"
-                alt="thumbnail"
-            />
+            <img :src="card.thumbnail" class="card-small__thumbnail" alt="thumbnail" />
         </div>
 
         <div class="card-small__info">
@@ -65,22 +59,13 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
             </div>
 
             <RouterLink :to="`/user/${card.name}`" class="card-small__user">
-                <img
-                    v-if="card.avatar"
-                    :src="card.avatar"
-                    class="card-small__avatar"
-                    alt="avatar"
-                />
+                <img v-if="card.avatar" :src="card.avatar" class="card-small__avatar" alt="avatar" />
 
                 <div class="card-small__username">{{ card.name }}</div>
             </RouterLink>
         </div>
 
-        <a
-            :href="card.link"
-            target="_blank"
-            class="card-small__link"
-        >
+        <a :href="card.link" target="_blank" class="card-small__link">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
         </a>
     </div>
