@@ -5,7 +5,7 @@ const props = defineProps<{
     categories?: string[];
 }>();
 
-const filter = defineModel<string>("filter");
+const filter = defineModel<string | null>("filter");
 const filterEl = ref<HTMLDivElement | any>();
 
 const scrollToFilter = () => {
@@ -21,13 +21,17 @@ watch(filter, () => {
 </script>
 
 <template>
-    <v-combobox
-        class="filter__search"
-        v-model="filter"
-        :items="props.categories"
-        placeholder="Search streams..."
-        persistent-clear
-        eager
-        ref="filterEl"
-    />
+    <div style=" display: flex; justify-content: center; align-items: center; position: relative; gap: 4px">
+        <v-combobox
+            class="filter__search"
+            v-model="filter"
+            :items="props.categories"
+            placeholder="Search streams..."
+            :clearable="false"
+            eager
+            ref="filterEl"
+        />
+
+        <v-btn v-if="filter" icon="mdi-close" variant="text" @click="filter = null" color="#ccc" />
+    </div>
 </template>
