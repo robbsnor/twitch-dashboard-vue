@@ -1,4 +1,4 @@
-import type { DirectiveBinding } from "vue";
+import type { DirectiveBinding } from 'vue';
 
 interface FadeStaggerBinding {
     delay?: number;
@@ -8,7 +8,7 @@ interface FadeStaggerBinding {
 export const fadeStagger = {
     beforeMount(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
         const children = Array.from(el.children) as HTMLElement[];
-        const time = binding.value?.time || 0.5;
+        const time = binding.value?.time || 0.2;
 
         children.forEach((child, index) => {
             child.style.opacity = '0';
@@ -17,8 +17,9 @@ export const fadeStagger = {
         });
     },
     mounted(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
+        console.log(el);
         const children = Array.from(el.children) as HTMLElement[];
-        const delay = binding.value?.delay || 40;
+        const delay = binding.value?.delay || 50;
 
         children.forEach((child, index) => {
             setTimeout(() => {
@@ -26,5 +27,5 @@ export const fadeStagger = {
                 // child.style.transform = 'translateY(0)';
             }, index * delay);
         });
-    }
+    },
 };

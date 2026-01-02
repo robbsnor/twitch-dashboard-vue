@@ -26,8 +26,10 @@ const cards = ref<CardVideoModel[]>([]);
 const loadingCards = ref(true);
 
 const _categories = computed(() => {
-    const duplicateCategories = additionalVideosInfo.value.map((video) => video.chapters.map(chapter => chapter.title)).flat();
-    const orderedCategories = [...new Set(duplicateCategories)].filter(category => category !== "").sort();
+    const duplicateCategories = additionalVideosInfo.value
+        .map((video) => video.chapters.map((chapter) => chapter.title))
+        .flat();
+    const orderedCategories = [...new Set(duplicateCategories)].filter((category) => category !== '').sort();
     return orderedCategories;
 });
 
@@ -58,11 +60,15 @@ const searchVideos = async (query: string | null) => {
 
     if (!query) return getCards();
 
-    const videoIds = additionalVideosInfo.value.filter((video) => {
-        const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
-        const matchedChapters = video.chapters.some(chapter => chapter.title.toLowerCase().includes(query.toLocaleLowerCase()));
-        return matchedTitle || matchedChapters;
-    }).map(video => video.videoId);
+    const videoIds = additionalVideosInfo.value
+        .filter((video) => {
+            const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
+            const matchedChapters = video.chapters.some((chapter) =>
+                chapter.title.toLowerCase().includes(query.toLocaleLowerCase())
+            );
+            return matchedTitle || matchedChapters;
+        })
+        .map((video) => video.videoId);
 
     const res = await twitchApiService.getVideosByVideoIds(videoIds);
     cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
@@ -77,9 +83,12 @@ watch(
     }, 500)
 );
 
-watch(() => props.user, () => {
-    init();
-});
+watch(
+    () => props.user,
+    () => {
+        init();
+    }
+);
 
 onMounted(() => {
     init();
@@ -117,7 +126,7 @@ onMounted(() => {
         </Section>
 
         <div class="user-cards__footer">
-            <Spinner v-if="loadingCards"/>
+            <Spinner v-if="loadingCards" />
             <Button v-if="!loadingCards && pagination" @click="loadMore()">Load more</Button>
         </div>
     </div>
