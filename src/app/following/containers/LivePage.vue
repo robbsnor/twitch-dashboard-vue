@@ -177,6 +177,8 @@ watch(focused, (isFocused) => {
                     <Button color="secondary" icon="twitch">Continue Watching</Button>
                 </a>
             </div>
+
+            <div class="font-black text-xl text-red-400 underline p-2">tailwind!</div>
         </Section>
     </template>
 
