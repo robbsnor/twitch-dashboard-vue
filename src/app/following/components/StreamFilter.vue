@@ -30,6 +30,7 @@ watch(filter, () => {
         placeholder="Search streams..."
         :clearable="false"
         :append-icon="appendIcon"
+        @click:append="filter = null"
         eager
         ref="filterEl"
     />
