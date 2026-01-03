@@ -53,6 +53,8 @@ const fetchCategoies = async () => {
 
     categories.value = streams.value
         .reduce((acc, stream) => {
+            if (!stream.game_name) return acc;
+
             const category = acc.find((cat) => cat.name === stream.game_name);
             const image = twitchCategories.find((cat) => Number(cat.id) === Number(stream.game_id))?.box_art_url;
 
@@ -68,6 +70,7 @@ const fetchCategoies = async () => {
                     image: image ? TwitchService.getGameThumbnail(image, 100) : undefined,
                 });
             }
+
             return acc;
         }, [] as Category[])
         .sort((a, b) => b.viewers - a.viewers);
