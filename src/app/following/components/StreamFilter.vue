@@ -14,7 +14,7 @@ const scrollToFilter = () => {
     window.scrollTo({ top: y, behavior: 'smooth' });
 };
 
-const clearIcon = computed(() => (filter ? 'mdi-close' : undefined));
+const appendIcon = computed(() => (!!filter ? 'mdi-close' : undefined));
 
 watch(filter, () => {
     if (!filter.value) return;
@@ -29,8 +29,7 @@ watch(filter, () => {
         :items="props.categories"
         placeholder="Search streams..."
         :clearable="false"
-        :append-icon="clearIcon"
-        @click:append="filter = null"
+        :append-icon="appendIcon"
         eager
         ref="filterEl"
     />
