@@ -1,5 +1,4 @@
-import type { TwitchPagination } from "./pagination.model";
-import type { TwitchUser } from "./users.model";
+import type { TwitchPagination } from './pagination.model';
 
 // https://dev.twitch.tv/docs/api/reference#get-followed-streams
 export interface TwitchGetFollowedStreams {
@@ -13,7 +12,7 @@ export interface TwitchFollowedStream {
     user_login: string;
     user_name: string;
     game_id: string;
-    game_name: string;
+    game_name?: string;
     type: string;
     title: string;
     viewer_count: number;

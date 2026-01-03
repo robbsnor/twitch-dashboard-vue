@@ -1,25 +1,31 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { computed, onMounted, ref, watch } from "vue";
-import { TitleService } from "../../shared/services/title.service";
-import FavouriteStreams from "../components/FavouriteStreams.vue";
-import NonFavouriteStreams from "../components/NonFavouriteStreams.vue";
-import { useFollowingStore } from "../stores/following.store";
-import Schedule from "../components/Schedule.vue";
-import { computedAsync, useWindowFocus } from "@vueuse/core";
-import { useToast } from "vue-toast-notification";
-import type { TwitchSchedule } from "@/app/shared/models/twitch/schedule.model";
-import type { TwitchUser } from "../../shared/models/twitch/users.model";
-import { TwitchApiService } from "../../shared/services/twitch-api.service";
-import { useFavouriteStore } from "../../shared/stores/favourites.store";
-import { LiveService } from "../services/live.service";
-import type { TwitchFollowedStreamWithUser } from "@/app/shared/models/twitch/followed-streams-with-user.model";
-import { TwitchService } from "@/app/shared/services/twitch.service";
-import StreamFilter from "../components/StreamFilter.vue";
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, ref, watch } from 'vue';
+import { TitleService } from '../../shared/services/title.service';
+import FavouriteStreams from '../components/FavouriteStreams.vue';
+import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
+import { useFollowingStore } from '../stores/following.store';
+import Schedule from '../components/Schedule.vue';
+import { computedAsync, useWindowFocus } from '@vueuse/core';
+import { useToast } from 'vue-toast-notification';
+import type { TwitchSchedule } from '@/app/shared/models/twitch/schedule.model';
+import type { TwitchUser } from '../../shared/models/twitch/users.model';
+import { TwitchApiService } from '../../shared/services/twitch-api.service';
+import { useFavouriteStore } from '../../shared/stores/favourites.store';
+import { LiveService } from '../services/live.service';
+import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
+import StreamFilter from '../components/StreamFilter.vue';
 
-interface Category { name: string; viewers: number; amountOfStreamers: number; id: number; image?: string }
+interface Category {
+    name?: string;
+    viewers: number;
+    amountOfStreamers: number;
+    id: number;
+    image?: string;
+}
 
-TitleService.setTitle("Live");
+TitleService.setTitle('Live');
 const followingStore = useFollowingStore();
 const favourtieStore = useFavouriteStore();
 const twitchApiService = new TwitchApiService();
@@ -28,7 +34,7 @@ const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
 const loading = ref(true);
 const streams = ref<TwitchFollowedStreamWithUser[]>();
 const categories = ref<Category[]>();
-const focused = useWindowFocus()
+const focused = useWindowFocus();
 const scheduleUsers = ref<TwitchUser[]>();
 const schedules = ref<TwitchSchedule[]>();
 
@@ -42,13 +48,13 @@ onMounted(async () => {
 const fetchCategoies = async () => {
     if (!streams.value) return;
 
-    const categoryIds = [...new Set(streams.value.map(stream => Number(stream.game_id)))].filter(Boolean);
+    const categoryIds = [...new Set(streams.value.map((stream) => Number(stream.game_id)))].filter(Boolean);
     const twitchCategories = (await twitchApiService.getGames({ ids: categoryIds })).data;
 
     categories.value = streams.value
         .reduce((acc, stream) => {
-            const category = acc.find(cat => cat.name === stream.game_name);
-            const image = twitchCategories.find(cat => Number(cat.id) === Number(stream.game_id))?.box_art_url;
+            const category = acc.find((cat) => cat.name === stream.game_name);
+            const image = twitchCategories.find((cat) => Number(cat.id) === Number(stream.game_id))?.box_art_url;
 
             if (category) {
                 category.viewers += stream.viewer_count;
@@ -65,46 +71,36 @@ const fetchCategoies = async () => {
             return acc;
         }, [] as Category[])
         .sort((a, b) => b.viewers - a.viewers);
-
-}
+};
 
 const categoriesList = computed(() => {
-    if (!categories.value?.length) return
+    if (!categories.value?.length) return;
 
-    const catNames = categories.value.map(c => c.name)
-    const orderedCatNames = catNames.sort((a, b) => a.localeCompare(b))
-    return orderedCatNames
-})
+    const catNames: string[] = categories.value.map((c) => c.name).filter((name): name is string => !!name);
+    const orderedCatNames = catNames.sort((a, b) => a.localeCompare(b));
+    return orderedCatNames;
+});
 
 const filteredStreams = computed(() => {
     if (!streams.value || !filter.value) return streams.value;
 
     const query = filter.value.toLowerCase();
     return streams.value.filter(({ user_name, game_name, title }) => {
-        return [user_name, game_name, title].some(field =>
-            field?.toLowerCase().includes(query)
-        );
+        return [user_name, game_name, title].some((field) => field?.toLowerCase().includes(query));
     });
 });
 
 const favouriteStreams = computed(() => {
     if (!filteredStreams.value) return;
 
-    return LiveService.getFavourites(
-        favourtieStore.favouriteStreamerIds,
-        filteredStreams.value
-    );
+    return LiveService.getFavourites(favourtieStore.favouriteStreamerIds, filteredStreams.value);
 });
 
 const nonFavouriteStreams = computed(() => {
     if (!filteredStreams.value) return;
 
-    return LiveService.getNonFavourites(
-        favourtieStore.favouriteStreamerIds,
-        filteredStreams.value
-    );
+    return LiveService.getNonFavourites(favourtieStore.favouriteStreamerIds, filteredStreams.value);
 });
-
 
 const fetchStreams = async () => {
     streamsLastFetchedOn.value = new Date().getTime();
@@ -118,7 +114,7 @@ const refetchStreams = async () => {
     if (!isLongerThan30SecAgo) return;
 
     fetchStreams();
-}
+};
 
 watch(focused, (isFocused) => {
     if (!isFocused) return;
@@ -129,22 +125,23 @@ watch(focused, (isFocused) => {
 <template>
     <template v-if="!loading">
         <Section title="Categories">
-            <div style="position: relative;">
-                <div style="display: flex; gap: 1rem; flex-wrap: nowrap; overflow-x: auto; padding-right: 30px;">
-                    <img v-for="category in categories" :key="category.id" :src="category.image" alt="category"
-                        style="flex-shrink: 0; transition: .2s; border-radius: 4px;" @click="filter = category.name"
-                        :style="{ opacity: filter === category.name ? 1 : 0.7 }" />
-                    <div style="
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-                            bottom: 0;
-                            width: 30px;
-                            flex-shrink: 0;
-                        " class="fade"></div>
+            <div style="position: relative">
+                <div style="display: flex; gap: 1rem; flex-wrap: nowrap; overflow-x: auto; padding-right: 30px">
+                    <img
+                        v-for="category in categories"
+                        :key="category.id"
+                        :src="category.image"
+                        alt="category"
+                        style="flex-shrink: 0; transition: 0.2s; border-radius: 4px"
+                        @click="filter = category.name"
+                        :style="{ opacity: filter === category.name ? 1 : 0.7 }"
+                    />
+                    <div
+                        style="position: absolute; top: 0; right: 0; bottom: 0; width: 30px; flex-shrink: 0"
+                        class="fade"
+                    ></div>
                 </div>
             </div>
-
 
             <template #actions>
                 <StreamFilter class="filter" v-model:filter="filter" :categories="categoriesList" />
