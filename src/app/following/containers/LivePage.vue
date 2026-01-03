@@ -135,7 +135,7 @@ watch(focused, (isFocused) => {
                         :key="category.id"
                         :src="category.image"
                         alt="category"
-                        style="flex-shrink: 0; transition: 0.2s; border-radius: 4px"
+                        class="shrink-0 transition-all rounded-md cursor-pointer"
                         @click="filter = category.name"
                         :style="{ opacity: filter === category.name ? 1 : 0.7 }"
                     />

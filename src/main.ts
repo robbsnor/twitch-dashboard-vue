@@ -12,6 +12,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
 import './assets/styles/main.scss';
+import './assets/styles/main.css';
 
 // shared components
 import ArrowList from './app/shared/components/ArrowList.vue';
