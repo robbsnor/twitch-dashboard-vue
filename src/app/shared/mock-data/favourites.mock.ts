@@ -9,7 +9,6 @@ export const MOCK_FAVOURITES_HOPP = [
     239356777, // tailscanfly
     26991127, // hiko
     43683025, // ohnepixel
-    31239503, // ESLCS
     70225218, // tenz
     912918849, // 223lab, ruski
     218059024, // spawnsgg
@@ -17,6 +16,7 @@ export const MOCK_FAVOURITES_HOPP = [
     102220212, // xxLUSHx
     101936909, // stormen
     51929371, // ml7support
+    31239503, // ESLCS
     19840041, // sheepolution
     23220337, // emongg
     75738685, // insym
