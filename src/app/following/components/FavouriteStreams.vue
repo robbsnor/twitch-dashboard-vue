@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
-import CardLiveFancy from "../components/CardLiveFancy.vue";
-import { FollowingFactory } from "../factories/following.factory";
+import { computed, ref, watch } from 'vue';
+import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams-with-user.model';
+import CardLiveFancy from '../components/CardLiveFancy.vue';
+import { FollowingFactory } from '../factories/following.factory';
 
-const filter = defineModel<string>("filter");
+const filter = defineModel<string>('filter');
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
@@ -23,25 +23,17 @@ const cards = computed(() => {
             <Swirl v-if="streams?.length" class="swirl"></Swirl>
         </template>
 
-        <div class="favourites">
-            <div v-if="cards?.length" class="favourites__cards" v-fade-stagger="{ delay: 100 }">
-                <div
-                    v-for="card in cards"
-                    :key="card.userId"
-                    class="favourites__card"
-                    v-auto-animate
-                >
-                    <CardLiveFancy :card="card" v-model:filter="filter"/>
-                </div>
+        <div v-if="cards?.length" class="grid gap-12 md:grid-cols-2 lg:grid-cols-3" v-fade-stagger="{ delay: 100 }">
+            <div v-for="card in cards" :key="card.userId" class="w-full lg:nth-[3n-1]:mt-12" v-auto-animate>
+                <CardLiveFancy :card="card" v-model:filter="filter" />
             </div>
-
-            <p v-else>No favourite streamers online.</p>
         </div>
+
+        <p v-else>No favourite streamers online.</p>
     </Section>
 </template>
 
 <style scoped lang="scss">
-
 .favourites-swirl {
     position: absolute;
     top: 330px;
@@ -51,35 +43,6 @@ const cards = computed(() => {
 
     @include screen($desktop) {
         top: 200px;
-    }
-}
-
-.favourites {
-    &__cards {
-        display: grid;
-        gap: rem(50px);
-    }
-
-    &__card {
-        width: 100%;
-    }
-
-    @include screen(800px) {
-        &__cards {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @include screen(1200px) {
-        &__cards {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        &__card {
-            &:nth-child(3n - 1) {
-                margin-top: rem(50px);
-            }
-        }
     }
 }
 </style>

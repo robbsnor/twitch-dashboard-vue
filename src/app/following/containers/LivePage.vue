@@ -128,8 +128,8 @@ watch(focused, (isFocused) => {
 <template>
     <template v-if="!loading">
         <Section title="Categories">
-            <div class="relative -mx-4">
-                <div class="flex gap-4 flex-nowrap overflow-x-auto px-4 ffspr-8">
+            <div class="relative -mx-4 2xl:mx-0">
+                <div class="flex gap-4 flex-nowrap overflow-x-auto px-4 2xl:px-0">
                     <img
                         v-for="category in categories"
                         :key="category.id"

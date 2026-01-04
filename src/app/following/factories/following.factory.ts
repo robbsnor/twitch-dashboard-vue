@@ -29,7 +29,7 @@ export class FollowingFactory {
                 title: stream.title,
                 viewers: stream.viewer_count,
                 name: stream.user_name,
-                game: stream.game_name || '-',
+                game: stream.game_name,
                 avatar: stream.profile_image_url,
                 startedAt: stream.started_at,
             };

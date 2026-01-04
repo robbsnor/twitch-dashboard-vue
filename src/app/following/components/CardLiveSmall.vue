@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
-import type { CardLive as CardLiveModel } from "../models/card-live.model";
-import CardLiveOptions from "./CardLiveOptions.vue";
+import type { CardLive as CardLiveModel } from '../models/card-live.model';
+import CardLiveOptions from './CardLiveOptions.vue';
 
 const props = defineProps<{
     card: CardLiveModel;
@@ -27,24 +27,35 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 
             <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
-                    <v-btn class="card-small__options" v-bind="props" variant="text" icon="mdi-dots-vertical"
-                        size="small" />
+                    <v-btn
+                        class="card-small__options"
+                        v-bind="props"
+                        variant="text"
+                        icon="mdi-dots-vertical"
+                        size="small"
+                    />
                 </template>
 
                 <div class="bs">
                     <v-img :src="card.thumbnail" alt="" class="bs__thumbnail" eager />
 
-                    <div style="background-color: rgba(0, 0, 0, 0.8); padding: 16px; padding-bottom: 4px; ">
-                        <div style="color: white ; margin-bottom: 4px;">
+                    <div style="background-color: rgba(0, 0, 0, 0.8); padding: 16px; padding-bottom: 4px">
+                        <div style="color: white; margin-bottom: 4px">
                             {{ card.title }}
                         </div>
-                        <div style="font-size: 1rem;">
+                        <div style="font-size: 1rem">
                             {{ CardLiveService.getUptime(card.startedAt) }}
                         </div>
                     </div>
 
-                    <CardLiveOptions v-model:filter="filter" v-model:sheet="sheet" :game="card.game"
-                        :username="card.name" :userId="card.userId" :isFavourite="false" />
+                    <CardLiveOptions
+                        v-model:filter="filter"
+                        v-model:sheet="sheet"
+                        :game="card.game"
+                        :username="card.name"
+                        :userId="card.userId"
+                        :isFavourite="false"
+                    />
                 </div>
             </v-bottom-sheet>
 
@@ -54,7 +65,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
         <div class="card-small__info">
             <div class="card-small__title">{{ card.title }}</div>
 
-            <div class="card-small__game-container">
+            <div v-if="card.game" class="card-small__game-container">
                 <div class="card-small__game">{{ card.game }}</div>
             </div>
 
@@ -107,7 +118,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
         align-items: flex-end;
         justify-content: flex-end;
         aspect-ratio: 1 / 1;
-        background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
         pointer-events: none;
         position: absolute;
         height: 60px;

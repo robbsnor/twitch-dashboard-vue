@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
-import type { CardLive as CardLiveModel } from "../models/card-live.model";
-import CardLiveOptions from "./CardLiveOptions.vue";
+import type { CardLive as CardLiveModel } from '../models/card-live.model';
+import CardLiveOptions from './CardLiveOptions.vue';
 
 const props = defineProps<{
     card: CardLiveModel;
@@ -10,50 +10,53 @@ const props = defineProps<{
 
 const filter = defineModel<string>('filter');
 
-const cssClass = computed(() => {
-    return {
-        'card-fancy': true,
-    };
-});
-
 const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
 </script>
 
 <template>
-    <div :class="cssClass" :data-user-id="card.userId">
-        <div class="card-fancy__header">
-            <RouterLink :to="`/user/${card.name}`" class="card-fancy__user">
-                <img
-                    v-if="card.avatar"
-                    :src="card.avatar"
-                    class="card-fancy__avatar"
-                    alt="avatar"
-                />
-                <div class="card-fancy__username">{{ card.name }}</div>
+    <div
+        class="group relative transition-all md:hover:translate-x-[-5px] md:hover:translate-y-[5px]"
+        :data-user-id="card.userId"
+    >
+        <div class="flex items-center pb-4">
+            <RouterLink :to="`/user/${card.name}`" class="z-1 mr-6 flex items-center gap-3 no-underline">
+                <img v-if="card.avatar" :src="card.avatar" class="size-10 shrink-0 rounded-full" alt="avatar" />
+                <div class="text-primary overflow-hidden">{{ card.name }}</div>
             </RouterLink>
 
-            <div class="card-fancy__viewers">{{ viewers }}</div>
-            <!-- <app-myIcon icon="arrow" class="card-fancy__arrow"></app-myIcon> -->
+            <div class="text-black-1900 mr-6 ml-auto font-bold">{{ viewers }}</div>
+            <!-- <app-myIcon icon="arrow" class="transition-all"></app-myIcon> -->
         </div>
 
-        <div class="card-fancy__game">{{ card.game }}</div>
-        <div class="card-fancy__title">{{ card.title }}</div>
+        <div v-if="card.game" class="line-clamp-1 w-full shrink-0 text-[38px] font-bold">
+            {{ card.game }}
+        </div>
+        <div class="text-black-1900 mb-3 line-clamp-1 w-full pt-1.5 text-[18px] font-bold">
+            {{ card.title }}
+        </div>
 
-        <img
-            :src="card.thumbnail"
-            class="card-fancy__thumbnail"
-            alt="thumbnail"
-        />
+        <div class="-mx-5 md:mx-0 transition-all">
+            <img :src="card.thumbnail" class="aspect-video w-full" alt="thumbnail" />
+        </div>
 
-        <div class="card-fancy__uptime">{{ uptime }}</div>
+        <div
+            class="text-muted pointer-events-none absolute bottom-0 -left-5 flex aspect-square size-50 items-end p-4 opacity-0 transition-all group-hover:opacity-100 md:left-0"
+            style="background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
+        >
+            {{ uptime }}
+        </div>
 
         <v-menu location="bottom right" origin="overlap" :offset="[0, 10]">
             <template #activator="{ props }">
-                <div class="card-fancy__options-bg">
+                <div
+                    class="text-muted-more absolute -right-5 bottom-0 flex aspect-square size-50 items-end justify-end p-2 md:right-0"
+                    style="background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
+                >
                     <v-btn
                         v-bind="props"
-                        class="card-fancy__options"
+                        class="relative z-10"
+                        color="white"
                         variant="text"
                         icon="mdi-dots-vertical"
                         size="small"
@@ -75,7 +78,7 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
         <a
             :href="card.link"
             target="_blank"
-            class="card-fancy__link"
+            class="absolute top-0 -right-5 bottom-0 -left-5 block"
             :data-user-id="card.userId"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
@@ -87,124 +90,9 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
 .card-fancy {
     $self: &;
 
-    position: relative;
-    transition: 0.2s;
-
-    &__header {
-        display: flex;
-        align-items: center;
-        padding-bottom: rem(10px);
-    }
-
-    &__user {
-        display: flex;
-        align-items: center;
-        margin-right: rem(25px);
-        gap: rem(10px);
-        text-decoration: none;
-        z-index: 1;
-    }
-
-    &__avatar {
-        border-radius: 999px;
-        width: rem(40px);
-        height: rem(40px);
-        flex-shrink: 0;
-    }
-
-    &__username {
-        color: $c-primary;
-        overflow: hidden; // temp, append dots
-    }
-
-    &__viewers {
-        margin-left: auto;
-        margin-right: rem(25px);
-        font-weight: bold;
-        color: $c-black-20;
-    }
-
-    &__arrow {
-        transition: 0.2s;
-    }
-
-    &__game {
-        @include line-clamp(1);
-        width: 100%;
-        color: $c-white;
-        font-size: rem(38px);
-        font-weight: bold;
-        flex-shrink: 0;
-    }
-
-    &__title {
-        @include line-clamp(1);
-        width: 100%;
-        font-size: rem(18px);
-        font-weight: bold;
-        color: $c-black-20;
-        padding: rem(6px) 0 0;
-        margin-bottom: rem(10px);
-        word-break: break-word;
-    }
-
-    &__thumbnail {
-        aspect-ratio: 16 / 9;
-        width: calc(100% + rem($padding) * 2);
-        max-width: unset;
-        margin-left: rem(-$padding);
-    }
-
-    &__uptime {
-        opacity: 0;
-        position: absolute;
-        bottom: 0;
-        left: rem(-$padding);
-        display: flex;
-        align-items: flex-end;
-        aspect-ratio: 1 / 1;
-        height: rem(200px);
-        padding: rem(10px) rem(17px);
-        color: $c-white--dark;
-        background: linear-gradient(45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
-        transition: .2s;
-        pointer-events: none;
-    }
-
-    &__options-bg {
-        position: absolute;
-        bottom: 0;
-        right: rem(-$padding);
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        aspect-ratio: 1 / 1;
-        height: rem(200px);
-        padding: rem(10px);
-        color: $c-white--dark;
-        background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
-    }
-
-    &__options {
-        z-index: 1;
-    }
-
-    &__link {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: rem(-$padding);
-        bottom: 0;
-        left: rem(-$padding);
-    }
-
     &:hover {
         #{ $self }__arrow {
             transform: translate(#{rem(10px)}, #{rem(-10px)});
-        }
-
-        #{ $self }__uptime {
-            opacity: 1;
         }
     }
 

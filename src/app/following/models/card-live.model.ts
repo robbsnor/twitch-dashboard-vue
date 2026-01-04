@@ -6,6 +6,6 @@ export interface CardLive {
     viewers: number;
     avatar: string;
     name: string;
-    game: string;
+    game?: string;
     startedAt: Date;
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
-import type { CardLive as CardLiveModel } from "../models/card-live.model";
-import CardLiveOptions from "./CardLiveOptions.vue";
+import type { CardLive as CardLiveModel } from '../models/card-live.model';
+import CardLiveOptions from './CardLiveOptions.vue';
 import AddFavouriteDialog from './AddFavouriteDialog.vue';
 
 const props = defineProps<{
@@ -30,22 +30,14 @@ const userForAddFavourite = computed(() => {
     };
 });
 
-const openFavouriteDialog = () => favDialog.value = true;
+const openFavouriteDialog = () => (favDialog.value = true);
 </script>
 
 <template>
     <div :class="cssClass" :data-user-id="card.userId">
-        <a
-            :href="card.link"
-            target="_blank"
-            class="card-normal__thumbnail-container"
-        >
+        <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img
-                :src="card.thumbnail"
-                class="card-normal__thumbnail"
-                alt="thumbnail"
-            />
+            <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail" />
             <div class="card-normal__thumbnail-overlay"></div>
             <div class="card-normal__arrow">(icon)</div>
             <div class="card-normal__viewers">{{ viewers }}</div>
@@ -53,16 +45,11 @@ const openFavouriteDialog = () => favDialog.value = true;
         </a>
 
         <div class="card-normal__title">{{ card.title }}</div>
-        <div class="card-normal__game">{{ card.game }}</div>
+        <div v-if="card.game" class="card-normal__game">{{ card.game }}</div>
 
         <div class="card-normal__footer">
             <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
-                <img
-                    v-if="card.avatar"
-                    :src="card.avatar"
-                    class="card-normal__avatar"
-                    alt="avatar"
-                />
+                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar" />
                 <div class="card-normal__username">{{ card.name }}</div>
             </RouterLink>
 
@@ -131,7 +118,7 @@ const openFavouriteDialog = () => favDialog.value = true;
         align-items: flex-end;
         justify-content: flex-end;
         aspect-ratio: 1 / 1;
-        background: linear-gradient(-45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
         pointer-events: none;
         position: absolute;
         height: 150px;
@@ -148,7 +135,7 @@ const openFavouriteDialog = () => favDialog.value = true;
         display: flex;
         align-items: flex-end;
         aspect-ratio: 1 / 1;
-        background: linear-gradient(45deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%);
+        background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
         pointer-events: none;
         position: absolute;
         height: 150px;
@@ -156,7 +143,7 @@ const openFavouriteDialog = () => favDialog.value = true;
         padding: rem(7px) rem(10px);
         color: $c-white--dark;
         opacity: 0;
-        transition: .2s;
+        transition: 0.2s;
     }
 
     &__thumbnail {
