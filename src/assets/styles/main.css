@@ -87,7 +87,7 @@ p:not(:last-child) {
 
 a.link,
 a:not([class]) {
-    @apply underline text-primary hover:text-pipipink-light;
+    @apply underline text-primary hover:text-primary-light;
 }
 
 @utility scroll-hidden {
