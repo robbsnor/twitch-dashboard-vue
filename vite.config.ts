@@ -40,7 +40,7 @@ export default defineConfig({
                 ],
             },
         }),
-        // vueDevTools(),
+        vueDevTools(),
     ],
     build: {
         chunkSizeWarningLimit: 1000,
