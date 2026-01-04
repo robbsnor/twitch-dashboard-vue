@@ -15,7 +15,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 
 <template>
     <div
-        class="relative grid grid-cols-[150px_1fr] px-4 py-3 transition-all hover:bg-black-300"
+        class="relative grid grid-cols-[150px_1fr] px-5 py-3 transition-all hover:bg-black-300"
         :data-user-id="card.userId"
     >
         <div class="relative mr-4 shrink-0 grow-0 aspect-video">
@@ -65,7 +65,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                 {{ card.game }}
             </div>
 
-            <RouterLink :to="`/user/${card.name}`" class="relative inline-flex items-center gap-2 no-underline z-1">
+            <RouterLink :to="`/user/${card.name}`" class="relative flex items-center gap-2 no-underline z-1">
                 <img v-if="card.avatar" :src="card.avatar" class="block size-6 rounded-full" alt="avatar" />
                 <div class="text-primary">{{ card.name }}</div>
             </RouterLink>
