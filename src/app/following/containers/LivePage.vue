@@ -40,10 +40,14 @@ const schedules = ref<TwitchSchedule[]>();
 
 onMounted(async () => {
     loading.value = true;
-    await fetchStreams();
-    await fetchCategoies();
+    await init();
     loading.value = false;
 });
+
+const init = async () => {
+    await fetchStreams();
+    await fetchCategoies();
+};
 
 const fetchCategoies = async () => {
     if (!streams.value) return;
@@ -110,18 +114,19 @@ const fetchStreams = async () => {
     streams.value = await twitchApiService.getFollowedStreamsWithUser();
 };
 
-const refetchStreams = async () => {
+const refetch = async () => {
     if (!streamsLastFetchedOn.value) return;
 
-    const isLongerThan30SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 30;
-    if (!isLongerThan30SecAgo) return;
+    const isLongerThan10SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 10;
+    if (!isLongerThan10SecAgo) return;
 
-    fetchStreams();
+    await init();
 };
 
-watch(focused, (isFocused) => {
+watch(focused, async (isFocused) => {
     if (!isFocused) return;
-    refetchStreams();
+
+    await refetch();
 });
 </script>
 
