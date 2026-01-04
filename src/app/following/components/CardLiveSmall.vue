@@ -8,7 +8,6 @@ const props = defineProps<{
     card: CardLiveModel;
 }>();
 
-const filter = defineModel<string>('filter');
 const sheet = ref(false);
 
 const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
@@ -46,7 +45,6 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                 </div>
 
                 <CardLiveOptions
-                    v-model:filter="filter"
                     v-model:sheet="sheet"
                     :game="card.game"
                     :username="card.name"

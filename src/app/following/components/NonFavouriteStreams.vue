@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
-import { computed, ref, watch } from "vue";
-import type { TwitchFollowedStreamWithUser } from "../../shared/models/twitch/followed-streams-with-user.model";
-import CardLiveSmall from "../components/CardLiveSmall.vue";
-import CardLiveNormal from "../components/CardLiveNormal.vue";
-import { FollowingFactory } from "../factories/following.factory";
+import { computedAsync } from '@vueuse/core';
+import { computed, ref, watch } from 'vue';
+import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams-with-user.model';
+import CardLiveSmall from '../components/CardLiveSmall.vue';
+import CardLiveNormal from '../components/CardLiveNormal.vue';
+import { FollowingFactory } from '../factories/following.factory';
+import { useFollowingStore } from '../stores/following.store';
 
 const props = defineProps<{
     streams: TwitchFollowedStreamWithUser[];
 }>();
 
-const filter = defineModel<string>("filter");
+const followingStore = useFollowingStore();
 const sectionEl = ref<HTMLElement | any>();
 
 const cards = computed(() => {
@@ -24,26 +25,20 @@ const cards = computed(() => {
             <div v-if="cards" class="non-favourite__cards" v-fade-stagger v-auto-animate>
                 <template v-for="card in cards" :key="card.userId">
                     <div class="non-favourite__card-small">
-                        <CardLiveSmall
-                            :card="card"
-                            v-model:filter="filter"
-                        />
+                        <CardLiveSmall :card="card" />
                     </div>
 
                     <div class="non-favourite__card-normal">
-                        <CardLiveNormal
-                            :card="card"
-                            v-model:filter="filter"
-                        />
+                        <CardLiveNormal :card="card" />
                     </div>
                 </template>
             </div>
 
             <Spinner padding v-else></Spinner>
 
-            <Empty v-if="!cards?.length && !!filter" icon="mdi-movie-search-outline">
+            <Empty v-if="!cards?.length && !!followingStore.filter" icon="mdi-movie-search-outline">
                 <div class="not-found">
-                    No streams found for: <span class="not-found__query">"{{ filter }}"</span>.
+                    No streams found for: <span class="not-found__query">"{{ followingStore.filter }}"</span>.
                 </div>
             </Empty>
         </div>

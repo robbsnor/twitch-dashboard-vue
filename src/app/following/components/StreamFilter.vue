@@ -1,36 +1,24 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { useFollowingStore } from '../stores/following.store';
 
 const props = defineProps<{
     categories?: string[];
 }>();
 
-const filter = defineModel<string | null>('filter');
-const filterEl = ref<HTMLDivElement | any>();
+const followingStore = useFollowingStore();
 
-const scrollToFilter = () => {
-    const yOffset = -120;
-    const y = filterEl.value.getBoundingClientRect().top + window.scrollY + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-};
-
-const appendIcon = computed(() => (!!filter ? 'mdi-close' : undefined));
-
-watch(filter, () => {
-    if (!filter.value) return;
-    // scrollToFilter();
-});
+const appendIcon = computed(() => (!!followingStore.filter ? 'mdi-close' : undefined));
 </script>
 
 <template>
     <v-combobox
-        class="filter__search"
-        v-model="filter"
+        v-model="followingStore.filter"
         :items="props.categories"
         placeholder="Search streams..."
         :clearable="false"
         :append-icon="appendIcon"
-        @click:append="filter = null"
+        @click:append="followingStore.filter = undefined"
         eager
         ref="filterEl"
     />

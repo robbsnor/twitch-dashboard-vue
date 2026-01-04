@@ -8,8 +8,6 @@ const props = defineProps<{
     card: CardLiveModel;
 }>();
 
-const filter = defineModel<string>('filter');
-
 const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
 </script>
@@ -64,13 +62,7 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
                 </div>
             </template>
 
-            <CardLiveOptions
-                v-model:filter="filter"
-                :game="card.game"
-                :username="card.name"
-                :userId="card.userId"
-                :isFavourite="true"
-            />
+            <CardLiveOptions :game="card.game" :username="card.name" :userId="card.userId" :isFavourite="true" />
         </v-menu>
 
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->

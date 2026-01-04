@@ -30,7 +30,6 @@ const followingStore = useFollowingStore();
 const favourtieStore = useFavouriteStore();
 const twitchApiService = new TwitchApiService();
 
-const { filter, streamsLastFetchedOn } = storeToRefs(followingStore);
 const loading = ref(true);
 const streams = ref<TwitchFollowedStreamWithUser[]>();
 const categories = ref<Category[]>();
@@ -89,9 +88,9 @@ const categoriesList = computed(() => {
 });
 
 const filteredStreams = computed(() => {
-    if (!streams.value || !filter.value) return streams.value;
+    if (!streams.value || !followingStore.filter) return streams.value;
 
-    const query = filter.value.toLowerCase();
+    const query = followingStore.filter.toLowerCase();
     return streams.value.filter(({ user_name, game_name, title }) => {
         return [user_name, game_name, title].some((field) => field?.toLowerCase().includes(query));
     });
@@ -110,14 +109,14 @@ const nonFavouriteStreams = computed(() => {
 });
 
 const fetchStreams = async () => {
-    streamsLastFetchedOn.value = new Date().getTime();
+    followingStore.streamsLastFetchedOn = new Date().getTime();
     streams.value = await twitchApiService.getFollowedStreamsWithUser();
 };
 
 const refetch = async () => {
-    if (!streamsLastFetchedOn.value) return;
+    if (!followingStore.streamsLastFetchedOn) return;
 
-    const isLongerThan10SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 10;
+    const isLongerThan10SecAgo = new Date().getTime() - followingStore.streamsLastFetchedOn > 1000 * 10;
     if (!isLongerThan10SecAgo) return;
 
     await init();
@@ -141,8 +140,8 @@ watch(focused, async (isFocused) => {
                         :src="category.image"
                         alt="category"
                         class="shrink-0 transition-all rounded-md cursor-pointer"
-                        @click="filter = category.name"
-                        :style="{ opacity: filter === category.name ? 1 : 0.7 }"
+                        @click="followingStore.filter = category.name"
+                        :style="{ opacity: followingStore.filter === category.name ? 1 : 0.7 }"
                     />
                     <div
                         class="bg-linear-to-r from-black/0 to-black absolute top-0 right-0 bottom-0 w-8 shrink-0"
@@ -151,17 +150,17 @@ watch(focused, async (isFocused) => {
             </div>
 
             <template #actions>
-                <StreamFilter class="filter" v-model:filter="filter" :categories="categoriesList" />
+                <StreamFilter class="filter" :categories="categoriesList" />
             </template>
         </Section>
 
-        <FavouriteStreams v-if="favouriteStreams" v-model:filter="filter" :streams="favouriteStreams" />
+        <FavouriteStreams v-if="favouriteStreams" :streams="favouriteStreams" />
 
         <Section>
             <ZigZag />
         </Section>
 
-        <NonFavouriteStreams v-if="nonFavouriteStreams" v-model:filter="filter" :streams="nonFavouriteStreams" />
+        <NonFavouriteStreams v-if="nonFavouriteStreams" :streams="nonFavouriteStreams" />
 
         <Section>
             <ZigZag></ZigZag>

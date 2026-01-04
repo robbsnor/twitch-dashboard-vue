@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core';
-import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
+import { useFollowingStore } from '../stores/following.store';
 
 const router = useRouter();
 const toast = useToast();
@@ -21,8 +21,7 @@ const props = withDefaults(
         showFilterBy: true,
     }
 );
-
-const filter = defineModel<string>('filter');
+const followingStore = useFollowingStore();
 const sheet = defineModel<boolean>('sheet');
 
 const goToGamePage = (game: string) => {
@@ -36,7 +35,7 @@ const copyuserId = (userId: number) => {
 };
 
 const doFiltering = () => {
-    filter.value = props.game;
+    followingStore.filter = props.game;
     sheet.value = false;
 };
 

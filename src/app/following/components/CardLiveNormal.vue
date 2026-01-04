@@ -9,8 +9,6 @@ const props = defineProps<{
     card: CardLiveModel;
 }>();
 
-const filter = defineModel<string>('filter');
-
 const favDialog = ref<boolean>(false);
 
 const cssClass = computed(() => {
@@ -65,7 +63,6 @@ const openFavouriteDialog = () => (favDialog.value = true);
                 </template>
 
                 <CardLiveOptions
-                    v-model:filter="filter"
                     :game="card.game"
                     :username="card.name"
                     :userId="card.userId"
