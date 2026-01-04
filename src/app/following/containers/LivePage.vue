@@ -128,8 +128,8 @@ watch(focused, (isFocused) => {
 <template>
     <template v-if="!loading">
         <Section title="Categories">
-            <div style="position: relative">
-                <div style="display: flex; gap: 1rem; flex-wrap: nowrap; overflow-x: auto; padding-right: 30px">
+            <div class="relative -mx-4">
+                <div class="flex gap-4 flex-nowrap overflow-x-auto px-4 ffspr-8">
                     <img
                         v-for="category in categories"
                         :key="category.id"
@@ -140,8 +140,7 @@ watch(focused, (isFocused) => {
                         :style="{ opacity: filter === category.name ? 1 : 0.7 }"
                     />
                     <div
-                        style="position: absolute; top: 0; right: 0; bottom: 0; width: 30px; flex-shrink: 0"
-                        class="fade"
+                        class="bg-linear-to-r from-black/0 to-black absolute top-0 right-0 bottom-0 w-8 shrink-0"
                     ></div>
                 </div>
             </div>
@@ -172,29 +171,13 @@ watch(focused, (isFocused) => {
         </template>
 
         <Section>
-            <div class="button-wrapper">
+            <div class="flex flex-col justify-center items-center gap-5">
                 <a href="https://www.twitch.tv/directory/following/videos" target="_blank">
                     <Button color="secondary" icon="twitch">Continue Watching</Button>
                 </a>
             </div>
-
-            <div class="font-black text-xl text-red-400 underline p-2">tailwind!</div>
         </Section>
     </template>
 
     <Spinner v-else padding />
 </template>
-
-<style scoped lang="scss">
-.button-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: rem(20px);
-}
-
-.fade {
-    background: linear-gradient(to left, rgba(black, 1), rgba(black, 0));
-}
-</style>
