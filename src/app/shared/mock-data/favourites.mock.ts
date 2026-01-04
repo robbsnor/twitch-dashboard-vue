@@ -8,6 +8,7 @@ export const MOCK_FAVOURITES_HOPP = [
     57357891, // furretcanwalk
     239356777, // tailscanfly
     26991127, // hiko
+    41157071, // tangotek
     43683025, // ohnepixel
     70225218, // tenz
     912918849, // 223lab, ruski
@@ -20,7 +21,6 @@ export const MOCK_FAVOURITES_HOPP = [
     19840041, // sheepolution
     23220337, // emongg
     75738685, // insym
-    41157071, // tangotek
     847810318, // prompy_wompy
     31468943, // simpleflips
     82653207, // marblr
