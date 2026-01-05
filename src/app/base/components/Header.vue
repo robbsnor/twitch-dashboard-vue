@@ -12,97 +12,29 @@ const props = defineProps<{
 </script>
 
 <template>
-    <header class="header">
-        <div class="header__container">
-            <div class="header__left">
-                <div class="header__hamburger">
+    <header class="h-header bg-linear-to-b from-black to-black/0">
+        <Container class="grid items-center grid-cols-[1fr_auto_1fr] h-full">
+            <div class="flex items-center">
+                <div class="-ml-5">
                     <Hamburger :menuOpen="props.menuOpen" @click="emits('click-hamburger')" />
                 </div>
             </div>
+
             <RouterLink to="/following/live" @click="emits('click-logo')" class="header__logo">
-                <div class="header-logo header-logo--desktop">
-                    <Logo :payoff="true" />
-                </div>
-                <div class="header-logo header-logo--mobile">
+                <div class="transition-all md:hidden hover:scale-105">
                     <Logo :payoff="false" />
                 </div>
+                <div class="transition-all hidden md:block hover:scale-102">
+                    <Logo :payoff="true" />
+                </div>
             </RouterLink>
-            <div class="header__right">
-                <button class="header__user">
+
+            <div class="flex justify-self-end items-center gap-4">
+                <button class="flex items-center">
                     <span class="sr-only">Username</span>
                     <HeaderAvatar v-if="props.user" :image="props.user.profile_image_url" />
                 </button>
             </div>
-        </div>
+        </Container>
     </header>
 </template>
-<style scoped lang="scss">
-.menu {
-    border-radius: 6px;
-    overflow: hidden;
-    background-color: black;
-    border: 1px solid $c-black-4;
-}
-
-.header {
-    height: $header-height;
-    background-image: linear-gradient(180deg, $c-black-1 0%, rgba($c-black-1, 0) 100%);
-
-    &__container {
-        @include container();
-
-        display: grid;
-        align-items: center;
-        grid-template-columns: 1fr auto 1fr;
-        height: 100%;
-    }
-
-    &__left {
-        display: flex;
-        align-items: center;
-    }
-
-    &__hamburger {
-        margin-left: rem(-20px);
-    }
-
-    &__right {
-        justify-self: end;
-        display: flex;
-        align-items: center;
-        gap: 24px;
-    }
-
-    &__user {
-        display: flex;
-        align-items: center;
-        gap: rem(20px);
-    }
-}
-
-.header-logo {
-    transition: .1s;
-
-    &--desktop {
-        display: none;
-    }
-
-    &--mobile {
-        display: block;
-    }
-
-    &:hover {
-        scale: 1.02;
-    }
-
-    @include screen($desktop) {
-        &--desktop {
-            display: block;
-        }
-
-        &--mobile {
-            display: none;
-        }
-    }
-}
-</style>

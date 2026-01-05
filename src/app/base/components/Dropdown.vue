@@ -7,15 +7,15 @@ const menus: Menu[] = [
         items: [
             {
                 text: 'Home',
-                url: '/'
+                url: '/',
             },
             {
                 text: 'Live',
-                url: '/following/live'
+                url: '/following/live',
             },
             {
                 text: 'Users',
-                url: '/following/users'
+                url: '/following/users',
             },
             {
                 text: 'Games',
@@ -23,22 +23,22 @@ const menus: Menu[] = [
             },
             {
                 text: 'Playground',
-                url: '/playground'
+                url: '/playground',
             },
-        ]
+        ],
     },
     {
         title: 'Favourites',
         items: [
             {
                 text: 'Lekker spelen',
-                url: '/user/lekkerspelen'
+                url: '/user/lekkerspelen',
             },
             {
                 text: 'Scuuurrrrr!!',
-                url: '/user/goodtimeswithscar'
+                url: '/user/goodtimeswithscar',
             },
-        ]
+        ],
     },
 ];
 
@@ -50,13 +50,15 @@ const emits = defineEmits(['closeMenu']);
 
 <template>
     <div class="dropdown" :class="{ 'dropdown--open': props.open }">
-        <button @click="emits('closeMenu')" class="dropdown__background"><span class="sr-only">Close menu</span></button>
+        <button @click="emits('closeMenu')" class="dropdown__background">
+            <span class="sr-only">Close menu</span>
+        </button>
 
         <div class="dropdown__menu-container">
             <div class="dropdown__container">
                 <div class="dropdown__navs">
-                    <nav v-for="menu of menus" class="nav dropdown__nav">
-                        <h2 class="nav__title">{{ menu.title }}</h2>
+                    <nav v-for="menu of menus" class="nav dropdown__nav" :key="menu.title">
+                        <h2 class="nav__title text-4xl font-bold">{{ menu.title }}</h2>
                         <ArrowList :items="menu.items" @click:item="emits('closeMenu')"></ArrowList>
                     </nav>
                 </div>
@@ -77,7 +79,7 @@ const emits = defineEmits(['closeMenu']);
     left: 0;
     z-index: 90;
     opacity: 0;
-    transition: .2s;
+    transition: 0.2s;
 
     &__menu-container {
         position: relative;
@@ -89,8 +91,8 @@ const emits = defineEmits(['closeMenu']);
         overflow-y: auto;
         transform-origin: top center;
         opacity: 0;
-        scale: 1 .9;
-        transition: .2s;
+        scale: 1 0.9;
+        transition: 0.2s;
     }
 
     &__container {
@@ -109,7 +111,7 @@ const emits = defineEmits(['closeMenu']);
         top: 0;
         left: 0;
         height: 100%;
-        background-color: rgba($c-black-1, .5);
+        background-color: rgba($c-black-1, 0.5);
         width: 100%;
     }
 

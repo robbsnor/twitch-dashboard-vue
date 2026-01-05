@@ -34,7 +34,7 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
             {{ card.title }}
         </div>
 
-        <div class="-mx-5 md:mx-0 transition-all">
+        <div class="-mx-4 md:mx-0 transition-all">
             <img :src="card.thumbnail" class="aspect-video w-full" alt="thumbnail" />
         </div>
 
@@ -70,7 +70,7 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
         <a
             :href="card.link"
             target="_blank"
-            class="absolute top-0 -right-5 bottom-0 -left-5 block"
+            class="absolute top-0 -right-4 bottom-0 -left-4 block"
             :data-user-id="card.userId"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>

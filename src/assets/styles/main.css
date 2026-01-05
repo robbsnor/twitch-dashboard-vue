@@ -50,6 +50,8 @@
     --color-black-1900: #959595;
     --color-black-2000: #a0a0a0;
 
+    --height-header: 80px;
+
     /* --height-mobile-navbar: 64px;
     --height-available: calc(100vh - var(--height-mobile-navbar));
 

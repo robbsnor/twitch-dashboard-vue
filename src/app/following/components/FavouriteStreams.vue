@@ -17,18 +17,16 @@ const cards = computed(() => {
 </script>
 
 <template>
-    <Section title="Favourites">
+    <Section v-if="cards?.length" title="Favourites">
         <template #backgroundArt>
             <Swirl v-if="streams?.length" class="swirl"></Swirl>
         </template>
 
-        <div v-if="cards?.length" class="grid gap-12 md:grid-cols-2 lg:grid-cols-3" v-fade-stagger="{ delay: 100 }">
-            <div v-for="card in cards" :key="card.userId" class="w-full lg:nth-[3n-1]:mt-12" v-auto-animate>
+        <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-3" v-fade-stagger="{ delay: 100 }" v-auto-animate>
+            <div v-for="card in cards" :key="card.userId" class="w-full lg:nth-[3n-1]:mt-12">
                 <CardLiveFancy :card="card" />
             </div>
         </div>
-
-        <p v-else>No favourite streamers online.</p>
     </Section>
 </template>
 
