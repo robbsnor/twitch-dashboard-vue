@@ -16,8 +16,8 @@ const props = defineProps<{
             <slot name="backgroundArt"></slot>
         </div>
 
-        <Container>
-            <div class="flex justify-between gap-4 pb-4 md:flex-row md:items-end">
+        <Container v-if="props.title || slots.description || slots.actions">
+            <div class="flex flex-wrap justify-between gap-4 pb-4 md:flex-row md:items-end">
                 <div>
                     <h2 v-if="props.title" class="p-0 text-4xl font-bold">{{ props.title }}</h2>
                     <div v-if="slots.description">

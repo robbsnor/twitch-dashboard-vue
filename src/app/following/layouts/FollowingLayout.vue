@@ -5,7 +5,7 @@ const followingStore = useFollowingStore();
 </script>
 
 <template>
-    <Section first hideHeader class="following__tabs">
+    <Section first>
         <PageTabs :title="followingStore.pageTabs.title" :pages="followingStore.pageTabs.paths" />
     </Section>
 
