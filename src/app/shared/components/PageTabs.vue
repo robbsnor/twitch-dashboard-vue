@@ -9,14 +9,10 @@ const props = defineProps<Props>();
 
 <template>
     <div class="page-tabs">
-        <h3 class="page-tabs__title">{{ props.title }}</h3>
+        <h3 class="page-tabs__title text-4xl font-bold">{{ props.title }}</h3>
 
         <ul class="page-tabs__list">
-            <li
-                v-for="page in props.pages"
-                :key="page.name"
-                class="page-tabs__list-item"
-            >
+            <li v-for="page in props.pages" :key="page.name" class="page-tabs__list-item">
                 <RouterLink
                     :to="page.path"
                     :class="{

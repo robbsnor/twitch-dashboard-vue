@@ -98,17 +98,6 @@ onMounted(() => {
 <template>
     <div class="user-cards">
         <Section first class="user-cards__section" title="Video's">
-            <template #actions>
-                <div class="filter">
-                    <v-combobox
-                        class="filter__search"
-                        v-model="search"
-                        :items="_categories"
-                        placeholder="Search videos..."
-                    />
-                </div>
-            </template>
-
             <template #default>
                 <div class="cards" v-fade-stagger>
                     <CardVideo

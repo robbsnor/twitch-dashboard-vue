@@ -24,7 +24,7 @@ onMounted(async () => {
 
 <template>
     <Section title="Favourites">
-        <div v-if="favouriteUsers" class="user-cards" v-fade-stagger="{ delay: 13 }">
+        <div v-if="favouriteUsers" class="user-cards" v-fade-stagger>
             <CardUser
                 v-for="user in favouriteUsers"
                 :name="user.name"

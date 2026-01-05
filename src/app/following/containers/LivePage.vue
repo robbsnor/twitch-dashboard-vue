@@ -133,7 +133,7 @@ watch(focused, async (isFocused) => {
     <template v-if="!loading">
         <Section title="Categories">
             <div class="relative -mx-4 2xl:mx-0">
-                <div class="flex gap-4 flex-nowrap overflow-x-auto px-4 2xl:px-0">
+                <div class="flex gap-4 flex-nowrap overflow-x-auto px-4 2xl:px-0" v-fade-stagger>
                     <img
                         v-for="category in categories"
                         :key="category.id"
@@ -150,7 +150,9 @@ watch(focused, async (isFocused) => {
             </div>
 
             <template #actions>
-                <StreamFilter class="filter" :categories="categoriesList" />
+                <div class="w-full md:max-w-85">
+                    <StreamFilter class="filter" :categories="categoriesList" />
+                </div>
             </template>
         </Section>
 

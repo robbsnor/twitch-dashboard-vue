@@ -1,118 +1,36 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
+import { twMerge } from 'tailwind-merge';
 
 const slots = useSlots();
 
 const props = defineProps<{
     title?: string;
     first?: boolean;
-    modifier?: string;
 }>();
-
-const cssClass = computed(() => {
-    return {
-        'section': true,
-        'section--first': props.first,
-        'section--no-title': !props.title,
-        'section--hide-header': !props.title && !slots.actions,
-        [`section--${props.modifier}`]: props.modifier
-    };
-});
 </script>
 
 <template>
-    <section :class="cssClass">
-        <div v-if="slots.backgroundArt" class="section__background-art">
+    <section :class="twMerge('relative py-6', props.first && 'mt-0')">
+        <div v-if="slots.backgroundArt" class="absolute w-full h-full">
             <slot name="backgroundArt"></slot>
         </div>
 
-        <div v-if="slots.top" class="section__top">
-            <slot name="top"></slot>
-        </div>
-
-        <div class="section__header">
-            <div class="section__header-left">
-                <h2 v-if="props.title" class="section__title">{{ props.title }}</h2>
-                <div v-if="slots.description">
-                    <slot name="description"></slot>
+        <Container>
+            <div class="flex justify-between gap-4 pb-4 md:flex-row md:items-end">
+                <div>
+                    <h2 v-if="props.title" class="p-0 text-4xl font-bold">{{ props.title }}</h2>
+                    <div v-if="slots.description">
+                        <slot name="description"></slot>
+                    </div>
                 </div>
-            </div>
 
-            <div v-if="slots.actions" class="section__actions">
-                <slot name="actions"></slot>
+                <slot v-if="slots.actions" name="actions"></slot>
             </div>
-        </div>
+        </Container>
 
-        <div class="section__body">
+        <Container>
             <slot></slot>
-        </div>
+        </Container>
     </section>
 </template>
-
-<style scoped lang="scss">
-.section {
-    $self: &;
-
-    position: relative;
-    padding: rem(25px) 0;
-
-    &__background-art {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-
-    &__header,
-    &__body {
-        @include container();
-        position: relative;
-    }
-
-    &__header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: rem($padding-smaller);
-        padding-bottom: rem($padding);
-    }
-
-    &__title {
-        padding: 0;
-    }
-
-    &--first {
-        padding-top: 0;
-    }
-
-    &--hide-header {
-        #{ $self }__header {
-            display: none;
-        }
-    }
-
-    @include screen($desktop) {
-        &__header {
-            flex-direction: row;
-            align-items: flex-end;
-            gap: rem($padding-larger);
-            padding-bottom: rem($padding-larger);
-        }
-
-        &__actions {
-            min-width: rem(336px);
-        }
-
-        &--no-title {
-            #{ $self }__actions {
-                margin-left: auto;
-            }
-        }
-    }
-
-    &--schedule {
-        #{ $self }__body {
-            @include container($container-default-width + 200px);
-        }
-    }
-}
-</style>

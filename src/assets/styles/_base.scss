@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 body {
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: $c-black-1;
     color: $c-text-base;
     font-weight: 500;
@@ -15,48 +16,41 @@ img {
     max-width: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: $c-text-headers;
-    font-weight: bold;
-}
+.editor {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: $c-text-headers;
+        font-weight: bold;
+    }
 
-h1 {
-    font-size: rem(48px);
-    padding-bottom: 1rem;
-}
+    h1 {
+        font-size: rem(48px);
+        padding-bottom: 1rem;
+    }
 
-h2 {
-    font-size: rem(32px);
-    padding-bottom: 1rem;
-}
+    h2 {
+        font-size: rem(32px);
+        padding-bottom: 1rem;
+    }
 
-h3 {
-    font-size: rem(28px);
-    padding-bottom: 1rem;
-}
+    h3 {
+        font-size: rem(28px);
+        padding-bottom: 1rem;
+    }
 
-h4 {
-    font-size: rem(24px);
-    padding-bottom: 1rem;
-}
+    h4 {
+        font-size: rem(24px);
+        padding-bottom: 1rem;
+    }
 
-p {
-    padding-bottom: rem($padding);
-    color: $c-black-18;
-}
-
-button {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    color: white;
-    cursor: pointer;
+    p {
+        padding-bottom: rem($padding);
+        color: $c-black-18;
+    }
 }
 
 a {

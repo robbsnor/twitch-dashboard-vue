@@ -18,7 +18,7 @@ export const fadeStagger = {
     },
     mounted(el: HTMLElement, binding: DirectiveBinding<FadeStaggerBinding>) {
         const children = Array.from(el.children) as HTMLElement[];
-        const delay = binding.value?.delay || 50;
+        const delay = binding.value?.delay || 15;
 
         children.forEach((child, index) => {
             setTimeout(() => {
