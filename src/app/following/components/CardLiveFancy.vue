@@ -20,10 +20,14 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
         <div class="flex items-center pb-4">
             <RouterLink :to="`/user/${card.name}`" class="z-1 mr-6 flex items-center gap-3 no-underline">
                 <img v-if="card.avatar" :src="card.avatar" class="size-10 shrink-0 rounded-full" alt="avatar" />
-                <div class="text-primary overflow-hidden">{{ card.name }}</div>
+                <div class="text-primary text-lg overflow-hidden">{{ card.name }}</div>
             </RouterLink>
 
-            <div class="text-black-1900 mr-6 ml-auto font-bold">{{ viewers }}</div>
+            <div class="flex items-center gap-1.5 text-black-1900 mr-6 ml-auto text-lg font-bold">
+                <v-icon size="18">mdi-account</v-icon>
+                {{ viewers }}
+            </div>
+
             <!-- <app-myIcon icon="arrow" class="transition-all"></app-myIcon> -->
         </div>
 
@@ -39,16 +43,19 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
         </div>
 
         <div
-            class="text-muted pointer-events-none absolute bottom-0 -left-5 flex aspect-square size-50 items-end p-4 opacity-0 transition-all group-hover:opacity-100 md:left-0"
+            class="pointer-events-none absolute bottom-0 -left-4 flex aspect-square size-50 items-end p-3 transition-all md:left-0"
             style="background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
         >
-            {{ uptime }}
+            <div class="flex items-center justify-center gap-2 pl-1">
+                <div class="size-3 rounded-full bg-red-500 -mt-0.5"></div>
+                {{ uptime }}
+            </div>
         </div>
 
         <v-menu location="bottom right" origin="overlap" :offset="[0, 10]">
             <template #activator="{ props }">
                 <div
-                    class="text-muted-more absolute -right-5 bottom-0 flex aspect-square size-50 items-end justify-end p-2 md:right-0"
+                    class="text-muted-more absolute -right-4 bottom-0 flex size-50 items-end justify-end p-2 md:right-0"
                     style="background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
                 >
                     <v-btn
@@ -67,14 +74,14 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
 
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
 
-        <a
+        <!-- <a
             :href="card.link"
             target="_blank"
             class="absolute top-0 -right-4 bottom-0 -left-4 block"
             :data-user-id="card.userId"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-        </a>
+        </a> -->
     </div>
 </template>
 
