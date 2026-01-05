@@ -143,6 +143,21 @@ watch(focused, async (isFocused) => {
                         @click="followingStore.filter = category.name"
                         :style="{ opacity: followingStore.filter === category.name ? 1 : 0.7 }"
                     />
+                    <!-- <div
+                        v-for="category in categories"
+                        :key="category.id"
+                        alt="category"
+                        class="group shrink-0 bg-red-300 transition-all rounded-md cursor-pointer overflow-hidden relative w-32"
+                        @click="followingStore.filter = category.name"
+                        :style="{ opacity: followingStore.filter === category.name ? 1 : 0.7 }"
+                    >
+                        <img :src="category.image" class="w-full" />
+                        <div
+                            class="group-hover:opacity-100 opacity-0f absolute bottom-0 left-0 right-0 bg-black/50 p-2"
+                        >
+                            <div class="line-clamp-2">{{ category.amountOfStreamers }}</div>
+                        </div>
+                    </div> -->
                     <div
                         class="bg-linear-to-r from-black/0 to-black absolute top-0 right-0 bottom-0 w-8 shrink-0"
                     ></div>
