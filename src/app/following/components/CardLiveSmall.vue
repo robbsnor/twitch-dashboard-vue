@@ -15,7 +15,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 
 <template>
     <div
-        class="relative grid grid-cols-[150px_1fr] px-5 py-2 transition-all hover:bg-black-300"
+        class="relative grid grid-cols-[150px_1fr] px-5 py-2.5 transition-all hover:bg-black-300"
         :data-user-id="card.userId"
     >
         <div class="relative mr-4 shrink-0 grow-0 aspect-video">
