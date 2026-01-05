@@ -57,7 +57,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
         </div>
 
         <div class="overflow-hidden">
-            <div class="line-clamp-1 shrink-0 mb-1">
+            <div class="line-clamp-1 shrink-0">
                 {{ card.title }}
             </div>
 
@@ -65,7 +65,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                 {{ card.game }}
             </div>
 
-            <RouterLink :to="`/user/${card.name}`" class="relative flex items-center gap-2 no-underline z-1">
+            <RouterLink :to="`/user/${card.name}`" class="relative inline-flex items-center gap-2 no-underline z-1">
                 <img v-if="card.avatar" :src="card.avatar" class="block size-6 rounded-full" alt="avatar" />
                 <div class="text-primary">{{ card.name }}</div>
             </RouterLink>
