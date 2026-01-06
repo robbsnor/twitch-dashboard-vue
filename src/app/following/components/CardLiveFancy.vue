@@ -74,14 +74,14 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
 
         <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
 
-        <!-- <a
+        <a
             :href="card.link"
             target="_blank"
             class="absolute top-0 -right-4 bottom-0 -left-4 block"
             :data-user-id="card.userId"
         >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-        </a> -->
+        </a>
     </div>
 </template>
 
