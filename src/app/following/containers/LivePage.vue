@@ -159,7 +159,7 @@ watch(focused, async (isFocused) => {
                         </div>
                     </div> -->
                     <div
-                        class="bg-linear-to-r from-black/0 to-black absolute top-0 right-0 bottom-0 w-8 shrink-0"
+                        class="bg-linear-to-r from-black/0 to-black absolute top-0 right-0 bottom-0 w-8 shrink-0 pointer-events-none"
                     ></div>
                 </div>
             </div>
