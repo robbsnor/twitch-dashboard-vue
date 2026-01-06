@@ -20,7 +20,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
     >
         <div class="relative mr-4 shrink-0 grow-0 aspect-video">
             <div
-                class="right-0 bottom-0 flex items-end justify-end pointer-events-none absolute h-15 aspect-square p-1 px-2 text-muted text-[14px]"
+                class="right-0 bottom-0 flex items-end justify-end pointer-events-none absolute h-15 aspect-square p-1 px-2 text-muted text-sm"
                 style="background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
             >
                 {{ viewers }}
@@ -28,7 +28,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 
             <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
-                    <div class="absolute top-0 right-0 z-1">
+                    <div class="absolute -top-1 -right-1 z-1">
                         <v-btn v-bind="props" variant="text" icon="mdi-dots-vertical" size="small" />
                     </div>
                 </template>
