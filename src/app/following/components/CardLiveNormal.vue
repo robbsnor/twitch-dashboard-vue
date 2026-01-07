@@ -32,34 +32,47 @@ const openFavouriteDialog = () => (favDialog.value = true);
 </script>
 
 <template>
-    <div :class="cssClass" :data-user-id="card.userId">
-        <a :href="card.link" target="_blank" class="card-normal__thumbnail-container">
+    <div :class="cssClass" :data-user-id="card.userId" class="grow-0 shrink-0">
+        <a
+            :href="card.link"
+            target="_blank"
+            class="group block relative aspect-video transition-all bg-black hover:-translate-x-1 hover:translate-y-1"
+        >
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="card-normal__thumbnail" alt="thumbnail" />
-            <div class="card-normal__thumbnail-overlay"></div>
-            <div class="card-normal__arrow">(icon)</div>
-            <div class="card-normal__viewers">{{ viewers }}</div>
-            <div class="card-normal__uptime">{{ uptime }}</div>
+            <img :src="card.thumbnail" class="w-full h-full rounded transition-all" alt="thumbnail" />
+            <div class="absolute inset-0 -z-1"></div>
+            <div class="arrow hidden">(icon)</div>
+            <div
+                class="absolute bottom-0 right-0 flex items-end justify-end size-37.5 transition-all pointer-events-none py-1 px-2 text-muted group-hover:text-normal"
+                style="background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
+            >
+                {{ viewers }}
+            </div>
+            <div
+                class="absolute bottom-0 left-0 flex items-end justify-start size-37.5 pointer-events-none py-1 px-2 transition-all opacity-0 group-hover:opacity-100"
+                style="background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
+            >
+                <div class="flex items-center gap-1">
+                    <div class="size-3 bg-red-500 rounded-full -mt-0.5"></div>
+                    {{ uptime }}
+                </div>
+            </div>
         </a>
 
-        <div class="card-normal__title">{{ card.title }}</div>
-        <div v-if="card.game" class="card-normal__game">{{ card.game }}</div>
+        <div class="pt-2 line-clamp-1 font-bold text-lg break-all">
+            {{ card.title }}
+        </div>
+        <div v-if="card.game" class="text-muted">{{ card.game }}</div>
 
-        <div class="card-normal__footer">
-            <RouterLink :to="`/user/${card.name}`" class="card-normal__user">
-                <img v-if="card.avatar" :src="card.avatar" class="card-normal__avatar" alt="avatar" />
-                <div class="card-normal__username">{{ card.name }}</div>
+        <div class="flex justify-between items-center">
+            <RouterLink :to="`/user/${card.name}`" class="flex items-center">
+                <img v-if="card.avatar" :src="card.avatar" class="block size-[25px] rounded-full mr-2" alt="avatar" />
+                <div class="text-primary">{{ card.name }}</div>
             </RouterLink>
 
             <v-menu location="bottom right" origin="overlap">
                 <template #activator="{ props }">
-                    <v-btn
-                        class="card-normal__options"
-                        v-bind="props"
-                        variant="text"
-                        icon="mdi-dots-vertical"
-                        size="small"
-                    />
+                    <v-btn class="-mr-2" v-bind="props" variant="text" icon="mdi-dots-vertical" size="small" />
                 </template>
 
                 <CardLiveOptions
@@ -75,166 +88,3 @@ const openFavouriteDialog = () => (favDialog.value = true);
 
     <AddFavouriteDialog v-model:dialog="favDialog" :user="userForAddFavourite" />
 </template>
-
-<style scoped lang="scss">
-.card-normal {
-    $self: &;
-
-    &__thumbnail-container {
-        display: block;
-        position: relative;
-        aspect-ratio: 16 / 9;
-        transition: 0.2s;
-        background-color: black;
-
-        &:hover {
-            transform: translate(#{rem(-5px)}, #{rem(5px)});
-
-            #{ $self }__arrow {
-                opacity: 1;
-                transform: translate(#{rem(10px)}, #{rem(-10px)});
-            }
-        }
-    }
-
-    &__arrow {
-        position: absolute;
-        top: rem(20px);
-        right: rem(20px);
-        color: $c-black-14;
-        font-size: rem(16px);
-        opacity: 0;
-        transition: 0.2s;
-    }
-
-    &__viewers {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        aspect-ratio: 1 / 1;
-        background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
-        pointer-events: none;
-        position: absolute;
-        height: 150px;
-        aspect-ratio: 1 / 1;
-        padding: rem(7px) rem(10px);
-        color: $c-white--dark;
-    }
-
-    &__uptime {
-        opacity: 0;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        align-items: flex-end;
-        aspect-ratio: 1 / 1;
-        background: linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
-        pointer-events: none;
-        position: absolute;
-        height: 150px;
-        aspect-ratio: 1 / 1;
-        padding: rem(7px) rem(10px);
-        color: $c-white--dark;
-        opacity: 0;
-        transition: 0.2s;
-    }
-
-    &__thumbnail {
-        width: 100%;
-        height: 100%;
-        border-radius: $border-radius-normal;
-        transition: 0.2s;
-    }
-
-    &__thumbnail-overlay {
-        position: absolute;
-        background-color: black;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-    }
-
-    &__info {
-        overflow: hidden;
-        padding-top: rem(10px);
-    }
-
-    &__title {
-        @include line-clamp(1);
-        flex-shrink: 0;
-        padding: rem(12px) 0 0;
-        color: $c-white;
-        word-break: break-word;
-    }
-
-    &__game {
-        padding: rem(4px) 0 0;
-        font-size: rem(16px);
-        color: $c-white--dark;
-    }
-
-    &__footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    &__user {
-        display: flex;
-        align-items: center;
-        color: $c-black-14;
-        font-size: rem(18px);
-        padding: rem(7px) 0;
-
-        // text overlow doenst work
-        text-decoration: none;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-
-        &:hover {
-            #{ $self }__username {
-                color: $c-primary--lighter;
-            }
-        }
-    }
-
-    &__avatar {
-        display: block;
-        width: rem(25px);
-        height: rem(25px);
-        border-radius: 999px;
-        margin-right: rem(10px);
-    }
-
-    &__username {
-        color: $c-primary;
-    }
-
-    &__options {
-        // opacity: 0;
-        transition: 0.2s;
-        transform: translateX(10px);
-    }
-
-    &:hover {
-        #{ $self }__uptime {
-            opacity: 1;
-        }
-    }
-
-    @include screen(800px) {
-        &:hover {
-            #{ $self }__options {
-                opacity: 1;
-            }
-        }
-    }
-}
-</style>

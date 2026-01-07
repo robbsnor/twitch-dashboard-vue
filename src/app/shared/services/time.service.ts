@@ -9,7 +9,9 @@ export class TimeService {
      */
     public static formatTime(time: string): string {
         const timeArray = time.replace('h', ':').replace('m', ':').replace('s', '').split(':');
-        const formattedTime = timeArray.map((timeUnit) => NumberService.singleToDoubleDigits(parseInt(timeUnit))).join(':');
+        const formattedTime = timeArray
+            .map((timeUnit) => NumberService.singleToDoubleDigits(parseInt(timeUnit)))
+            .join(':');
         return formattedTime;
     }
 
@@ -23,9 +25,7 @@ export class TimeService {
         const seconds = Math.floor((diff / 1000) % 60);
 
         const timeArray = [hours, minutes, seconds];
-        const timeString = timeArray
-            .map((time) => (time < 10 ? `0${time}` : time))
-            .join(":");
+        const timeString = timeArray.map((time) => (time < 10 ? `0${time}` : time)).join(':');
 
         return timeString;
     }
