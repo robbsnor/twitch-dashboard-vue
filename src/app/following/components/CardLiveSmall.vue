@@ -39,7 +39,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                     <div style="color: white; margin-bottom: 4px">
                         {{ card.title }}
                     </div>
-                    <div class="text-muted-more text-base">
+                    <div class="text-muted-more">
                         {{ CardLiveService.getUptime(card.startedAt) }}
                     </div>
                 </div>
@@ -57,11 +57,11 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
         </div>
 
         <div class="overflow-hidden flex flex-col items-start">
-            <div class="line-clamp-1 shrink-0">
+            <div class="line-clamp-1 shrink-0 font-bold break-all">
                 {{ card.title }}
             </div>
 
-            <div v-if="card.game" class="line-clamp-1 mb-1 relative text-muted-more text-base">
+            <div v-if="card.game" class="line-clamp-1 mb-1 relative text-muted">
                 {{ card.game }}
             </div>
 

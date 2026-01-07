@@ -31,10 +31,10 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
             <!-- <app-myIcon icon="arrow" class="transition-all"></app-myIcon> -->
         </div>
 
-        <div v-if="card.game" class="line-clamp-1 w-full shrink-0 text-[38px] font-bold">
+        <div v-if="card.game" class="line-clamp-1 w-full shrink-0 text-[38px] font-bold break-all">
             {{ card.game }}
         </div>
-        <div class="text-black-1900 mb-3 line-clamp-1 w-full text-[18px] font-bold">
+        <div class="text-black-1900 mb-3 line-clamp-1 w-full text-[18px] font-bold break-all">
             {{ card.title }}
         </div>
 

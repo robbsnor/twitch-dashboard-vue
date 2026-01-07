@@ -42,6 +42,15 @@ const cards = computed(() => {
                 </div>
             </Empty>
         </div>
+
+        <div v-if="followingStore.filter" class="flex justify-center gap-2 pt-10">
+            <v-btn variant="tonal" color="primary" @click="followingStore.filter = undefined" append-icon="mdi-close">
+                Clear filter
+            </v-btn>
+            <v-btn variant="text" :to="`/games/${followingStore.filter}`" append-icon="mdi-close">
+                Find other streams
+            </v-btn>
+        </div>
     </Section>
 </template>
 
