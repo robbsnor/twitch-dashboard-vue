@@ -21,5 +21,6 @@ const appendIcon = computed(() => (!!followingStore.filter ? 'mdi-close' : undef
         @click:append="followingStore.filter = undefined"
         eager
         ref="filterEl"
+        :class="{ 'pr-0.5': followingStore.filter }"
     />
 </template>
