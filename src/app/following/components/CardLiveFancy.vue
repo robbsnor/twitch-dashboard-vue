@@ -14,16 +14,16 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
 
 <template>
     <div
-        class="group relative transition-all md:hover:translate-x-[-5px] md:hover:translate-y-[5px]"
+        class="group relative transition-all md:hover:-translate-x-1 md:hover:translate-y-1"
         :data-user-id="card.userId"
     >
-        <div class="flex items-center pb-4">
-            <RouterLink :to="`/user/${card.name}`" class="z-1 mr-6 flex items-center gap-3 no-underline">
+        <div class="flex items-center pb-4 gap-6">
+            <RouterLink :to="`/user/${card.name}`" class="z-1 flex items-center gap-3 no-underline">
                 <img v-if="card.avatar" :src="card.avatar" class="size-10 shrink-0 rounded-full" alt="avatar" />
                 <div class="text-primary text-lg overflow-hidden">{{ card.name }}</div>
             </RouterLink>
 
-            <div class="flex items-center gap-1.5 text-black-1900 mr-6 ml-auto text-lg font-bold">
+            <div class="flex items-center gap-1.5 text-black-1900 mr-4 ml-auto text-lg font-bold">
                 <v-icon size="18">mdi-account</v-icon>
                 {{ viewers }}
             </div>
