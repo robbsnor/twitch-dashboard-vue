@@ -1,42 +1,26 @@
 <script setup lang="ts">
+const links = [
+    {
+        href: 'https://github.com/robbsnor/twitch-dashboard-vue',
+        icon: 'github',
+        tooltip: 'Github Repo',
+    },
+    {
+        href: 'https://vercel.com/robbsnors-projects/twitch-dashboard-vue/deployments',
+        icon: 'activity',
+        tooltip: 'Vercel',
+    },
+];
 </script>
 
 <template>
-  <footer class="footer">
-        <v-tooltip text="Github Repo">
+    <footer class="flex justify-center items-center gap-12 py-12 px-4">
+        <v-tooltip v-for="link in links" :text="link.tooltip" :key="link.icon">
             <template v-slot:activator="{ props }">
-                <a v-bind="props" class="footer__icon-link" href="https://github.com/robbsnor/twitch-dashboard-vue" target="_blank">
-                    <vue-feather class="footer__icon" type="github" />
-                </a>
-            </template>
-        </v-tooltip>
-
-        <v-tooltip text="Vercel">
-            <template v-slot:activator="{ props }">
-                <a v-bind="props" class="footer__icon-link" href="https://vercel.com/robbsnors-projects/twitch-dashboard-vue/deployments" target="_blank">
-                    <vue-feather class="footer__icon" type="activity" />
+                <a v-bind="props" :href="link.href" target="_blank">
+                    <vue-feather :type="link.icon" class="transition-all text-muted-more hover:text-primary" />
                 </a>
             </template>
         </v-tooltip>
     </footer>
 </template>
-
-<style scoped lang="scss">
-.footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: rem(50px);
-    padding: rem(50px) rem($padding);
-
-    &__icon-link {
-        transition: .2s;
-        color: $c-black-8;
-        cursor: pointer;
-
-        &:hover {
-            color: $c-primary;
-        }
-    }
-}
-</style>

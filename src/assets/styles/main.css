@@ -52,10 +52,7 @@
 
     --height-header: 80px;
 
-    /* --height-mobile-navbar: 64px;
-    --height-available: calc(100vh - var(--height-mobile-navbar));
-
-    --spacing-mobile-navbar: var(--height-mobile-navbar); */
+    --padding-height-header: var(--height-header);
 
     --breakpoint-3xl: 120rem;
     --breakpoint-4xl: 140rem;

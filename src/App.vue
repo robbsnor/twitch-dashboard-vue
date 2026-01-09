@@ -12,22 +12,30 @@ const authStore = useAuthStore();
 const menuOpen = ref(false);
 const mainMinHeight = ref(0);
 
-onKeyStroke(['w', 'W'], (e) => {
-    const isFocusingBody = document.activeElement === document.body;
-    if (!isFocusingBody) return;
+onKeyStroke(
+    ['w', 'W'],
+    (e) => {
+        const isFocusingBody = document.activeElement === document.body;
+        if (!isFocusingBody) return;
 
-    toggleMenu();
-}, { dedupe: true, target: document });
+        toggleMenu();
+    },
+    { dedupe: true, target: document }
+);
 
-onKeyStroke(['Escape'], (e) => {
-    const isFocusingBody = document.activeElement === document.body;
-    if (!isFocusingBody) return;
+onKeyStroke(
+    ['Escape'],
+    (e) => {
+        const isFocusingBody = document.activeElement === document.body;
+        if (!isFocusingBody) return;
 
-    menuOpen.value = false;
-}, { dedupe: true });
+        menuOpen.value = false;
+    },
+    { dedupe: true }
+);
 
-const toggleMenu = () => menuOpen.value = !menuOpen.value;
-const closeMenu = () => menuOpen.value = false;
+const toggleMenu = () => (menuOpen.value = !menuOpen.value);
+const closeMenu = () => (menuOpen.value = false);
 
 onMounted(() => {
     mainMinHeight.value = getMainMinHeight();
@@ -42,9 +50,9 @@ const getMainMinHeight = () => {
 
 <template>
     <v-app>
-        <div class="app">
+        <div class="pt-height-header">
             <Header
-                class="app__header"
+                class="fixed inset-0 z-100"
                 :user="authStore.user"
                 :menuOpen="menuOpen"
                 @click-profile="authStore.signOut"
@@ -52,31 +60,13 @@ const getMainMinHeight = () => {
                 @click-hamburger="toggleMenu"
             />
 
-            <Dropdown
-                class="app__dropdown"
-                :open="menuOpen"
-                @closeMenu="toggleMenu"
-            />
+            <Dropdown class="app__dropdown" :open="menuOpen" @closeMenu="toggleMenu" />
 
-            <main class="app__main" :style="'min-height: ' + mainMinHeight + 'px'">
+            <main :style="'min-height: ' + mainMinHeight + 'px'">
                 <RouterView />
             </main>
 
-            <Footer class="app__footer" />
+            <Footer />
         </div>
     </v-app>
 </template>
-
-<style scoped lang="scss">
-.app {
-    padding-top: $header-height;
-
-    &__header {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 100;
-    }
-}
-</style>
