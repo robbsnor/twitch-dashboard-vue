@@ -61,11 +61,11 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                 {{ card.title }}
             </div>
 
-            <div v-if="card.game" class="line-clamp-1 mb-1 relative text-muted">
+            <div v-if="card.game" class="line-clamp-1 relative text-muted">
                 {{ card.game }}
             </div>
 
-            <RouterLink :to="`/user/${card.name}`" class="relative flex items-center gap-2 no-underline z-1">
+            <RouterLink :to="`/user/${card.name}`" class="relative flex items-center gap-2 no-underline mt-1 z-1">
                 <img v-if="card.avatar" :src="card.avatar" class="block size-6 rounded-full" alt="avatar" />
                 <div class="text-primary">{{ card.name }}</div>
             </RouterLink>
