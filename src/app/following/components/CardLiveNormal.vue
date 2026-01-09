@@ -43,7 +43,7 @@ const openFavouriteDialog = () => (favDialog.value = true);
             <div class="absolute inset-0 -z-1"></div>
             <div class="arrow hidden">(icon)</div>
             <div
-                class="absolute bottom-0 right-0 flex items-end justify-end size-37.5 transition-all pointer-events-none py-1 px-2 text-muted group-hover:text-normal"
+                class="absolute bottom-0 right-0 flex items-end justify-end size-37.5 transition-all pointer-events-none py-1 px-3 text-muted group-hover:text-normal"
                 style="background: linear-gradient(-45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%)"
             >
                 {{ viewers }}

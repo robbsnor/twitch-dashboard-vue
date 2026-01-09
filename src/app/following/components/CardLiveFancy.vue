@@ -24,8 +24,8 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
             </RouterLink>
 
             <div class="flex items-center gap-1.5 text-black-1900 mr-1 ml-auto text-lg font-bold">
-                <v-icon size="18">mdi-account</v-icon>
                 {{ viewers }}
+                <v-icon size="18">mdi-account</v-icon>
             </div>
 
             <!-- <app-myIcon icon="arrow" class="transition-all"></app-myIcon> -->
