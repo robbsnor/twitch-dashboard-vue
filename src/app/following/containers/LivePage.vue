@@ -31,7 +31,7 @@ const nonFavouriteStreams = computed(() => {
 
 watch(focused, async (isFocused) => {
     if (!isFocused) return;
-    await followingStore.refetch();
+    await followingStore.fetchAll();
 });
 </script>
 

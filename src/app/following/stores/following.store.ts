@@ -102,15 +102,6 @@ export const useFollowingStore = defineStore('following', () => {
             .sort((a, b) => b.viewers - a.viewers);
     };
 
-    const refetch = async () => {
-        if (!streamsLastFetchedOn.value) return;
-
-        const isLongerThan10SecAgo = new Date().getTime() - streamsLastFetchedOn.value > 1000 * 10;
-        if (!isLongerThan10SecAgo) return;
-
-        await fetchAll();
-    };
-
     return {
         pageTabs,
         filter,
@@ -124,6 +115,5 @@ export const useFollowingStore = defineStore('following', () => {
         fetchAll,
         fetchStreams,
         fetchCategoies,
-        refetch,
     };
 });
