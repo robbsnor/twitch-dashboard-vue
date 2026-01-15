@@ -63,39 +63,41 @@
     --ring-color-default: var(--color-black);
 }
 
+@layer base {
+    .copy h1,
+    .copy h2,
+    .copy h3,
+    .copy h4,
+    .copy h5,
+    .copy h6 {
+        @apply text-normal font-bold text-2xl mb-1 not-first:mt-8;
+    }
+
+    .copy p {
+        @apply text-muted;
+    }
+
+    .copy p:not(:last-child) {
+        @apply mb-3;
+    }
+}
+
+@utility scroll-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
 html {
     scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears */
-}
-
-.copy h1,
-.copy h2,
-.copy h3,
-.copy h4,
-.copy h5,
-.copy h6 {
-    @apply text-normal font-bold text-2xl mb-1 not-first:mt-8;
-}
-
-.copy p {
-    @apply text-muted;
 }
 
 body {
     @apply font-space-grotesk overflow-x-hidden text-normal;
 }
 
-p:not(:last-child) {
-    @apply mb-3;
-}
-
 a.link,
 a:not([class]) {
     @apply underline text-primary hover:text-primary-light;
-}
-
-@utility scroll-hidden {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
 button {

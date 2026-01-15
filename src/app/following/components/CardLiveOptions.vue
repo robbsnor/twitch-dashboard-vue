@@ -57,7 +57,9 @@ const removeFromFavourites = () => {
         <v-list-item v-if="props.isFavourite" prepend-icon="mdi-heart-remove" @click="removeFromFavourites()">
             Remove from favourites
         </v-list-item>
-        <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()"> Add to favourites </v-list-item>
+        <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()" class="text-primary">
+            Add to favourites
+        </v-list-item>
         <v-list-item prepend-icon="mdi-content-copy" @click="copyuserId(props.userId)"> Copy user id </v-list-item>
         <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: props.username } }">
             View profile
