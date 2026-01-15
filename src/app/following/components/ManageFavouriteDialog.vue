@@ -39,7 +39,7 @@ async function onOpen() {
     loading.value = false;
 }
 
-async function insert(index: number) {
+async function insertBelow(index: number) {
     // remove if exists
     const existingIndex = favUsers.value.findIndex((u) => u.id === props.user.id);
     if (existingIndex !== -1) {
@@ -55,18 +55,6 @@ async function insert(index: number) {
         avatar: props.user.avatar,
         id: props.user.id,
     });
-}
-
-function showButton(user: AddFavourtieUserProps, index: number) {
-    if (index === favUsers.value.length - 1) {
-        return true;
-    }
-
-    if (favUsers.value[index + 1].id === props.user.id) {
-        return false;
-    }
-
-    return true;
 }
 
 async function save() {
@@ -87,18 +75,22 @@ async function save() {
     <Dialog v-model="dialog" title="Favourites" :description="description" icon="mdi-heart" @open="onOpen" width="500">
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
-                <VueDraggable handle="._handle" ref="el" :animation="100" v-model="favUsers">
+                <VueDraggable handle="._handle" :animation="100" v-model="favUsers" v-auto-animate>
                     <div
                         v-for="(user, index) in favUsers"
                         :key="user.id"
-                        :class="{ 'bg-primary rounded': user.id === props.user.id }"
+                        :class="{ 'bg-black-400 rounded': user.id === props.user.id }"
                         class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
                     >
-                        <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
-                        <!-- <div class="text-muted text-lg font-bold text-right">{{ index + 1 }}</div> -->
+                        <!-- <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" /> -->
+                        <div class="text-muted font-bold text-right">
+                            {{ index + 1 }}
+                        </div>
                         <img :src="user.avatar" alt="avatar" class="size-10 rounded-full" />
-                        <div class="font-bold text-muted truncate">{{ user.name }}</div>
-                        <div class="ml-auto">
+                        <div class="font-bold truncate" :class="{ 'text-primary': user.id === props.user.id }">
+                            {{ user.name }}
+                        </div>
+                        <div class="ml-auto flex gap-4">
                             <v-btn
                                 v-if="user.id !== props.user.id"
                                 icon="mdi-arrow-left-bottom"
@@ -106,7 +98,7 @@ async function save() {
                                 variant="tonal"
                                 color="primary"
                                 class="rounded!"
-                                @click="insert(index)"
+                                @click="insertBelow(index)"
                             >
                             </v-btn>
                         </div>
@@ -118,7 +110,7 @@ async function save() {
         <Spinner v-else />
 
         <template #footer>
-            <v-btn variant="text" @click="dialog = false">Cancel</v-btn>
+            <v-btn variant="tonal" @click="dialog = false">Cancel</v-btn>
             <v-btn color="primary" :disabled="!isAddedToFavourites" @click="save()" :loading="saving">Save</v-btn>
         </template>
     </Dialog>
