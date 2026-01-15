@@ -76,7 +76,7 @@ watch(
                 </button>
             </div>
 
-            <div class="overflow-auto max-h-[70vh]" v-if="props.showBody">
+            <div class="overflow-auto max-h-[60vh]" v-if="props.showBody">
                 <slot></slot>
             </div>
 
