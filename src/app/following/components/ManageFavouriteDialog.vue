@@ -97,7 +97,7 @@ async function save() {
                         <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
                         <!-- <div class="text-muted text-lg font-bold text-right">{{ index + 1 }}</div> -->
                         <img :src="user.avatar" alt="avatar" class="size-10 rounded-full" />
-                        <div class="font-bold text-lg truncate">{{ user.name }}</div>
+                        <div class="font-bold text-muted truncate">{{ user.name }}</div>
                         <div class="ml-auto">
                             <v-btn
                                 v-if="user.id !== props.user.id"
