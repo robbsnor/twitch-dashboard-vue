@@ -6,7 +6,7 @@ import { TitleService } from '../../shared/services/title.service';
 import UserHeader, { type UserHeaderProps } from '../components/UserHeader.vue';
 import { UserFactory } from '../factories/user.factory';
 import UserCards from './UserCards.vue';
-import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
+import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 
 const userLogin = useRouteParams<string>('userLogin');
 const twitchApi = useTwitchApi();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
+import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { PromiseService } from '@/app/shared/services/promise.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';

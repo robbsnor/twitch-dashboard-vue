@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue';
 import { TitleService } from '../../shared/services/title.service';
 import type { CardGameModel } from '../components/CardGame.vue';
 import CardGame from '@/app/following/components/CardGame.vue';
-import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
+import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 
 TitleService.setTitle('Games');
 

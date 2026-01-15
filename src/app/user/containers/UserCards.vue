@@ -8,7 +8,7 @@ import CardVideo from '../components/CardVideo.vue';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
 import { UserFactory } from '../factories/user.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
-import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
+import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 
 const props = defineProps<{
     user: TwitchUser;
