@@ -3,7 +3,6 @@ import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { PromiseService } from '@/app/shared/services/promise.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import { VueDraggableNext as draggable } from 'vue-draggable-next';
 import { computed, onMounted, ref } from 'vue';
 
 export interface AddFavourtieUserProps {
