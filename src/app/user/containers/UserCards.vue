@@ -14,8 +14,6 @@ const props = defineProps<{
     user: TwitchUser;
 }>();
 
-const twitchApiService = new TwitchApiService();
-
 const appOptionsStore = useAppOptionsStore();
 const { options } = storeToRefs(appOptionsStore);
 
@@ -36,7 +34,7 @@ const _categories = computed(() => {
 const getCards = async (amount = 20, _pagination?: string) => {
     loadingCards.value = true;
 
-    const res = await twitchApiService.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
+    const res = await TwitchApiService.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
     pagination.value = res.pagination.cursor;
 
     const videos = res.data;
@@ -70,7 +68,7 @@ const searchVideos = async (query: string | null) => {
         })
         .map((video) => video.videoId);
 
-    const res = await twitchApiService.getVideosByVideoIds(videoIds);
+    const res = await TwitchApiService.getVideosByVideoIds(videoIds);
     cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
     pagination.value = '';
     loadingCards.value = false;

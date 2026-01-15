@@ -17,7 +17,6 @@ export const useFollowingStore = defineStore('following', () => {
     const streamsLastFetchedOn = ref<number>();
     const streams = ref<TwitchFollowedStreamWithUser[]>();
     const categories = ref<Category[]>();
-    const twitchApiService = new TwitchApiService();
     const loading = ref(true);
     const pageTabs = {
         title: 'Following',
@@ -68,14 +67,14 @@ export const useFollowingStore = defineStore('following', () => {
 
     const fetchStreams = async () => {
         streamsLastFetchedOn.value = new Date().getTime();
-        streams.value = await twitchApiService.getFollowedStreamsWithUser();
+        streams.value = await TwitchApiService.getFollowedStreamsWithUser();
     };
 
     const fetchCategoies = async () => {
         if (!streams.value) return;
 
         const categoryIds = [...new Set(streams.value.map((stream) => Number(stream.game_id)))].filter(Boolean);
-        const twitchCategories = (await twitchApiService.getGames({ ids: categoryIds })).data;
+        const twitchCategories = (await TwitchApiService.getGames({ ids: categoryIds })).data;
 
         categories.value = streams.value
             .reduce((acc, stream) => {

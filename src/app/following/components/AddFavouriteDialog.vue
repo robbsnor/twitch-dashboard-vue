@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
-const favUsers = ref(["Etho", "Lekkerspelen", "ML7Support", "Emongg", "Ruski Fortnice player", "Slewya", "FurretCanWalk", "Shroud"]);
+const favUsers = ref([
+    'Etho',
+    'Lekkerspelen',
+    'ML7Support',
+    'Emongg',
+    'Ruski Fortnice player',
+    'Slewya',
+    'FurretCanWalk',
+    'Shroud',
+]);
 
 export interface AddFavourtieUserProps {
     name: string;
@@ -15,30 +24,15 @@ const props = defineProps<{
     user: AddFavourtieUserProps;
 }>();
 
-const title = `Add "${props.user?.name}" to your favourites`
+const title = `Add "${props.user?.name}" to your favourites`;
 
-const close = () => dialog.value = false;
-const open = () => dialog.value = true;
+const close = () => (dialog.value = false);
+const open = () => (dialog.value = true);
 </script>
 
 <template>
-    <Dialog
-        v-model:dialog="dialog"
-        :title="title"
-    >
-        <div class="body">
-            <VueDraggable
-                v-model="favUsers"
-                :animation="150"
-                tag="ol"
-                class="users"
-                handle=".user__drag-icon"
-            >
-                <li v-for="(user, i) in favUsers" :key="user" class="user">
-                    <v-icon class="user__drag-icon">mdi-drag-horizontal-variant</v-icon>{{ user }}
-                </li>
-            </VueDraggable>
-        </div>
+    <Dialog v-model:dialog="dialog" :title="title">
+        <div></div>
 
         <template #footer>
             <div class="footer">
@@ -58,7 +52,7 @@ const open = () => dialog.value = true;
 
 .users {
     .sortable-ghost {
-        opacity: .2;
+        opacity: 0.2;
     }
 }
 
@@ -68,7 +62,6 @@ const open = () => dialog.value = true;
         margin-right: 10px;
     }
 }
-
 
 .footer {
     display: flex;

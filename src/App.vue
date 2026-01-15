@@ -6,50 +6,27 @@ import { RouterView } from 'vue-router';
 import Dropdown from '@/app/base/components/Dropdown.vue';
 import Footer from '@/app/base/components/Footer.vue';
 import Header from '@/app/base/components/Header.vue';
+import { useFavouriteStore } from './app/shared/stores/favourites.store';
 
 const authStore = useAuthStore();
-
+const favouriteStore = useFavouriteStore();
 const menuOpen = ref(false);
-const mainMinHeight = ref(0);
+const loading = ref(true);
 
-onKeyStroke(
-    ['w', 'W'],
-    (e) => {
-        const isFocusingBody = document.activeElement === document.body;
-        if (!isFocusingBody) return;
+onMounted(async () => {
+    if (authStore.session) {
+        await favouriteStore.init();
+    }
 
-        toggleMenu();
-    },
-    { dedupe: true, target: document }
-);
-
-onKeyStroke(
-    ['Escape'],
-    (e) => {
-        const isFocusingBody = document.activeElement === document.body;
-        if (!isFocusingBody) return;
-
-        menuOpen.value = false;
-    },
-    { dedupe: true }
-);
+    loading.value = false;
+});
 
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
 const closeMenu = () => (menuOpen.value = false);
-
-onMounted(() => {
-    mainMinHeight.value = getMainMinHeight();
-});
-
-const getMainMinHeight = () => {
-    const headerHeight = document.querySelector('.app__header')?.clientHeight || 0;
-    const footerHeight = document.querySelector('.app__footer')?.clientHeight || 0;
-    return window.innerHeight - headerHeight - footerHeight;
-};
 </script>
 
 <template>
-    <v-app>
+    <v-app v-if="!loading">
         <div class="pt-height-header">
             <Header
                 class="fixed inset-0 z-100"
@@ -62,7 +39,7 @@ const getMainMinHeight = () => {
 
             <Dropdown class="app__dropdown" :open="menuOpen" @closeMenu="toggleMenu" />
 
-            <main :style="'min-height: ' + mainMinHeight + 'px'">
+            <main>
                 <RouterView />
             </main>
 

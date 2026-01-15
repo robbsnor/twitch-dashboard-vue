@@ -10,11 +10,13 @@
         "preview": "npx http-server dist --port 5173",
         "preview-og": "vite preview",
         "type-check": "vue-tsc --build --force",
-        "generate-pwa-icons": "pwa-assets-generator"
+        "generate-pwa-icons": "pwa-assets-generator",
+        "generate-types": "supabase gen types typescript --project-id \"knbcpyymjytcscyxonly\" --schema public > src/app/database.types.ts"
     },
     "dependencies": {
         "@formkit/auto-animate": "^0.8.1",
         "@lottiefiles/lottie-player": "^2.0.4",
+        "@supabase/supabase-js": "^2.90.1",
         "@tailwindcss/vite": "^4.1.18",
         "@types/lodash": "^4.17.0",
         "@types/luxon": "^3.4.2",

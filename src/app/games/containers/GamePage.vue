@@ -9,7 +9,6 @@ import type { TwitchGame } from '../../shared/models/twitch/games.model';
 import GamePageHeader from '../components/GamePageHeader.vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 
-const twitchApiService = new TwitchApiService();
 const route = useRoute();
 const router = useRouter();
 
@@ -18,12 +17,12 @@ const game = ref<TwitchGame | null>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
-    const res = await twitchApiService.getGames({ names: [gameName] });
+    const res = await TwitchApiService.getGames({ names: [gameName] });
 
     const _game = res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
     if (!_game) return (game.value = null);
 
-    const streams = await twitchApiService.getStreamsByGameIdWithUsers(Number(_game.id));
+    const streams = await TwitchApiService.getStreamsByGameIdWithUsers(Number(_game.id));
     game.value = _game;
     cards.value = GamesFactory.mapToCardLive(streams);
 });

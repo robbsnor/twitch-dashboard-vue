@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { GamesFactory } from "@/app/games/factories/games.factory";
-import { TwitchApiService } from "@/app/shared/services/twitch-api.service";
-import { useFavouriteStore } from "@/app/shared/stores/favourites.store";
-import { onMounted, ref } from "vue";
-import { TitleService } from "../../shared/services/title.service";
-import type { CardGameModel } from "../components/CardGame.vue";
-import CardGame from "@/app/following/components/CardGame.vue";
+import { GamesFactory } from '@/app/games/factories/games.factory';
+import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
+import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
+import { onMounted, ref } from 'vue';
+import { TitleService } from '../../shared/services/title.service';
+import type { CardGameModel } from '../components/CardGame.vue';
+import CardGame from '@/app/following/components/CardGame.vue';
 
-const twitchApiService = new TwitchApiService();
-
-TitleService.setTitle("Games");
+TitleService.setTitle('Games');
 
 const favouriteStore = useFavouriteStore();
 
 const favCards = ref<CardGameModel[]>();
 
 const getFavouriteCards = async () => {
-    const res = await twitchApiService.getGames({
+    const res = await TwitchApiService.getGames({
         names: favouriteStore.favouriteCategories,
     });
 

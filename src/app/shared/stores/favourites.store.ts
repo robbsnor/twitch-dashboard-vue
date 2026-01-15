@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia';
-import { useAuthStore } from '../../auth/stores/auth.store';
-import { MOCK_FAVOURITES_FLUUMP, MOCK_FAVOURITES_HOPP } from '../mock-data/favourites.mock';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { supabase } from '@/app/supabase';
+import type { Tables } from '@/app/database.types';
+// import { TwitchApiService2 } from '../services/twitch-api.service';
 
 export const useFavouriteStore = defineStore('favourite', () => {
-    const authStore = useAuthStore();
+    // const twitch2 = TwitchApiService2();
+    const favouriteUsers = ref<Tables<'favourite_users'>[]>();
+    const favouriteUserIds = computed(() => favouriteUsers.value?.map((user) => user.user_id) || []);
     const favouriteCategories = [
         'Call of Duty: Black Ops',
         'Call of Duty: Black Ops II',
@@ -22,16 +25,29 @@ export const useFavouriteStore = defineStore('favourite', () => {
         'Beat Saber',
     ];
 
-    const favouriteStreamerIds = computed(() => {
-        const login = authStore.user?.login;
+    async function init() {
+        await fetchFavouriteUsers();
+    }
 
-        if (login === 'robbsnor') return MOCK_FAVOURITES_HOPP;
-        if (login === 'lunpia_') return MOCK_FAVOURITES_FLUUMP;
-        return [];
-    });
+    async function fetchFavouriteUsers() {
+        const { data, error } = await supabase.from('favourite_users').select('*').order('order', { ascending: true });
+        if (error) throw error;
+
+        favouriteUsers.value = data;
+    }
+
+    // async function fetchTwitchFavouriteUsers() {
+    //     const followedStreamsWithUser = await twitch2.getUsers({ ids: favouriteUserIds.value });
+    //     console.log(followedStreamsWithUser);
+
+    //     console.log('foooofooo');
+    // }
 
     return {
         favouriteCategories,
-        favouriteStreamerIds,
+        favouriteUsers,
+        favouriteUserIds,
+
+        init,
     };
 });

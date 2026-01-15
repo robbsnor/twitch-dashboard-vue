@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useAuthStore } from '../stores/auth.store';
 import { useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
+import { supabase } from '@/app/supabase';
+import { PromiseService } from '@/app/shared/services/promise.service';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const { user } = storeToRefs(authStore);
 
 onMounted(async () => {
-    await new Promise(resolve => setTimeout(resolve, 800));
-    await authStore.signIn();
-});
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
 
-watch(user, async (value) => {
-    if (!value) return;
+    if (!session?.user) return;
+
+    authStore.setSession(session);
+
     router.push({ name: 'live' });
 });
 </script>
@@ -22,8 +24,7 @@ watch(user, async (value) => {
 <template>
     <div class="log-in">
         <Section first>
-            <Spinner padding text="Loggin you in..."/>
+            <Spinner padding text="Loggin you in..." />
         </Section>
     </div>
 </template>
-

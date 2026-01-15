@@ -8,15 +8,14 @@ import CardUser from '../components/CardUser.vue';
 import { UserFactory } from '../factories/user.factory';
 
 TitleService.setTitle('Users');
-const twitchApiService = new TwitchApiService();
 
 const favouriteStore = useFavouriteStore();
 
 const favouriteUsers = ref<CardUserProps[]>();
 
 onMounted(async () => {
-    const res = await twitchApiService.getUsers({
-        ids: favouriteStore.favouriteStreamerIds,
+    const res = await TwitchApiService.getUsers({
+        ids: favouriteStore.favouriteUserIds,
     });
     favouriteUsers.value = UserFactory.mapToCardUser(res.data);
 });
