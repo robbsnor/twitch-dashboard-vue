@@ -2,10 +2,10 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { supabase } from '@/app/supabase';
 import type { Tables } from '@/app/database.types';
-// import { TwitchApiService2 } from '../services/twitch-api.service';
+import { useTwitchApi } from '../services/twitch-api.service';
 
 export const useFavouriteStore = defineStore('favourite', () => {
-    // const twitch2 = TwitchApiService2();
+    const twitchApi = useTwitchApi();
     const favouriteUsers = ref<Tables<'favourite_users'>[]>();
     const favouriteUserIds = computed(() => favouriteUsers.value?.map((user) => user.user_id) || []);
     const favouriteCategories = [
@@ -36,12 +36,12 @@ export const useFavouriteStore = defineStore('favourite', () => {
         favouriteUsers.value = data;
     }
 
-    // async function fetchTwitchFavouriteUsers() {
-    //     const followedStreamsWithUser = await twitch2.getUsers({ ids: favouriteUserIds.value });
-    //     console.log(followedStreamsWithUser);
+    async function fetchTwitchFavouriteUsers() {
+        const followedStreamsWithUser = await twitchApi.getUsers({ ids: favouriteUserIds.value });
+        console.log(followedStreamsWithUser);
 
-    //     console.log('foooofooo');
-    // }
+        console.log('foooofooo');
+    }
 
     return {
         favouriteCategories,
@@ -49,5 +49,6 @@ export const useFavouriteStore = defineStore('favourite', () => {
         favouriteUserIds,
 
         init,
+        fetchTwitchFavouriteUsers,
     };
 });

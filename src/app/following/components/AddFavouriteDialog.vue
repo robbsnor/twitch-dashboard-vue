@@ -18,6 +18,8 @@ export interface AddFavourtieUserProps {
     id: number;
 }
 
+onMounted(() => {});
+
 const dialog = defineModel<boolean>('dialog');
 
 const props = defineProps<{

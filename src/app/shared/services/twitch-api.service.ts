@@ -14,7 +14,7 @@ import type { TwitchGetSchedule, TwitchSchedule } from '../models/twitch/schedul
 import type { TwitchScheduleWithUser } from '../models/twitch/schedule-with-user.model';
 import { supabase } from '@/app/supabase';
 
-export function TwitchApiService2() {
+export function useTwitchApi() {
     const authStore = useAuthStore();
 
     async function http<T>(url: string): Promise<T> {
@@ -83,92 +83,18 @@ export function TwitchApiService2() {
         return res;
     }
 
-    return {
-        getUsers,
-    };
-}
-
-export class TwitchApiService {
-    private static authStore = useAuthStore();
-
-    public static async http<T>(url: string): Promise<T> {
-        if (!this.authStore.session?.provider_token) {
-            await this.refreshTokens();
-        }
-
-        const res = await fetch(url, {
-            headers: {
-                authorization: `Bearer ${this.authStore.session?.provider_token}`,
-                'Client-Id': `bpjttmchlxdfo9t47z8g3b7snhr9h4`,
-            },
-        });
-
-        const data: T = await res.json();
-
-        return data;
-    }
-
-    // api calls
-    private static async refreshTokens() {
-        const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
-            body: {
-                refresh_token: this.authStore.refreshToken,
-            },
-        });
-
-        console.log('Refreshing Twitch token...');
-
-        // if (error) {
-        //     await this.authStore.signOut();
-        //     throw new Error(`Failed to refresh Twitch access token: ${error.message}`);
-        // }
-
-        this.authStore.accessToken = data.access_token;
-        this.authStore.refreshToken = data.refresh_token;
-    }
-
-    public static async getUsers(user: { ids?: number[]; logins?: string[] }): Promise<TwitchGetUsers> {
-        const url = new URL('https://api.twitch.tv/helix/users');
-        if (user.ids) user.ids.forEach((id) => url.searchParams.append('id', id.toString()));
-        if (user.logins) user.logins.forEach((login) => url.searchParams.append('login', login));
-
-        const res = await this.http<TwitchGetUsers>(url.toString());
-        if (res.data.length === 0) throw new Error('No users found');
-
-        const unorderedUsers = res.data;
-        let orderedUsers: TwitchUser[] = [];
-
-        // it will find one
-        if (user.ids) {
-            // @ts-ignore
-            orderedUsers = user.ids.map((userId) => {
-                return unorderedUsers.find((unorderedUser) => Number(unorderedUser.id) === userId);
-            });
-        }
-
-        if (user.logins) {
-            // @ts-ignore
-            orderedUsers = user.logins.map((user) => {
-                return unorderedUsers.find((unorderedUser) => unorderedUser.login === user.toLocaleLowerCase());
-            });
-        }
-
-        res.data = orderedUsers;
-        return res;
-    }
-
-    public static async getFollowedStreams(): Promise<TwitchFollowedStream[]> {
+    async function getFollowedStreams(): Promise<TwitchFollowedStream[]> {
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
-        const userId = this.authStore.user!.provider_id;
+        const userId = authStore.user!.provider_id;
         url.searchParams.append('user_id', userId);
-        const res = await this.http<TwitchGetFollowedStreams>(url.toString());
+        const res = await http<TwitchGetFollowedStreams>(url.toString());
         return res.data;
     }
 
-    public static async getFollowedStreamsWithUser(): Promise<TwitchFollowedStreamWithUser[]> {
-        const followedStreams = await this.getFollowedStreams();
+    async function getFollowedStreamsWithUser(): Promise<TwitchFollowedStreamWithUser[]> {
+        const followedStreams = await getFollowedStreams();
         const userIds = followedStreams.map((stream) => Number(stream.user_id));
-        const users = (await this.getUsers({ ids: userIds })).data;
+        const users = (await getUsers({ ids: userIds })).data;
         const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
             return {
                 ...followedStreams[index],
@@ -178,19 +104,16 @@ export class TwitchApiService {
         return streamsWithUser;
     }
 
-    public static async getFollowedChannels(
-        userId: number,
-        broadcasterId?: number
-    ): Promise<TwitchGetFollowedChannels> {
+    async function getFollowedChannels(userId: number, broadcasterId?: number): Promise<TwitchGetFollowedChannels> {
         const url = new URL('https://api.twitch.tv/helix/channels/followed');
         url.searchParams.append('user_id', userId.toString());
         if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
-        const res = await this.http<TwitchGetFollowedChannels>(url.toString());
+        const res = await http<TwitchGetFollowedChannels>(url.toString());
         return res;
     }
 
-    public static async getVideosByUserId(
+    async function getVideosByUserId(
         userId: number,
         type: VideoTypesModel = 'all',
         after?: string, // cursor
@@ -203,17 +126,17 @@ export class TwitchApiService {
         url.searchParams.append('first', amount.toString());
         if (after) url.searchParams.append('after', after);
 
-        const res = await this.http<TwitchGetVideos>(url.toString());
+        const res = await http<TwitchGetVideos>(url.toString());
         return res;
     }
 
-    public static async getVideosByVideoIds(ids: number[]): Promise<TwitchGetVideos | { data: never[] }> {
+    async function getVideosByVideoIds(ids: number[]): Promise<TwitchGetVideos | { data: never[] }> {
         const url = new URL('https://api.twitch.tv/helix/videos');
         if (ids.length > 100) ids = ids.slice(0, 100);
         if (ids.length === 0) return { data: [] };
 
         ids.forEach((id) => url.searchParams.append('id', id.toString()));
-        const res = await this.http<TwitchGetVideos>(url.toString());
+        const res = await http<TwitchGetVideos>(url.toString());
         const unorderedVideos = res.data;
 
         const orderedVideos: TwitchVideo[] = ids.reduce((acc: TwitchVideo[], id: number) => {
@@ -226,20 +149,20 @@ export class TwitchApiService {
         return res;
     }
 
-    public static async getChannelFollowers(broadcasterId: number): Promise<TwitchGetChannelFollowers> {
+    async function getChannelFollowers(broadcasterId: number): Promise<TwitchGetChannelFollowers> {
         const url = new URL('https://api.twitch.tv/helix/channels/followers');
         url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
-        const res = await this.http<TwitchGetChannelFollowers>(url.toString());
+        const res = await http<TwitchGetChannelFollowers>(url.toString());
         return res;
     }
 
-    public static async getGames(game: { ids?: number[]; names?: string[] }): Promise<TwitchGetGames> {
+    async function getGames(game: { ids?: number[]; names?: string[] }): Promise<TwitchGetGames> {
         const url = new URL('https://api.twitch.tv/helix/games');
         if (game.ids) game.ids.forEach((id) => url.searchParams.append('id', id.toString()));
         if (game.names) game.names.forEach((name) => url.searchParams.append('name', name));
 
-        const res = await this.http<TwitchGetGames>(url.toString());
+        const res = await http<TwitchGetGames>(url.toString());
 
         let orderedGames: TwitchGame[] = [];
 
@@ -260,19 +183,19 @@ export class TwitchApiService {
         return res;
     }
 
-    public static async getStreamsByGameIds(ids: number[]): Promise<TwitchGetStreams> {
+    async function getStreamsByGameIds(ids: number[]): Promise<TwitchGetStreams> {
         const url = new URL('https://api.twitch.tv/helix/streams');
         ids.forEach((id) => url.searchParams.append('game_id', id.toString()));
         url.searchParams.append('first', '100');
 
-        const res = await this.http<TwitchGetStreams>(url.toString());
+        const res = await http<TwitchGetStreams>(url.toString());
         return res;
     }
 
-    public static async getStreamsByGameIdWithUsers(id: number): Promise<TwitchStreamsWithUser[]> {
-        const streams = (await this.getStreamsByGameIds([id])).data;
+    async function getStreamsByGameIdWithUsers(id: number): Promise<TwitchStreamsWithUser[]> {
+        const streams = (await getStreamsByGameIds([id])).data;
         const userIds = streams.map((stream) => Number(stream.user_id));
-        const users = (await this.getUsers({ ids: userIds })).data;
+        const users = (await getUsers({ ids: userIds })).data;
         const streamsWithUser = streams.map<TwitchStreamsWithUser>((stream, index) => {
             return {
                 ...streams[index],
@@ -282,22 +205,21 @@ export class TwitchApiService {
         return streamsWithUser;
     }
 
-    public static async getSchedules(userIds: number[], amount = 25): Promise<TwitchSchedule[]> {
+    async function getSchedules(userIds: number[], amount = 25): Promise<TwitchSchedule[]> {
         const promises = userIds.map(async (userId) => {
             const url = new URL('https://api.twitch.tv/helix/schedule');
             url.searchParams.append('broadcaster_id', userId.toString());
             url.searchParams.append('first', amount.toString());
-            return await this.http<TwitchGetSchedule>(url.toString()).catch(() => null);
+            return await http<TwitchGetSchedule>(url.toString()).catch(() => null);
         });
 
         return (await Promise.all(promises)).filter(Boolean).map((res) => res!.data);
     }
 
-    public static async getScheduleWithUsers(userIds: number[]): Promise<TwitchScheduleWithUser[]> {
-        const schedules = await this.getSchedules(userIds);
+    async function getScheduleWithUsers(userIds: number[]): Promise<TwitchScheduleWithUser[]> {
+        const schedules = await getSchedules(userIds);
         const userIdsWithSchedules = schedules.map((schedule) => Number(schedule.broadcaster_id));
-        const usersWithSchedules = (await this.getUsers({ ids: userIdsWithSchedules })).data;
-
+        const usersWithSchedules = (await getUsers({ ids: userIdsWithSchedules })).data;
         return usersWithSchedules.map((user) => {
             const schedule = schedules.find((schedule) => Number(schedule.broadcaster_id) === Number(user.id))!;
 
@@ -305,13 +227,29 @@ export class TwitchApiService {
         });
     }
 
-    public static async checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
+    async function checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
         const url = new URL('https://api.twitch.tv/helix/subscriptions/user');
         url.searchParams.append('user_id', userId.toString());
         url.searchParams.append('broadcaster_id', broadcasterId.toString());
 
-        return this.http<TwitchCheckUserSubscription>(url.toString())
+        return http<TwitchCheckUserSubscription>(url.toString())
             .then(() => true)
             .catch(() => false);
     }
+
+    return {
+        getUsers,
+        getFollowedStreams,
+        getFollowedStreamsWithUser,
+        getFollowedChannels,
+        getVideosByUserId,
+        getVideosByVideoIds,
+        getChannelFollowers,
+        getGames,
+        getStreamsByGameIds,
+        getStreamsByGameIdWithUsers,
+        getSchedules,
+        getScheduleWithUsers,
+        checkUserSubscription,
+    };
 }
