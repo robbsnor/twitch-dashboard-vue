@@ -4,19 +4,18 @@ import _ from 'lodash';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref, watch } from 'vue';
 import type { TwitchUser } from '../../shared/models/twitch/users.model';
-import { TwitchApiService } from '../../shared/services/twitch-api.service';
 import CardVideo from '../components/CardVideo.vue';
 import { LEKKER_SPELEN_VIDEOS } from '../data/lekkerspelen-videos.data';
 import { UserFactory } from '../factories/user.factory';
 import type { CardVideo as CardVideoModel } from '../models/card-video.model';
+import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
 
 const props = defineProps<{
     user: TwitchUser;
 }>();
 
-const twitchApiService = new TwitchApiService();
-
 const appOptionsStore = useAppOptionsStore();
+const twitchApi = useTwitchApi();
 const { options } = storeToRefs(appOptionsStore);
 
 const additionalVideosInfo = ref(LEKKER_SPELEN_VIDEOS);
@@ -36,7 +35,7 @@ const _categories = computed(() => {
 const getCards = async (amount = 20, _pagination?: string) => {
     loadingCards.value = true;
 
-    const res = await twitchApiService.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
+    const res = await twitchApi.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
     pagination.value = res.pagination.cursor;
 
     const videos = res.data;
@@ -70,7 +69,7 @@ const searchVideos = async (query: string | null) => {
         })
         .map((video) => video.videoId);
 
-    const res = await twitchApiService.getVideosByVideoIds(videoIds);
+    const res = await twitchApi.getVideosByVideoIds(videoIds);
     cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
     pagination.value = '';
     loadingCards.value = false;

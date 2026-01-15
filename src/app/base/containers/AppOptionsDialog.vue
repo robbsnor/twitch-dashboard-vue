@@ -2,12 +2,12 @@
 import { useAppOptionsStore } from '../stores/AppOptions.store';
 
 const appOptionsStore = useAppOptionsStore();
-const dialog = defineModel<boolean>('dialog');
+const dialog = defineModel<boolean>();
 </script>
 
 <template>
     <Dialog
-        v-model:dialog="dialog"
+        v-model="dialog"
         title="App settings"
         description="Customize your app settings, from user profile to app behaviour."
         :width="420"

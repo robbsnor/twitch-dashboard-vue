@@ -6,10 +6,6 @@ import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore();
 
-const props = defineProps<{
-    image: string;
-}>();
-
 const { user } = storeToRefs(authStore);
 const settingsDialog = ref(false);
 
@@ -22,19 +18,21 @@ const toggleSettingsDialog = () => {
     <v-menu location="bottom end" :offset="[4, 6]">
         <template #activator="activator">
             <a v-bind="activator.props" class="header-avatar">
-                <img :src="props.image" alt="" class="header-avatar__image">
+                <img :src="authStore.user?.avatar_url" alt="" class="header-avatar__image" />
             </a>
         </template>
 
         <v-list min-width="160">
-            <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: user?.login } }">Profile</v-list-item>
+            <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: user?.name } }">
+                Profile
+            </v-list-item>
             <v-list-item prepend-icon="mdi-cog" @click="toggleSettingsDialog">Settings</v-list-item>
             <Divider />
             <v-list-item :to="{ name: 'sign-out' }" prepend-icon="mdi-logout">Logout</v-list-item>
         </v-list>
     </v-menu>
 
-    <AppOptionsDialog v-model:dialog="settingsDialog" />
+    <AppOptionsDialog v-model="settingsDialog" />
 </template>
 
 <style scoped lang="scss">

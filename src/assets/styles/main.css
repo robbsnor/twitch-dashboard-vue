@@ -63,16 +63,20 @@
     --ring-color-default: var(--color-black);
 }
 
-.fs h1,
-.fs h2,
-.fs h3,
-.fs h4,
-.fs h5,
-.fs h6 {
+html {
+    scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears */
+}
+
+.copy h1,
+.copy h2,
+.copy h3,
+.copy h4,
+.copy h5,
+.copy h6 {
     @apply text-normal font-bold text-2xl mb-1 not-first:mt-8;
 }
 
-.fs p {
+.copy p {
     @apply text-muted;
 }
 

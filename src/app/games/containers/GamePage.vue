@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 import { computed, onMounted, ref } from 'vue';
 import { GamesFactory } from '../factories/games.factory';
 import { useRoute, useRouter } from 'vue-router';
@@ -8,22 +7,23 @@ import type { CardGameStream as CardGameStreamModel } from '@/app/games/models/c
 import type { TwitchGame } from '../../shared/models/twitch/games.model';
 import GamePageHeader from '../components/GamePageHeader.vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
+import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
 
-const twitchApiService = new TwitchApiService();
 const route = useRoute();
 const router = useRouter();
+const twitchApi = useTwitchApi();
 
 const cards = ref<CardGameStreamModel[]>();
 const game = ref<TwitchGame | null>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
-    const res = await twitchApiService.getGames({ names: [gameName] });
+    const res = await twitchApi.getGames({ names: [gameName] });
 
     const _game = res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
     if (!_game) return (game.value = null);
 
-    const streams = await twitchApiService.getStreamsByGameIdWithUsers(Number(_game.id));
+    const streams = await twitchApi.getStreamsByGameIdWithUsers(Number(_game.id));
     game.value = _game;
     cards.value = GamesFactory.mapToCardLive(streams);
 });

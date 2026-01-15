@@ -32,7 +32,7 @@ const props = defineProps<{
             <div class="flex justify-self-end items-center gap-4">
                 <button class="flex items-center">
                     <span class="sr-only">Username</span>
-                    <HeaderAvatar v-if="props.user" :image="props.user.profile_image_url" />
+                    <HeaderAvatar v-if="props.user" />
                 </button>
             </div>
         </Container>

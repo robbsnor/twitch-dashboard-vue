@@ -61,7 +61,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                 {{ card.title }}
             </div>
 
-            <div v-if="card.game" class="line-clamp-1 relative text-muted">
+            <div v-if="card.game" class="line-clamp-1 break-all relative text-muted">
                 {{ card.game }}
             </div>
 

@@ -1,129 +1,94 @@
 <script setup lang="ts">
-import { useSlots } from 'vue';
+import { computed, useSlots, watch } from 'vue';
 
 const slots = useSlots();
-const emits = defineEmits(['close']);
+const dialog = defineModel<boolean>();
+const emits = defineEmits<{
+    (e: 'open'): void;
+    (e: 'close'): void;
+}>();
+const props = withDefaults(
+    defineProps<{
+        title?: string;
+        description?: string;
+        width?: string | number;
+        showCloseButton?: boolean;
+        icon?: string;
+        iconColor?: string;
+        showBody?: boolean;
+    }>(),
+    {
+        title: 'Dialog',
+        width: 720,
+        showCloseButton: true,
+        showBody: true,
+    }
+);
 
-const dialog = defineModel<boolean>('dialog');
-
-const props = withDefaults(defineProps<{
-    title?: string;
-    description?: string;
-    width?: string | number;
-    showCloseButton?: boolean;
-    icon?: string
-}>(), {
-    title: 'Dialog',
-    width: 500,
-    showCloseButton: true,
+const _props = computed(() => {
+    const { title, ...rest } = props;
+    return rest;
 });
 
-const close = () => {
-    emits('close');
-    dialog.value = !dialog.value;
-};
+watch(
+    () => dialog.value,
+    (newVal) => {
+        if (newVal) {
+            emits('open');
+        } else {
+            emits('close');
+        }
+    }
+);
 </script>
 
 <template>
-    <v-dialog v-model="dialog" :width="props.width">
-        <template v-slot:activator="{ props }">
-            <slot name="activator" v-bind="props" />
+    <v-dialog v-model="dialog" v-bind="_props" :eager="false">
+        <template #activator="activator">
+            <slot v-bind="activator" name="activator"></slot>
         </template>
 
-        <div class="dialog">
-            <button v-if="props.showCloseButton" @click="close()" class="dialog__close">
-                <span class="sr-only">Close</span>
-                <v-icon icon="mdi-window-close" class="dialog__close-icon" />
-            </button>
-
-            <div class="dialog__header">
-                <div v-if="props.icon" class="dialog__icon">
-                    <v-icon>{{ props.icon }}</v-icon>
+        <div
+            class="bg-black-200 rounded-md flex flex-col"
+            :class="{
+                'border border-black-500': props.showBody || slots.footer,
+            }"
+        >
+            <div class="flex gap-4 items-center p-4 border-b border-black-500">
+                <div v-if="props.icon" class="sm:flex justify-center items-center p-2 bg-black-400 rounded-md hidden">
+                    <v-icon :color="props.iconColor" :icon="props.icon" class=" " />
                 </div>
 
-                <div class="dialog__copy">
-                    <h2 class="dialog__title">{{ props.title }}</h2>
-                    <p v-if="props.description" class="dialog__description">{{ props.description }}</p>
+                <div class="mr-8">
+                    <h2 class="text-2xl font-bold">{{ props.title }}</h2>
+                    <p v-if="props.description" class="text-muted">{{ props.description }}</p>
                 </div>
+
+                <button
+                    v-if="props.showCloseButton"
+                    @click="dialog = false"
+                    class="group ml-auto p-2 rounded-md hover:bg-black-400"
+                >
+                    <div class="group-hover:rotate-90 transition-all">
+                        <span class="sr-only">Close</span>
+                        <v-icon icon="mdi-window-close" class="dialog__close-icon" />
+                    </div>
+                </button>
             </div>
 
-            <div class="dialog__body">
+            <div class="overflow-auto max-h-[70vh]" v-if="props.showBody">
                 <slot></slot>
             </div>
 
-            <div v-if="slots.footer" class="dialog__footer">
+            <div
+                v-if="slots.footer"
+                class="flex flex-wrap justify-end gap-4 p-4"
+                :class="{
+                    'border-t border-black-500': props.showBody,
+                }"
+            >
                 <slot name="footer"></slot>
             </div>
         </div>
     </v-dialog>
 </template>
-
-<style scoped lang="scss">
-.dialog {
-    $self: &;
-
-    position: relative;
-
-    &__header {
-        display: flex;
-        gap: rem($padding);
-        padding-bottom: rem($padding);
-    }
-
-    &__icon {
-        font-size: 2rem;
-        padding: 11px;
-        background-color: red;
-        flex-shrink: 0;
-        align-self: flex-start;
-        border-radius: 6px;
-    }
-
-    &__body {
-        max-height: 60vh;
-        overflow: auto;
-    }
-
-    &__footer {}
-
-    &__close {
-        position: absolute;
-        top: -60px - 20px;
-        right: 0;
-        width: 60px;
-        height: 60px;
-        border-bottom: 2px solid $c-white;
-        color: $c-white;
-        pointer-events: all;
-        transition: .1s;
-
-        &:hover {
-            background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .25) 100%);
-            background-color: $c-white;
-
-            #{ $self }__close-icon {
-                // scale: 1.2;
-                color: $c-black-1;
-                rotate: 90deg;
-            }
-        }
-    }
-
-    &__close-icon {
-        transition: .1s;
-    }
-
-    &__footer {
-        padding: 20px 0 0 0;
-    }
-
-    @include screen(1000px) {
-        &__close {
-            border-left: 2px solid $c-white;
-            border-bottom: 0;
-            right: -60px - 20px;
-            top: 30px;
-        }
-    }
-}
-</style>

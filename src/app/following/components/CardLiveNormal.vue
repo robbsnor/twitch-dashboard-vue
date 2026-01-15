@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
 import type { CardLive as CardLiveModel } from '../models/card-live.model';
 import CardLiveOptions from './CardLiveOptions.vue';
-import AddFavouriteDialog from './AddFavouriteDialog.vue';
+import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
 
 const props = defineProps<{
     card: CardLiveModel;
@@ -86,5 +86,5 @@ const openFavouriteDialog = () => (favDialog.value = true);
         </div>
     </div>
 
-    <AddFavouriteDialog v-model:dialog="favDialog" :user="userForAddFavourite" />
+    <ManageFavouriteDialog v-model="favDialog" :user="userForAddFavourite" />
 </template>

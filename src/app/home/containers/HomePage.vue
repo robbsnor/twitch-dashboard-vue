@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { useAuthStore } from '../../auth/stores/auth.store';
 import { TitleService } from '../../shared/services/title.service';
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 
 const authStore = useAuthStore();
 TitleService.setTitle('Home');
-
-const singInUrl = TwitchApiService.getSignInURL();
 </script>
 
 <template>
@@ -17,20 +14,19 @@ const singInUrl = TwitchApiService.getSignInURL();
                 <!-- <h3 class="splash__subtitle">Manage your favourite streamers</h3> -->
 
                 <div class="splash__description">
-                    <p>Organize and filter your favourite streamers, easily re-watch previous streams in a clean presentable UI.</p>
+                    <p>
+                        Organize and filter your favourite streamers, easily re-watch previous streams in a clean
+                        presentable UI.
+                    </p>
                 </div>
 
-                <ButtonGroup class="splash__buttons">
-                    <Button color="secondary">Features</Button>
-
-                    <RouterLink v-if="authStore.user" to="/following/live">
-                        <Button >Dashboard</Button>
-                    </RouterLink>
-
-                    <a v-else :href="singInUrl">
-                        <Button icon="twitch">Log in with Twitch</Button>
-                    </a>
-                </ButtonGroup>
+                <div class="flex gap-4">
+                    <v-btn>Features</v-btn>
+                    <v-btn v-if="authStore.user" to="/following/live">Dashboard</v-btn>
+                    <v-btn v-else @click="authStore.signIn()" prepend-icon="twitch" color="primary">
+                        Log in with Twitch
+                    </v-btn>
+                </div>
             </div>
 
             <div class="splash__image-container">
@@ -42,8 +38,8 @@ const singInUrl = TwitchApiService.getSignInURL();
 
 <style scoped lang="scss">
 .splash {
-
-    &__container {}
+    &__container {
+    }
 
     &__description {
         padding-bottom: rem(5px);

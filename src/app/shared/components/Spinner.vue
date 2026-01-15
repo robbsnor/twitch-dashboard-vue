@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
     padding?: boolean;
@@ -11,7 +11,7 @@ const props = defineProps<Props>();
 const classes = computed(() => {
     return {
         spinner: true,
-        [`spinner--padding`]: props.padding,
+        'p-10': true,
     };
 });
 </script>

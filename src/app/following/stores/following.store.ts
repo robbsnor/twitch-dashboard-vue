@@ -1,8 +1,8 @@
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
-import { TwitchApiService } from '@/app/shared/services/twitch-api.service';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
+import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
 
 interface Category {
     name?: string;
@@ -13,11 +13,11 @@ interface Category {
 }
 
 export const useFollowingStore = defineStore('following', () => {
+    const twitchApi = useTwitchApi();
     const filter = ref<string>();
     const streamsLastFetchedOn = ref<number>();
     const streams = ref<TwitchFollowedStreamWithUser[]>();
     const categories = ref<Category[]>();
-    const twitchApiService = new TwitchApiService();
     const loading = ref(true);
     const pageTabs = {
         title: 'Following',
@@ -68,14 +68,14 @@ export const useFollowingStore = defineStore('following', () => {
 
     const fetchStreams = async () => {
         streamsLastFetchedOn.value = new Date().getTime();
-        streams.value = await twitchApiService.getFollowedStreamsWithUser();
+        streams.value = await twitchApi.getFollowedStreamsWithUser();
     };
 
     const fetchCategoies = async () => {
         if (!streams.value) return;
 
         const categoryIds = [...new Set(streams.value.map((stream) => Number(stream.game_id)))].filter(Boolean);
-        const twitchCategories = (await twitchApiService.getGames({ ids: categoryIds })).data;
+        const twitchCategories = (await twitchApi.getGames({ ids: categoryIds })).data;
 
         categories.value = streams.value
             .reduce((acc, stream) => {
