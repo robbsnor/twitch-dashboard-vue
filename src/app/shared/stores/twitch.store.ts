@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { TwitchUser } from './../models/twitch/users.model';
-import { useTwitchApi } from '../services/twitch-api.service';
+import { useTwitchApi } from '../composables/twitch-api.composable';
 
 export const useTwitchStore = defineStore('twitchStore', () => {
     const twitchApi = useTwitchApi();

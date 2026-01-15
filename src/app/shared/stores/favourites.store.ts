@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { supabase } from '@/app/supabase';
 import type { Tables } from '@/app/database.types';
-import { useTwitchApi } from '../services/twitch-api.service';
+import { useTwitchApi } from '../composables/twitch-api.composable';
 
 export const useFavouriteStore = defineStore('favourite', () => {
     const twitchApi = useTwitchApi();

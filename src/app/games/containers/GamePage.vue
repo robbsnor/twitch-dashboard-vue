@@ -7,7 +7,7 @@ import type { CardGameStream as CardGameStreamModel } from '@/app/games/models/c
 import type { TwitchGame } from '../../shared/models/twitch/games.model';
 import GamePageHeader from '../components/GamePageHeader.vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
-import { useTwitchApi } from '@/app/shared/services/twitch-api.service';
+import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
 
 const route = useRoute();
 const router = useRouter();

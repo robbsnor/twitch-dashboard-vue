@@ -2,7 +2,7 @@ import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/fo
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
-import { useTwitchApi } from '@/app/shared/services/twitch-api.service';
+import { useTwitchApi } from '@/app/shared/composables/twitch-api.composable';
 
 interface Category {
     name?: string;
