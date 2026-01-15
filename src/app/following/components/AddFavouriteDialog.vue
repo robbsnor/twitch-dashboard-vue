@@ -37,37 +37,8 @@ const open = () => (dialog.value = true);
         <div></div>
 
         <template #footer>
-            <div class="footer">
-                <Button color="secondary" @click="close()">Cancel</Button>
-                <Button>Add to favourites</Button>
-            </div>
+            <Button color="secondary" @click="close()">Cancel</Button>
+            <Button>Add to favourites</Button>
         </template>
     </Dialog>
 </template>
-
-<style scoped lang="scss">
-.body {
-    display: flex;
-    flex-direction: column;
-    gap: rem($padding-larger);
-}
-
-.users {
-    .sortable-ghost {
-        opacity: 0.2;
-    }
-}
-
-.user {
-    &__drag-icon {
-        cursor: grab;
-        margin-right: 10px;
-    }
-}
-
-.footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: rem($padding);
-}
-</style>
