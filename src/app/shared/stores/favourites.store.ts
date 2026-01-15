@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { supabase } from '@/app/supabase';
 import type { Tables } from '@/app/database.types';
 
@@ -23,9 +23,9 @@ export const useFavouriteStore = defineStore('favourite', () => {
         'Beat Saber',
     ];
 
-    async function init() {
+    onMounted(async () => {
         await fetchFavouriteUsers();
-    }
+    });
 
     async function fetchFavouriteUsers() {
         const { data, error } = await supabase.from('favourite_users').select('*').order('order', { ascending: true });
@@ -39,7 +39,6 @@ export const useFavouriteStore = defineStore('favourite', () => {
         favouriteUsers,
         favouriteUserIds,
 
-        init,
         fetchFavouriteUsers,
     };
 });

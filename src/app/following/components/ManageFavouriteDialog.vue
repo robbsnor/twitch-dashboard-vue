@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/app/auth/stores/auth.store';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { PromiseService } from '@/app/shared/services/promise.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
+import { supabase } from '@/app/supabase';
 import { computed, onMounted, ref } from 'vue';
 
 export interface AddFavourtieUserProps {
@@ -60,10 +62,16 @@ async function insertBelow(index: number) {
 async function save() {
     saving.value = true;
 
-    await PromiseService.sleep(2000);
+    const { error } = await supabase.from('favourite_users').upsert(
+        favUsers.value.map((user, index) => ({
+            order: index,
+            user_id: user.id,
+            owner_id: useAuthStore().session?.user.id!,
+        })),
+        { onConflict: 'user_id' }
+    );
+    if (error) throw error;
 
-    // save
-    // refetch
     await favouriteStore.fetchFavouriteUsers();
 
     saving.value = false;

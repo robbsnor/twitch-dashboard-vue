@@ -19,6 +19,7 @@ export function useTwitchApi() {
 
     async function http<T>(url: string): Promise<T> {
         if (!authStore.session?.provider_token) {
+            console.log('No token found, refreshing...');
             await refreshTokens();
         }
 
@@ -30,19 +31,17 @@ export function useTwitchApi() {
         });
 
         const data: T = await res.json();
-
         return data;
     }
 
     // api calls
     async function refreshTokens() {
+        console.log('Refreshing Twitch token...');
         const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
             body: {
                 refresh_token: authStore.refreshToken,
             },
         });
-
-        console.log('Refreshing Twitch token...');
 
         if (error) {
             await authStore.signOut();

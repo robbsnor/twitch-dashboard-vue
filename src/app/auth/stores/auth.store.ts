@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { supabase } from '@/app/supabase';
 import type { Session } from '@supabase/supabase-js';
 
@@ -22,10 +22,14 @@ export interface TwitchMetadata {
 export const useAuthStore = defineStore(
     'auth',
     () => {
-        const user = ref<TwitchMetadata>();
-        const session = ref<Session>();
-        const refreshToken = ref<string>();
-        const accessToken = ref<string>();
+        const user = ref<TwitchMetadata | null>();
+        const session = ref<Session | null>();
+        const refreshToken = ref<string | null>();
+        const accessToken = ref<string | null>();
+
+        onMounted(() => {
+            mirrorSession();
+        });
 
         const signIn = async () => {
             await supabase.auth.signInWithOAuth({
@@ -40,19 +44,21 @@ export const useAuthStore = defineStore(
         const signOut = async () => {
             await supabase.auth.signOut();
 
-            session.value = undefined;
-            user.value = undefined;
+            session.value = null;
+            user.value = null;
 
-            refreshToken.value = undefined;
-            accessToken.value = undefined;
+            refreshToken.value = null;
+            accessToken.value = null;
         };
 
-        function setSession(ses: Session) {
-            session.value = ses;
-            user.value = ses.user.user_metadata as TwitchMetadata;
+        async function mirrorSession() {
+            supabase.auth.onAuthStateChange(async (event, _session) => {
+                session.value = _session;
+                user.value = _session?.user.user_metadata as TwitchMetadata;
 
-            refreshToken.value = ses.refresh_token;
-            accessToken.value = ses.provider_token || undefined;
+                refreshToken.value = _session?.refresh_token;
+                accessToken.value = _session?.provider_token || null;
+            });
         }
 
         return {
@@ -63,7 +69,6 @@ export const useAuthStore = defineStore(
 
             signIn,
             signOut,
-            setSession,
         };
     },
     {
