@@ -21,18 +21,18 @@ const saving = ref(false);
 const props = defineProps<{
     user: AddFavourtieUserProps;
 }>();
-const favUsers = ref<AddFavourtieUserProps[]>([]);
+const form = ref<AddFavourtieUserProps[]>([]);
 const description = `Add "${props.user.name}" to your favourites`;
 
 const isAddedToFavourites = computed(() => {
-    return favUsers.value.some((u) => u.id === props.user.id);
+    return form.value.some((u) => u.id === props.user.id);
 });
 
 async function onOpen() {
     loading.value = true;
     const res = await twitchApi.getUsers({ ids: favouriteStore.favouriteUserIds });
 
-    favUsers.value = res.data.map((user) => ({
+    form.value = res.data.map((user) => ({
         name: user.display_name,
         avatar: user.profile_image_url,
         id: Number(user.id),
@@ -43,16 +43,16 @@ async function onOpen() {
 
 async function insertBelow(index: number) {
     // remove if exists
-    const existingIndex = favUsers.value.findIndex((u) => u.id === props.user.id);
+    const existingIndex = form.value.findIndex((u) => u.id === props.user.id);
     if (existingIndex !== -1) {
-        favUsers.value.splice(existingIndex, 1);
+        form.value.splice(existingIndex, 1);
         if (existingIndex < index) {
             index--;
         }
     }
 
     // add
-    favUsers.value.splice(index + 1, 0, {
+    form.value.splice(index + 1, 0, {
         name: props.user.name,
         avatar: props.user.avatar,
         id: props.user.id,
@@ -60,22 +60,19 @@ async function insertBelow(index: number) {
 }
 
 async function save() {
-    saving.value = true;
+    try {
+        saving.value = true;
 
-    const { error } = await supabase.from('favourite_users').upsert(
-        favUsers.value.map((user, index) => ({
-            order: index,
-            user_id: user.id,
-            owner_id: useAuthStore().session?.user.id!,
-        })),
-        { onConflict: 'user_id' }
-    );
-    if (error) throw error;
+        await favouriteStore.addFavouriteUser({
+            user_id: props.user.id,
+            index: form.value.findIndex((u) => u.id === props.user.id),
+        });
 
-    await favouriteStore.fetchFavouriteUsers();
-
-    saving.value = false;
-    dialog.value = false;
+        await PromiseService.sleep(1000);
+    } finally {
+        saving.value = false;
+        dialog.value = false;
+    }
 }
 </script>
 
@@ -83,9 +80,14 @@ async function save() {
     <Dialog v-model="dialog" title="Favourites" :description="description" icon="mdi-heart" @open="onOpen" width="500">
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
-                <VueDraggable handle="._handle" :animation="100" v-model="favUsers" v-auto-animate>
+                <code>
+                    <pre>
+                        {{ form }}
+                    </pre>
+                </code>
+                <VueDraggable handle="._handle" :animation="100" v-model="form" v-auto-animate>
                     <div
-                        v-for="(user, index) in favUsers"
+                        v-for="(user, index) in form"
                         :key="user.id"
                         :class="{ 'bg-black-400 rounded': user.id === props.user.id }"
                         class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"

@@ -33,6 +33,7 @@
         "swiper": "^11.2.5",
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
+        "uuid": "^13.0.0",
         "vite-plugin-vuetify": "^2.0.3",
         "vue": "^3.5.12",
         "vue-draggable-plus": "^0.5.6",

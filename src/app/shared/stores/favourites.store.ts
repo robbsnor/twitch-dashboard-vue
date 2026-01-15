@@ -1,10 +1,14 @@
 import { defineStore } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { supabase } from '@/app/supabase';
-import type { Tables } from '@/app/database.types';
+import type { Tables, TablesInsert } from '@/app/database.types';
+import { useAuthStore } from '@/app/auth/stores/auth.store';
+import _ from 'lodash';
+import { v4 } from 'uuid';
 
 export const useFavouriteStore = defineStore('favourite', () => {
-    const favouriteUsers = ref<Tables<'favourite_users'>[]>();
+    const authStore = useAuthStore();
+    const favouriteUsers = ref<Tables<'favourite_users'>[]>([]);
     const favouriteUserIds = computed(() => favouriteUsers.value?.map((user) => user.user_id) || []);
     const favouriteCategories = [
         'Call of Duty: Black Ops',
@@ -27,6 +31,26 @@ export const useFavouriteStore = defineStore('favourite', () => {
         await fetchFavouriteUsers();
     });
 
+    async function addFavouriteUser({ user_id, index }: { user_id: number; index: number }) {
+        const favUsers: TablesInsert<'favourite_users'>[] = _.cloneDeep(favouriteUsers.value);
+
+        favUsers.splice(index, 0, {
+            id: v4(),
+            user_id,
+            order: 0,
+            owner_id: authStore.session?.user.id!,
+        });
+
+        favUsers.map((item, idx) => {
+            item.order = idx;
+        });
+
+        const { error } = await supabase.from('favourite_users').upsert(favUsers, { onConflict: 'user_id' });
+        if (error) throw error;
+
+        await fetchFavouriteUsers();
+    }
+
     async function fetchFavouriteUsers() {
         const { data, error } = await supabase.from('favourite_users').select('*').order('order', { ascending: true });
         if (error) throw error;
@@ -39,6 +63,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
         favouriteUsers,
         favouriteUserIds,
 
+        addFavouriteUser,
         fetchFavouriteUsers,
     };
 });

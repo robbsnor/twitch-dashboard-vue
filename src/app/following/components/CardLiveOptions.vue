@@ -42,12 +42,10 @@ const doFiltering = () => {
 const addToFavourites = () => {
     sheet.value = false;
     emits('add-favourite', props.userId);
-    console.log('Adding to favourites...');
 };
 
 const removeFromFavourites = () => {
     sheet.value = false;
-    console.log('Removing from favourites...');
 };
 </script>
 
