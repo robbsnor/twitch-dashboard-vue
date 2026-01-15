@@ -32,7 +32,7 @@ const toggleSettingsDialog = () => {
         </v-list>
     </v-menu>
 
-    <AppOptionsDialog v-model:dialog="settingsDialog" />
+    <AppOptionsDialog v-model="settingsDialog" />
 </template>
 
 <style scoped lang="scss">

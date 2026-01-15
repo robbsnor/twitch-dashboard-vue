@@ -4,7 +4,7 @@ import { computed, onMounted, useSlots, watch } from 'vue';
 const slots = useSlots();
 const emits = defineEmits(['close']);
 
-const dialog = defineModel<boolean>('dialog');
+const dialog = defineModel<boolean>();
 
 const props = withDefaults(
     defineProps<{
@@ -74,12 +74,13 @@ const close = () => {
             </div>
 
             <div
+                v-if="slots.footer"
                 class="flex flex-wrap justify-end gap-4 p-6 py-4"
                 :class="{
                     'border-t border-black-500': props.showBody,
                 }"
             >
-                <slot v-if="slots.footer" name="footer"></slot>
+                <slot name="footer"></slot>
             </div>
         </div>
     </v-dialog>

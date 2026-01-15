@@ -20,7 +20,7 @@ export interface AddFavourtieUserProps {
 
 onMounted(() => {});
 
-const dialog = defineModel<boolean>('dialog');
+const dialog = defineModel<boolean>();
 
 const props = defineProps<{
     user: AddFavourtieUserProps;
@@ -33,7 +33,7 @@ const open = () => (dialog.value = true);
 </script>
 
 <template>
-    <Dialog v-model:dialog="dialog" :title="title">
+    <Dialog v-model="dialog" :title="title">
         <div></div>
 
         <template #footer>

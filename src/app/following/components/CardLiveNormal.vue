@@ -86,5 +86,5 @@ const openFavouriteDialog = () => (favDialog.value = true);
         </div>
     </div>
 
-    <AddFavouriteDialog v-model:dialog="favDialog" :user="userForAddFavourite" />
+    <AddFavouriteDialog v-model="favDialog" :user="userForAddFavourite" />
 </template>
