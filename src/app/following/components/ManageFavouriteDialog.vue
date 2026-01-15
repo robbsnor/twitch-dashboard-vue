@@ -88,33 +88,28 @@ async function save() {
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
                 <VueDraggable handle="._handle" ref="el" :animation="100" v-model="favUsers">
-                    <div v-for="(user, index) in favUsers" :key="user.id" class="not-last:border-b border-black-500">
-                        <div
-                            :class="{ 'bg-black-400 ': user.id === props.user.id }"
-                            class="flex items-center gap-4 py-2 px-4 bg-black-200"
-                        >
-                            <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
-                            <div class="text-muted text-lg font-bold text-right">{{ index + 1 }}</div>
-                            <img :src="user.avatar" alt="avatar" class="size-10 rounded-full" />
-                            <div class="flex flex-col">
-                                <span class="font-bold text-lg truncate">{{ user.name }}</span>
-                                <!-- <span class="text-sm text-muted">ID: {{ user.id }}</span> -->
-                            </div>
-
-                            <div class="ml-auto">
-                                <v-btn
-                                    v-if="user.id !== props.user.id"
-                                    icon="mdi-arrow-left-bottom"
-                                    size="small"
-                                    variant="tonal"
-                                    color="primary"
-                                    class="rounded!"
-                                    @click="insert(index)"
-                                >
-                                </v-btn>
-                            </div>
+                    <div
+                        v-for="(user, index) in favUsers"
+                        :key="user.id"
+                        :class="{ 'bg-primary rounded': user.id === props.user.id }"
+                        class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
+                    >
+                        <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
+                        <!-- <div class="text-muted text-lg font-bold text-right">{{ index + 1 }}</div> -->
+                        <img :src="user.avatar" alt="avatar" class="size-10 rounded-full" />
+                        <div class="font-bold text-lg truncate">{{ user.name }}</div>
+                        <div class="ml-auto">
+                            <v-btn
+                                v-if="user.id !== props.user.id"
+                                icon="mdi-arrow-left-bottom"
+                                size="small"
+                                variant="tonal"
+                                color="primary"
+                                class="rounded!"
+                                @click="insert(index)"
+                            >
+                            </v-btn>
                         </div>
-                        <!-- <div class="h-px w-full bg-linear-to-r from-black-500 to-black/0"></div> -->
                     </div>
                 </VueDraggable>
             </div>
@@ -128,3 +123,15 @@ async function save() {
         </template>
     </Dialog>
 </template>
+
+<style scoped>
+.sortable-ghost {
+    opacity: 0;
+}
+
+.sortable-drag {
+    /* background-color: blue !important ;
+    padding: 20px !important ; */
+    opacity: 1 !important;
+}
+</style>

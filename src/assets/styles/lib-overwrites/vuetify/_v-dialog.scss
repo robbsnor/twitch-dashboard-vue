@@ -1,0 +1,7 @@
+body {
+    .v-dialog {
+        > .v-overlay__content {
+            max-width: calc(100% - 32px);
+        }
+    }
+}
