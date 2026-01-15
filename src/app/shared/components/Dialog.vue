@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, useSlots, watch } from 'vue';
+import { computed, useSlots, watch } from 'vue';
 
 const slots = useSlots();
-const emits = defineEmits(['close']);
-
 const dialog = defineModel<boolean>();
-
+const emits = defineEmits<{
+    (e: 'open'): void;
+    (e: 'close'): void;
+}>();
 const props = withDefaults(
     defineProps<{
         title?: string;
@@ -29,14 +30,20 @@ const _props = computed(() => {
     return rest;
 });
 
-const close = () => {
-    emits('close');
-    dialog.value = !dialog.value;
-};
+watch(
+    () => dialog.value,
+    (newVal) => {
+        if (newVal) {
+            emits('open');
+        } else {
+            emits('close');
+        }
+    }
+);
 </script>
 
 <template>
-    <v-dialog v-model="dialog" v-bind="_props">
+    <v-dialog v-model="dialog" v-bind="_props" :eager="false">
         <template #activator="activator">
             <slot v-bind="activator" name="activator"></slot>
         </template>
@@ -47,7 +54,7 @@ const close = () => {
                 'border border-black-500': props.showBody || slots.footer,
             }"
         >
-            <div class="flex gap-4 items-center p-6 py-4 border-b border-black-500">
+            <div class="flex gap-4 items-center p-4 border-b border-black-500">
                 <div v-if="props.icon" class="sm:flex justify-center items-center p-2 bg-black-400 rounded-md hidden">
                     <v-icon :color="props.iconColor" :icon="props.icon" class=" " />
                 </div>
@@ -59,7 +66,7 @@ const close = () => {
 
                 <button
                     v-if="props.showCloseButton"
-                    @click="close()"
+                    @click="dialog = false"
                     class="group ml-auto p-2 rounded-md hover:bg-black-400"
                 >
                     <div class="group-hover:rotate-90 transition-all">
@@ -69,13 +76,13 @@ const close = () => {
                 </button>
             </div>
 
-            <div v-if="props.showBody" class="p-6">
+            <div class="overflow-auto max-h-[70vh]" v-if="props.showBody">
                 <slot></slot>
             </div>
 
             <div
                 v-if="slots.footer"
-                class="flex flex-wrap justify-end gap-4 p-6 py-4"
+                class="flex flex-wrap justify-end gap-4 p-4"
                 :class="{
                     'border-t border-black-500': props.showBody,
                 }"
