@@ -17,6 +17,7 @@ onMounted(async () => {
     if (authStore.session) {
         await favouriteStore.init();
     }
+    console.log('init');
 
     loading.value = false;
 });
