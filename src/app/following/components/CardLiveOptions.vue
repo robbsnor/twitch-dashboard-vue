@@ -3,9 +3,11 @@ import { useClipboard } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
 import { useFollowingStore } from '../stores/following.store';
+import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 
 const router = useRouter();
 const toast = useToast();
+const favouriteStore = useFavouriteStore();
 
 const emits = defineEmits(['add-favourite']);
 
@@ -44,15 +46,21 @@ const addToFavourites = () => {
     emits('add-favourite', props.userId);
 };
 
-const removeFromFavourites = () => {
+async function removeFromFavourites() {
+    await favouriteStore.removeFavouriteUser(props.userId);
     sheet.value = false;
-};
+}
 </script>
 
 <template>
     <v-list>
         <Divider :text="props.username" />
-        <v-list-item v-if="props.isFavourite" prepend-icon="mdi-heart-remove" @click="removeFromFavourites()">
+        <v-list-item
+            v-if="props.isFavourite"
+            class="text-red"
+            prepend-icon="mdi-heart-remove"
+            @click="removeFromFavourites()"
+        >
             Remove from favourites
         </v-list-item>
         <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()" class="text-primary">
