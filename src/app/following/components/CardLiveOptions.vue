@@ -69,7 +69,7 @@ const removeFromFavourites = () => {
         </v-list-item>
         <Divider :text="props.game" />
         <v-list-item v-if="props.game" prepend-icon="mdi-magnify" @click="goToGamePage(props.game)">
-            Find other streams
+            Explore category
         </v-list-item>
         <v-list-item prepend-icon="mdi-filter-variant" @click="doFiltering()"> Filter following streams </v-list-item>
     </v-list>
