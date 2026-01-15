@@ -44,10 +44,10 @@ export function useTwitchApi() {
 
         console.log('Refreshing Twitch token...');
 
-        // if (error) {
-        //     await this.authStore.signOut();
-        //     throw new Error(`Failed to refresh Twitch access token: ${error.message}`);
-        // }
+        if (error) {
+            await authStore.signOut();
+            throw new Error(`Failed to refresh Twitch access token: ${error.message}`);
+        }
 
         authStore.accessToken = data.access_token;
         authStore.refreshToken = data.refresh_token;

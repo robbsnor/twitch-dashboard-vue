@@ -8,7 +8,7 @@ TitleService.setTitle('Home');
 
 <template>
     <Section>
-        <div class="copy max-w-[30%]">
+        <div class="copy xl:max-w-[30%]">
             <h1 class="text-4xl font-black">Twitch Dashboard</h1>
 
             <p>
