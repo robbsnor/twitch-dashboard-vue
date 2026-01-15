@@ -80,7 +80,7 @@ const openFavouriteDialog = () => (favDialog.value = true);
                     :username="card.name"
                     :userId="card.userId"
                     :isFavourite="false"
-                    @add-favourite="openFavouriteDialog()"
+                    @add-favourite="favDialog = true"
                 />
             </v-menu>
         </div>

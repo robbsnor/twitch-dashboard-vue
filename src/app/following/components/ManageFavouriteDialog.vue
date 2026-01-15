@@ -87,7 +87,7 @@ async function save() {
     <Dialog v-model="dialog" title="Favourites" :description="description" icon="mdi-heart" @open="onOpen" width="500">
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
-                <VueDraggable handle="._handle" ref="el" :animation="150" v-model="favUsers" v-auto-animatef>
+                <VueDraggable handle="._handle" ref="el" :animation="150" v-model="favUsers">
                     <div
                         v-for="(user, index) in favUsers"
                         :key="user.id"

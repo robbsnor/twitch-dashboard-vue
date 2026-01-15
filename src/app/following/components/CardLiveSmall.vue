@@ -3,12 +3,21 @@ import { computed, ref } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
 import type { CardLive as CardLiveModel } from '../models/card-live.model';
 import CardLiveOptions from './CardLiveOptions.vue';
+import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
 
 const props = defineProps<{
     card: CardLiveModel;
 }>();
 
 const sheet = ref(false);
+const favDialog = ref(false);
+const userForAddFavourite = computed(() => {
+    return {
+        name: props.card.name,
+        avatar: props.card.avatar,
+        id: props.card.userId,
+    };
+});
 
 const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 </script>
@@ -50,6 +59,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                     :username="card.name"
                     :userId="card.userId"
                     :isFavourite="false"
+                    @add-favourite="favDialog = true"
                 />
             </v-bottom-sheet>
 
@@ -75,4 +85,6 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
         </a>
     </div>
+
+    <ManageFavouriteDialog v-model="favDialog" :user="userForAddFavourite" />
 </template>
