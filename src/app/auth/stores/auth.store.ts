@@ -31,7 +31,8 @@ export const useAuthStore = defineStore(
             await supabase.auth.signInWithOAuth({
                 provider: 'twitch',
                 options: {
-                    redirectTo: `${window.location.origin}/auth/sign-in`,
+                    // redirectTo: `${window.location.origin}/auth/sign-in`,
+                    redirectTo: `https://twitch.malmaarmals.nl/auth/sign-in`,
                     scopes: 'user:read:follows user:read:subscriptions moderator:read:followers',
                 },
             });
