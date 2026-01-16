@@ -31,6 +31,26 @@ export const useFavouriteStore = defineStore('favourite', () => {
         await fetchFavouriteUsers();
     });
 
+    async function setFavouriteUsers(userIds: number[]) {
+        const users: TablesInsert<'favourite_users'>[] = userIds.map((user_id, i) => ({
+            id: v4(),
+            user_id,
+            order: i,
+            owner_id: authStore.session!.user.id!,
+        }));
+
+        const { error: deleteError } = await supabase
+            .from('favourite_users')
+            .delete()
+            .eq('owner_id', authStore.session!.user.id!);
+        if (deleteError) throw deleteError;
+
+        const { error: insertError } = await supabase.from('favourite_users').insert(users);
+        if (insertError) throw insertError;
+
+        await fetchFavouriteUsers();
+    }
+
     async function addFavouriteUser({ user_id, index }: { user_id: number; index: number }) {
         let favUsers: TablesInsert<'favourite_users'>[] = _.cloneDeep(favouriteUsers.value);
 
@@ -38,7 +58,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
             id: v4(),
             user_id,
             order: 0,
-            owner_id: authStore.session?.user.id!,
+            owner_id: authStore.session!.user.id!,
         });
 
         favUsers = favUsers.map((item, idx) => ({
@@ -74,5 +94,6 @@ export const useFavouriteStore = defineStore('favourite', () => {
         fetchFavouriteUsers,
         addFavouriteUser,
         removeFavouriteUser,
+        setFavouriteUsers,
     };
 });

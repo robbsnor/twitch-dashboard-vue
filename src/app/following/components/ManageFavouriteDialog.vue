@@ -18,9 +18,15 @@ const twitchApi = useTwitchApi();
 const dialog = defineModel<boolean>();
 const loading = ref(false);
 const saving = ref(false);
-const props = defineProps<{
-    user: AddFavourtieUserProps;
-}>();
+const props = withDefaults(
+    defineProps<{
+        user: AddFavourtieUserProps;
+        editmode?: boolean;
+    }>(),
+    {
+        editmode: true,
+    }
+);
 const form = ref<AddFavourtieUserProps[]>([]);
 const description = `Add "${props.user.name}" to your favourites`;
 
@@ -63,11 +69,7 @@ async function save() {
     try {
         saving.value = true;
 
-        await favouriteStore.addFavouriteUser({
-            user_id: props.user.id,
-            index: form.value.findIndex((u) => u.id === props.user.id),
-        });
-
+        await favouriteStore.setFavouriteUsers(form.value.map((u) => u.id));
         await PromiseService.sleep(1000);
     } finally {
         saving.value = false;
