@@ -20,7 +20,7 @@ const dialog = ref(false);
         class="group relative transition-all md:hover:-translate-x-1 md:hover:translate-y-1"
         :data-user-id="stream.user_id"
     >
-        <div class="flex items-center pb-4 gap-6">
+        <div class="flex items-center pb-2 gap-6">
             <RouterLink :to="`/user/${stream.user_name}`" class="z-1 flex items-center gap-3 no-underline">
                 <img
                     v-if="stream.profile_image_url"
