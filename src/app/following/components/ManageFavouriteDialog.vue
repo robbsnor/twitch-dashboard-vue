@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/app/auth/stores/auth.store';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { PromiseService } from '@/app/shared/services/promise.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import { supabase } from '@/app/supabase';
-import { computed, onMounted, ref } from 'vue';
+import _ from 'lodash';
+import { computed, ref } from 'vue';
 
 export interface AddFavourtieUserProps {
     name: string;
@@ -24,8 +23,13 @@ const props = defineProps<{
     editmode?: boolean;
 }>();
 const users = ref<TwitchUser[]>([]);
+const usersOG = ref<TwitchUser[]>([]);
 // const description = `Add "${props.stream.user_name}" to your favourites`;
 const description = `Description coming soon...`;
+
+const hasChanges = computed(() => {
+    return !_.isEqual(users.value, usersOG.value);
+});
 
 async function onOpen() {
     loading.value = true;
@@ -33,7 +37,8 @@ async function onOpen() {
     await PromiseService.sleep(200);
     const res = await twitchApi.getUsers({ ids: favouriteStore.favouriteUserIds });
 
-    users.value = res.data;
+    users.value = _.cloneDeep(res.data);
+    usersOG.value = _.cloneDeep(res.data);
 
     loading.value = false;
 }
@@ -48,6 +53,10 @@ async function insertBelow(index: number) {
 
 function removeFavourite(index: number) {
     users.value.splice(index, 1);
+}
+
+function reset() {
+    users.value = _.cloneDeep(usersOG.value);
 }
 
 async function save() {
@@ -67,7 +76,7 @@ async function save() {
     <Dialog v-model="dialog" title="Favourites" :description="description" icon="mdi-heart" @open="onOpen" width="500">
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
-                <VueDraggable handle="._handle" :animation="100" v-model="users">
+                <VueDraggable handle="._handle" :animation="100" v-model="users" v-auto-animate>
                     <div
                         v-for="(user, index) in users"
                         :key="user.id"
@@ -112,8 +121,21 @@ async function save() {
         <Spinner v-else />
 
         <template #footer>
-            <v-btn variant="tonal" @click="dialog = false">Cancel</v-btn>
-            <v-btn color="primary" @click="save()" :loading="saving">Save</v-btn>
+            <div class="flex items-center justify-between w-full">
+                <v-btn
+                    v-if="hasChanges && editmode"
+                    variant="text"
+                    @click="reset"
+                    class="italic underline! text-xs! text-muted-more!"
+                >
+                    undo changes
+                </v-btn>
+
+                <div class="flex gap-4 ml-auto">
+                    <v-btn variant="tonal" @click="dialog = false">Cancel</v-btn>
+                    <v-btn :disabled="!hasChanges" color="primary" @click="save()" :loading="saving">Save</v-btn>
+                </div>
+            </div>
         </template>
     </Dialog>
 </template>
