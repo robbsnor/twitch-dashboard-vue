@@ -4,28 +4,23 @@ import { CardLiveService } from '../services/card-live.service';
 import type { CardLive as CardLiveModel } from '../models/card-live.model';
 import CardLiveOptions from './CardLiveOptions.vue';
 import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
+import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
 const props = defineProps<{
-    card: CardLiveModel;
+    stream: TwitchFollowedStreamWithUser;
 }>();
 
 const sheet = ref(false);
-const favDialog = ref(false);
-const userForAddFavourite = computed(() => {
-    return {
-        name: props.card.name,
-        avatar: props.card.avatar,
-        id: props.card.userId,
-    };
-});
+const dialog = ref(false);
 
-const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
+const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_count));
 </script>
 
 <template>
     <div
         class="relative grid grid-cols-[150px_1fr] px-5 py-2.5 transition-all hover:bg-black-300"
-        :data-user-id="card.userId"
+        :data-user-id="stream.user_id"
     >
         <div class="relative mr-4 shrink-0 grow-0 aspect-video">
             <div
@@ -42,49 +37,61 @@ const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
                     </div>
                 </template>
 
-                <v-img :src="card.thumbnail" alt="" class="rounded-t-md" eager />
+                <div class="aspect-video rounded-t-md bg-black overflow-hidden">
+                    <v-img :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)" alt="" eager />
+                </div>
 
                 <div class="bg-black/80 p-4 pb-1">
                     <div style="color: white; margin-bottom: 4px">
-                        {{ card.title }}
+                        {{ stream.title }}
                     </div>
                     <div class="text-muted-more">
-                        {{ CardLiveService.getUptime(card.startedAt) }}
+                        {{ CardLiveService.getUptime(stream.started_at) }}
                     </div>
                 </div>
 
                 <CardLiveOptions
                     v-model:sheet="sheet"
-                    :game="card.game"
-                    :username="card.name"
-                    :userId="card.userId"
+                    :stream="stream"
                     :isFavourite="false"
-                    @add-favourite="favDialog = true"
+                    @add-favourite="dialog = true"
                 />
             </v-bottom-sheet>
 
-            <img :src="card.thumbnail" class="w-full h-full rounded-md" alt="thumbnail" />
+            <img
+                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)"
+                class="w-full h-full rounded-md"
+                alt="thumbnail"
+            />
         </div>
 
         <div class="overflow-hidden flex flex-col items-start">
             <div class="line-clamp-1 shrink-0 font-bold break-all">
-                {{ card.title }}
+                {{ stream.title }}
             </div>
 
-            <div v-if="card.game" class="line-clamp-1 break-all relative text-muted">
-                {{ card.game }}
+            <div v-if="stream.game_name" class="line-clamp-1 break-all relative text-muted">
+                {{ stream.game_name }}
             </div>
 
-            <RouterLink :to="`/user/${card.name}`" class="relative flex items-center gap-2 no-underline mt-1 z-1">
-                <img v-if="card.avatar" :src="card.avatar" class="block size-6 rounded-full" alt="avatar" />
-                <div class="text-primary">{{ card.name }}</div>
+            <RouterLink
+                :to="`/user/${stream.user_name}`"
+                class="relative flex items-center gap-2 no-underline mt-1 z-1"
+            >
+                <img
+                    v-if="stream.profile_image_url"
+                    :src="stream.profile_image_url"
+                    class="block size-6 rounded-full"
+                    alt="avatar"
+                />
+                <div class="text-primary">{{ stream.user_name }}</div>
             </RouterLink>
         </div>
 
-        <a :href="card.link" target="_blank" class="block absolute inset-0">
-            <span class="sr-only">Watch {{ card.name }}'s stream</span>
+        <a :href="`https://www.twitch.tv/${stream.user_login}`" target="_blank" class="block absolute inset-0">
+            <span class="sr-only">Watch {{ stream.user_name }}'s stream</span>
         </a>
     </div>
 
-    <ManageFavouriteDialog v-model="favDialog" :user="userForAddFavourite" />
+    <ManageFavouriteDialog v-model="dialog" :stream="stream" />
 </template>

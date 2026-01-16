@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/app/auth/stores/auth.store';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
+import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { PromiseService } from '@/app/shared/services/promise.service';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
@@ -20,7 +21,7 @@ const loading = ref(false);
 const saving = ref(false);
 const props = withDefaults(
     defineProps<{
-        user: AddFavourtieUserProps;
+        stream: TwitchFollowedStreamWithUser;
         editmode?: boolean;
     }>(),
     {
@@ -28,10 +29,13 @@ const props = withDefaults(
     }
 );
 const form = ref<AddFavourtieUserProps[]>([]);
-const description = `Add "${props.user.name}" to your favourites`;
+// const description = `Add "${props.stream.user_name}" to your favourites`;
+const description = `ffffs`;
 
 async function onOpen() {
     loading.value = true;
+
+    await PromiseService.sleep(200);
     const res = await twitchApi.getUsers({ ids: favouriteStore.favouriteUserIds });
 
     form.value = res.data.map((user) => ({
@@ -45,7 +49,7 @@ async function onOpen() {
 
 async function insertBelow(index: number) {
     // remove if exists
-    const existingIndex = form.value.findIndex((u) => u.id === props.user.id);
+    const existingIndex = form.value.findIndex((u) => u.id === Number(props.stream.user_id));
     if (existingIndex !== -1) {
         form.value.splice(existingIndex, 1);
         if (existingIndex < index) {
@@ -55,9 +59,9 @@ async function insertBelow(index: number) {
 
     // add
     form.value.splice(index + 1, 0, {
-        name: props.user.name,
-        avatar: props.user.avatar,
-        id: props.user.id,
+        name: props.stream.user_name,
+        avatar: props.stream.profile_image_url,
+        id: Number(props.stream.user_id),
     });
 }
 
@@ -82,18 +86,21 @@ async function save() {
     <Dialog v-model="dialog" title="Favourites" :description="description" icon="mdi-heart" @open="onOpen" width="500">
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
-                <VueDraggable handle="._handle" :animation="100" v-model="form" v-auto-animate>
+                <VueDraggable handle="._handle" :animation="100" v-model="form">
                     <div
                         v-for="(user, index) in form"
                         :key="user.id"
-                        :class="{ 'bg-black-400 rounded': user.id === props.user.id }"
+                        :class="{ 'bg-black-400 rounded': user.id === Number(props.stream.user_id) }"
                         class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
                     >
                         <div class="text-muted font-bold text-right">
                             {{ index + 1 }}
                         </div>
                         <img :src="user.avatar" alt="avatar" class="size-10 rounded-full" />
-                        <div class="font-bold truncate" :class="{ 'text-primary': user.id === props.user.id }">
+                        <div
+                            class="font-bold truncate"
+                            :class="{ 'text-primary': user.id === Number(props.stream.user_id) }"
+                        >
                             {{ user.name }}
                         </div>
                         <div class="ml-auto flex gap-4 items-center">
@@ -108,7 +115,7 @@ async function save() {
                             ></v-btn>
 
                             <v-btn
-                                v-if="user.id !== props.user.id && !props.editmode"
+                                v-if="user.id !== Number(props.stream.user_id) && !props.editmode"
                                 icon="mdi-arrow-left-bottom"
                                 size="small"
                                 variant="tonal"
@@ -117,6 +124,7 @@ async function save() {
                                 @click="insertBelow(index)"
                             >
                             </v-btn>
+
                             <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
                         </div>
                     </div>

@@ -11,8 +11,7 @@ import StreamFilter from '../components/StreamFilter.vue';
 
 TitleService.setTitle('Live');
 const followingStore = useFollowingStore();
-const favourtieStore = useFavouriteStore();
-
+const favouriteStore = useFavouriteStore();
 const focused = useWindowFocus();
 
 onMounted(async () => {
@@ -21,12 +20,12 @@ onMounted(async () => {
 
 const favouriteStreams = computed(() => {
     if (!followingStore.filteredStreams) return;
-    return LiveService.getFavouriteStreams(favourtieStore.favouriteUserIds, followingStore.filteredStreams);
+    return LiveService.getFavouriteStreams(favouriteStore.favouriteUserIds, followingStore.filteredStreams);
 });
 
 const nonFavouriteStreams = computed(() => {
     if (!followingStore.filteredStreams) return;
-    return LiveService.getNonFavouriteStreams(favourtieStore.favouriteUserIds, followingStore.filteredStreams);
+    return LiveService.getNonFavouriteStreams(favouriteStore.favouriteUserIds, followingStore.filteredStreams);
 });
 
 watch(focused, async (isFocused) => {

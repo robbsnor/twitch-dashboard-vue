@@ -2,29 +2,22 @@
 import { computed, ref, watch } from 'vue';
 import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams-with-user.model';
 import CardLiveFancy from '../components/CardLiveFancy.vue';
-import { FollowingFactory } from '../factories/following.factory';
-import { useFollowingStore } from '../stores/following.store';
 
 const props = defineProps<{
     streams?: TwitchFollowedStreamWithUser[];
     categories?: string[];
 }>();
-
-const cards = computed(() => {
-    if (!props.streams) return;
-    return FollowingFactory.mapToCardLiveFancy(props.streams);
-});
 </script>
 
 <template>
-    <Section v-if="cards?.length" title="Favourites">
+    <Section v-if="streams?.length" title="Favourites">
         <template #backgroundArt>
             <Swirl v-if="streams?.length" class="swirl"></Swirl>
         </template>
 
         <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-3" v-fade-stagger="{ delay: 100 }" v-auto-animate>
-            <div v-for="card in cards" :key="card.userId" class="w-full lg:nth-[3n-1]:mt-12">
-                <CardLiveFancy :card="card" />
+            <div v-for="stream in streams" :key="stream.user_id" class="w-full lg:nth-[3n-1]:mt-12">
+                <CardLiveFancy :stream="stream" />
             </div>
         </div>
     </Section>

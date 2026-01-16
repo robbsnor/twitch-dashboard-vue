@@ -4,12 +4,14 @@ import { CardLiveService } from '../services/card-live.service';
 import type { CardLive as CardLiveModel } from '../models/card-live.model';
 import CardLiveOptions from './CardLiveOptions.vue';
 import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
+import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
 const props = defineProps<{
-    card: CardLiveModel;
+    stream: TwitchFollowedStreamWithUser;
 }>();
 
-const favDialog = ref<boolean>(false);
+const dialog = ref<boolean>(false);
 
 const cssClass = computed(() => {
     return {
@@ -17,29 +19,25 @@ const cssClass = computed(() => {
     };
 });
 
-const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
-const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
+const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_count));
+const uptime = computed(() => CardLiveService.getUptime(props.stream.started_at));
 
-const userForAddFavourite = computed(() => {
-    return {
-        name: props.card.name,
-        avatar: props.card.avatar,
-        id: props.card.userId,
-    };
-});
-
-const openFavouriteDialog = () => (favDialog.value = true);
+const openFavouriteDialog = () => (dialog.value = true);
 </script>
 
 <template>
-    <div :class="cssClass" :data-user-id="card.userId" class="grow-0 shrink-0">
+    <div :class="cssClass" :data-user-id="stream.user_id" class="grow-0 shrink-0">
         <a
-            :href="card.link"
+            :href="`https://www.twitch.tv/${stream.user_login}`"
             target="_blank"
             class="group block relative aspect-video transition-all bg-black hover:-translate-x-1 hover:translate-y-1"
         >
-            <span class="sr-only">Watch {{ card.name }}'s stream</span>
-            <img :src="card.thumbnail" class="w-full h-full rounded transition-all" alt="thumbnail" />
+            <span class="sr-only">Watch {{ stream.user_name }}'s stream</span>
+            <img
+                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)"
+                class="w-full h-full rounded transition-all"
+                alt="thumbnail"
+            />
             <div class="absolute inset-0 -z-1"></div>
             <div class="arrow hidden">(icon)</div>
             <div
@@ -60,14 +58,19 @@ const openFavouriteDialog = () => (favDialog.value = true);
         </a>
 
         <div class="pt-2 line-clamp-1 font-bold text-lg break-all">
-            {{ card.title }}
+            {{ stream.title }}
         </div>
-        <div v-if="card.game" class="text-muted">{{ card.game }}</div>
+        <div v-if="stream.game_name" class="text-muted">{{ stream.game_name }}</div>
 
         <div class="flex justify-between items-center">
-            <RouterLink :to="`/user/${card.name}`" class="flex items-center">
-                <img v-if="card.avatar" :src="card.avatar" class="block size-[25px] rounded-full mr-2" alt="avatar" />
-                <div class="text-primary">{{ card.name }}</div>
+            <RouterLink :to="`/user/${stream.user_name}`" class="flex items-center">
+                <img
+                    v-if="stream.profile_image_url"
+                    :src="stream.profile_image_url"
+                    class="block size-[25px] rounded-full mr-2"
+                    alt="avatar"
+                />
+                <div class="text-primary">{{ stream.user_name }}</div>
             </RouterLink>
 
             <v-menu location="bottom right" origin="overlap">
@@ -75,16 +78,10 @@ const openFavouriteDialog = () => (favDialog.value = true);
                     <v-btn class="-mr-2" v-bind="props" variant="text" icon="mdi-dots-vertical" size="small" />
                 </template>
 
-                <CardLiveOptions
-                    :game="card.game"
-                    :username="card.name"
-                    :userId="card.userId"
-                    :isFavourite="false"
-                    @add-favourite="favDialog = true"
-                />
+                <CardLiveOptions :stream="stream" :isFavourite="false" @add-favourite="dialog = true" />
             </v-menu>
         </div>
     </div>
 
-    <ManageFavouriteDialog v-model="favDialog" :user="userForAddFavourite" />
+    <ManageFavouriteDialog v-model="dialog" :stream="stream" />
 </template>

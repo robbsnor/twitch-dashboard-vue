@@ -23,13 +23,13 @@ const cards = computed(() => {
     <Section title="Live channels" ref="sectionEl">
         <div class="non-favourite">
             <div v-if="cards" class="non-favourite__cards" v-fade-stagger v-auto-animate>
-                <template v-for="card in cards" :key="card.userId">
+                <template v-for="stream in streams" :key="stream.user_id">
                     <div class="non-favourite__card-small">
-                        <CardLiveSmall :card="card" />
+                        <CardLiveSmall :stream="stream" />
                     </div>
 
                     <div class="non-favourite__card-normal">
-                        <CardLiveNormal :card="card" />
+                        <CardLiveNormal :stream="stream" />
                     </div>
                 </template>
             </div>
