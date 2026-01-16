@@ -9,7 +9,7 @@ const router = useRouter();
 const toast = useToast();
 const favouriteStore = useFavouriteStore();
 
-const emits = defineEmits(['add-favourite']);
+const emits = defineEmits(['add-favourite', 'edit-favourites']);
 
 const props = withDefaults(
     defineProps<{
@@ -46,8 +46,8 @@ const addToFavourites = () => {
     emits('add-favourite', props.userId);
 };
 
-async function removeFromFavourites() {
-    await favouriteStore.removeFavouriteUser(props.userId);
+async function manageFavourites() {
+    emits('edit-favourites', props.userId);
     sheet.value = false;
 }
 </script>
@@ -55,13 +55,8 @@ async function removeFromFavourites() {
 <template>
     <v-list>
         <Divider :text="props.username" />
-        <v-list-item
-            v-if="props.isFavourite"
-            class="text-red"
-            prepend-icon="mdi-heart-remove"
-            @click="removeFromFavourites()"
-        >
-            Remove from favourites
+        <v-list-item v-if="props.isFavourite" class="text-primary" prepend-icon="mdi-heart" @click="manageFavourites()">
+            Manage favourites
         </v-list-item>
         <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()" class="text-primary">
             Add to favourites

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { CardLiveService } from '../services/card-live.service';
 import type { CardLive as CardLiveModel } from '../models/card-live.model';
 import CardLiveOptions from './CardLiveOptions.vue';
+import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
 
 const props = defineProps<{
     card: CardLiveModel;
@@ -10,6 +11,14 @@ const props = defineProps<{
 
 const viewers = computed(() => CardLiveService.getViewers(props.card.viewers));
 const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
+const favDialog = ref(false);
+const userForAddFavourite = computed(() => {
+    return {
+        name: props.card.name,
+        avatar: props.card.avatar,
+        id: props.card.userId,
+    };
+});
 </script>
 
 <template>
@@ -69,10 +78,14 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
                 </div>
             </template>
 
-            <CardLiveOptions :game="card.game" :username="card.name" :userId="card.userId" :isFavourite="true" />
+            <CardLiveOptions
+                :game="card.game"
+                :username="card.name"
+                :userId="card.userId"
+                :isFavourite="true"
+                @edit-favourites="favDialog = true"
+            />
         </v-menu>
-
-        <!-- <button app-icon-button (click)="handleOptionsClick(card)" icon="more-vertical" hoverColor="black" class="card-fancy__options"></button> -->
 
         <a
             :href="card.link"
@@ -83,4 +96,6 @@ const uptime = computed(() => CardLiveService.getUptime(props.card.startedAt));
             <span class="sr-only">Watch {{ card.name }}'s stream</span>
         </a>
     </div>
+
+    <ManageFavouriteDialog v-model="favDialog" :user="userForAddFavourite" :editmode="true" />
 </template>

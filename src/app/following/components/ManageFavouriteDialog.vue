@@ -24,15 +24,11 @@ const props = withDefaults(
         editmode?: boolean;
     }>(),
     {
-        editmode: true,
+        editmode: false,
     }
 );
 const form = ref<AddFavourtieUserProps[]>([]);
 const description = `Add "${props.user.name}" to your favourites`;
-
-const isAddedToFavourites = computed(() => {
-    return form.value.some((u) => u.id === props.user.id);
-});
 
 async function onOpen() {
     loading.value = true;
@@ -65,12 +61,16 @@ async function insertBelow(index: number) {
     });
 }
 
+function removeFavourite(index: number) {
+    form.value.splice(index, 1);
+}
+
 async function save() {
     try {
         saving.value = true;
 
-        await favouriteStore.setFavouriteUsers(form.value.map((u) => u.id));
         await PromiseService.sleep(1000);
+        await favouriteStore.setFavouriteUsers(form.value.map((u) => u.id));
     } finally {
         saving.value = false;
         dialog.value = false;
@@ -89,7 +89,6 @@ async function save() {
                         :class="{ 'bg-black-400 rounded': user.id === props.user.id }"
                         class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
                     >
-                        <!-- <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" /> -->
                         <div class="text-muted font-bold text-right">
                             {{ index + 1 }}
                         </div>
@@ -97,9 +96,19 @@ async function save() {
                         <div class="font-bold truncate" :class="{ 'text-primary': user.id === props.user.id }">
                             {{ user.name }}
                         </div>
-                        <div class="ml-auto flex gap-4">
+                        <div class="ml-auto flex gap-4 items-center">
                             <v-btn
-                                v-if="user.id !== props.user.id"
+                                v-if="props.editmode"
+                                icon="mdi-close"
+                                size="small"
+                                variant="tonal"
+                                color="red"
+                                class="rounded!"
+                                @click="removeFavourite(index)"
+                            ></v-btn>
+
+                            <v-btn
+                                v-if="user.id !== props.user.id && !props.editmode"
                                 icon="mdi-arrow-left-bottom"
                                 size="small"
                                 variant="tonal"
@@ -108,6 +117,7 @@ async function save() {
                                 @click="insertBelow(index)"
                             >
                             </v-btn>
+                            <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
                         </div>
                     </div>
                 </VueDraggable>
@@ -118,7 +128,7 @@ async function save() {
 
         <template #footer>
             <v-btn variant="tonal" @click="dialog = false">Cancel</v-btn>
-            <v-btn color="primary" :disabled="!isAddedToFavourites" @click="save()" :loading="saving">Save</v-btn>
+            <v-btn color="primary" @click="save()" :loading="saving">Save</v-btn>
         </template>
     </Dialog>
 </template>
