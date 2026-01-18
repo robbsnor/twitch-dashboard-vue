@@ -73,7 +73,7 @@ const openFavouriteDialog = () => (dialog.value = true);
                 <div class="text-primary">{{ stream.user_name }}</div>
             </RouterLink>
 
-            <v-menu location="bottom right" origin="overlap">
+            <v-menu location="top right" origin="overlap">
                 <template #activator="{ props }">
                     <v-btn class="-mr-2" v-bind="props" variant="text" icon="mdi-dots-vertical" size="small" />
                 </template>

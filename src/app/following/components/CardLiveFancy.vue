@@ -62,7 +62,7 @@ const dialog = ref(false);
             </div>
         </div>
 
-        <v-menu location="bottom right" origin="overlap" :offset="[0, 10]">
+        <v-menu location="top right" origin="overlap" :offset="[0, 10]">
             <template #activator="{ props }">
                 <div
                     class="text-muted-more absolute -right-4 bottom-0 flex size-50 items-end justify-end p-2 md:right-0"
