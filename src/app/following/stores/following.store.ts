@@ -1,6 +1,6 @@
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 
@@ -37,6 +37,10 @@ export const useFollowingStore = defineStore('following', () => {
         ],
     };
 
+    onMounted(async () => {
+        await fetchAll();
+    });
+
     const filteredStreams = computed(() => {
         if (!streams.value?.length || !filter.value) return streams.value;
 
@@ -54,24 +58,24 @@ export const useFollowingStore = defineStore('following', () => {
         return orderedCatNames;
     });
 
-    const fetchAll = async () => {
+    async function fetchAll() {
         try {
             const hasFetchedBefore = !!streamsLastFetchedOn.value;
             if (hasFetchedBefore) loading.value = false;
 
             await fetchStreams();
-            await fetchCategoies();
+            await fetchCategories();
         } finally {
             loading.value = false;
         }
-    };
+    }
 
-    const fetchStreams = async () => {
+    async function fetchStreams() {
         streamsLastFetchedOn.value = new Date().getTime();
         streams.value = await twitchApi.getFollowedStreamsWithUser();
-    };
+    }
 
-    const fetchCategoies = async () => {
+    async function fetchCategories() {
         if (!streams.value) return;
 
         const categoryIds = [...new Set(streams.value.map((stream) => Number(stream.game_id)))].filter(Boolean);
@@ -100,7 +104,7 @@ export const useFollowingStore = defineStore('following', () => {
                 return acc;
             }, [] as Category[])
             .sort((a, b) => b.viewers - a.viewers);
-    };
+    }
 
     return {
         pageTabs,
@@ -114,6 +118,6 @@ export const useFollowingStore = defineStore('following', () => {
 
         fetchAll,
         fetchStreams,
-        fetchCategoies,
+        fetchCategories,
     };
 });

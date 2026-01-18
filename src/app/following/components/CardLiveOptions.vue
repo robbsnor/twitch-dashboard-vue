@@ -5,8 +5,6 @@ import { useToast } from 'vue-toast-notification';
 import { useFollowingStore } from '../stores/following.store';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
-import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
-import { ref } from 'vue';
 
 const router = useRouter();
 const toast = useToast();
@@ -51,6 +49,12 @@ async function manageFavourites() {
     emits('edit-favourites');
     sheet.value = false;
 }
+
+const removeFromFavourites = async () => {
+    await favouriteStore.removeUser(Number(props.stream.user_id));
+    toast.success(`Removed ${props.stream.display_name} from favourites`, { duration: 40000 });
+    sheet.value = false;
+};
 </script>
 
 <template>
@@ -58,6 +62,14 @@ async function manageFavourites() {
         <Divider :text="stream.user_name" />
         <v-list-item v-if="isFavourite" class="text-primary" prepend-icon="mdi-heart" @click="manageFavourites()">
             Manage favourites
+        </v-list-item>
+        <v-list-item
+            v-if="isFavourite"
+            class="text-red"
+            prepend-icon="mdi-heart-remove"
+            @click="removeFromFavourites()"
+        >
+            Remove from favourites
         </v-list-item>
         <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()" class="text-primary">
             Add to favourites

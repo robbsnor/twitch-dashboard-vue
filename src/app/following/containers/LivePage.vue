@@ -14,10 +14,6 @@ const followingStore = useFollowingStore();
 const favouriteStore = useFavouriteStore();
 const focused = useWindowFocus();
 
-onMounted(async () => {
-    await followingStore.fetchAll();
-});
-
 const favouriteStreams = computed(() => {
     if (!followingStore.filteredStreams) return;
     return LiveService.getFavouriteStreams(favouriteStore.userIds, followingStore.filteredStreams);
@@ -49,7 +45,7 @@ watch(focused, async (isFocused) => {
                         :style="{ opacity: followingStore.filter === category.name ? 1 : 0.7 }"
                     />
                     <!-- <div
-                        v-for="category in categories"
+                        v-for="category in followingStore.categories"
                         :key="category.id"
                         alt="category"
                         class="group shrink-0 bg-red-300 transition-all rounded-md cursor-pointer overflow-hidden relative w-32"

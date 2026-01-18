@@ -85,10 +85,9 @@ async function save() {
                     </div>
                     <div class="ml-auto flex gap-4 items-center">
                         <v-btn
-                            v-if="props.editmode"
                             icon="mdi-close"
                             size="small"
-                            variant="tonal"
+                            :variant="props.editmode ? 'tonal' : 'plain'"
                             color="red"
                             class="rounded!"
                             @click="removeFavourite(index)"
@@ -112,7 +111,7 @@ async function save() {
         <template #footer>
             <div class="flex items-center justify-between w-full">
                 <v-btn
-                    v-if="hasChanges && editmode"
+                    v-if="hasChanges"
                     variant="text"
                     @click="reset"
                     class="italic underline! text-xs! text-muted-more!"
@@ -121,7 +120,7 @@ async function save() {
                 </v-btn>
 
                 <div class="flex gap-4 ml-auto">
-                    <v-btn variant="tonal" @click="dialog = false">Cancel</v-btn>
+                    <v-btn variant="text" @click="dialog = false">Cancel</v-btn>
                     <v-btn :disabled="!hasChanges" color="primary" @click="save()" :loading="saving">Save</v-btn>
                 </div>
             </div>
