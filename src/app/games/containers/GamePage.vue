@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { GamesFactory } from '../factories/games.factory';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import CardGameStream from '@/app/games/components/CardGameStream.vue';
 import type { CardGameStream as CardGameStreamModel } from '@/app/games/models/card-game-stream.model';
@@ -8,12 +7,13 @@ import type { TwitchGame } from '../../shared/models/twitch/games.model';
 import GamePageHeader from '../components/GamePageHeader.vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
+import type { TwitchStreamsWithUser } from '@/app/shared/models/twitch/streams-with-user.model';
 
 const route = useRoute();
 const router = useRouter();
 const twitchApi = useTwitchApi();
 
-const cards = ref<CardGameStreamModel[]>();
+const streams = ref<TwitchStreamsWithUser[]>();
 const game = ref<TwitchGame | null>();
 
 onMounted(async () => {
@@ -23,9 +23,8 @@ onMounted(async () => {
     const _game = res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
     if (!_game) return (game.value = null);
 
-    const streams = await twitchApi.getStreamsByGameIdWithUsers(Number(_game.id));
+    streams.value = await twitchApi.getStreamsByGameIdWithUsers(Number(_game.id));
     game.value = _game;
-    cards.value = GamesFactory.mapToCardLive(streams);
 });
 </script>
 
@@ -39,11 +38,11 @@ onMounted(async () => {
 
         <Section>
             <div class="game">
-                <Empty v-if="!cards?.length" title="No streamers atm..." description="Come back later"></Empty>
+                <Empty v-if="!streams?.length" title="No streamers atm..." description="Come back later"></Empty>
 
                 <div class="game__cards" v-auto-animate v-fade-stagger>
-                    <div v-for="card in cards" :key="card.userId" class="game__card">
-                        <CardGameStream :card="card" />
+                    <div v-for="stream in streams" :key="stream.id" class="game__card">
+                        <CardGameStream :stream="stream" />
                     </div>
                 </div>
             </div>

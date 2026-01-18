@@ -1,28 +1,30 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
+import { computed } from 'vue';
 
-export interface CardUserProps {
-    name: string;
-    avatar: string;
-    backgroundImage?: string;
-}
-
-const props = defineProps<CardUserProps>();
-
-const link = computed(() => `/user/${props.name}`);
+const props = defineProps<{
+    user: TwitchUser;
+}>();
+const link = computed(() => `/user/${props.user.login}`);
 </script>
 
 <template>
     <RouterLink :to="link" class="card-user">
-        <img :src="props.avatar" :alt="`${props.name}'s avatar`" class="card-user__avatar" />
-        <h3 class="card-user__name">{{ name }}</h3>
-        <!-- <img :src="props.backgroundImage" :alt="`${props.name}'s' offline image`" class="card-user__background-image"/> -->
+        <img
+            :src="props.user.profile_image_url"
+            :alt="`${props.user.display_name}'s avatar`"
+            class="card-user__avatar"
+        />
+        <h3 class="card-user__name">{{ props.user.display_name }}</h3>
     </RouterLink>
 
     <RouterLink :to="link" class="card-user-large">
-        <img :src="props.avatar" :alt="`${props.name}'s avatar`" class="card-user-large__avatar" />
-        <h3 class="card-user-large__name">{{ name }}</h3>
-        <!-- <img :src="props.backgroundImage" :alt="`${props.name}'s' offline image`" class="card-user-large__background-image"/> -->
+        <img
+            :src="props.user.profile_image_url"
+            :alt="`${props.user.display_name}'s avatar`"
+            class="card-user-large__avatar"
+        />
+        <h3 class="card-user-large__name">{{ props.user.display_name }}</h3>
     </RouterLink>
 </template>
 
@@ -63,7 +65,7 @@ const link = computed(() => `/user/${props.name}`);
         width: 100%;
         height: 100%;
         transition: 0.2s;
-        opacity: .1;
+        opacity: 0.1;
         z-index: -1;
     }
 
@@ -71,7 +73,7 @@ const link = computed(() => `/user/${props.name}`);
         background-color: $c-primary;
 
         #{ $self }__avatar {
-            transform: scale(1.1)
+            transform: scale(1.1);
         }
 
         #{ $self }__name {
@@ -126,7 +128,7 @@ const link = computed(() => `/user/${props.name}`);
         width: 100%;
         height: 100%;
         transition: 0.2s;
-        opacity: .1;
+        opacity: 0.1;
         z-index: -1;
     }
 
@@ -134,7 +136,7 @@ const link = computed(() => `/user/${props.name}`);
         background-color: $c-primary;
 
         #{ $self }__avatar {
-            transform: scale(1.1)
+            transform: scale(1.1);
         }
 
         #{ $self }__name {
@@ -150,5 +152,4 @@ const link = computed(() => `/user/${props.name}`);
         display: flex;
     }
 }
-
 </style>

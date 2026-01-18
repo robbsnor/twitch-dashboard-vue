@@ -1,29 +1,25 @@
 <script setup lang="ts">
-import { NumberService } from "@/app/shared/services/number.service";
-import { computed } from "vue";
-import type { CardGameStream as CardGameStreamModel } from "@/app/games/models/card-game-stream.model";
+import { NumberService } from '@/app/shared/services/number.service';
+import { computed } from 'vue';
+import type { TwitchStreamsWithUser } from '@/app/shared/models/twitch/streams-with-user.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
-interface Props {
-    card: CardGameStreamModel;
-}
-
-const props = defineProps<Props>();
-
-const viewers = computed(() => {
-    return NumberService.abbreviateNumber(props.card.viewers);
-});
+const props = defineProps<{
+    stream: TwitchStreamsWithUser;
+}>();
+const viewers = computed(() => NumberService.abbreviateNumber(props.stream.viewer_count));
 </script>
 
 <template>
-    <div class="card-game-stream" :data-user-id="card.userId">
+    <div class="card-game-stream" :data-user-id="stream.user_id">
         <a
-            :href="card.link"
+            :href="`https://www.twitch.tv/${stream.user_login}`"
             target="_blank"
             class="card-game-stream__thumbnail-container"
         >
-            <span class="sr-only">Watch {{ card.name }}'s stream</span>
+            <span class="sr-only">Watch {{ stream.display_name }}'s stream</span>
             <img
-                :src="card.thumbnail"
+                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url, 440)"
                 class="card-game-stream__thumbnail"
                 alt="thumbnail"
             />
@@ -31,24 +27,16 @@ const viewers = computed(() => {
             <div class="card-game-stream__arrow">(icon)</div>
             <div class="card-game-stream__viewers">{{ viewers }}</div>
         </a>
-        <div class="card-game-stream__title">{{ card.title }}</div>
+        <div class="card-game-stream__title">{{ stream.title }}</div>
         <div class="card-game-stream__footer">
-            <RouterLink
-                :to="`/user/${card.name}`"
-                class="card-game-stream__user"
-            >
-                <img
-                    v-if="card.avatar"
-                    :src="card.avatar"
-                    class="card-game-stream__avatar"
-                    alt="avatar"
-                />
-                <div class="card-game-stream__username">{{ card.name }}</div>
+            <RouterLink :to="`/user/${stream.user_login}`" class="card-game-stream__user">
+                <img :src="stream.profile_image_url" class="card-game-stream__avatar" alt="avatar" />
+                <div class="card-game-stream__username">{{ stream.display_name }}</div>
             </RouterLink>
         </div>
         <div class="card-game-stream__tags">
             <v-chip
-                v-for="tag in card.tags"
+                v-for="tag in stream.tags"
                 :key="tag"
                 size="small"
                 :href="`https://www.twitch.tv/directory/all/tags/${tag}`"

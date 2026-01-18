@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { GamesFactory } from '@/app/games/factories/games.factory';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 import { onMounted, ref } from 'vue';
 import { TitleService } from '../../shared/services/title.service';
-import type { CardGameModel } from '../components/CardGame.vue';
 import CardGame from '@/app/following/components/CardGame.vue';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
+import type { TwitchGame } from '@/app/shared/models/twitch/games.model';
 
 TitleService.setTitle('Games');
 
 const favouriteStore = useFavouriteStore();
 const twitchApi = useTwitchApi();
-
-const favCards = ref<CardGameModel[]>();
+const games = ref<TwitchGame[]>();
 
 const getFavouriteCards = async () => {
     const res = await twitchApi.getGames({
-        names: favouriteStore.favouriteCategories,
+        names: favouriteStore.categories,
     });
 
-    favCards.value = GamesFactory.mapToCardGame(res.data);
+    games.value = res.data;
 };
 
 onMounted(() => {
@@ -30,14 +28,9 @@ onMounted(() => {
 <template>
     <Section title="Favourites">
         <div class="fav-games">
-            <div v-if="favCards" class="fav-games__cards" v-auto-animate v-fade-stagger>
-                <RouterLink
-                    class="fav-games__card"
-                    v-for="card in favCards"
-                    :key="card.thumbnail"
-                    :to="`/games/${card.name}`"
-                >
-                    <CardGame :card="card" />
+            <div v-if="games" class="fav-games__cards" v-auto-animate v-fade-stagger>
+                <RouterLink class="fav-games__card" v-for="game in games" :key="game.id" :to="`/games/${game.name}`">
+                    <CardGame :game="game" />
                 </RouterLink>
             </div>
 

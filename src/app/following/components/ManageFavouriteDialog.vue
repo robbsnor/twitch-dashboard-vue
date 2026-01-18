@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
 import type { TwitchUser } from '@/app/shared/models/twitch/users.model';
 import { PromiseService } from '@/app/shared/services/promise.service';
@@ -7,14 +6,7 @@ import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 import _ from 'lodash';
 import { computed, ref } from 'vue';
 
-export interface AddFavourtieUserProps {
-    name: string;
-    avatar: string;
-    id: number;
-}
-
 const favouriteStore = useFavouriteStore();
-const twitchApi = useTwitchApi();
 const dialog = defineModel<boolean>();
 const loading = ref(false);
 const saving = ref(false);
@@ -24,22 +16,11 @@ const props = defineProps<{
 }>();
 const users = ref<TwitchUser[]>([]);
 const usersOG = ref<TwitchUser[]>([]);
-// const description = `Add "${props.stream.user_name}" to your favourites`;
-const description = `Description coming soon...`;
-
-const hasChanges = computed(() => {
-    return !_.isEqual(users.value, usersOG.value);
-});
+const hasChanges = computed(() => !_.isEqual(users.value, usersOG.value));
 
 async function onOpen() {
     loading.value = true;
-
-    await PromiseService.sleep(200);
-    const res = await twitchApi.getUsers({ ids: favouriteStore.favouriteUserIds });
-
-    users.value = _.cloneDeep(res.data);
-    usersOG.value = _.cloneDeep(res.data);
-
+    users.value = _.cloneDeep(favouriteStore.twitchUsers);
     loading.value = false;
 }
 
@@ -70,8 +51,8 @@ async function save() {
     try {
         saving.value = true;
 
-        await PromiseService.sleep(1000);
-        await favouriteStore.setFavouriteUsers(users.value.map((u) => Number(u.id)));
+        await favouriteStore.setUsers(users.value.map((u) => Number(u.id)));
+        await PromiseService.sleep(500);
     } finally {
         saving.value = false;
         dialog.value = false;
@@ -80,7 +61,14 @@ async function save() {
 </script>
 
 <template>
-    <Dialog v-model="dialog" title="Favourites" :description="description" icon="mdi-heart" @open="onOpen" width="500">
+    <Dialog
+        v-model="dialog"
+        title="Favourites"
+        description="Description coming soon..."
+        icon="mdi-heart"
+        @open="onOpen"
+        width="500"
+    >
         <template v-if="!loading">
             <div class="flex flex-col max-h-150">
                 <VueDraggable handle="._handle" :animation="100" v-model="users" v-auto-animate>

@@ -2,39 +2,18 @@
 import { TitleService } from '@/app/shared/services/title.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
-import { onMounted, ref } from 'vue';
-import type { CardUserProps } from '../components/CardUser.vue';
 import CardUser from '../components/CardUser.vue';
-import { UserFactory } from '../factories/user.factory';
 
 TitleService.setTitle('Users');
 
 const favouriteStore = useFavouriteStore();
-const twitchApi = useTwitchApi();
-
-const favouriteUsers = ref<CardUserProps[]>();
-
-onMounted(async () => {
-    const res = await twitchApi.getUsers({
-        ids: favouriteStore.favouriteUserIds,
-    });
-    favouriteUsers.value = UserFactory.mapToCardUser(res.data);
-});
 </script>
 
 <template>
     <Section title="Favourites">
-        <div v-if="favouriteUsers" class="user-cards" v-fade-stagger>
-            <CardUser
-                v-for="user in favouriteUsers"
-                :name="user.name"
-                :avatar="user.avatar"
-                :backgroundImage="user.backgroundImage"
-                :key="user.name"
-            />
+        <div class="user-cards" v-fade-stagger>
+            <CardUser v-for="user in favouriteStore.twitchUsers" :user="user" :key="user.id" />
         </div>
-
-        <Spinner v-else padding />
     </Section>
 </template>
 

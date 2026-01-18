@@ -20,12 +20,12 @@ onMounted(async () => {
 
 const favouriteStreams = computed(() => {
     if (!followingStore.filteredStreams) return;
-    return LiveService.getFavouriteStreams(favouriteStore.favouriteUserIds, followingStore.filteredStreams);
+    return LiveService.getFavouriteStreams(favouriteStore.userIds, followingStore.filteredStreams);
 });
 
 const nonFavouriteStreams = computed(() => {
     if (!followingStore.filteredStreams) return;
-    return LiveService.getNonFavouriteStreams(favouriteStore.favouriteUserIds, followingStore.filteredStreams);
+    return LiveService.getNonFavouriteStreams(favouriteStore.userIds, followingStore.filteredStreams);
 });
 
 watch(focused, async (isFocused) => {

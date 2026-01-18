@@ -1,15 +1,13 @@
 <script setup lang="ts">
-export interface CardGameModel {
-    thumbnail: string;
-    name: string;
-}
+import type { TwitchGame } from '@/app/shared/models/twitch/games.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
-const props = defineProps<{ card: CardGameModel }>();
+const props = defineProps<{ game: TwitchGame }>();
 </script>
 
 <template>
     <div class="card-game">
-        <img :src="props.card.thumbnail" alt="" class="card-game__image" />
+        <img :src="TwitchService.getGameThumbnail(props.game.box_art_url)" alt="" class="card-game__image" />
     </div>
 </template>
 

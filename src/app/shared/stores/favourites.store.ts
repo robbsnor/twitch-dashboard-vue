@@ -5,12 +5,16 @@ import type { Tables, TablesInsert } from '@/app/database.types';
 import { useAuthStore } from '@/app/auth/stores/auth.store';
 import _ from 'lodash';
 import { v4 } from 'uuid';
+import { useTwitchApi } from '../composables/useTwitchApi.composable';
+import type { TwitchUser } from '../models/twitch/users.model';
 
 export const useFavouriteStore = defineStore('favourite', () => {
     const authStore = useAuthStore();
-    const favouriteUsers = ref<Tables<'favourite_users'>[]>([]);
-    const favouriteUserIds = computed(() => favouriteUsers.value?.map((user) => user.user_id) || []);
-    const favouriteCategories = [
+    const twitchApi = useTwitchApi();
+    const users = ref<Tables<'favourite_users'>[]>([]);
+    const userIds = computed(() => users.value.map((user) => user.user_id) || []);
+    const twitchUsers = ref<TwitchUser[]>([]);
+    const categories = [
         'Call of Duty: Black Ops',
         'Call of Duty: Black Ops II',
         'Call of Duty: Black Ops III',
@@ -28,12 +32,12 @@ export const useFavouriteStore = defineStore('favourite', () => {
     ];
 
     onMounted(async () => {
-        await fetchFavouriteUsers();
+        await fetchAll();
     });
 
-    async function setFavouriteUsers(userIds: number[]) {
+    async function setUsers(userIds: number[]) {
         // remove
-        const idsToRemove = favouriteUserIds.value.filter((id) => !userIds.includes(id));
+        const idsToRemove = userIds.filter((id) => !userIds.includes(id));
 
         const { error: deleteError } = await supabase.from('favourite_users').delete().in('user_id', idsToRemove);
         if (deleteError) throw deleteError;
@@ -48,11 +52,11 @@ export const useFavouriteStore = defineStore('favourite', () => {
         const { error: insertError } = await supabase.from('favourite_users').upsert(users, { onConflict: 'user_id' });
         if (insertError) throw insertError;
 
-        await fetchFavouriteUsers();
+        await fetchAll();
     }
 
-    async function addFavouriteUser({ user_id, index }: { user_id: number; index: number }) {
-        let favUsers: TablesInsert<'favourite_users'>[] = _.cloneDeep(favouriteUsers.value);
+    async function addUser({ user_id, index }: { user_id: number; index: number }) {
+        let favUsers: TablesInsert<'favourite_users'>[] = _.cloneDeep(users.value);
 
         favUsers.splice(index, 0, {
             id: v4(),
@@ -69,31 +73,41 @@ export const useFavouriteStore = defineStore('favourite', () => {
         const { error } = await supabase.from('favourite_users').upsert(favUsers, { onConflict: 'user_id' });
         if (error) throw error;
 
-        await fetchFavouriteUsers();
+        await fetchAll();
     }
 
-    async function removeFavouriteUser(userId: number) {
+    async function removeUser(userId: number) {
         const { error } = await supabase.from('favourite_users').delete().eq('user_id', userId);
         if (error) throw error;
 
-        await fetchFavouriteUsers();
+        await fetchAll();
     }
 
-    async function fetchFavouriteUsers() {
+    async function fetchAll() {
+        await fetchUsers();
+        await fetchTwitchUsers();
+    }
+
+    async function fetchUsers() {
         const { data, error } = await supabase.from('favourite_users').select('*').order('order', { ascending: true });
         if (error) throw error;
 
-        favouriteUsers.value = data;
+        users.value = data;
+    }
+
+    async function fetchTwitchUsers() {
+        const res = await twitchApi.getUsers({ ids: userIds.value });
+        twitchUsers.value = res.data;
     }
 
     return {
-        favouriteCategories,
-        favouriteUsers,
-        favouriteUserIds,
+        categories,
+        users,
+        userIds,
+        twitchUsers,
 
-        fetchFavouriteUsers,
-        addFavouriteUser,
-        removeFavouriteUser,
-        setFavouriteUsers,
+        addUser,
+        removeUser,
+        setUsers,
     };
 });

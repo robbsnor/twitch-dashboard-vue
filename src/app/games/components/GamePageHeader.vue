@@ -12,7 +12,7 @@ const props = defineProps<{
         <div class="game-page-header__container">
             <div class="game-page-header__info">
                 <img class="game-page-header__image" :src="props.image" alt="game image" />
-                <h1 class="game-page-header__title">{{ props.name }}</h1>
+                <h1 class="game-page-header__title font-bold">{{ props.name }}</h1>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@ const props = defineProps<{
         object-fit: cover;
         z-index: 0;
         filter: blur(50px);
-        opacity: .3;
+        opacity: 0.3;
     }
 
     &__container {
