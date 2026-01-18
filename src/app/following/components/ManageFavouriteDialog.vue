@@ -44,8 +44,15 @@ async function onOpen() {
 }
 
 async function insertBelow(index: number) {
-    // remove if exists
-    users.value = users.value.filter((u) => u.id !== props.stream.user_id);
+    // remove existing
+    const indexToRemove = users.value.findIndex((u) => u.id === props.stream.user_id);
+    if (indexToRemove !== -1) {
+        users.value.splice(indexToRemove, 1);
+
+        if (indexToRemove < index) {
+            index--;
+        }
+    }
 
     // add
     users.value.splice(index + 1, 0, props.stream);
