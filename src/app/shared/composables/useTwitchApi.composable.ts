@@ -13,9 +13,11 @@ import type { TwitchStreamsWithUser } from '../models/twitch/streams-with-user.m
 import type { TwitchGetSchedule, TwitchSchedule } from '../models/twitch/schedule.model';
 import type { TwitchScheduleWithUser } from '../models/twitch/schedule-with-user.model';
 import { supabase } from '@/app/supabase';
+import { useRouter } from 'vue-router';
 
 export function useTwitchApi() {
     const authStore = useAuthStore();
+    const router = useRouter();
 
     async function http<T>(url: string): Promise<T> {
         if (!authStore.session?.provider_token) {
@@ -44,8 +46,8 @@ export function useTwitchApi() {
         });
 
         if (error) {
-            await authStore.signOut();
-            throw new Error(`Failed to refresh Twitch access token: ${error.message}`);
+            await router.push({ name: 'sign-out' });
+            throw new Error(`Failed to refresh Twitch access token: ${error}`);
         }
 
         authStore.accessToken = data.access_token;

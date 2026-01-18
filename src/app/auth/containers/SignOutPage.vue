@@ -7,7 +7,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 onMounted(async () => {
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise((resolve) => setTimeout(resolve, 800));
     await authStore.signOut();
     router.push({ name: 'home' });
 });
@@ -20,7 +20,3 @@ onMounted(async () => {
         </Section>
     </div>
 </template>
-
-<style lang="scss">
-.sign-out {}
-</style>

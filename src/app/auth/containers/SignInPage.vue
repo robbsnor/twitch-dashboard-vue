@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { supabase } from '@/app/supabase';
+import { PromiseService } from '@/app/shared/services/promise.service';
 
 const router = useRouter();
 
@@ -11,6 +12,7 @@ onMounted(async () => {
     } = await supabase.auth.getSession();
     if (!session?.user) return;
 
+    await PromiseService.sleep(500);
     router.push({ name: 'live' });
 });
 </script>
