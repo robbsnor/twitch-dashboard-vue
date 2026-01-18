@@ -32,20 +32,20 @@ export const useFavouriteStore = defineStore('favourite', () => {
     });
 
     async function setFavouriteUsers(userIds: number[]) {
+        // remove
+        const idsToRemove = favouriteUserIds.value.filter((id) => !userIds.includes(id));
+
+        const { error: deleteError } = await supabase.from('favourite_users').delete().in('user_id', idsToRemove);
+        if (deleteError) throw deleteError;
+
+        // upsert
         const users: TablesInsert<'favourite_users'>[] = userIds.map((user_id, i) => ({
-            id: v4(),
             user_id,
             order: i,
             owner_id: authStore.session!.user.id!,
         }));
 
-        const { error: deleteError } = await supabase
-            .from('favourite_users')
-            .delete()
-            .eq('owner_id', authStore.session!.user.id!);
-        if (deleteError) throw deleteError;
-
-        const { error: insertError } = await supabase.from('favourite_users').insert(users);
+        const { error: insertError } = await supabase.from('favourite_users').upsert(users, { onConflict: 'user_id' });
         if (insertError) throw insertError;
 
         await fetchFavouriteUsers();
