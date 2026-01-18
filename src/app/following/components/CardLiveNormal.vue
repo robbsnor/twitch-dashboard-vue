@@ -60,7 +60,7 @@ const openFavouriteDialog = () => (dialog.value = true);
         <div class="pt-2 line-clamp-1 font-bold text-lg break-all">
             {{ stream.title }}
         </div>
-        <div v-if="stream.game_name" class="text-muted">{{ stream.game_name }}</div>
+        <div class="text-muted">{{ stream.game_name || '-' }}</div>
 
         <div class="flex justify-between items-center">
             <RouterLink :to="`/user/${stream.user_name}`" class="flex items-center">

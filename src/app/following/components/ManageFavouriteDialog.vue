@@ -8,7 +8,6 @@ import { computed, ref } from 'vue';
 
 const favouriteStore = useFavouriteStore();
 const dialog = defineModel<boolean>();
-const loading = ref(false);
 const saving = ref(false);
 const props = defineProps<{
     stream: TwitchFollowedStreamWithUser;
@@ -19,9 +18,8 @@ const usersOG = ref<TwitchUser[]>([]);
 const hasChanges = computed(() => !_.isEqual(users.value, usersOG.value));
 
 async function onOpen() {
-    loading.value = true;
     users.value = _.cloneDeep(favouriteStore.twitchUsers);
-    loading.value = false;
+    usersOG.value = _.cloneDeep(favouriteStore.twitchUsers);
 }
 
 async function insertBelow(index: number) {
@@ -69,51 +67,47 @@ async function save() {
         @open="onOpen"
         width="500"
     >
-        <template v-if="!loading">
-            <div class="flex flex-col max-h-150">
-                <VueDraggable handle="._handle" :animation="100" v-model="users" v-auto-animate>
-                    <div
-                        v-for="(user, index) in users"
-                        :key="user.id"
-                        :class="{ 'bg-black-400 rounded': user.id === props.stream.user_id }"
-                        class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
-                    >
-                        <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
-                        <!-- <div class="text-muted font-bold text-right">
+        <div class="flex flex-col max-h-150">
+            <VueDraggable handle="._handle" :animation="100" v-model="users" v-auto-animate>
+                <div
+                    v-for="(user, index) in users"
+                    :key="user.id"
+                    :class="{ 'bg-black-400 rounded': user.id === props.stream.user_id }"
+                    class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
+                >
+                    <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
+                    <!-- <div class="text-muted font-bold text-right">
                             {{ index + 1 }}
                         </div> -->
-                        <img :src="user.profile_image_url" alt="avatar" class="size-10 rounded-full" />
-                        <div class="font-bold truncate" :class="{ 'text-primary': user.id === props.stream.user_id }">
-                            {{ user.display_name }}
-                        </div>
-                        <div class="ml-auto flex gap-4 items-center">
-                            <v-btn
-                                v-if="props.editmode"
-                                icon="mdi-close"
-                                size="small"
-                                variant="tonal"
-                                color="red"
-                                class="rounded!"
-                                @click="removeFavourite(index)"
-                            ></v-btn>
-
-                            <v-btn
-                                v-if="user.id !== props.stream.user_id && !props.editmode"
-                                icon="mdi-arrow-left-bottom"
-                                size="small"
-                                variant="tonal"
-                                color="primary"
-                                class="rounded!"
-                                @click="insertBelow(index)"
-                            >
-                            </v-btn>
-                        </div>
+                    <img :src="user.profile_image_url" alt="avatar" class="size-10 rounded-full" />
+                    <div class="font-bold truncate" :class="{ 'text-primary': user.id === props.stream.user_id }">
+                        {{ user.display_name }}
                     </div>
-                </VueDraggable>
-            </div>
-        </template>
+                    <div class="ml-auto flex gap-4 items-center">
+                        <v-btn
+                            v-if="props.editmode"
+                            icon="mdi-close"
+                            size="small"
+                            variant="tonal"
+                            color="red"
+                            class="rounded!"
+                            @click="removeFavourite(index)"
+                        ></v-btn>
 
-        <Spinner v-else />
+                        <v-btn
+                            v-if="user.id !== props.stream.user_id && !props.editmode"
+                            icon="mdi-arrow-left-bottom"
+                            size="small"
+                            variant="tonal"
+                            color="primary"
+                            class="rounded!"
+                            @click="insertBelow(index)"
+                        >
+                        </v-btn>
+                    </div>
+                </div>
+            </VueDraggable>
+        </div>
 
         <template #footer>
             <div class="flex items-center justify-between w-full">
