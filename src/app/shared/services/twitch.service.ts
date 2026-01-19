@@ -8,7 +8,9 @@ export class TwitchService {
     ) {
         if (!height) height = Math.ceil(width / 1.778); // aka 16 / 9
 
-        return url.replace(replaceWidthString, width.toString()).replace(replaceHeightString, height.toString());
+        return `${url
+            .replace(replaceWidthString, width.toString())
+            .replace(replaceHeightString, height.toString())}?t=${Date.now()}`;
     }
 
     public static getGameThumbnail(url: string, width = 285, height?: number) {
