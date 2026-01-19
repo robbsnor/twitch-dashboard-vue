@@ -10,9 +10,9 @@ const props = defineProps<{
 </script>
 
 <template>
-    <Section v-if="followingStore.favouriteStreams" title="Favourites">
+    <Section v-if="followingStore.favouriteStreams?.length" title="Favourites">
         <template #backgroundArt>
-            <Swirl v-if="followingStore.favouriteStreams?.length" class="swirl"></Swirl>
+            <Swirl></Swirl>
         </template>
 
         <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-3" v-fade-stagger="{ delay: 100 }" v-auto-animate>

@@ -8,9 +8,8 @@ import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/fo
 
 const router = useRouter();
 const toast = useToast();
-const favouriteStore = useFavouriteStore();
 
-const emits = defineEmits(['add-favourite', 'edit-favourites']);
+const emits = defineEmits(['add-favourite', 'edit-favourites', 'remove-favourite']);
 
 const props = withDefaults(
     defineProps<{
@@ -32,7 +31,7 @@ const goToGamePage = (game: string) => {
 const copyuserId = (userId: string) => {
     const { copy, copied } = useClipboard();
     copy(userId.toString());
-    toast.success(`Copied ID: ${userId}`, { duration: 4000 });
+    toast.success(`Copied ID: ${userId}`);
 };
 
 const doFiltering = () => {
@@ -49,12 +48,6 @@ async function manageFavourites() {
     emits('edit-favourites');
     sheet.value = false;
 }
-
-const removeFromFavourites = async () => {
-    await favouriteStore.removeUser(Number(props.stream.user_id));
-    toast.success(`Removed ${props.stream.display_name} from favourites`, { duration: 40000 });
-    sheet.value = false;
-};
 </script>
 
 <template>
@@ -67,7 +60,7 @@ const removeFromFavourites = async () => {
             v-if="isFavourite"
             class="text-red"
             prepend-icon="mdi-heart-remove"
-            @click="removeFromFavourites()"
+            @click="emits('remove-favourite')"
         >
             Remove from favourites
         </v-list-item>

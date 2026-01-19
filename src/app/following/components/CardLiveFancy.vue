@@ -5,14 +5,24 @@ import CardLiveOptions from './CardLiveOptions.vue';
 import ManageFavouriteDialog from './ManageFavouriteDialog.vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
+import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
+import { useToast } from 'vue-toast-notification';
 
 const props = defineProps<{
     stream: TwitchFollowedStreamWithUser;
 }>();
-
+const favouriteStore = useFavouriteStore();
+const toast = useToast();
 const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_count));
 const uptime = computed(() => CardLiveService.getUptime(props.stream.started_at));
-const dialog = ref(false);
+const manageDialog = ref(false);
+const removeDialog = ref(false);
+
+const removeFavourite = async () => {
+    await favouriteStore.removeUser(Number(props.stream.user_id));
+    toast.success(`Removed ${props.stream.display_name} from favourites`);
+    removeDialog.value = false;
+};
 </script>
 
 <template>
@@ -79,7 +89,12 @@ const dialog = ref(false);
                 </div>
             </template>
 
-            <CardLiveOptions :stream="stream" :isFavourite="true" @editFavourites="dialog = true" />
+            <CardLiveOptions
+                :stream="stream"
+                :isFavourite="true"
+                @editFavourites="manageDialog = true"
+                @removeFavourite="removeDialog = true"
+            />
         </v-menu>
 
         <a
@@ -92,5 +107,13 @@ const dialog = ref(false);
         </a>
     </div>
 
-    <ManageFavouriteDialog v-model="dialog" :stream="stream" :editmode="true" />
+    <DeleteDialog
+        v-model="removeDialog"
+        confirmText="Remove"
+        icon="mdi-heart-remove"
+        :title="`Remove ${stream.user_name} from favourites?`"
+        description="Are you sure?"
+        @confirm="removeFavourite"
+    />
+    <ManageFavouriteDialog v-model="manageDialog" :stream="stream" :editmode="true" />
 </template>

@@ -75,7 +75,6 @@ async function save() {
                     :class="{ 'bg-black-400 rounded': user.id === props.stream.user_id }"
                     class="flex items-center gap-4 py-2 px-4 bg-black-200 not-last:border-b border-black-500"
                 >
-                    <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
                     <!-- <div class="text-muted font-bold text-right">
                             {{ index + 1 }}
                         </div> -->
@@ -103,6 +102,7 @@ async function save() {
                             @click="insertBelow(index)"
                         >
                         </v-btn>
+                        <v-icon icon="mdi-drag" class="_handle cursor-move" color="var(--color-black-800)" />
                     </div>
                 </div>
             </VueDraggable>

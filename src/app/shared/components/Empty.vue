@@ -4,7 +4,7 @@ import { computed, useSlots } from 'vue';
 const slots = useSlots();
 
 const props = defineProps<{
-    title: string;
+    title?: string;
     description?: string;
     icon?: string;
 }>();
