@@ -55,6 +55,8 @@ export function useTwitchApi() {
     }
 
     async function getUsers(user: { ids?: number[]; logins?: string[] }): Promise<TwitchGetUsers> {
+        if (user.ids?.length === 0 || user.logins?.length === 0) return { data: [] };
+
         const url = new URL('https://api.twitch.tv/helix/users');
         if (user.ids) user.ids.forEach((id) => url.searchParams.append('id', id.toString()));
         if (user.logins) user.logins.forEach((login) => url.searchParams.append('login', login));

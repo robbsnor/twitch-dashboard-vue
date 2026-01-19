@@ -53,9 +53,10 @@ export const useFollowingStore = defineStore('following', () => {
     const categoriesList = computed(() => {
         if (!categories.value?.length) return;
 
-        const catNames: string[] = categories.value.map((c) => c.name).filter((name): name is string => !!name);
-        const orderedCatNames = catNames.sort((a, b) => a.localeCompare(b));
-        return orderedCatNames;
+        return categories.value
+            .map((c) => c.name)
+            .filter((name): name is string => !!name)
+            .sort((a, b) => a.localeCompare(b));
     });
 
     async function fetchAll() {
