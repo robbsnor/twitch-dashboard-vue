@@ -1,8 +1,10 @@
+import { useFavouriteStore } from './../../shared/stores/favourites.store';
 import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
 import { defineStore } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
+import { LiveService } from '../services/live.service';
 
 interface Category {
     name?: string;
@@ -14,6 +16,7 @@ interface Category {
 
 export const useFollowingStore = defineStore('following', () => {
     const twitchApi = useTwitchApi();
+    const favouriteStore = useFavouriteStore();
     const filter = ref<string>();
     const streamsLastFetchedOn = ref<number>();
     const streams = ref<TwitchFollowedStreamWithUser[]>();
@@ -39,6 +42,16 @@ export const useFollowingStore = defineStore('following', () => {
 
     onMounted(async () => {
         await fetchAll();
+    });
+
+    const favouriteStreams = computed(() => {
+        if (!filteredStreams.value) return;
+        return LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
+    });
+
+    const nonFavouriteStreams = computed(() => {
+        if (!filteredStreams.value) return;
+        return LiveService.getNonFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
     });
 
     const filteredStreams = computed(() => {
@@ -116,6 +129,8 @@ export const useFollowingStore = defineStore('following', () => {
         filteredStreams,
         categoriesList,
         loading,
+        favouriteStreams,
+        nonFavouriteStreams,
 
         fetchAll,
         fetchStreams,

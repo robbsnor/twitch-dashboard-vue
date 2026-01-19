@@ -1,29 +1,16 @@
 <script setup lang="ts">
-import { computedAsync } from '@vueuse/core';
-import { computed, ref, watch } from 'vue';
-import type { TwitchFollowedStreamWithUser } from '../../shared/models/twitch/followed-streams-with-user.model';
 import CardLiveSmall from '../components/CardLiveSmall.vue';
 import CardLiveNormal from '../components/CardLiveNormal.vue';
-import { FollowingFactory } from '../factories/following.factory';
 import { useFollowingStore } from '../stores/following.store';
 
-const props = defineProps<{
-    streams: TwitchFollowedStreamWithUser[];
-}>();
-
 const followingStore = useFollowingStore();
-const sectionEl = ref<HTMLElement | any>();
-
-const cards = computed(() => {
-    return FollowingFactory.mapToCardLiveNormal(props.streams);
-});
 </script>
 
 <template>
-    <Section title="Live channels" ref="sectionEl">
-        <div class="non-favourite">
-            <div v-if="cards" class="non-favourite__cards" v-fade-stagger v-auto-animate>
-                <template v-for="stream in streams" :key="stream.user_id">
+    <Section title="Live channels">
+        <div v-if="followingStore.nonFavouriteStreams" class="non-favourite">
+            <div class="non-favourite__cards" v-fade-stagger v-auto-animate>
+                <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
                     <div class="non-favourite__card-small">
                         <CardLiveSmall :stream="stream" />
                     </div>
@@ -34,14 +21,17 @@ const cards = computed(() => {
                 </template>
             </div>
 
-            <Spinner padding v-else></Spinner>
-
-            <Empty v-if="!cards?.length && !!followingStore.filter" icon="mdi-movie-search-outline">
+            <Empty
+                v-if="!followingStore.nonFavouriteStreams.length && !!followingStore.filter"
+                icon="mdi-movie-search-outline"
+            >
                 <div class="not-found">
                     No streams found for: <span class="not-found__query">"{{ followingStore.filter }}"</span>.
                 </div>
             </Empty>
         </div>
+
+        <Spinner padding v-else></Spinner>
 
         <div v-if="followingStore.filter" class="flex flex-col items-center justify-center gap-2 pt-10">
             <v-btn variant="tonal" color="primary" @click="followingStore.filter = undefined" append-icon="mdi-close">

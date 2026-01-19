@@ -21,8 +21,6 @@ const cssClass = computed(() => {
 
 const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_count));
 const uptime = computed(() => CardLiveService.getUptime(props.stream.started_at));
-
-const openFavouriteDialog = () => (dialog.value = true);
 </script>
 
 <template>
