@@ -84,7 +84,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_co
                     class="block size-6 rounded-full"
                     alt="avatar"
                 />
-                <div class="text-primary">{{ stream.user_name }}</div>
+                <div class="text-primary line-clamp-1 break-all">{{ stream.user_name }}</div>
             </RouterLink>
         </div>
 
