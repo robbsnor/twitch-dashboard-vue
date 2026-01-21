@@ -83,18 +83,6 @@ async function save() {
 
 <template>
     <Dialog v-model="dialog" :title="title" :description="description" :icon="icon" @open="onOpen" width="500">
-        <!-- <div class="p-2 border-b border-black-500">
-            <v-autocomplete
-                hid
-                placeholder="Search users to add..."
-                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-            >
-                <template #prepend-inner>
-                    <v-icon icon="mdi-magnify" />
-                </template>
-            </v-autocomplete>
-        </div> -->
-
         <div v-if="users.length" class="flex flex-col max-h-150">
             <VueDraggable handle="._handle" :animation="200" v-model="users" v-fade-stagger="{ delay: 50 }">
                 <div
