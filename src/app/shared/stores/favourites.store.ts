@@ -95,6 +95,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
         if (error) throw error;
 
         users.value = data;
+        // users.value = [];
     }
 
     async function fetchTwitchUsers() {

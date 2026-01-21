@@ -33,7 +33,7 @@ import { VueDraggable } from 'vue-draggable-plus';
 import ZigZag from './app/shared/components/ZigZag.vue';
 
 // directives
-import { fadeStagger } from './app/base/directives/fade-stagger.directive';
+import { fadeStagger } from './app/shared/directives/fade-stagger.directive';
 
 const app = createApp(App);
 const pinia = createPinia();

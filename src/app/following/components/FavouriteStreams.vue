@@ -15,7 +15,11 @@ const props = defineProps<{
             <Swirl></Swirl>
         </template>
 
-        <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-3" v-fade-stagger="{ delay: 100 }" v-auto-animate>
+        <div
+            class="grid gap-12 md:grid-cols-2 lg:grid-cols-3"
+            v-fade-stagger="{ delayBetweenItems: 100 }"
+            v-auto-animate
+        >
             <div
                 v-for="stream in followingStore.favouriteStreams"
                 :key="stream.user_id"

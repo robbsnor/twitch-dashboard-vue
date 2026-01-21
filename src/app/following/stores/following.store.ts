@@ -73,15 +73,13 @@ export const useFollowingStore = defineStore('following', () => {
     });
 
     async function fetchAll() {
-        try {
-            const hasFetchedBefore = !!streamsLastFetchedOn.value;
-            if (hasFetchedBefore) loading.value = false;
+        loading.value = true;
+        const hasFetchedBefore = !!streamsLastFetchedOn.value;
+        if (hasFetchedBefore) loading.value = false;
 
-            await fetchStreams();
-            await fetchCategories();
-        } finally {
-            loading.value = false;
-        }
+        await fetchStreams();
+        await fetchCategories();
+        loading.value = false;
     }
 
     async function fetchStreams() {

@@ -12,6 +12,10 @@ const favouriteStore = useFavouriteStore();
 const toast = useToast();
 const dialog = defineModel<boolean>();
 const saving = ref(false);
+const users = ref<TwitchUser[]>([]);
+const hasChanges = computed(() => !_.isEqual(users.value, favouriteStore.twitchUsers));
+const isFirstUser = computed(() => favouriteStore.users.length === 0 && props.stream);
+const isExistingUser = computed(() => favouriteStore.twitchUsers.some((u) => u.id === props.stream.user_id));
 const props = withDefaults(
     defineProps<{
         stream: TwitchFollowedStreamWithUser;
@@ -21,41 +25,25 @@ const props = withDefaults(
         allowInsertBelow: true,
     }
 );
-const users = ref<TwitchUser[]>([]);
-const hasChanges = computed(() => !_.isEqual(users.value, favouriteStore.twitchUsers));
-const isExistingUser = computed(() => favouriteStore.twitchUsers.some((u) => u.id === props.stream.user_id));
 const description = computed(() => {
-    if (isExistingUser.value) {
-        return `Move or delete users from your favourites.`;
-    }
-
-    if (props.stream) {
-        return `Add "${props.stream.display_name}" to favourites.`;
-    }
+    if (isExistingUser.value) return `Move or delete users from your favourites.`;
+    if (props.stream) return `Add "${props.stream.display_name}" to favourites.`;
 });
-
 const title = computed(() => {
-    if (isExistingUser.value) {
-        return 'Manage Favourites';
-    }
-
-    if (props.stream) {
-        return 'Add to Favourites';
-    }
+    if (isExistingUser.value) return 'Manage Favourites';
+    if (props.stream) return 'Add to Favourites';
 });
-
 const icon = computed(() => {
-    if (isExistingUser.value) {
-        return 'mdi-heart';
-    }
-
-    if (props.stream) {
-        return 'mdi-heart-plus';
-    }
+    if (isExistingUser.value) return 'mdi-heart';
+    if (props.stream) return 'mdi-heart-plus';
 });
 
 async function onOpen() {
     users.value = _.cloneDeep(favouriteStore.twitchUsers);
+
+    if (isFirstUser.value) {
+        add(0);
+    }
 }
 
 async function add(index: number) {
@@ -124,6 +112,7 @@ async function save() {
                     </div>
                     <div class="ml-auto flex items-center">
                         <v-btn
+                            v-if="!isFirstUser"
                             icon="mdi-close"
                             size="small"
                             variant="plain"
@@ -153,18 +142,18 @@ async function save() {
             </VueDraggable>
         </div>
 
-        <div v-else class="p-4">
-            <Empty icon="mdi-heart-outline" description="You have no favourite yet.">
-                <v-btn color="primary" variant="tonal" @click="add(0)">
-                    Add {{ props.stream.display_name }} to Favourites
-                </v-btn>
-            </Empty>
-        </div>
+        <Empty
+            v-else
+            icon="mdi-heart-outline"
+            :description="`${props.stream.display_name} is not in your favourites yet.`"
+        >
+            <v-btn color="primary" variant="tonal" @click="add(0)"> Add to Favourites </v-btn>
+        </Empty>
 
         <template #footer>
             <div class="flex items-center justify-between w-full">
                 <v-btn
-                    v-if="hasChanges"
+                    v-if="hasChanges && !isFirstUser"
                     variant="text"
                     @click="reset"
                     class="italic underline! text-xs! text-muted-more!"
