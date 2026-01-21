@@ -59,7 +59,7 @@ watch(
                     <v-icon :color="props.iconColor" :icon="props.icon" class=" " />
                 </div>
 
-                <div class="mr-8">
+                <div class="grow mr-4">
                     <h2 class="text-2xl font-bold">{{ props.title }}</h2>
                     <p v-if="props.description" class="text-muted">{{ props.description }}</p>
                 </div>
@@ -67,7 +67,7 @@ watch(
                 <button
                     v-if="props.showCloseButton"
                     @click="dialog = false"
-                    class="group ml-auto p-2 rounded-md hover:bg-black-400"
+                    class="group p-2 rounded-md hover:bg-black-400"
                 >
                     <div class="group-hover:rotate-90 transition-all">
                         <span class="sr-only">Close</span>

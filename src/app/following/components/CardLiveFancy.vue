@@ -115,5 +115,6 @@ const removeFavourite = async () => {
         description="Are you sure?"
         @confirm="removeFavourite"
     />
-    <ManageFavouriteDialog v-model="manageDialog" :stream="stream" :editmode="true" />
+
+    <ManageFavouriteDialog v-model="manageDialog" :stream="stream" :allowInsertBelow="false" />
 </template>

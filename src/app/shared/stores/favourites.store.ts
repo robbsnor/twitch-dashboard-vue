@@ -39,8 +39,10 @@ export const useFavouriteStore = defineStore('favourite', () => {
         // remove
         const idsToRemove = userIds.value.filter((id) => !ids.includes(id));
 
-        const { error: deleteError } = await supabase.from('favourite_users').delete().in('user_id', idsToRemove);
-        if (deleteError) throw deleteError;
+        if (idsToRemove.length) {
+            const { error: deleteError } = await supabase.from('favourite_users').delete().in('user_id', idsToRemove);
+            if (deleteError) throw deleteError;
+        }
 
         // upsert
         const users: TablesInsert<'favourite_users'>[] = ids.map((id, i) => ({
