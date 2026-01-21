@@ -24,7 +24,7 @@ export const vuetify = createVuetify({
             variant: 'solo',
         },
         VDialog: {
-            transition: "slide-y-reverse-transition",
+            transition: 'slide-y-reverse-transition',
         },
         VImg: {
             // transition: '',
@@ -42,6 +42,10 @@ export const vuetify = createVuetify({
             hideDetails: 'auto',
         },
         VTextField: {
+            clearable: true,
+            variant: 'solo',
+        },
+        VAutocomplete: {
             clearable: true,
             variant: 'solo',
         },
