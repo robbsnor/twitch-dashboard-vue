@@ -39,7 +39,9 @@ const title = computed(() => {
         return 'Manage Favourites';
     }
 
-    return 'Add to Favourites';
+    if (props.stream) {
+        return 'Add to Favourites';
+    }
 });
 
 const icon = computed(() => {
@@ -94,7 +96,7 @@ async function save() {
 <template>
     <Dialog v-model="dialog" :title="title" :description="description" :icon="icon" @open="onOpen" width="500">
         <div v-if="users.length" class="flex flex-col max-h-150">
-            <VueDraggable handle="._handle" :animation="100" v-model="users" v-auto-animate>
+            <VueDraggable handle="._handle" :animation="1" v-model="users" v-auto-animate>
                 <div
                     v-for="(user, index) in users"
                     :key="user.id"
