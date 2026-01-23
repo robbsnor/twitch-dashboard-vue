@@ -45,13 +45,13 @@ export const useFavouriteStore = defineStore('favourite', () => {
         }
 
         // upsert
-        const users: TablesInsert<'favourite_users'>[] = ids.map((id, i) => ({
+        const _users: TablesInsert<'favourite_users'>[] = ids.map((id, i) => ({
             user_id: id,
             order: i,
             owner_id: authStore.session!.user.id!,
         }));
 
-        const { error: insertError } = await supabase.from('favourite_users').upsert(users, { onConflict: 'user_id' });
+        const { error: insertError } = await supabase.from('favourite_users').upsert(_users, { onConflict: 'user_id' });
         if (insertError) throw insertError;
 
         await fetchAll();
