@@ -16,14 +16,14 @@ const followingStore = useFollowingStore();
             <ZigZag />
         </Section>
 
-        <Section>
-            <Empty icon="mdi-close" title="Nope, nothing here">
+        <div class="py-20">
+            <Empty icon="mdi-close" title="Nope, nothing here...">
                 <div class="text-muted">
                     No streams found for: <span class="text-primary">"{{ followingStore.filter }}"</span>
                 </div>
                 <v-btn variant="tonal" class="mt-4" @click="followingStore.filter = undefined">Clear filter</v-btn>
             </Empty>
-        </Section>
+        </div>
 
         <Section>
             <ZigZag />

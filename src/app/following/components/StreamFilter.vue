@@ -10,7 +10,7 @@ const appendIcon = computed(() => (!!followingStore.filter ? 'mdi-close' : undef
     <v-combobox
         v-model="followingStore.filter"
         :items="followingStore.categoriesList"
-        placeholder="Search streams..."
+        placeholder="Search..."
         :clearable="false"
         :append-icon="appendIcon"
         @click:append="followingStore.filter = undefined"
