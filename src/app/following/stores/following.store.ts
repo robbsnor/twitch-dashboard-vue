@@ -19,8 +19,8 @@ export const useFollowingStore = defineStore('following', () => {
     const favouriteStore = useFavouriteStore();
     const filter = ref<string>();
     const streamsLastFetchedOn = ref<number>();
-    const streams = ref<TwitchFollowedStreamWithUser[]>();
-    const categories = ref<Category[]>();
+    const streams = ref<TwitchFollowedStreamWithUser[]>([]);
+    const categories = ref<Category[]>([]);
     const loading = ref(true);
     const pageTabs = {
         title: 'Following',
@@ -45,17 +45,15 @@ export const useFollowingStore = defineStore('following', () => {
     });
 
     const favouriteStreams = computed(() => {
-        if (!filteredStreams.value) return;
         return LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
     });
 
     const nonFavouriteStreams = computed(() => {
-        if (!filteredStreams.value) return;
         return LiveService.getNonFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
     });
 
     const filteredStreams = computed(() => {
-        if (!streams.value?.length || !filter.value) return streams.value;
+        if (!streams.value.length || !filter.value) return streams.value;
 
         const query = filter.value.toLowerCase();
         return streams.value.filter(({ user_name, game_name, title }) => {
@@ -64,8 +62,6 @@ export const useFollowingStore = defineStore('following', () => {
     });
 
     const categoriesList = computed(() => {
-        if (!categories.value?.length) return;
-
         return categories.value
             .map((c) => c.name)
             .filter((name): name is string => !!name)
@@ -73,13 +69,17 @@ export const useFollowingStore = defineStore('following', () => {
     });
 
     async function fetchAll() {
-        loading.value = true;
-        const hasFetchedBefore = !!streamsLastFetchedOn.value;
-        if (hasFetchedBefore) loading.value = false;
+        try {
+            loading.value = true;
+            const hasFetchedBefore = !!streamsLastFetchedOn.value;
+            if (hasFetchedBefore) loading.value = false;
 
-        await fetchStreams();
-        await fetchCategories();
-        loading.value = false;
+            await fetchStreams();
+            await fetchCategories();
+            loading.value = false;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async function fetchStreams() {
@@ -88,13 +88,13 @@ export const useFollowingStore = defineStore('following', () => {
     }
 
     async function fetchCategories() {
-        if (!streams.value) return;
+        if (!streams.value.length) return;
 
         const categoryIds = [...new Set(streams.value.map((stream) => Number(stream.game_id)))].filter(Boolean);
         const twitchCategories = (await twitchApi.getGames({ ids: categoryIds })).data;
 
         categories.value = streams.value
-            .reduce((acc, stream) => {
+            .reduce<Category[]>((acc, stream) => {
                 if (!stream.game_name) return acc;
 
                 const category = acc.find((cat) => cat.name === stream.game_name);
@@ -114,7 +114,7 @@ export const useFollowingStore = defineStore('following', () => {
                 }
 
                 return acc;
-            }, [] as Category[])
+            }, [])
             .sort((a, b) => b.viewers - a.viewers);
     }
 

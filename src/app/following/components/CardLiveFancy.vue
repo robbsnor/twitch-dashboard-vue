@@ -57,7 +57,7 @@ const removeFavourite = async () => {
         <div class="-mx-4 md:mx-0 transition-all">
             <img
                 :src="TwitchService.getStreamThumbnail(stream.thumbnail_url, 720)"
-                class="aspect-video w-full"
+                class="aspect-video w-full rounded-md"
                 alt="thumbnail"
             />
         </div>

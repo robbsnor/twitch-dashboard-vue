@@ -3,32 +3,34 @@ import CardLiveFancy from '../components/CardLiveFancy.vue';
 import { useFollowingStore } from '../stores/following.store';
 
 const followingStore = useFollowingStore();
-
-const props = defineProps<{
-    categories?: string[];
-}>();
 </script>
 
 <template>
-    <Section v-if="followingStore.favouriteStreams?.length" title="Favourites">
-        <template #backgroundArt>
-            <Swirl></Swirl>
-        </template>
+    <template v-if="followingStore.favouriteStreams.length">
+        <Section title="Favourites">
+            <template #backgroundArt>
+                <Swirl></Swirl>
+            </template>
 
-        <div
-            class="grid gap-12 md:grid-cols-2 lg:grid-cols-3"
-            v-fade-stagger="{ delayBetweenItems: 100 }"
-            v-auto-animate
-        >
             <div
-                v-for="stream in followingStore.favouriteStreams"
-                :key="stream.user_id"
-                class="w-full lg:nth-[3n-1]:mt-12"
+                class="grid gap-12 md:grid-cols-2 lg:grid-cols-3"
+                v-fade-stagger="{ delayBetweenItems: 100 }"
+                v-auto-animate
             >
-                <CardLiveFancy :stream="stream" />
+                <div
+                    v-for="stream in followingStore.favouriteStreams"
+                    :key="stream.user_id"
+                    class="w-full lg:nth-[3n-1]:mt-12"
+                >
+                    <CardLiveFancy :stream="stream" />
+                </div>
             </div>
-        </div>
-    </Section>
+        </Section>
+
+        <Section>
+            <ZigZag />
+        </Section>
+    </template>
 </template>
 
 <style scoped lang="scss">

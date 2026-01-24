@@ -47,8 +47,9 @@ export function useTwitchApi() {
         });
 
         if (error) {
-            await router.push({ name: 'sign-out' });
-            throw new Error(`Failed to refresh Twitch access token: ${error}`);
+            // await router.push({ name: 'sign-out' });
+            alert(error);
+            throw new Error(`...Failed to refresh Twitch access token: ${error}`);
         }
 
         authStore.refreshToken = data.refresh_token;

@@ -7,41 +7,27 @@ const followingStore = useFollowingStore();
 </script>
 
 <template>
-    <Section title="Live channels">
-        <div v-if="followingStore.nonFavouriteStreams" class="non-favourite">
-            <div class="non-favourite__cards" v-fade-stagger v-auto-animate>
-                <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
-                    <div class="non-favourite__card-small">
-                        <CardLiveSmall :stream="stream" />
-                    </div>
+    <template v-if="followingStore.nonFavouriteStreams.length">
+        <Section title="Live channels">
+            <div class="non-favourite">
+                <div class="non-favourite__cards" v-fade-stagger v-auto-animate>
+                    <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
+                        <div class="non-favourite__card-small">
+                            <CardLiveSmall :stream="stream" />
+                        </div>
 
-                    <div class="non-favourite__card-normal">
-                        <CardLiveNormal :stream="stream" />
-                    </div>
-                </template>
-            </div>
-
-            <Empty
-                v-if="!followingStore.nonFavouriteStreams.length && !!followingStore.filter"
-                icon="mdi-movie-search-outline"
-            >
-                <div class="not-found">
-                    No streams found for: <span class="not-found__query">"{{ followingStore.filter }}"</span>.
+                        <div class="non-favourite__card-normal">
+                            <CardLiveNormal :stream="stream" />
+                        </div>
+                    </template>
                 </div>
-            </Empty>
-        </div>
+            </div>
+        </Section>
 
-        <Spinner padding v-else></Spinner>
-
-        <div v-if="followingStore.filter" class="flex flex-col items-center justify-center gap-2 pt-10">
-            <v-btn variant="tonal" color="primary" @click="followingStore.filter = undefined" append-icon="mdi-close">
-                Clear filter
-            </v-btn>
-            <v-btn variant="text" class="text-muted!" :to="`/games/${followingStore.filter}`">
-                Find other streams
-            </v-btn>
-        </div>
-    </Section>
+        <Section>
+            <ZigZag></ZigZag>
+        </Section>
+    </template>
 </template>
 
 <style scoped lang="scss">

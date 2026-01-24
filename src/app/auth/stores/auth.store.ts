@@ -44,9 +44,6 @@ export const useAuthStore = defineStore(
         const signOut = async () => {
             await supabase.auth.signOut();
 
-            session.value = null;
-            user.value = null;
-
             refreshToken.value = null;
             accessToken.value = null;
         };
@@ -56,8 +53,10 @@ export const useAuthStore = defineStore(
                 session.value = _session;
                 user.value = _session?.user.user_metadata as TwitchMetadata;
 
-                refreshToken.value = _session?.provider_refresh_token || null;
-                accessToken.value = _session?.provider_token || null;
+                if (_session?.access_token && _session?.refresh_token) {
+                    refreshToken.value = _session.provider_refresh_token;
+                    accessToken.value = _session.provider_token;
+                }
             });
         }
 

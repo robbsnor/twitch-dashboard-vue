@@ -16,10 +16,10 @@ const props = defineProps<{
             <v-icon :icon="props.icon" class="text-primary" />
         </div>
 
-        <h3 v-if="props.title" class="text-primary pb-2">{{ props.title }}</h3>
+        <h3 v-if="props.title" class="text-2xl font-bold pb-2">{{ props.title }}</h3>
         <p v-if="props.description" class="text-muted pb-2">{{ props.description }}</p>
 
-        <div v-if="slots.default">
+        <div v-if="slots.default" class="flex flex-col items-center">
             <slot></slot>
         </div>
     </div>
