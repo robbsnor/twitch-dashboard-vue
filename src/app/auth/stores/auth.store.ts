@@ -56,7 +56,7 @@ export const useAuthStore = defineStore(
                 session.value = _session;
                 user.value = _session?.user.user_metadata as TwitchMetadata;
 
-                refreshToken.value = _session?.refresh_token;
+                refreshToken.value = _session?.provider_refresh_token || null;
                 accessToken.value = _session?.provider_token || null;
             });
         }

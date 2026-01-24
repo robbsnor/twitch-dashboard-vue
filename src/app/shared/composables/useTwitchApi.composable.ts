@@ -20,14 +20,14 @@ export function useTwitchApi() {
     const router = useRouter();
 
     async function http<T>(url: string): Promise<T> {
-        if (!authStore.session?.provider_token) {
+        if (!authStore.accessToken) {
             console.log('No token found, refreshing...');
             await refreshTokens();
         }
 
         const res = await fetch(url, {
             headers: {
-                authorization: `Bearer ${authStore.session?.provider_token}`,
+                authorization: `Bearer ${authStore.accessToken}`,
                 'Client-Id': `bpjttmchlxdfo9t47z8g3b7snhr9h4`,
             },
         });
@@ -39,6 +39,7 @@ export function useTwitchApi() {
     // api calls
     async function refreshTokens() {
         console.log('Refreshing Twitch token...');
+
         const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
             body: {
                 refresh_token: authStore.refreshToken,
@@ -50,8 +51,8 @@ export function useTwitchApi() {
             throw new Error(`Failed to refresh Twitch access token: ${error}`);
         }
 
-        authStore.accessToken = data.access_token;
         authStore.refreshToken = data.refresh_token;
+        authStore.accessToken = data.access_token;
     }
 
     async function getUsers(user: { ids?: number[]; logins?: string[] }): Promise<TwitchGetUsers> {
