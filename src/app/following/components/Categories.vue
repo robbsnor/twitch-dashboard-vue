@@ -14,7 +14,7 @@ const followingStore = useFollowingStore();
                     :key="category.id"
                     :src="category.image"
                     alt="category"
-                    class="shrink-0 transition-all rounded-md cursor-pointer"
+                    class="shrink-0 transition-all rounded-md cursor-pointer w-24"
                     @click="followingStore.filter = category.name"
                     :style="{ opacity: followingStore.filter === category.name ? 1 : 0.7 }"
                 />

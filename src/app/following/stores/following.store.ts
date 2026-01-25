@@ -109,7 +109,7 @@ export const useFollowingStore = defineStore('following', () => {
                         viewers: stream.viewer_count,
                         amountOfStreamers: 1,
                         id: Number(stream.game_id),
-                        image: image ? TwitchService.getGameThumbnail(image, 100) : undefined,
+                        image: image ? TwitchService.getGameThumbnail(image, 120) : undefined,
                     });
                 }
 

@@ -40,6 +40,14 @@ export function useTwitchApi() {
     async function refreshTokens() {
         console.log('Refreshing Twitch token...');
 
+        console.log(authStore.refreshToken);
+        console.log(authStore.refreshToken);
+        console.log(authStore.refreshToken);
+        console.log(authStore.refreshToken);
+        console.log(authStore.refreshToken);
+        console.log(authStore.refreshToken);
+        console.log(authStore.refreshToken);
+
         const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
             body: {
                 refresh_token: authStore.refreshToken,
@@ -47,8 +55,7 @@ export function useTwitchApi() {
         });
 
         if (error) {
-            // await router.push({ name: 'sign-out' });
-            alert(error);
+            await router.push({ name: 'sign-out' });
             throw new Error(`...Failed to refresh Twitch access token: ${error}`);
         }
 

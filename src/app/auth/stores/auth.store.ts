@@ -44,8 +44,8 @@ export const useAuthStore = defineStore(
         const signOut = async () => {
             await supabase.auth.signOut();
 
-            refreshToken.value = null;
-            accessToken.value = null;
+            // refreshToken.value = null;
+            // accessToken.value = null;
         };
 
         async function mirrorSession() {
