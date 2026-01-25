@@ -2,6 +2,7 @@
 import VueFeather from 'vue-feather';
 import { NumberService } from '../../shared/services/number.service';
 import { computed } from 'vue';
+import { useFavouriteStore } from '@/app/shared/stores/favourites.store';
 
 export interface UserHeaderProps {
     username: string;
@@ -9,35 +10,45 @@ export interface UserHeaderProps {
     avatar: string;
     followers: number;
     isFavourite: boolean;
-};
+    id: number;
+}
 
 const props = defineProps<UserHeaderProps>();
-
+const favouriteStore = useFavouriteStore();
 const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(props.followers)} Followers`);
 const followersWithDots = computed(() => props.followers.toLocaleString());
+const isFavourite = computed(() => favouriteStore.isFavourite(props.id));
+const icon = computed(() => (isFavourite.value ? 'mdi-heart' : 'mdi-heart-outline'));
+const iconClass = computed(() => (isFavourite.value ? 'text-primary' : ''));
 </script>
 
 <template>
     <div class="user-header">
-        <img :src="props.banner" :alt="`${props.username}'s banner`" class="user-header__banner">
+        <img :src="props.banner" :alt="`${props.username}'s banner`" class="user-header__banner" />
 
         <div class="user-header__container">
             <div class="user-header__user">
-                <img class="user-header__avatar" :src="props.avatar" :alt="`${props.username}'s avatar`">
+                <img class="user-header__avatar" :src="props.avatar" :alt="`${props.username}'s avatar`" />
                 <div class="user-header__info">
-                    <a class="user-header__name" :href="`https://www.twitch.tv/${props.username}/videos?filter=all&sort=time`" target="_blank">{{ props.username }}</a>
+                    <a
+                        class="user-header__name"
+                        :href="`https://www.twitch.tv/${props.username}/videos?filter=all&sort=time`"
+                        target="_blank"
+                    >
+                        {{ props.username }}
+                    </a>
 
                     <v-tooltip :text="followersWithDots" location="bottom">
                         <template v-slot:activator="{ props }">
-                            <div v-bind="props" class="user-header__followers">{{ formattedFollowers }}</div>
+                            <div v-bind="props" class="user-header__followers">
+                                {{ formattedFollowers }}
+                            </div>
                         </template>
                     </v-tooltip>
                 </div>
             </div>
 
-            <button class="user-header__favourite">
-                <vue-feather type="heart" />
-            </button>
+            <v-icon :icon="icon" :class="iconClass" />
         </div>
 
         <div class="user-header__fade"></div>
@@ -51,7 +62,7 @@ const followersWithDots = computed(() => props.followers.toLocaleString());
     align-items: flex-end;
     height: 200px;
     background-color: $c-black-1;
-    transition: .2s;
+    transition: 0.2s;
 
     &__banner {
         position: absolute;
@@ -61,7 +72,7 @@ const followersWithDots = computed(() => props.followers.toLocaleString());
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: .4;
+        opacity: 0.4;
         object-fit: cover;
     }
 
@@ -116,7 +127,7 @@ const followersWithDots = computed(() => props.followers.toLocaleString());
         bottom: 0;
         left: 0;
         height: 120px;
-        background-image: linear-gradient(to top, rgba($c-black-1, .7), rgba($c-black-1, 0));
+        background-image: linear-gradient(to top, rgba($c-black-1, 0.7), rgba($c-black-1, 0));
     }
 
     @include screen($desktop) {

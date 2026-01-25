@@ -95,12 +95,15 @@ export const useFavouriteStore = defineStore('favourite', () => {
         if (error) throw error;
 
         users.value = data;
-        // users.value = [];
     }
 
     async function fetchTwitchUsers() {
         const res = await twitchApi.getUsers({ ids: userIds.value });
         twitchUsers.value = res.data;
+    }
+
+    function isFavourite(userId: number) {
+        return userIds.value.includes(userId);
     }
 
     return {
@@ -112,5 +115,6 @@ export const useFavouriteStore = defineStore('favourite', () => {
         addUser,
         removeUser,
         setUsers,
+        isFavourite,
     };
 });
