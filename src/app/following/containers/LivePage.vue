@@ -20,13 +20,15 @@ watch(focused, async (isFocused) => {
 </script>
 
 <template>
-    <template v-if="!followingStore.loading">
-        <Categories />
-        <FavouriteStreams />
-        <NonFavouriteStreams />
-        <NoResults />
-        <ContinueWatching />
-    </template>
+    <div>
+        <template v-if="!followingStore.loading">
+            <Categories />
+            <FavouriteStreams />
+            <NonFavouriteStreams />
+            <NoResults />
+            <ContinueWatching />
+        </template>
 
-    <Spinner v-else padding />
+        <Spinner v-else padding />
+    </div>
 </template>
