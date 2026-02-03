@@ -5,6 +5,7 @@ import { computed, onMounted, ref } from 'vue';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import { LiveService } from '../services/live.service';
+import { useStorage } from '@vueuse/core';
 
 interface Category {
     name?: string;
@@ -17,6 +18,7 @@ interface Category {
 export const useFollowingStore = defineStore('following', () => {
     const twitchApi = useTwitchApi();
     const favouriteStore = useFavouriteStore();
+    const sortFavouritesByViewers = useStorage<boolean>('sortFavouritesByViewers', false);
     const filter = ref<string>();
     const streamsLastFetchedOn = ref<number>();
     const streams = ref<TwitchFollowedStreamWithUser[]>([]);
@@ -45,7 +47,13 @@ export const useFollowingStore = defineStore('following', () => {
     });
 
     const favouriteStreams = computed(() => {
-        return LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
+        const streams = LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
+
+        if (sortFavouritesByViewers.value) {
+            return streams.sort((a, b) => b.viewer_count - a.viewer_count);
+        }
+
+        return streams;
     });
 
     const nonFavouriteStreams = computed(() => {
@@ -129,6 +137,7 @@ export const useFollowingStore = defineStore('following', () => {
         loading,
         favouriteStreams,
         nonFavouriteStreams,
+        sortFavouritesByViewers,
 
         fetchAll,
         fetchStreams,

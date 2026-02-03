@@ -12,6 +12,23 @@ const followingStore = useFollowingStore();
                 <Swirl></Swirl>
             </template>
 
+            <template #actions>
+                <v-btn-toggle
+                    density="compact"
+                    variant="outlined"
+                    v-model="followingStore.sortFavouritesByViewers"
+                    mandatory
+                >
+                    <v-btn :value="true" class="min-w-0! px-3!">
+                        <v-icon>mdi-account-arrow-down</v-icon>
+                    </v-btn>
+
+                    <v-btn :value="false" class="min-w-0! px-3!">
+                        <v-icon>mdi-heart</v-icon>
+                    </v-btn>
+                </v-btn-toggle>
+            </template>
+
             <div
                 class="grid gap-12 md:grid-cols-2 lg:grid-cols-3"
                 v-fade-stagger="{ delayBetweenItems: 100 }"

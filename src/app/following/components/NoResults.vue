@@ -16,7 +16,7 @@ const followingStore = useFollowingStore();
             <ZigZag />
         </Section>
 
-        <div class="py-20">
+        <div class="md:py-20">
             <Empty icon="mdi-close" title="Nope, nothing here...">
                 <div class="text-muted">
                     No streams found for: <span class="text-primary">"{{ followingStore.filter }}"</span>
