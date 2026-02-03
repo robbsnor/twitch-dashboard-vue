@@ -52,10 +52,12 @@ export const useAuthStore = defineStore(
             supabase.auth.onAuthStateChange(async (event, _session) => {
                 session.value = _session;
                 user.value = _session?.user.user_metadata as TwitchMetadata;
+                if (_session?.access_token) {
+                    accessToken.value = _session.access_token;
+                }
 
-                if (_session?.access_token && _session?.refresh_token) {
-                    refreshToken.value = _session.provider_refresh_token;
-                    accessToken.value = _session.provider_token;
+                if (_session?.refresh_token) {
+                    refreshToken.value = _session.refresh_token;
                 }
             });
         }
