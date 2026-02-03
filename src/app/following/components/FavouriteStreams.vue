@@ -13,14 +13,9 @@ const followingStore = useFollowingStore();
             </template>
 
             <template #actions>
-                <v-btn-toggle
-                    density="compact"
-                    variant="outlined"
-                    v-model="followingStore.sortFavouritesByViewers"
-                    mandatory
-                >
+                <v-btn-toggle density="compact" variant="outlined" v-model="followingStore.sortFavouritesByViewers">
                     <v-btn :value="true" class="min-w-0! px-3!">
-                        <v-icon>mdi-account-arrow-down</v-icon>
+                        <v-icon>mdi-account-arrow-up</v-icon>
                     </v-btn>
 
                     <v-btn :value="false" class="min-w-0! px-3!">
