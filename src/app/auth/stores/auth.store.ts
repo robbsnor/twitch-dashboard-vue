@@ -49,14 +49,17 @@ export const useAuthStore = defineStore(
         };
 
         async function mirrorSession() {
-            supabase.auth.onAuthStateChange(async (event, _session) => {
-                session.value = _session;
-                user.value = _session?.user.user_metadata as TwitchMetadata;
+            const { data, error } = await supabase.auth.getSession();
+            session.value = data.session;
 
-                if (_session?.access_token && _session?.refresh_token) {
-                    refreshToken.value = _session.provider_refresh_token;
-                    accessToken.value = _session.provider_token;
-                }
+            if (!data.session) return;
+            if (data.session.provider_refresh_token && data.session.provider_token) {
+                accessToken.value = data.session.provider_token;
+                refreshToken.value = data.session.provider_refresh_token;
+            }
+
+            supabase.auth.onAuthStateChange((_event, newSession) => {
+                session.value = newSession;
             });
         }
 
