@@ -6,7 +6,7 @@ export class TwitchService {
         replaceWidthString = '{width}',
         replaceHeightString = '{height}'
     ) {
-        if (!height) height = Math.ceil(width / 1.778); // aka 16 / 9
+        if (!height) height = Math.round(width / (16/9)); // aka 16 / 9
 
         console.log(`height: ${height}`)
 
