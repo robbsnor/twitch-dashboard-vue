@@ -19,7 +19,7 @@ const viewers = computed(() => NumberService.abbreviateNumber(props.stream.viewe
         >
             <span class="sr-only">Watch {{ stream.display_name }}'s stream</span>
             <img
-                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url, 440)"
+                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)"
                 class="card-game-stream__thumbnail"
                 alt="thumbnail"
             />

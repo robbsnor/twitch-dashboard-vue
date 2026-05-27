@@ -1,12 +1,14 @@
 export class TwitchService {
     public static getStreamThumbnail(
         url: string,
-        width = 320,
+        width = 854,
         height?: number,
         replaceWidthString = '{width}',
         replaceHeightString = '{height}'
     ) {
         if (!height) height = Math.ceil(width / 1.778); // aka 16 / 9
+
+        console.log(`height: ${height}`)
 
         return `${url
             .replace(replaceWidthString, width.toString())
