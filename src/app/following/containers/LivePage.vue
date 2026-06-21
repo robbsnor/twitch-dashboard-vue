@@ -22,8 +22,8 @@ watch(focused, async (isFocused) => {
 <template>
     <div>
         <template v-if="!followingStore.loading">
-            <Categories />
             <FavouriteStreams />
+            <Categories />
             <NonFavouriteStreams />
             <NoResults />
             <ContinueWatching />
