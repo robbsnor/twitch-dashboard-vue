@@ -18,6 +18,7 @@ export const useFavouriteStore = defineStore('favourite', () => {
         'Call of Duty: Black Ops',
         'Call of Duty: Black Ops II',
         'Call of Duty: Black Ops III',
+        'Dead by Daylight',
         'Super Mario 64',
         'Super Mario Sunshine',
         'Super Mario Galaxy',
