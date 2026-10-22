@@ -21,13 +21,13 @@ export interface TwitchMetadata {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref<TwitchMetadata | null>();
-    const session = useLocalStorage<Session>('session', null);
-    const twitchAccessToken = useStorage<String>('twitch_access_token', null);
-    const twitchRefreshToken = useStorage<String>('twitch_refresh_token', null);
+    const user = computed(() => session.value?.user?.user_metadata);
+    const session = useLocalStorage<Session | null>('session', null);
+    const twitchAccessToken = useStorage<String | null>('twitch_access_token', null);
+    const twitchRefreshToken = useStorage<String | null>('twitch_refresh_token', null);
 
-    onMounted(() => {
-        mirrorSession();
+    onMounted(async () => {
+        await mirrorSession();
     });
 
     const signIn = async () => {

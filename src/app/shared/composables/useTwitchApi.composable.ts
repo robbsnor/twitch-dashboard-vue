@@ -38,6 +38,7 @@ export function useTwitchApi() {
 
     // api calls
     async function refreshTokens() {
+        console.log('trying to refresh token...');
         if (!authStore.session || !authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
             console.log('No session or tokens available for refresh');
             return;
