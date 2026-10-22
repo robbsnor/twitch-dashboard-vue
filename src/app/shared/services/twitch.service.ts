@@ -8,8 +8,6 @@ export class TwitchService {
     ) {
         if (!height) height = Math.round(width / (16 / 9));
 
-        console.log(`height: ${height}`)
-
         return `${url
             .replace(replaceWidthString, width.toString())
             .replace(replaceHeightString, height.toString())}?t=${Date.now()}`;

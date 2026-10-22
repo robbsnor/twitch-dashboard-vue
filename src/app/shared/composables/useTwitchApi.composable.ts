@@ -38,29 +38,31 @@ export function useTwitchApi() {
 
     // api calls
     async function refreshTokens() {
-        console.log('Refreshing Twitch token...');
-
-        console.log(authStore.refreshToken);
-        console.log(authStore.refreshToken);
-        console.log(authStore.refreshToken);
-        console.log(authStore.refreshToken);
-        console.log(authStore.refreshToken);
-        console.log(authStore.refreshToken);
-        console.log(authStore.refreshToken);
-
-        const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
-            body: {
-                refresh_token: authStore.refreshToken,
-            },
-        });
-
-        if (error) {
-            await router.push({ name: 'sign-out' });
-            throw new Error(`...Failed to refresh Twitch access token: ${error}`);
+        if (!authStore.session || !authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
+            console.log('No session or tokens available for refresh');
+            return;
         }
+        console.log('Refreshing tokens...');
 
-        authStore.refreshToken = data.refresh_token;
-        authStore.accessToken = data.access_token;
+        try {
+            const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
+                body: {
+                    refresh_token: authStore.twitchRefreshToken,
+                },
+            });
+            if (error) throw error;
+
+            const { access_token, refresh_token } = data;
+            console.log('new tokens:', {
+                access_token,
+                refresh_token,
+            });
+
+            authStore.twitchAccessToken = access_token;
+            authStore.twitchRefreshToken = refresh_token;
+        } catch (err) {
+            throw err;
+        }
     }
 
     async function getUsers(user: { ids?: number[]; logins?: string[] }): Promise<TwitchGetUsers> {

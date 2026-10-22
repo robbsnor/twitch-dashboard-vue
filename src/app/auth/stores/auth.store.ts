@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { supabase } from '@/app/supabase';
 import type { Session } from '@supabase/supabase-js';
+import { useLocalStorage, useStorage } from '@vueuse/core';
 
 export interface TwitchMetadata {
     avatar_url: string;
@@ -19,71 +20,55 @@ export interface TwitchMetadata {
     sub: string;
 }
 
-export const useAuthStore = defineStore(
-    'auth',
-    () => {
-        const user = ref<TwitchMetadata | null>();
-        const session = ref<Session | null>();
-        const refreshToken = ref<string | null>();
-        const accessToken = ref<string | null>();
+export const useAuthStore = defineStore('auth', () => {
+    const user = ref<TwitchMetadata | null>();
+    const session = useLocalStorage<Session>('session', null);
+    const twitchAccessToken = useStorage<String>('twitch_access_token', null);
+    const twitchRefreshToken = useStorage<String>('twitch_refresh_token', null);
 
-        onMounted(() => {
-            mirrorSession();
+    onMounted(() => {
+        mirrorSession();
+    });
+
+    const signIn = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: 'twitch',
+            options: {
+                redirectTo: `${window.location.origin}/auth/sign-in`,
+                scopes: 'user:read:follows user:read:subscriptions moderator:read:followers',
+            },
         });
+    };
 
-        const signIn = async () => {
-            await supabase.auth.signInWithOAuth({
-                provider: 'twitch',
-                options: {
-                    redirectTo: `${window.location.origin}/auth/sign-in`,
-                    scopes: 'user:read:follows user:read:subscriptions moderator:read:followers',
-                },
-            });
-        };
+    const signOut = async () => {
+        await supabase.auth.signOut();
 
-        const signOut = async () => {
-            await supabase.auth.signOut();
+        twitchRefreshToken.value = null;
+        twitchAccessToken.value = null;
+    };
 
-            refreshToken.value = null;
-            accessToken.value = null;
-        };
+    const mirrorSession = async () => {
+        const { data, error } = await supabase.auth.getSession();
+        session.value = data.session;
 
-        async function mirrorSession() {
-            supabase.auth.onAuthStateChange(async (event, _session) => {
-                session.value = _session;
-                user.value = _session?.user.user_metadata as TwitchMetadata;
-
-                if (_session?.access_token && _session?.refresh_token) {
-                    refreshToken.value = _session.provider_refresh_token;
-                    accessToken.value = _session.provider_token;
-                }
-            });
-
-            // const { data, error } = await supabase.auth.getSession();
-            // session.value = data.session;
-
-            // if (!data.session) return;
-            // if (data.session.provider_refresh_token && data.session.provider_token) {
-            //     twitchAccessToken.value = data.session.provider_token;
-            //     twitchRefreshToken.value = data.session.provider_refresh_token;
-            // }
-
-            // supabase.auth.onAuthStateChange((_event, newSession) => {
-            //     session.value = newSession;
-            // });
+        if (!data.session) return;
+        if (data.session.provider_refresh_token && data.session.provider_token) {
+            twitchAccessToken.value = data.session.provider_token;
+            twitchRefreshToken.value = data.session.provider_refresh_token;
         }
 
-        return {
-            user,
-            accessToken,
-            refreshToken,
-            session,
+        supabase.auth.onAuthStateChange((_event, newSession) => {
+            session.value = newSession;
+        });
+    };
 
-            signIn,
-            signOut,
-        };
-    },
-    {
-        persist: true,
-    }
-);
+    return {
+        user,
+        twitchAccessToken,
+        twitchRefreshToken,
+        session,
+
+        signIn,
+        signOut,
+    };
+});
