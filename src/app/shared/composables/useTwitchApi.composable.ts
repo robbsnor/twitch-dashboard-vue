@@ -20,14 +20,14 @@ export function useTwitchApi() {
     const router = useRouter();
 
     async function http<T>(url: string): Promise<T> {
-        if (!authStore.accessToken) {
+        if (!authStore.twitchAccessToken) {
             console.log('No token found, refreshing...');
             await refreshTokens();
         }
 
         const res = await fetch(url, {
             headers: {
-                authorization: `Bearer ${authStore.accessToken}`,
+                authorization: `Bearer ${authStore.twitchAccessToken}`,
                 'Client-Id': `bpjttmchlxdfo9t47z8g3b7snhr9h4`,
             },
         });
@@ -265,5 +265,7 @@ export function useTwitchApi() {
         getSchedules,
         getScheduleWithUsers,
         checkUserSubscription,
+
+        refreshTokens,
     };
 }

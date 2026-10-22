@@ -8,6 +8,9 @@ import { useWindowFocus } from '@vueuse/core';
 import NoResults from '../components/NoResults.vue';
 import Categories from '../components/Categories.vue';
 import ContinueWatching from '../components/ContinueWatching.vue';
+import { useAuthStore } from '@/app/auth/stores/auth.store';
+import { TwitchService } from '@/app/shared/services/twitch.service';
+import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 
 TitleService.setTitle('Live');
 const followingStore = useFollowingStore();
@@ -16,6 +19,8 @@ const focused = useWindowFocus();
 watch(focused, async (isFocused) => {
     if (!isFocused) return;
     await followingStore.fetchAll();
+    const as = useTwitchApi();
+    await as.refreshTokens();
 });
 </script>
 
