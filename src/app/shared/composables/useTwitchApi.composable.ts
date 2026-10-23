@@ -17,24 +17,55 @@ import { useRouter } from 'vue-router';
 
 export function useTwitchApi() {
     const authStore = useAuthStore();
-    const router = useRouter();
 
-    async function http<T>(url: string): Promise<T> {
-        if (!authStore.twitchAccessToken) {
-            console.log('No token found, refreshing...');
-            await refreshTokens();
+    const http = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET'): Promise<T> => {
+        if (!authStore.session) {
+            throw new Error('Not logged in');
         }
 
-        const res = await fetch(url, {
-            headers: {
-                authorization: `Bearer ${authStore.twitchAccessToken}`,
-                'Client-Id': `bpjttmchlxdfo9t47z8g3b7snhr9h4`,
-            },
-        });
+        console.log(authStore.twitchRefreshToken);
 
-        const data: T = await res.json();
-        return data;
-    }
+        if (!authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
+            // await authStore.signOut();
+            throw new Error('Missing Twitch tokens');
+        }
+
+        const _req = () =>
+            fetch(url, {
+                method: method,
+                headers: {
+                    Authorization: `Bearer ${authStore.twitchAccessToken}`,
+                    'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
+                },
+            });
+
+        try {
+            let res = await _req();
+
+            if (res.status === 401) {
+                try {
+                    console.log('Access token expired, refreshing...');
+                    await refreshTokens();
+                } catch (refreshErr) {
+                    console.error('❌ Refresh token failed:', refreshErr);
+                    // await authStore.signOut();
+                    throw refreshErr;
+                }
+
+                res = await _req();
+            }
+
+            if (!res.ok) {
+                const message = `HTTP ${res.status}: ${res.statusText}`;
+                throw new Error(message);
+            }
+
+            const data: T = await res.json();
+            return data;
+        } catch (err) {
+            throw err as Error;
+        }
+    };
 
     // api calls
     async function refreshTokens() {
@@ -101,6 +132,7 @@ export function useTwitchApi() {
     async function getFollowedStreams(): Promise<TwitchFollowedStream[]> {
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
         const userId = authStore.user?.provider_id;
+        console.log(userId);
         url.searchParams.append('user_id', userId);
         const res = await http<TwitchGetFollowedStreams>(url.toString());
         return res.data;

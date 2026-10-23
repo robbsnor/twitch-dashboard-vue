@@ -11,6 +11,10 @@ const menuOpen = ref(false);
 
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
 const closeMenu = () => (menuOpen.value = false);
+
+onMounted(async () => {
+    await authStore.mirrorSession();
+});
 </script>
 
 <template>

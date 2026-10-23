@@ -26,10 +26,6 @@ export const useAuthStore = defineStore('auth', () => {
     const twitchAccessToken = useStorage<String | null>('twitch_access_token', null);
     const twitchRefreshToken = useStorage<String | null>('twitch_refresh_token', null);
 
-    onMounted(async () => {
-        await mirrorSession();
-    });
-
     const signIn = async () => {
         await supabase.auth.signInWithOAuth({
             provider: 'twitch',
@@ -48,6 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     const mirrorSession = async () => {
+        console.log('mirroring session');
         const { data, error } = await supabase.auth.getSession();
         session.value = data.session;
 
@@ -59,6 +56,8 @@ export const useAuthStore = defineStore('auth', () => {
 
         supabase.auth.onAuthStateChange((_event, newSession) => {
             session.value = newSession;
+            console.log('onauthchange');
+            console.log(newSession);
         });
     };
 
@@ -70,5 +69,6 @@ export const useAuthStore = defineStore('auth', () => {
 
         signIn,
         signOut,
+        mirrorSession,
     };
 });
