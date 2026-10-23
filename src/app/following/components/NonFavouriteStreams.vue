@@ -7,27 +7,21 @@ const followingStore = useFollowingStore();
 </script>
 
 <template>
-    <template v-if="followingStore.nonFavouriteStreams.length">
-        <Section title="Live channels">
-            <div class="non-favourite">
-                <div class="non-favourite__cards" v-fade-stagger v-auto-animate>
-                    <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
-                        <div class="non-favourite__card-small">
-                            <CardLiveSmall :stream="stream" />
-                        </div>
+    <Section v-if="followingStore.nonFavouriteStreams.length" title="Live channels">
+        <div class="non-favourite">
+            <div class="non-favourite__cards" v-fade-stagger v-auto-animate>
+                <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
+                    <div class="non-favourite__card-small">
+                        <CardLiveSmall :stream="stream" />
+                    </div>
 
-                        <div class="non-favourite__card-normal">
-                            <CardLiveNormal :stream="stream" />
-                        </div>
-                    </template>
-                </div>
+                    <div class="non-favourite__card-normal">
+                        <CardLiveNormal :stream="stream" />
+                    </div>
+                </template>
             </div>
-        </Section>
-
-        <Section>
-            <ZigZag></ZigZag>
-        </Section>
-    </template>
+        </div>
+    </Section>
 </template>
 
 <style scoped lang="scss">

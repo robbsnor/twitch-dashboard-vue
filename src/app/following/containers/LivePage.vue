@@ -6,6 +6,7 @@ import Categories from '../components/Categories.vue';
 import ContinueWatching from '../components/ContinueWatching.vue';
 import FavouriteStreams from '../components/FavouriteStreams.vue';
 import NonFavouriteStreams from '../components/NonFavouriteStreams.vue';
+import ExploreCategory from '../components/ExploreCategory.vue';
 import NoResults from '../components/NoResults.vue';
 import { useFollowingStore } from '../stores/following.store';
 
@@ -26,7 +27,12 @@ watch(focused, async (isFocused) => {
             <FavouriteStreams />
             <NonFavouriteStreams />
             <NoResults />
-            <ContinueWatching />
+            <ExploreCategory />
+
+            <Section>
+                <ZigZag></ZigZag>
+            </Section>
+            <!-- <ContinueWatching /> -->
         </template>
 
         <Spinner v-else padding />
