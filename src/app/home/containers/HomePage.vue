@@ -19,9 +19,7 @@ TitleService.setTitle('Home');
             <div class="flex gap-4">
                 <v-btn variant="text">Features</v-btn>
                 <v-btn v-if="authStore.twitchUser" to="/following/live" color="primary">to Dashboard</v-btn>
-                <v-btn v-else @click="authStore.signIn()" append-icon="mdi-twitch" color="primary">
-                    Log in with Twitch
-                </v-btn>
+                <SignInButton v-else> </SignInButton>
             </div>
         </div>
     </Section>

@@ -47,6 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
 
         twitchRefreshToken.value = null;
         twitchAccessToken.value = null;
+        session.value = null;
         twitchUser.value = null;
     };
 
