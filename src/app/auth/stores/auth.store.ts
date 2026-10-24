@@ -4,9 +4,15 @@ import { supabase } from '@/app/supabase';
 import type { Session } from '@supabase/supabase-js';
 import { useLocalStorage, useStorage } from '@vueuse/core';
 
-export interface TwitchMetadata {
+interface TwitchUserMetadata {
     avatar_url: string;
-    custom_claims: any;
+    custom_claims: {
+        broadcaster_type: string;
+        description: string;
+        offline_image_url: string;
+        type: string;
+        view_count: number;
+    };
     email: string;
     email_verified: boolean;
     full_name: string;
@@ -21,7 +27,7 @@ export interface TwitchMetadata {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = computed(() => session.value?.user?.user_metadata);
+    const twitchUser = useLocalStorage<TwitchUserMetadata | null>('twitch_user', null);
     const session = useLocalStorage<Session | null>('session', null);
     const twitchAccessToken = useStorage<String | null>('twitch_access_token', null);
     const twitchRefreshToken = useStorage<String | null>('twitch_refresh_token', null);
@@ -41,12 +47,14 @@ export const useAuthStore = defineStore('auth', () => {
 
         twitchRefreshToken.value = null;
         twitchAccessToken.value = null;
+        twitchUser.value = null;
     };
 
     const mirrorSession = async () => {
         console.log('mirroring session');
         const { data, error } = await supabase.auth.getSession();
         session.value = data.session;
+        twitchUser.value = data.session?.user.user_metadata as TwitchUserMetadata;
 
         if (!data.session) return;
         if (data.session.provider_refresh_token && data.session.provider_token) {
@@ -62,7 +70,6 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     return {
-        user,
         twitchAccessToken,
         twitchRefreshToken,
         session,
