@@ -6,7 +6,6 @@ import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore();
 
-const { user } = storeToRefs(authStore);
 const settingsDialog = ref(false);
 
 const toggleSettingsDialog = () => {
@@ -18,12 +17,15 @@ const toggleSettingsDialog = () => {
     <v-menu location="bottom end" :offset="[4, 6]">
         <template #activator="activator">
             <a v-bind="activator.props" class="header-avatar">
-                <img :src="authStore.user?.avatar_url" alt="" class="header-avatar__image" />
+                <img :src="authStore.twitchUser?.avatar_url" alt="" class="header-avatar__image" />
             </a>
         </template>
 
         <v-list min-width="160">
-            <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: user?.name } }">
+            <v-list-item
+                prepend-icon="mdi-account"
+                :to="{ name: 'user', params: { userLogin: authStore.twitchUser?.name } }"
+            >
                 Profile
             </v-list-item>
             <v-list-item prepend-icon="mdi-cog" @click="toggleSettingsDialog">Settings</v-list-item>

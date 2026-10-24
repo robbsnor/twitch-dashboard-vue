@@ -22,7 +22,7 @@ onMounted(async () => {
         <div class="pt-height-header">
             <Header
                 class="fixed inset-0 z-100"
-                :user="authStore.user"
+                :user="authStore.twitchUser"
                 :menuOpen="menuOpen"
                 @click-profile="authStore.signOut"
                 @click-logo="closeMenu"

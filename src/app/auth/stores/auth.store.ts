@@ -70,6 +70,7 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     return {
+        twitchUser,
         twitchAccessToken,
         twitchRefreshToken,
         session,
