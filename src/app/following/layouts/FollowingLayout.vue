@@ -15,7 +15,7 @@ const followingStore = useFollowingStore();
             class="w-full flex items-center justify-center py-3 rounded-md transition"
             :class="{
                 'hover:bg-black-200 text-muted': $route.path !== page.path,
-                'bg-primary': $route.path === page.path,
+                'bg-black-500': $route.path === page.path,
             }"
         >
             {{ page.name }}
