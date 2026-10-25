@@ -5,7 +5,7 @@ const followingStore = useFollowingStore();
 </script>
 
 <template>
-    <template
+    <div
         v-if="
             !!followingStore.filter &&
             !followingStore.favouriteStreams.length &&
@@ -28,5 +28,5 @@ const followingStore = useFollowingStore();
         <Section>
             <ZigZag />
         </Section>
-    </template>
+    </div>
 </template>

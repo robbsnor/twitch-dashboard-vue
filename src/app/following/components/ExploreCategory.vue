@@ -12,8 +12,8 @@ const queryIsInCategory = computed(() =>
 
 <template>
     <Empty v-if="queryIsInCategory" :description="`Find other streams playing ${followingStore.filter}`">
-        <v-btn color="primary" variant="tonal" :to="{ name: 'game', params: { gameName: followingStore.filter } }"
-            >Explore category</v-btn
-        >
+        <v-btn color="primary" variant="tonal" :to="{ name: 'game', params: { gameName: followingStore.filter } }">
+            Explore category
+        </v-btn>
     </Empty>
 </template>

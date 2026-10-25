@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWindowFocus } from '@vueuse/core';
-import { watch } from 'vue';
+import { onMounted, watch } from 'vue';
 import { TitleService } from '../../shared/services/title.service';
 import Categories from '../components/Categories.vue';
 import ContinueWatching from '../components/ContinueWatching.vue';
@@ -13,6 +13,10 @@ import { useFollowingStore } from '../stores/following.store';
 TitleService.setTitle('Live');
 const followingStore = useFollowingStore();
 const focused = useWindowFocus();
+
+onMounted(async () => {
+    await followingStore.fetchAll();
+});
 
 watch(focused, async (isFocused) => {
     if (!isFocused) return;

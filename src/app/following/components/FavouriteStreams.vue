@@ -6,7 +6,7 @@ const followingStore = useFollowingStore();
 </script>
 
 <template>
-    <template v-if="followingStore.favouriteStreams.length">
+    <div v-if="followingStore.favouriteStreams.length">
         <Section title="Favourites">
             <template #backgroundArt>
                 <Swirl></Swirl>
@@ -42,7 +42,7 @@ const followingStore = useFollowingStore();
         <Section>
             <ZigZag />
         </Section>
-    </template>
+    </div>
 </template>
 
 <style scoped lang="scss">

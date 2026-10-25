@@ -42,10 +42,6 @@ export const useFollowingStore = defineStore('following', () => {
         ],
     };
 
-    onMounted(async () => {
-        await fetchAll();
-    });
-
     const favouriteStreams = computed(() => {
         const streams = LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
 
