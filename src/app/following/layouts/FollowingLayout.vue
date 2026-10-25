@@ -6,7 +6,7 @@ const followingStore = useFollowingStore();
 
 <template>
     <div
-        class="fixed bottom-2 left-2 right-2 bg-black-100 border border-black-200 rounded-[10px] z-50 flex gap-2 justify-around p-1 md:hidden"
+        class="fixed bottom-4 left-4 right-4 bg-black-100 border border-black-200 rounded-[10px] z-50 flex gap-2 justify-around p-1 md:hidden"
     >
         <RouterLink
             v-for="page in followingStore.pageTabs.paths"
@@ -15,7 +15,7 @@ const followingStore = useFollowingStore();
             class="w-full flex items-center justify-center py-3 rounded-md transition"
             :class="{
                 'hover:bg-black-200 text-muted': $route.path !== page.path,
-                'bg-primary/10': $route.path === page.path,
+                'bg-primary': $route.path === page.path,
             }"
         >
             {{ page.name }}
