@@ -132,9 +132,6 @@ export function useTwitchApi() {
     async function getFollowedStreams(): Promise<TwitchFollowedStream[]> {
         const url = new URL('https://api.twitch.tv/helix/streams/followed');
         const userId = authStore.twitchUser?.provider_id;
-        console.log(userId);
-        console.log(userId);
-        console.log(userId);
         url.searchParams.append('user_id', userId!);
         const res = await http<TwitchGetFollowedStreams>(url.toString());
         return res.data;
