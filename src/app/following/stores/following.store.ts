@@ -84,9 +84,10 @@ export const useFollowingStore = defineStore('following', () => {
 
             await fetchStreams();
             await fetchCategories();
-            loading.value = false;
         } catch (error) {
             throw error;
+        } finally {
+            loading.value = false;
         }
     }
 
