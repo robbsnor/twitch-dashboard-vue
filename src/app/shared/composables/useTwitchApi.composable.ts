@@ -203,7 +203,7 @@ export function useTwitchApi() {
         return res;
     }
 
-    async function getGames(game: { ids?: number[]; names?: string[] }): Promise<TwitchGetGames> {
+    async function getGames(game: { ids?: string[]; names?: string[] }): Promise<TwitchGetGames> {
         const url = new URL('https://api.twitch.tv/helix/games');
         if (game.ids) game.ids.forEach((id) => url.searchParams.append('id', id.toString()));
         if (game.names) game.names.forEach((name) => url.searchParams.append('name', name));
@@ -215,7 +215,7 @@ export function useTwitchApi() {
         // the ordering of the games could look prettier
         if (game.ids) {
             orderedGames = game.ids
-                .map((gameId) => res.data.find((game) => Number(game.id) === gameId))
+                .map((gameId) => res.data.find((game) => game.id === gameId))
                 .filter(Boolean) as TwitchGame[];
         }
 

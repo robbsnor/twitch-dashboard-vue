@@ -34,6 +34,7 @@ onMounted(async () => {
             class="game-header"
             :image="TwitchService.getGameThumbnail(game.box_art_url)"
             :name="game.name"
+            :id="game.id"
         />
 
         <Section>

@@ -18,29 +18,13 @@ interface Category {
 export const useFollowingStore = defineStore('following', () => {
     const twitchApi = useTwitchApi();
     const favouriteStore = useFavouriteStore();
+
     const sortFavouritesByViewers = useStorage<boolean>('sortFavouritesByViewers', false);
     const filter = ref<string>();
     const streamsLastFetchedOn = ref<number>();
     const streams = ref<TwitchFollowedStreamWithUser[]>([]);
     const categories = ref<Category[]>([]);
     const loading = ref(true);
-    const pageTabs = {
-        title: 'Following',
-        paths: [
-            {
-                name: 'Live',
-                path: '/following/live',
-            },
-            {
-                name: 'Users',
-                path: '/following/users',
-            },
-            {
-                name: 'Games',
-                path: '/following/games',
-            },
-        ],
-    };
 
     const favouriteStreams = computed(() => {
         const streams = LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
@@ -95,7 +79,9 @@ export const useFollowingStore = defineStore('following', () => {
     async function fetchCategories() {
         if (!streams.value.length) return;
 
-        const categoryIds = [...new Set(streams.value.map((stream) => Number(stream.game_id)))].filter(Boolean);
+        const categoryIds = [...new Set(streams.value.map((stream) => stream.game_id))].filter(Boolean);
+
+        // @ts-ignore
         const twitchCategories = (await twitchApi.getGames({ ids: categoryIds })).data;
 
         categories.value = streams.value
@@ -124,7 +110,6 @@ export const useFollowingStore = defineStore('following', () => {
     }
 
     return {
-        pageTabs,
         filter,
         streamsLastFetchedOn,
         streams,
