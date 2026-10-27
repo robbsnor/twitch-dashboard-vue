@@ -6,12 +6,13 @@ import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import { LiveService } from '../services/live.service';
 import { useStorage } from '@vueuse/core';
+import type { TwitchGame } from '@/app/shared/models/twitch/games.model';
 
-interface Category {
+export interface Category {
     name?: string;
     viewers: number;
     amountOfStreamers: number;
-    id: number;
+    id: string;
     image?: string;
 }
 
@@ -23,8 +24,58 @@ export const useFollowingStore = defineStore('following', () => {
     const filter = ref<string>();
     const streamsLastFetchedOn = ref<number>();
     const streams = ref<TwitchFollowedStreamWithUser[]>([]);
-    const categories = ref<Category[]>([]);
+    const twitchCategories = ref<TwitchGame[]>([]);
     const loading = ref(true);
+
+    const categories = computed<Category[]>(() =>
+        streams.value
+            .reduce<Category[]>((acc, stream) => {
+                if (!stream.game_name || !stream.game_id) return acc;
+
+                const category = acc.find((cat) => cat.name === stream.game_name);
+                const image = twitchCategories.value.find(
+                    (cat) => Number(cat.id) === Number(stream.game_id)
+                )?.box_art_url;
+
+                if (category) {
+                    category.viewers += stream.viewer_count;
+                    category.amountOfStreamers += 1;
+                } else {
+                    acc.push({
+                        name: stream.game_name,
+                        viewers: stream.viewer_count,
+                        amountOfStreamers: 1,
+                        id: stream.game_id,
+                        image: image ? TwitchService.getGameThumbnail(image, 120) : undefined,
+                    });
+                }
+
+                return acc;
+            }, [])
+            .sort((a, b) => b.viewers - a.viewers)
+    );
+
+    const groupedCategories = computed<{
+        favourites: Category[];
+        other: Category[];
+    }>(() => {
+        const favourites: Category[] = [];
+        const other: Category[] = [];
+
+        for (const category of categories.value) {
+            if (favouriteStore.categoryIds.includes(category.id)) {
+                favourites.push(category);
+            } else {
+                other.push(category);
+            }
+        }
+
+        const sortByViewers = (a: Category, b: Category) => b.viewers - a.viewers;
+        return {
+            favourites: favourites.sort(sortByViewers),
+            other: other.sort(sortByViewers),
+        };
+    });
 
     const favouriteStreams = computed(() => {
         const streams = LiveService.getFavouriteStreams(favouriteStore.userIds, filteredStreams.value);
@@ -77,36 +128,16 @@ export const useFollowingStore = defineStore('following', () => {
     }
 
     async function fetchCategories() {
-        if (!streams.value.length) return;
+        if (!streams.value.length) {
+            twitchCategories.value = [];
+            return;
+        }
 
         const categoryIds = [...new Set(streams.value.map((stream) => stream.game_id))].filter(Boolean);
 
         // @ts-ignore
-        const twitchCategories = (await twitchApi.getGames({ ids: categoryIds })).data;
-
-        categories.value = streams.value
-            .reduce<Category[]>((acc, stream) => {
-                if (!stream.game_name) return acc;
-
-                const category = acc.find((cat) => cat.name === stream.game_name);
-                const image = twitchCategories.find((cat) => Number(cat.id) === Number(stream.game_id))?.box_art_url;
-
-                if (category) {
-                    category.viewers += stream.viewer_count;
-                    category.amountOfStreamers += 1;
-                } else {
-                    acc.push({
-                        name: stream.game_name,
-                        viewers: stream.viewer_count,
-                        amountOfStreamers: 1,
-                        id: Number(stream.game_id),
-                        image: image ? TwitchService.getGameThumbnail(image, 120) : undefined,
-                    });
-                }
-
-                return acc;
-            }, [])
-            .sort((a, b) => b.viewers - a.viewers);
+        const res = await twitchApi.getGames({ ids: categoryIds });
+        twitchCategories.value = res.data;
     }
 
     return {
@@ -114,6 +145,7 @@ export const useFollowingStore = defineStore('following', () => {
         streamsLastFetchedOn,
         streams,
         categories,
+        groupedCategories,
         filteredStreams,
         categoriesList,
         loading,

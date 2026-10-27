@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useFollowingStore } from '../stores/following.store';
 
 const followingStore = useFollowingStore();
 const queryIsInCategory = computed(() =>
-    followingStore.categories.some(
+    [...followingStore.groupedCategories.favourites, ...followingStore.groupedCategories.other].some(
         (category) => category.name?.toLocaleLowerCase() === followingStore.filter?.toLocaleLowerCase()
     )
 );
