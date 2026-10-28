@@ -34,6 +34,12 @@ const copyuserId = (userId: string) => {
     toast.success(`Copied ID: ${userId}`);
 };
 
+const copyCategoryId = (categoryId: string) => {
+    const { copy, copied } = useClipboard();
+    copy(categoryId.toString());
+    toast.success(`Copied ID: ${categoryId}`);
+};
+
 const doFiltering = () => {
     followingStore.filter = props.stream.game_name;
     sheet.value = false;
@@ -79,6 +85,9 @@ async function manageFavourites() {
         <Divider />
 
         <v-list-item prepend-icon="mdi-content-copy" @click="copyuserId(stream.user_id)"> Copy user id </v-list-item>
+        <v-list-item v-if="stream.game_id" prepend-icon="mdi-content-copy" @click="copyCategoryId(stream.game_id)">
+            Copy category id
+        </v-list-item>
     </v-list>
 </template>
 

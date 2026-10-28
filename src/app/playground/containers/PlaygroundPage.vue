@@ -1,28 +1,29 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import gsap from "gsap";
+import { onMounted, ref } from 'vue';
+import Zombies from '@/app/following/components/Zombies.vue';
+import gsap from 'gsap';
 
 let tl = gsap.timeline({ repeat: -1, repeatDelay: 2, yoyo: true });
 
 onMounted(() => {
-    gsapGo()
+    gsapGo();
 });
 
 const close = () => {
-    tl.reverse()
-}
+    tl.reverse();
+};
 
 const gsapGo = () => {
     const offsetBottom = 50;
 
-    const titEl = document.querySelector('.tit')!
+    const titEl = document.querySelector('.tit')!;
     const initialWidth = Math.ceil(titEl.getBoundingClientRect().width);
     const initialHeigth = Math.ceil(titEl.getBoundingClientRect().height);
 
     const initialPadding = window.getComputedStyle(titEl).padding;
 
     // set initial position
-    tl.set(".tit", {
+    tl.set('.tit', {
         width: 0,
         height: 0,
         padding: 0,
@@ -35,50 +36,57 @@ const gsapGo = () => {
     });
 
     // bounce up
-    tl.to(".tit", {
+    tl.to('.tit', {
         y: -offsetBottom - initialHeigth,
         width: 20,
         height: 20,
-        duration: .5,
+        duration: 0.5,
         opacity: 1,
         ease: 'back.out',
     });
 
     // end
-    tl.to(".tit", {
-        width: initialWidth,
-        height: 'unset',
-        duration: .2,
-        padding: initialPadding
-    }, '-=.1');
+    tl.to(
+        '.tit',
+        {
+            width: initialWidth,
+            height: 'unset',
+            duration: 0.2,
+            padding: initialPadding,
+        },
+        '-=.1'
+    );
 
-    tl.to(".tit__inner", {
-        opacity: 1,
-        y: 0,
-        duration: .5,
-        ease: 'back.out'
-    }, '<');
+    tl.to(
+        '.tit__inner',
+        {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: 'back.out',
+        },
+        '<'
+    );
 };
 </script>
 
 <template>
-    <div class="playground">
-        <Section title="Playground">
+    <Zombies />
 
-        </Section>
+    <div class="playground">
+        <Section title="Playground"> </Section>
     </div>
 
     <div class="tits">
         <div class="tit" @click="close()">
-            <div class="tit__inner">
-                Welcome back, Hopp!
-            </div>
+            <div class="tit__inner">Welcome back, Hopp!</div>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-.playground {}
+.playground {
+}
 
 .tits {
     position: fixed;

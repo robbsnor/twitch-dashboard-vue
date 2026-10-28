@@ -238,8 +238,8 @@ export function useTwitchApi() {
         return res;
     }
 
-    async function getStreamsByGameIdWithUsers(id: number): Promise<TwitchStreamsWithUser[]> {
-        const streams = (await getStreamsByGameIds([id])).data;
+    async function getStreamsByGameIdWithUsers(ids: number[]): Promise<TwitchStreamsWithUser[]> {
+        const streams = (await getStreamsByGameIds(ids)).data;
         const userIds = streams.map((stream) => Number(stream.user_id));
         const users = (await getUsers({ ids: userIds })).data;
         const streamsWithUser = streams.map<TwitchStreamsWithUser>((stream, index) => {

@@ -23,7 +23,7 @@ onMounted(async () => {
     const _game = res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
     if (!_game) return (game.value = null);
 
-    streams.value = await twitchApi.getStreamsByGameIdWithUsers(Number(_game.id));
+    streams.value = await twitchApi.getStreamsByGameIdWithUsers([Number(_game.id)]);
     game.value = _game;
 });
 </script>

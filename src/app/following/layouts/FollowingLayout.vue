@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useFollowingStore } from '../stores/following.store';
+import Zombies from '../components/Zombies.vue';
 
 const followingStore = useFollowingStore();
 const pages = ref([
@@ -15,6 +16,10 @@ const pages = ref([
     {
         name: 'Games',
         path: '/following/games',
+    },
+    {
+        name: 'Zombies',
+        path: '/following/zombies',
     },
 ]);
 </script>

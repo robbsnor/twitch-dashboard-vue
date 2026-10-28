@@ -23,6 +23,11 @@ export const followingRoutes: RouteRecordRaw[] = [
                 name: 'games',
                 component: () => import('@/app/following/containers/GamesPage.vue'),
             },
-        ]
+            {
+                path: 'zombies',
+                name: 'zombies',
+                component: () => import('@/app/following/components/Zombies.vue'),
+            },
+        ],
     },
 ];

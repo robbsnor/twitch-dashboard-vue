@@ -8,14 +8,18 @@ const followingStore = useFollowingStore();
 
 <template>
     <Section v-if="followingStore.nonFavouriteStreams.length" title="Live channels">
-        <div class="non-favourite">
-            <div class="non-favourite__cards" v-fade-stagger v-auto-animate>
+        <div>
+            <div
+                class="grid mx-[-1.25rem] overflow-hidden min-[1000px]:mx-[-3.125rem] min-[1000px]:grid-cols-3 min-[1000px]:gap-x-[1.875rem] min-[1000px]:gap-y-[3.125rem] min-[1000px]:px-[3.125rem] min-[1200px]:grid-cols-4 min-[1500px]:grid-cols-5"
+                v-fade-stagger
+                v-auto-animate
+            >
                 <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
-                    <div class="non-favourite__card-small">
+                    <div class="min-[1000px]:hidden">
                         <CardLiveSmall :stream="stream" />
                     </div>
 
-                    <div class="non-favourite__card-normal">
+                    <div class="hidden min-[1000px]:block">
                         <CardLiveNormal :stream="stream" />
                     </div>
                 </template>
@@ -23,97 +27,3 @@ const followingStore = useFollowingStore();
         </div>
     </Section>
 </template>
-
-<style scoped lang="scss">
-.non-favourite {
-    &__cards {
-        display: grid;
-        margin-left: rem(-$padding);
-        margin-right: rem(-$padding);
-        overflow: hidden;
-    }
-
-    &__card-normal {
-        display: none;
-    }
-
-    @include screen($desktop) {
-        &__cards {
-            grid-template-columns: repeat(3, 1fr);
-            gap: rem(50px) rem($padding-larger);
-            margin-left: -50px;
-            margin-right: -50px;
-            padding-left: 50px;
-            padding-right: 50px;
-        }
-
-        &__card-small {
-            display: none;
-        }
-
-        &__card-normal {
-            display: block;
-            margin-left: 0;
-            margin-right: 0;
-        }
-    }
-
-    @include screen(1200px) {
-        &__cards {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    @include screen(1500px) {
-        &__cards {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
-}
-
-.filter {
-    display: flex;
-    align-items: center;
-    gap: rem(8px);
-    width: 100%;
-    min-width: rem(336px);
-}
-
-.not-found {
-    color: $c-text-base;
-
-    &__query {
-        display: inline-block;
-        color: $c-primary;
-    }
-}
-
-.item {
-    display: flex;
-    align-items: center;
-    padding: rem(8px);
-    cursor: pointer;
-    transition: 0.1s;
-
-    &__image {
-        width: rem(30px);
-        margin-right: rem(10px);
-        border-radius: rem(4px);
-    }
-
-    &__name {
-        font-size: rem(16px);
-        font-weight: 500;
-    }
-
-    &__amount {
-        font-size: rem(12px);
-        color: $c-black-20;
-        margin-left: rem(8px);
-    }
-
-    &:hover {
-        background-color: $c-black-8;
-    }
-}
-</style>
