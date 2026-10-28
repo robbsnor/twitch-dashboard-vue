@@ -15,7 +15,7 @@ const favouriteStore = useFavouriteStore();
         <img class="absolute inset-0 z-0 size-full object-cover opacity-30 blur-[50px]" :src="props.image" />
 
         <Container>
-            <div class="relative flex items-end justify-between px-5 pt-20 pb-5 md:pt-40">
+            <div class="relative flex items-end justify-between pt-20 pb-5 md:pt-40">
                 <div class="flex items-end gap-5">
                     <img class="w-[50px] rounded md:w-[100px]" :src="props.image" alt="game image" />
                     <h1 class="m-0 p-0 text-[24px] font-bold md:text-4xl">{{ props.name }}</h1>
