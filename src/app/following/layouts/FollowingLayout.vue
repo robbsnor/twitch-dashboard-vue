@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useFollowingStore } from '../stores/following.store';
 import Zombies from '../components/Zombies.vue';
+import { TwitchClient, type TwitchGame } from '@/app/shared/composables/twitch-api';
+import { useAuthStore } from '@/app/auth/stores/auth.store';
+import { TwitchService } from '@/app/shared/services/twitch.service';
 
-const followingStore = useFollowingStore();
 const pages = ref([
     {
         name: 'Live',
@@ -22,6 +24,29 @@ const pages = ref([
         path: '/following/zombies',
     },
 ]);
+
+onMounted(async () => {
+    // const authStore = useAuthStore();
+    // const twitch = new TwitchClient({
+    //     clientId: import.meta.env.VITE_TWITCH_CLIENT_ID,
+    //     accessToken: authStore.twitchAccessToken as string,
+    // });
+    // const followedStreams = await twitch.getFollowedStreams({ userId: authStore.twitchUser!.provider_id! });
+    // const userIds = followedStreams.map((stream) => stream.user_id);
+    // const users = await twitch.getUsers({ ids: userIds });
+    // const gameIds = [...new Set(followedStreams.map((stream) => stream.game_id))];
+    // const games = await twitch.getGames({ ids: gameIds });
+    // const streams = followedStreams.map((stream) => {
+    //     const user = users.find((user) => user.id === stream.user_id);
+    //     return {
+    //         ...stream,
+    //         ...user,
+    //     };
+    // });
+    // console.log(followedStreams);
+    // console.log(users);
+    // console.log(streams);
+});
 </script>
 
 <template>

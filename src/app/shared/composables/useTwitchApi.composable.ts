@@ -23,8 +23,6 @@ export function useTwitchApi() {
             throw new Error('Not logged in');
         }
 
-        console.log(authStore.twitchRefreshToken);
-
         if (!authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
             // await authStore.signOut();
             throw new Error('Missing Twitch tokens');
@@ -69,12 +67,10 @@ export function useTwitchApi() {
 
     // api calls
     async function refreshTokens() {
-        console.log('trying to refresh token...');
         if (!authStore.session || !authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
             console.log('No session or tokens available for refresh');
             return;
         }
-        console.log('Refreshing tokens...');
 
         try {
             const { data, error } = await supabase.functions.invoke('refresh-twitch-token', {
@@ -85,10 +81,6 @@ export function useTwitchApi() {
             if (error) throw error;
 
             const { access_token, refresh_token } = data;
-            console.log('new tokens:', {
-                access_token,
-                refresh_token,
-            });
 
             authStore.twitchAccessToken = access_token;
             authStore.twitchRefreshToken = refresh_token;

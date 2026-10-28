@@ -52,7 +52,6 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     const mirrorSession = async () => {
-        console.log('mirroring session');
         const { data, error } = await supabase.auth.getSession();
         session.value = data.session;
         twitchUser.value = data.session?.user.user_metadata as TwitchUserMetadata;
@@ -65,8 +64,6 @@ export const useAuthStore = defineStore('auth', () => {
 
         supabase.auth.onAuthStateChange((_event, newSession) => {
             session.value = newSession;
-            console.log('onauthchange');
-            console.log(newSession);
         });
     };
 
