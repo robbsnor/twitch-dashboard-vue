@@ -64,21 +64,21 @@ async function manageFavourites() {
         >
             Remove from favourites
         </v-list-item>
+
         <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()" class="text-primary">
             Add to favourites
         </v-list-item>
-        <v-list-item prepend-icon="mdi-content-copy" @click="copyuserId(stream.user_id)"> Copy user id </v-list-item>
-        <v-list-item prepend-icon="mdi-account" :to="{ name: 'user', params: { userLogin: stream.user_login } }">
-            View profile
-        </v-list-item>
-        <v-list-item prepend-icon="mdi-play" :href="`https://www.twitch.tv/${stream.user_login}/`" target="_blank">
-            Watch stream <v-icon :size="12" class="small-icon">mdi-open-in-new</v-icon>
-        </v-list-item>
-        <Divider :text="stream.game_name" />
+
+        <!-- <Divider :text="stream.game_name" /> -->
         <v-list-item v-if="stream.game_name" prepend-icon="mdi-magnify" @click="goToGamePage(stream.game_name)">
             Explore category
         </v-list-item>
+
         <v-list-item prepend-icon="mdi-filter-variant" @click="doFiltering()"> Filter following streams </v-list-item>
+
+        <Divider />
+
+        <v-list-item prepend-icon="mdi-content-copy" @click="copyuserId(stream.user_id)"> Copy user id </v-list-item>
     </v-list>
 </template>
 

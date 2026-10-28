@@ -18,6 +18,8 @@
         "@lottiefiles/lottie-player": "^2.0.4",
         "@supabase/supabase-js": "^2.90.1",
         "@tailwindcss/vite": "^4.1.18",
+        "@twurple/api": "^8.2.0",
+        "@twurple/auth": "^8.2.0",
         "@types/lodash": "^4.17.0",
         "@types/luxon": "^3.4.2",
         "@vueuse/core": "^10.9.0",
