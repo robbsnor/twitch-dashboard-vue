@@ -6,6 +6,8 @@ import { TwitchClient, type TwitchGame } from '@/app/shared/composables/twitch-a
 import { useAuthStore } from '@/app/auth/stores/auth.store';
 import { TwitchService } from '@/app/shared/services/twitch.service';
 
+const authStore = useAuthStore();
+
 const pages = ref([
     {
         name: 'Live',
@@ -72,4 +74,11 @@ onMounted(async () => {
     </Section>
 
     <RouterView />
+    <div>
+        <code>
+            <pre>
+                {{ authStore.twitchUser }}
+            </pre>
+        </code>
+    </div>
 </template>
