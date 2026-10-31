@@ -1,12 +1,12 @@
-import { useFavouriteStore } from './../../shared/stores/favourites.store';
-import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
-import { defineStore } from 'pinia';
-import { computed, onMounted, ref } from 'vue';
-import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
-import { LiveService } from '../services/live.service';
-import { useStorage } from '@vueuse/core';
+import type { TwitchFollowedStreamWithUser } from '@/app/shared/models/twitch/followed-streams-with-user.model';
 import type { TwitchGame } from '@/app/shared/models/twitch/games.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
+import { useStorage } from '@vueuse/core';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { LiveService } from '../services/live.service';
+import { useFavouriteStore } from './../../shared/stores/favourites.store';
 
 export interface Category {
     name?: string;
@@ -124,7 +124,22 @@ export const useFollowingStore = defineStore('following', () => {
 
     async function fetchStreams() {
         streamsLastFetchedOn.value = new Date().getTime();
-        streams.value = await twitchApi.getFollowedStreamsWithUser();
+        const followedStreams = await twitchApi.getFollowedStreams();
+
+        const userIds = followedStreams.map((stream) => stream.user_id);
+        const users = await twitchApi.getUsers({ ids: userIds });
+
+        streams.value = followedStreams
+            .map((stream) => {
+                const user = users.find((user) => user.id === stream.user_id);
+                if (!user) return;
+
+                return {
+                    ...stream,
+                    ...user,
+                };
+            })
+            .filter((stream) => !!stream) as TwitchFollowedStreamWithUser[];
     }
 
     async function fetchCategories() {
@@ -133,11 +148,11 @@ export const useFollowingStore = defineStore('following', () => {
             return;
         }
 
-        const categoryIds = [...new Set(streams.value.map((stream) => stream.game_id))].filter(Boolean);
+        const categoryIds = [...new Set(streams.value.map((stream) => stream.game_id))].filter(
+            (id) => id !== undefined
+        );
 
-        // @ts-ignore
-        const res = await twitchApi.getGames({ ids: categoryIds });
-        twitchCategories.value = res.data;
+        twitchCategories.value = await twitchApi.getGames({ ids: categoryIds as string[] });
     }
 
     return {

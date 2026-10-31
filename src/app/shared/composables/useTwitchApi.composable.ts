@@ -5,7 +5,7 @@ import type { TwitchGetFollowedChannels } from '../models/twitch/followed-channe
 import type { TwitchCheckUserSubscription } from '../models/twitch/check-user-subscription.model';
 import type { TwitchGetChannelFollowers } from '../models/twitch/channel-followers.model';
 import type { VideoTypesModel } from '../models/twitch/video-types.model';
-import type { TwitchGetStreams } from '../models/twitch/get-streams';
+import type { TwitchGetStreams, TwitchStream } from '../models/twitch/get-streams';
 import type { TwitchGame, TwitchGetGames } from '../models/twitch/games.model';
 import type { TwitchFollowedStream, TwitchGetFollowedStreams } from '../models/twitch/followed-streams.model';
 import type { TwitchFollowedStreamWithUser } from '../models/twitch/followed-streams-with-user.model';
@@ -14,56 +14,199 @@ import type { TwitchGetSchedule, TwitchSchedule } from '../models/twitch/schedul
 import type { TwitchScheduleWithUser } from '../models/twitch/schedule-with-user.model';
 import { supabase } from '@/app/supabase';
 import { useRouter } from 'vue-router';
+import type { TwitchPagination } from '../models/twitch/pagination.model';
+import type {
+    CheckUserSubscriptionParams,
+    FetchOptions,
+    GetFollowedChannelsParams,
+    GetGamesParams,
+    GetStreamsParams,
+    GetUsersParams,
+    GetVideosParams,
+    QueryParams,
+    RequestOptions,
+    TwitchResponse,
+} from '../models/twitch/twitch.model';
+
+export class TwitchApiError extends Error {
+    constructor(public readonly status: number, public readonly body: unknown, message?: string) {
+        super(message ?? `Twitch API error (${status})`);
+        this.name = 'TwitchApiError';
+    }
+}
 
 export function useTwitchApi() {
     const authStore = useAuthStore();
 
-    const http = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET'): Promise<T> => {
+    async function getGames(params: GetGamesParams, options?: FetchOptions): Promise<TwitchGame[]> {
+        return request<TwitchGame>(
+            '/games',
+            {
+                id: params.ids,
+                name: params.names,
+                igdb_id: params.igdbIds,
+            },
+            options
+        );
+    }
+
+    async function getUsers(params: GetUsersParams, options?: FetchOptions): Promise<TwitchUser[]> {
+        return request<TwitchUser>(
+            '/users',
+            {
+                id: params.ids,
+                login: params.logins,
+            },
+            options
+        );
+    }
+
+    async function getFollowedStreams(options?: FetchOptions): Promise<TwitchFollowedStream[]> {
+        return request<TwitchFollowedStream>(
+            '/streams/followed',
+            {
+                user_id: authStore.twitchUser?.provider_id,
+            },
+            options
+        );
+    }
+
+    async function getFollowedChannels(
+        params: GetFollowedChannelsParams,
+        options?: FetchOptions
+    ): Promise<TwitchGame[]> {
+        return request<TwitchGame>(
+            '/channels/followed',
+            {
+                id: params.ids,
+            },
+            options
+        );
+    }
+
+    async function getVideos(params: GetVideosParams, options?: FetchOptions): Promise<TwitchVideo[]> {
+        return request<TwitchVideo>(
+            '/videos',
+            {
+                id: params.videoIds,
+                user_id: params.userIds,
+                game_id: params.gameIds,
+            },
+            options
+        );
+    }
+
+    async function getStreams(params: GetStreamsParams, options?: FetchOptions): Promise<TwitchStream[]> {
+        return request<TwitchStream>(
+            '/streams',
+            {
+                user_id: params.userIds,
+                user_login: params.userLogins,
+                game_id: params.gameIds,
+            },
+            options
+        );
+    }
+
+    async function checkUserSubscription(
+        params: CheckUserSubscriptionParams,
+        options?: FetchOptions
+    ): Promise<boolean> {
+        const user = await request<TwitchUser>(
+            '/subscriptions/user',
+            {
+                broadcaster_id: params.broadcasterId,
+                user_id: params.userId,
+            },
+            options
+        );
+
+        console.log('user: ', user);
+
+        return !!user;
+    }
+
+    async function getStreamsWithUser(
+        params: GetStreamsParams,
+        options?: FetchOptions
+    ): Promise<TwitchStreamsWithUser[]> {
+        const streams = await getStreams(params, options);
+        const userIds = streams.map((stream) => stream.user_id);
+        const users = await getUsers({ ids: userIds }, options);
+
+        return (
+            streams
+                .map((stream) => {
+                    const user = users.find((user) => user.id === stream.user_id);
+                    if (!user) return;
+
+                    return {
+                        ...stream,
+                        ...user!,
+                    };
+                })
+                .filter((stream) => !!stream)
+                // @ts-ignore
+                .sort((a, b) => b.viewer_count - a.viewer_count) as TwitchStreamsWithUser[]
+        );
+    }
+
+    async function request<T>(path: string, query: QueryParams = {}, options: RequestOptions = {}): Promise<T[]> {
         if (!authStore.session) {
             throw new Error('Not logged in');
         }
 
         if (!authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
-            // await authStore.signOut();
             throw new Error('Missing Twitch tokens');
         }
 
-        const _req = () =>
-            fetch(url, {
-                method: method,
-                headers: {
-                    Authorization: `Bearer ${authStore.twitchAccessToken}`,
-                    'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
-                },
-            });
+        const { method = 'GET', maxItems = 999, pageSize = 100 } = options;
 
-        try {
+        const all: T[] = [];
+        let after: string | undefined;
+
+        do {
+            const first = Math.max(1, Math.min(pageSize, 100, maxItems - all.length));
+
+            const url = new URL(`https://api.twitch.tv/helix${path}`);
+
+            for (const [key, value] of Object.entries({ first, ...query, after })) {
+                if (Array.isArray(value)) {
+                    value.forEach((item) => url.searchParams.append(key, String(item)));
+                } else if (value !== undefined) {
+                    url.searchParams.set(key, String(value));
+                }
+            }
+
+            const _req = () => {
+                return fetch(url, {
+                    method,
+                    headers: {
+                        Authorization: `Bearer ${authStore.twitchAccessToken}`,
+                        'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
+                    },
+                });
+            };
+
             let res = await _req();
 
             if (res.status === 401) {
-                try {
-                    console.log('Access token expired, refreshing...');
-                    await refreshTokens();
-                } catch (refreshErr) {
-                    console.error('❌ Refresh token failed:', refreshErr);
-                    // await authStore.signOut();
-                    throw refreshErr;
-                }
-
+                await refreshTokens();
                 res = await _req();
             }
 
             if (!res.ok) {
-                const message = `HTTP ${res.status}: ${res.statusText}`;
-                throw new Error(message);
+                const body = await res.json().catch(() => null);
+                throw body;
             }
 
-            const data: T = await res.json();
-            return data;
-        } catch (err) {
-            throw err as Error;
-        }
-    };
+            const page = (await res.json()) as TwitchResponse<T>;
+            all.push(...page.data);
+            after = page.pagination?.cursor;
+        } while (after && all.length < maxItems);
+
+        return all.slice(0, maxItems);
+    }
 
     // api calls
     async function refreshTokens() {
@@ -89,207 +232,14 @@ export function useTwitchApi() {
         }
     }
 
-    async function getUsers(user: { ids?: number[]; logins?: string[] }): Promise<TwitchGetUsers> {
-        if (user.ids?.length === 0 || user.logins?.length === 0) return { data: [] };
-
-        const url = new URL('https://api.twitch.tv/helix/users');
-        if (user.ids) user.ids.forEach((id) => url.searchParams.append('id', id.toString()));
-        if (user.logins) user.logins.forEach((login) => url.searchParams.append('login', login));
-
-        const res = await http<TwitchGetUsers>(url.toString());
-        if (res.data.length === 0) throw new Error('No users found');
-
-        const unorderedUsers = res.data;
-        let orderedUsers: TwitchUser[] = [];
-
-        // it will find one
-        if (user.ids) {
-            // @ts-ignore
-            orderedUsers = user.ids.map((userId) => {
-                return unorderedUsers.find((unorderedUser) => Number(unorderedUser.id) === userId);
-            });
-        }
-
-        if (user.logins) {
-            // @ts-ignore
-            orderedUsers = user.logins.map((user) => {
-                return unorderedUsers.find((unorderedUser) => unorderedUser.login === user.toLocaleLowerCase());
-            });
-        }
-
-        res.data = orderedUsers;
-        return res;
-    }
-
-    async function getFollowedStreams(): Promise<TwitchFollowedStream[]> {
-        const url = new URL('https://api.twitch.tv/helix/streams/followed');
-        const userId = authStore.twitchUser?.provider_id;
-        url.searchParams.append('user_id', userId!);
-        const res = await http<TwitchGetFollowedStreams>(url.toString());
-        return res.data;
-    }
-
-    async function getFollowedStreamsWithUser(): Promise<TwitchFollowedStreamWithUser[]> {
-        const followedStreams = await getFollowedStreams();
-        const userIds = followedStreams.map((stream) => Number(stream.user_id));
-        const users = (await getUsers({ ids: userIds })).data;
-        const streamsWithUser = followedStreams.map<TwitchFollowedStreamWithUser>((stream, index) => {
-            return {
-                ...followedStreams[index],
-                ...users[index],
-            };
-        });
-        return streamsWithUser;
-    }
-
-    async function getFollowedChannels(userId: number, broadcasterId?: number): Promise<TwitchGetFollowedChannels> {
-        const url = new URL('https://api.twitch.tv/helix/channels/followed');
-        url.searchParams.append('user_id', userId.toString());
-        if (broadcasterId) url.searchParams.append('broadcaster_id', broadcasterId.toString());
-
-        const res = await http<TwitchGetFollowedChannels>(url.toString());
-        return res;
-    }
-
-    async function getVideosByUserId(
-        userId: number,
-        type: VideoTypesModel = 'all',
-        after?: string, // cursor
-        amount: number = 20
-        // options?: TwitchGetVideosOptions,
-    ): Promise<TwitchGetVideos> {
-        const url = new URL('https://api.twitch.tv/helix/videos');
-        url.searchParams.append('user_id', userId.toString());
-        url.searchParams.append('type', type);
-        url.searchParams.append('first', amount.toString());
-        if (after) url.searchParams.append('after', after);
-
-        const res = await http<TwitchGetVideos>(url.toString());
-        return res;
-    }
-
-    async function getVideosByVideoIds(ids: number[]): Promise<TwitchGetVideos | { data: never[] }> {
-        const url = new URL('https://api.twitch.tv/helix/videos');
-        if (ids.length > 100) ids = ids.slice(0, 100);
-        if (ids.length === 0) return { data: [] };
-
-        ids.forEach((id) => url.searchParams.append('id', id.toString()));
-        const res = await http<TwitchGetVideos>(url.toString());
-        const unorderedVideos = res.data;
-
-        const orderedVideos: TwitchVideo[] = ids.reduce((acc: TwitchVideo[], id: number) => {
-            const video = unorderedVideos.find((unorderedVideo) => Number(unorderedVideo.id) === id);
-            if (video) acc.push(video);
-            return acc;
-        }, []);
-
-        res.data = orderedVideos;
-        return res;
-    }
-
-    async function getChannelFollowers(broadcasterId: number): Promise<TwitchGetChannelFollowers> {
-        const url = new URL('https://api.twitch.tv/helix/channels/followers');
-        url.searchParams.append('broadcaster_id', broadcasterId.toString());
-
-        const res = await http<TwitchGetChannelFollowers>(url.toString());
-        return res;
-    }
-
-    async function getGames(game: { ids?: string[]; names?: string[] }): Promise<TwitchGetGames> {
-        const url = new URL('https://api.twitch.tv/helix/games');
-        if (game.ids) game.ids.forEach((id) => url.searchParams.append('id', id.toString()));
-        if (game.names) game.names.forEach((name) => url.searchParams.append('name', name));
-
-        const res = await http<TwitchGetGames>(url.toString());
-
-        let orderedGames: TwitchGame[] = [];
-
-        // the ordering of the games could look prettier
-        if (game.ids) {
-            orderedGames = game.ids
-                .map((gameId) => res.data.find((game) => game.id === gameId))
-                .filter(Boolean) as TwitchGame[];
-        }
-
-        if (game.names) {
-            orderedGames = game.names
-                .map((gameName) => res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase()))
-                .filter(Boolean) as TwitchGame[];
-        }
-
-        res.data = orderedGames;
-        return res;
-    }
-
-    async function getStreamsByGameIds(ids: number[]): Promise<TwitchGetStreams> {
-        const url = new URL('https://api.twitch.tv/helix/streams');
-        ids.forEach((id) => url.searchParams.append('game_id', id.toString()));
-        url.searchParams.append('first', '100');
-
-        const res = await http<TwitchGetStreams>(url.toString());
-        return res;
-    }
-
-    async function getStreamsByGameIdWithUsers(ids: number[]): Promise<TwitchStreamsWithUser[]> {
-        const streams = (await getStreamsByGameIds(ids)).data;
-        const userIds = streams.map((stream) => Number(stream.user_id));
-        const users = (await getUsers({ ids: userIds })).data;
-        const streamsWithUser = streams.map<TwitchStreamsWithUser>((stream, index) => {
-            return {
-                ...streams[index],
-                ...users[index],
-            };
-        });
-        return streamsWithUser;
-    }
-
-    async function getSchedules(userIds: number[], amount = 25): Promise<TwitchSchedule[]> {
-        const promises = userIds.map(async (userId) => {
-            const url = new URL('https://api.twitch.tv/helix/schedule');
-            url.searchParams.append('broadcaster_id', userId.toString());
-            url.searchParams.append('first', amount.toString());
-            return await http<TwitchGetSchedule>(url.toString()).catch(() => null);
-        });
-
-        return (await Promise.all(promises)).filter(Boolean).map((res) => res!.data);
-    }
-
-    async function getScheduleWithUsers(userIds: number[]): Promise<TwitchScheduleWithUser[]> {
-        const schedules = await getSchedules(userIds);
-        const userIdsWithSchedules = schedules.map((schedule) => Number(schedule.broadcaster_id));
-        const usersWithSchedules = (await getUsers({ ids: userIdsWithSchedules })).data;
-        return usersWithSchedules.map((user) => {
-            const schedule = schedules.find((schedule) => Number(schedule.broadcaster_id) === Number(user.id))!;
-
-            return { schedule, user };
-        });
-    }
-
-    async function checkUserSubscription(userId: number, broadcasterId: number): Promise<boolean> {
-        const url = new URL('https://api.twitch.tv/helix/subscriptions/user');
-        url.searchParams.append('user_id', userId.toString());
-        url.searchParams.append('broadcaster_id', broadcasterId.toString());
-
-        return http<TwitchCheckUserSubscription>(url.toString())
-            .then(() => true)
-            .catch(() => false);
-    }
-
     return {
         getUsers,
         getFollowedStreams,
-        getFollowedStreamsWithUser,
         getFollowedChannels,
-        getVideosByUserId,
-        getVideosByVideoIds,
-        getChannelFollowers,
         getGames,
-        getStreamsByGameIds,
-        getStreamsByGameIdWithUsers,
-        getSchedules,
-        getScheduleWithUsers,
+        getVideos,
+        getStreams,
+        getStreamsWithUser,
         checkUserSubscription,
-
-        refreshTokens,
     };
 }

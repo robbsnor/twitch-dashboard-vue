@@ -88,8 +88,9 @@ export const useFavouriteStore = defineStore('favourite', () => {
     }
 
     async function fetchTwitchUsers() {
-        const res = await twitchApi.getUsers({ ids: userIds.value });
-        twitchUsers.value = res.data;
+        const ids = userIds.value.map((id) => id.toString());
+        const res = await twitchApi.getUsers({ ids });
+        twitchUsers.value = res;
     }
 
     function isFavourite(userId: number) {
@@ -103,23 +104,6 @@ export const useFavouriteStore = defineStore('favourite', () => {
     const categories = ref<Tables<'favourite_categories'>[]>([]);
     const categoryIds = computed(() => categories.value.map((cat) => cat.category_id));
     const twitchCategories = ref<TwitchGame[]>([]);
-    // const categories = [
-    //     'Call of Duty: Black Ops',
-    //     'Call of Duty: Black Ops II',
-    //     'Call of Duty: Black Ops III',
-    //     'Dead by Daylight',
-    //     'Super Mario 64',
-    //     'Super Mario Sunshine',
-    //     'Super Mario Galaxy',
-    //     'Super Mario Galaxy 2',
-    //     'Software and Game Development',
-    //     'Shapez 2',
-    //     'VALORANT',
-    //     'Rocket League',
-    //     'Minecraft',
-    //     'Apex Legends',
-    //     'Beat Saber',
-    // ];
 
     async function fetchCategories() {
         loadingCategories.value = true;
@@ -143,8 +127,8 @@ export const useFavouriteStore = defineStore('favourite', () => {
             return;
         }
 
-        const res = await twitchApi.getGames({ ids: categoryIds.value });
-        twitchCategories.value = res.data.sort((a, b) => a.name.localeCompare(b.name));
+        const games = await twitchApi.getGames({ ids: categoryIds.value });
+        twitchCategories.value = games.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     async function addCategory(id: string) {

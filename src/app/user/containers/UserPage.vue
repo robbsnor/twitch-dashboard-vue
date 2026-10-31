@@ -12,15 +12,16 @@ const userLogin = useRouteParams<string>('userLogin');
 const twitchApi = useTwitchApi();
 const userHeader = ref<UserHeaderProps>();
 const user = computedAsync(async () => {
-    const res = await twitchApi.getUsers({ logins: [userLogin.value] });
-    return res.data[0];
+    const users = await twitchApi.getUsers({ logins: [userLogin.value] });
+
+    return users.find((user) => user.login.toLocaleLowerCase() === userLogin.value.toLocaleLowerCase());
 });
 
-watch(user, async () => {
-    TitleService.setTitle(user.value.display_name);
+watch(user, () => {
+    if (!user.value) return;
 
-    const resFollowers = await twitchApi.getChannelFollowers(Number(user.value.id));
-    userHeader.value = UserFactory.mapToUserHeader(user.value, resFollowers.total);
+    TitleService.setTitle(user.value.display_name);
+    userHeader.value = UserFactory.mapToUserHeader(user.value);
 });
 </script>
 

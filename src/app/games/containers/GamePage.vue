@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import CardGameStream from '@/app/games/components/CardGameStream.vue';
-import type { CardGameStream as CardGameStreamModel } from '@/app/games/models/card-game-stream.model';
-import type { TwitchGame } from '../../shared/models/twitch/games.model';
-import GamePageHeader from '../components/GamePageHeader.vue';
-import { TwitchService } from '@/app/shared/services/twitch.service';
 import { useTwitchApi } from '@/app/shared/composables/useTwitchApi.composable';
 import type { TwitchStreamsWithUser } from '@/app/shared/models/twitch/streams-with-user.model';
+import { TwitchService } from '@/app/shared/services/twitch.service';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import type { TwitchGame } from '../../shared/models/twitch/games.model';
+import GamePageHeader from '../components/GamePageHeader.vue';
 
 const route = useRoute();
-const router = useRouter();
 const twitchApi = useTwitchApi();
 
 const streams = ref<TwitchStreamsWithUser[]>();
@@ -18,13 +16,12 @@ const game = ref<TwitchGame | null>();
 
 onMounted(async () => {
     const gameName = route.params.gameName as string;
-    const res = await twitchApi.getGames({ names: [gameName] });
+    const games = await twitchApi.getGames({ names: [gameName] });
 
-    const _game = res.data.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
-    if (!_game) return (game.value = null);
+    game.value = games.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
+    if (!game.value) return;
 
-    streams.value = await twitchApi.getStreamsByGameIdWithUsers([Number(_game.id)]);
-    game.value = _game;
+    streams.value = await twitchApi.getStreamsWithUser({ gameIds: [game.value.id] });
 });
 </script>
 

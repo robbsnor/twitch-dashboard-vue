@@ -33,7 +33,7 @@ export class UserFactory {
         });
     }
 
-    public static mapToUserHeader(user: TwitchUser, followers: number): UserHeaderProps {
+    public static mapToUserHeader(user: TwitchUser): UserHeaderProps {
         const banner = user.offline_image_url
             ? user.offline_image_url
             : // : 'https://static-cdn.jtvnw.net/jtv_user_pictures/340bf118-4558-4d0a-8285-166043494a37-profile_banner-480.jpeg';
@@ -43,7 +43,6 @@ export class UserFactory {
             username: user.display_name,
             banner: banner,
             avatar: user.profile_image_url,
-            followers: followers,
             isFavourite: false,
             id: Number(user.id),
         };

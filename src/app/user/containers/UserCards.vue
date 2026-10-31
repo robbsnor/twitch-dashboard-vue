@@ -20,7 +20,6 @@ const { options } = storeToRefs(appOptionsStore);
 
 const additionalVideosInfo = ref(LEKKER_SPELEN_VIDEOS);
 const search = ref<string>();
-const pagination = ref('');
 const cards = ref<CardVideoModel[]>([]);
 const loadingCards = ref(true);
 
@@ -32,55 +31,20 @@ const _categories = computed(() => {
     return orderedCategories;
 });
 
-const getCards = async (amount = 20, _pagination?: string) => {
+async function getCards() {
     loadingCards.value = true;
 
-    const res = await twitchApi.getVideosByUserId(Number(props.user.id), 'all', _pagination, amount);
-    pagination.value = res.pagination.cursor;
-
-    const videos = res.data;
+    const videos = await twitchApi.getVideos({ userIds: [props.user.id] });
     const newCards = UserFactory.mapToCards(videos, additionalVideosInfo.value);
     cards.value = [...cards.value, ...newCards];
 
     loadingCards.value = false;
-};
-
-const loadMore = () => getCards(100, pagination.value);
+}
 
 const init = () => {
     cards.value = [];
-    pagination.value = '';
     getCards();
 };
-
-const searchVideos = async (query: string | null) => {
-    loadingCards.value = true;
-    cards.value = [];
-
-    if (!query) return getCards();
-
-    const videoIds = additionalVideosInfo.value
-        .filter((video) => {
-            const matchedTitle = video.title.toLowerCase().includes(query.toLocaleLowerCase());
-            const matchedChapters = video.chapters.some((chapter) =>
-                chapter.title.toLowerCase().includes(query.toLocaleLowerCase())
-            );
-            return matchedTitle || matchedChapters;
-        })
-        .map((video) => video.videoId);
-
-    const res = await twitchApi.getVideosByVideoIds(videoIds);
-    cards.value = UserFactory.mapToCards(res.data, additionalVideosInfo.value);
-    pagination.value = '';
-    loadingCards.value = false;
-};
-
-watch(
-    () => search.value,
-    _.debounce(async (query) => {
-        searchVideos(query);
-    }, 500)
-);
 
 watch(
     () => props.user,
@@ -115,7 +79,6 @@ onMounted(() => {
 
         <div class="user-cards__footer">
             <Spinner v-if="loadingCards" />
-            <Button v-if="!loadingCards && pagination" @click="loadMore()">Load more</Button>
         </div>
     </div>
 </template>

@@ -8,15 +8,12 @@ export interface UserHeaderProps {
     username: string;
     banner: string;
     avatar: string;
-    followers: number;
     isFavourite: boolean;
     id: number;
 }
 
 const props = defineProps<UserHeaderProps>();
 const favouriteStore = useFavouriteStore();
-const formattedFollowers = computed(() => `${NumberService.abbreviateNumber(props.followers)} Followers`);
-const followersWithDots = computed(() => props.followers.toLocaleString());
 const isFavourite = computed(() => favouriteStore.isFavourite(props.id));
 const icon = computed(() => (isFavourite.value ? 'mdi-heart' : 'mdi-heart-outline'));
 const iconClass = computed(() => (isFavourite.value ? 'text-primary' : ''));
@@ -37,14 +34,6 @@ const iconClass = computed(() => (isFavourite.value ? 'text-primary' : ''));
                     >
                         {{ props.username }}
                     </a>
-
-                    <v-tooltip :text="followersWithDots" location="bottom">
-                        <template v-slot:activator="{ props }">
-                            <div v-bind="props" class="user-header__followers">
-                                {{ formattedFollowers }}
-                            </div>
-                        </template>
-                    </v-tooltip>
                 </div>
             </div>
 
