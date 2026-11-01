@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
     <Container>
-        <div class="grid md:grid-cols-4 gap-4">
+        <div class="grid md:grid-cols-4 gap-8">
             <CardLiveNormal v-for="stream in streams" :key="stream.id" :stream="stream" />
         </div>
         <Spinner v-if="loading" />
