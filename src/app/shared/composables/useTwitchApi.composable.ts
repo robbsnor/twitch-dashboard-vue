@@ -27,6 +27,7 @@ import type {
     RequestOptions,
     TwitchResponse,
 } from '../models/twitch/twitch.model';
+import { indexOf } from 'lodash';
 
 export class TwitchApiError extends Error {
     constructor(public readonly status: number, public readonly body: unknown, message?: string) {
@@ -38,8 +39,35 @@ export class TwitchApiError extends Error {
 export function useTwitchApi() {
     const authStore = useAuthStore();
 
+    function orderByParams<T>(items: T[], params: Array<{ values?: string[]; getValue: (item: T) => string }>): T[] {
+        if (!params.some(({ values }) => values?.length)) return items;
+
+        return items
+            .map((item, responseIndex) => {
+                for (let paramPriority = 0; paramPriority < params.length; paramPriority++) {
+                    const param = params[paramPriority];
+                    if (!param.values?.length) continue;
+
+                    const paramIndex = indexOf(param.values, param.getValue(item));
+                    if (paramIndex !== -1) {
+                        return { item, responseIndex, paramPriority, paramIndex };
+                    }
+                }
+
+                return { item, responseIndex, paramPriority: Number.MAX_SAFE_INTEGER, paramIndex: -1 };
+            })
+            .sort((a, b) => {
+                return (
+                    a.paramPriority - b.paramPriority ||
+                    a.paramIndex - b.paramIndex ||
+                    a.responseIndex - b.responseIndex
+                );
+            })
+            .map(({ item }) => item);
+    }
+
     async function getGames(params: GetGamesParams, options?: FetchOptions): Promise<TwitchGame[]> {
-        return request<TwitchGame>(
+        const games = await request<TwitchGame>(
             '/games',
             {
                 id: params.ids,
@@ -48,10 +76,16 @@ export function useTwitchApi() {
             },
             options
         );
+
+        return orderByParams(games, [
+            { values: params.ids, getValue: (game) => game.id },
+            { values: params.names, getValue: (game) => game.name },
+            { values: params.igdbIds, getValue: (game) => game.igdb_id },
+        ]);
     }
 
     async function getUsers(params: GetUsersParams, options?: FetchOptions): Promise<TwitchUser[]> {
-        return request<TwitchUser>(
+        const users = await request<TwitchUser>(
             '/users',
             {
                 id: params.ids,
@@ -59,6 +93,11 @@ export function useTwitchApi() {
             },
             options
         );
+
+        return orderByParams(users, [
+            { values: params.ids, getValue: (user) => user.id },
+            { values: params.logins, getValue: (user) => user.login },
+        ]);
     }
 
     async function getFollowedStreams(options?: FetchOptions): Promise<TwitchFollowedStream[]> {
@@ -75,17 +114,19 @@ export function useTwitchApi() {
         params: GetFollowedChannelsParams,
         options?: FetchOptions
     ): Promise<TwitchGame[]> {
-        return request<TwitchGame>(
+        const channels = await request<TwitchGame>(
             '/channels/followed',
             {
                 id: params.ids,
             },
             options
         );
+
+        return orderByParams(channels, [{ values: params.ids, getValue: (channel) => channel.id }]);
     }
 
     async function getVideos(params: GetVideosParams, options?: FetchOptions): Promise<TwitchVideo[]> {
-        return request<TwitchVideo>(
+        const videos = await request<TwitchVideo>(
             '/videos',
             {
                 id: params.videoIds,
@@ -94,10 +135,17 @@ export function useTwitchApi() {
             },
             options
         );
+
+        console.log(videos);
+
+        return orderByParams(videos, [
+            { values: params.videoIds, getValue: (video) => video.id },
+            { values: params.userIds, getValue: (video) => video.user_id },
+        ]);
     }
 
     async function getStreams(params: GetStreamsParams, options?: FetchOptions): Promise<TwitchStream[]> {
-        return request<TwitchStream>(
+        const streams = await request<TwitchStream>(
             '/streams',
             {
                 user_id: params.userIds,
@@ -106,6 +154,12 @@ export function useTwitchApi() {
             },
             options
         );
+
+        return orderByParams(streams, [
+            { values: params.userIds, getValue: (stream) => stream.user_id },
+            { values: params.userLogins, getValue: (stream) => stream.user_login },
+            { values: params.gameIds, getValue: (stream) => stream.game_id },
+        ]);
     }
 
     async function checkUserSubscription(
