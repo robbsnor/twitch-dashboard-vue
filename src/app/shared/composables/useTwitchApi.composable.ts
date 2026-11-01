@@ -136,8 +136,6 @@ export function useTwitchApi() {
             options
         );
 
-        console.log(videos);
-
         return orderByParams(videos, [
             { values: params.videoIds, getValue: (video) => video.id },
             { values: params.userIds, getValue: (video) => video.user_id },
@@ -214,7 +212,7 @@ export function useTwitchApi() {
             throw new Error('Missing Twitch tokens');
         }
 
-        const { method = 'GET', maxItems = 100, pageSize = 100 } = options;
+        const { method = 'GET', maxItems = 999, pageSize = 100 } = options;
 
         const all: T[] = [];
         let queryBatches: QueryParams[] = [{}];

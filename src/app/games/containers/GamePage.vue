@@ -13,47 +13,58 @@ const twitchApi = useTwitchApi();
 
 const streams = ref<TwitchStreamsWithUser[]>();
 const game = ref<TwitchGame | null>();
+const loading = ref(true);
 
 onMounted(async () => {
-    const gameName = route.params.gameName as string;
-    const games = await twitchApi.getGames({ names: [gameName] });
+    try {
+        loading.value = true;
 
-    game.value = games.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
-    if (!game.value) return;
+        const gameName = route.params.gameName as string;
+        const games = await twitchApi.getGames({ names: [gameName] });
 
-    streams.value = await twitchApi.getStreamsWithUser({ gameIds: [game.value.id] });
+        game.value = games.find((game) => game.name.toLowerCase() === gameName.toLowerCase());
+        if (!game.value) return;
+
+        streams.value = await twitchApi.getStreamsWithUser({ gameIds: [game.value.id] }, { maxItems: 200 });
+    } finally {
+        loading.value = false;
+    }
 });
 </script>
 
 <template>
-    <template v-if="game">
-        <GamePageHeader
-            class="game-header"
-            :image="TwitchService.getGameThumbnail(game.box_art_url)"
-            :name="game.name"
-            :id="game.id"
-        />
+    <div>
+        <template v-if="!loading">
+            <template v-if="game">
+                <GamePageHeader
+                    class="game-header"
+                    :image="TwitchService.getGameThumbnail(game.box_art_url)"
+                    :name="game.name"
+                    :id="game.id"
+                />
 
-        <Section>
-            <div class="game">
-                <Empty v-if="!streams?.length" title="No streamers atm..." description="Come back later"></Empty>
+                <Section>
+                    <div class="game">
+                        <Empty
+                            v-if="!streams?.length"
+                            title="No streamers atm..."
+                            description="Come back later"
+                        ></Empty>
 
-                <div class="game__cards" v-auto-animate v-fade-stagger>
-                    <div v-for="stream in streams" :key="stream.id" class="game__card">
-                        <CardGameStream :stream="stream" />
+                        <div class="game__cards" v-auto-animate v-fade-stagger>
+                            <div v-for="stream in streams" :key="stream.id" class="game__card">
+                                <CardGameStream :stream="stream" />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </Section>
-    </template>
+                </Section>
+            </template>
 
-    <Spinner v-if="game === undefined" padding></Spinner>
+            <Empty v-else :title="`Game not found:  ${route.params.gameName} `" description="Try something else" />
+        </template>
 
-    <Empty
-        v-if="game === null"
-        :title="`Game not found:  ${route.params.gameName} `"
-        description="Try something else"
-    />
+        <Spinner v-else padding />
+    </div>
 </template>
 
 <style scoped lang="scss">

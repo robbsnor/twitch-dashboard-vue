@@ -12,7 +12,7 @@ const streams = ref<TwitchStreamsWithUser[]>([]);
 onMounted(async () => {
     loading.value = true;
 
-    streams.value = await twitchApi.getStreamsWithUser({ gameIds: ['23894', '34134', '489401'] });
+    streams.value = await twitchApi.getStreamsWithUser({ gameIds: ['23894', '34134', '489401'] }, { maxItems: 100 });
 
     loading.value = false;
 });
