@@ -39,33 +39,6 @@ export class TwitchApiError extends Error {
 export function useTwitchApi() {
     const authStore = useAuthStore();
 
-    function orderByParams<T>(items: T[], params: Array<{ values?: string[]; getValue: (item: T) => string }>): T[] {
-        if (!params.some(({ values }) => values?.length)) return items;
-
-        return items
-            .map((item, responseIndex) => {
-                for (let paramPriority = 0; paramPriority < params.length; paramPriority++) {
-                    const param = params[paramPriority];
-                    if (!param.values?.length) continue;
-
-                    const paramIndex = indexOf(param.values, param.getValue(item));
-                    if (paramIndex !== -1) {
-                        return { item, responseIndex, paramPriority, paramIndex };
-                    }
-                }
-
-                return { item, responseIndex, paramPriority: Number.MAX_SAFE_INTEGER, paramIndex: -1 };
-            })
-            .sort((a, b) => {
-                return (
-                    a.paramPriority - b.paramPriority ||
-                    a.paramIndex - b.paramIndex ||
-                    a.responseIndex - b.responseIndex
-                );
-            })
-            .map(({ item }) => item);
-    }
-
     async function getGames(params: GetGamesParams, options?: FetchOptions): Promise<TwitchGame[]> {
         const games = await request<TwitchGame>(
             '/games',
@@ -277,7 +250,6 @@ export function useTwitchApi() {
         return all.slice(0, maxItems);
     }
 
-    // api calls
     async function refreshTokens() {
         if (!authStore.session || !authStore.twitchAccessToken || !authStore.twitchRefreshToken) {
             console.log('No session or tokens available for refresh');
@@ -299,6 +271,33 @@ export function useTwitchApi() {
         } catch (err) {
             throw err;
         }
+    }
+
+    function orderByParams<T>(items: T[], params: Array<{ values?: string[]; getValue: (item: T) => string }>): T[] {
+        if (!params.some(({ values }) => values?.length)) return items;
+
+        return items
+            .map((item, responseIndex) => {
+                for (let paramPriority = 0; paramPriority < params.length; paramPriority++) {
+                    const param = params[paramPriority];
+                    if (!param.values?.length) continue;
+
+                    const paramIndex = indexOf(param.values, param.getValue(item));
+                    if (paramIndex !== -1) {
+                        return { item, responseIndex, paramPriority, paramIndex };
+                    }
+                }
+
+                return { item, responseIndex, paramPriority: Number.MAX_SAFE_INTEGER, paramIndex: -1 };
+            })
+            .sort((a, b) => {
+                return (
+                    a.paramPriority - b.paramPriority ||
+                    a.paramIndex - b.paramIndex ||
+                    a.responseIndex - b.responseIndex
+                );
+            })
+            .map(({ item }) => item);
     }
 
     return {
