@@ -31,7 +31,7 @@ const uptime = computed(() => CardLiveService.getUptime(props.stream.started_at)
             class="group block relative aspect-video transition-all bg-black hover:-translate-x-1 hover:translate-y-1"
         >
             <span class="sr-only">Watch {{ stream.user_name }}'s stream</span>
-            <img
+            <v-img
                 :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)"
                 class="w-full h-full rounded transition-all"
                 alt="thumbnail"
