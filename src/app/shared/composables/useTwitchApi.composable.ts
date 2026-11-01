@@ -160,50 +160,67 @@ export function useTwitchApi() {
             throw new Error('Missing Twitch tokens');
         }
 
-        const { method = 'GET', maxItems = 999, pageSize = 100 } = options;
+        const { method = 'GET', maxItems = 100, pageSize = 100 } = options;
 
         const all: T[] = [];
-        let after: string | undefined;
+        let queryBatches: QueryParams[] = [{}];
 
-        do {
-            const first = Math.max(1, Math.min(pageSize, 100, maxItems - all.length));
+        for (const [key, value] of Object.entries(query)) {
+            const values =
+                Array.isArray(value) && value.length > 100
+                    ? Array.from({ length: Math.ceil(value.length / 100) }, (_, index) =>
+                          value.slice(index * 100, (index + 1) * 100)
+                      )
+                    : [value];
 
-            const url = new URL(`https://api.twitch.tv/helix${path}`);
+            queryBatches = queryBatches.flatMap((batch) => values.map((value) => ({ ...batch, [key]: value })));
+        }
 
-            for (const [key, value] of Object.entries({ first, ...query, after })) {
-                if (Array.isArray(value)) {
-                    value.forEach((item) => url.searchParams.append(key, String(item)));
-                } else if (value !== undefined) {
-                    url.searchParams.set(key, String(value));
+        for (const batch of queryBatches) {
+            let after: string | undefined;
+
+            do {
+                const first = Math.max(1, Math.min(pageSize, 100, maxItems - all.length));
+
+                const url = new URL(`https://api.twitch.tv/helix${path}`);
+
+                for (const [key, value] of Object.entries({ first, ...batch, after })) {
+                    if (Array.isArray(value)) {
+                        value.forEach((item) => url.searchParams.append(key, String(item)));
+                    } else if (value !== undefined) {
+                        url.searchParams.set(key, String(value));
+                    }
                 }
-            }
 
-            const _req = () => {
-                return fetch(url, {
-                    method,
-                    headers: {
-                        Authorization: `Bearer ${authStore.twitchAccessToken}`,
-                        'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
-                    },
-                });
-            };
+                const _req = () => {
+                    return fetch(url, {
+                        method,
+                        headers: {
+                            Authorization: `Bearer ${authStore.twitchAccessToken}`,
+                            'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
+                        },
+                    });
+                };
 
-            let res = await _req();
+                let res = await _req();
 
-            if (res.status === 401) {
-                await refreshTokens();
-                res = await _req();
-            }
+                if (res.status === 401) {
+                    await refreshTokens();
+                    res = await _req();
+                }
 
-            if (!res.ok) {
-                const body = await res.json().catch(() => null);
-                throw body;
-            }
+                if (!res.ok) {
+                    const body = await res.json().catch(() => null);
+                    throw body;
+                }
 
-            const page = (await res.json()) as TwitchResponse<T>;
-            all.push(...page.data);
-            after = page.pagination?.cursor;
-        } while (after && all.length < maxItems);
+                const page = (await res.json()) as TwitchResponse<T>;
+                all.push(...page.data);
+                after = page.pagination?.cursor;
+            } while (after && all.length < maxItems);
+
+            if (all.length >= maxItems) break;
+        }
 
         return all.slice(0, maxItems);
     }
