@@ -48,9 +48,7 @@ const init = () => {
 
 watch(
     () => props.user,
-    () => {
-        init();
-    }
+    () => init()
 );
 
 onMounted(() => {
@@ -59,12 +57,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="user-cards">
-        <Section first class="user-cards__section" title="Video's">
+    <div>
+        <Section first title="Video's">
             <template #default>
-                <div class="cards" v-fade-stagger>
+                <div
+                    class="grid gap-x-6 gap-y-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 l xl:grid-cols-4 2xl:grid-cols-5"
+                    v-fade-stagger
+                >
                     <CardVideo
-                        class="cards__card"
                         v-for="card in cards"
                         :key="card.id"
                         :card="card"
@@ -77,43 +77,8 @@ onMounted(() => {
             </template>
         </Section>
 
-        <div class="user-cards__footer">
+        <div class="flex min-h-[100px] items-center justify-center">
             <Spinner v-if="loadingCards" />
         </div>
     </div>
 </template>
-
-<style scoped lang="scss">
-.user-cards {
-    &__footer {
-        min-height: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
-.filter {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-width: rem(336px);
-}
-
-.cards {
-    display: grid;
-    gap: rem(50px) rem($padding-larger);
-
-    @include screen($desktop) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    @include screen(1200px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    @include screen(1500px) {
-        grid-template-columns: repeat(5, 1fr);
-    }
-}
-</style>

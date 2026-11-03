@@ -10,16 +10,16 @@ const followingStore = useFollowingStore();
     <Section v-if="followingStore.nonFavouriteStreams.length" title="Live channels">
         <div>
             <div
-                class="grid mx-[-1.25rem] overflow-hidden min-[1000px]:mx-[-3.125rem] min-[1000px]:grid-cols-3 min-[1000px]:gap-x-[1.875rem] min-[1000px]:gap-y-[3.125rem] min-[1000px]:px-[3.125rem] min-[1200px]:grid-cols-4 min-[1500px]:grid-cols-5"
+                class="grid overflow-hidden -mx-2 px-2 gap-x-6 gap-y-10 lg:grid-cols-3 l xl:grid-cols-4 2xl:grid-cols-5"
                 v-fade-stagger
                 v-auto-animate
             >
                 <template v-for="stream in followingStore.nonFavouriteStreams" :key="stream.user_id">
-                    <div class="min-[1000px]:hidden">
+                    <div class="lg:hidden">
                         <CardLiveSmall :stream="stream" />
                     </div>
 
-                    <div class="hidden min-[1000px]:block">
+                    <div class="hidden lg:block">
                         <CardLiveNormal :stream="stream" />
                     </div>
                 </template>

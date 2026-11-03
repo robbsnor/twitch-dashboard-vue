@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { DateService } from "@/app/shared/services/date.service";
-import { NumberService } from "@/app/shared/services/number.service";
-import { TimeService } from "@/app/shared/services/time.service";
-import { useClipboard } from "@vueuse/core";
-import { computed } from "vue";
-import { useToast } from "vue-toast-notification";
-import { useAuthStore } from "../../auth/stores/auth.store";
-import type {
-    CardVideoChapter,
-    CardVideo as CardVideoModel,
-} from "../models/card-video.model";
+import { DateService } from '@/app/shared/services/date.service';
+import { NumberService } from '@/app/shared/services/number.service';
+import { TimeService } from '@/app/shared/services/time.service';
+import { useClipboard } from '@vueuse/core';
+import { computed } from 'vue';
+import { useToast } from 'vue-toast-notification';
+import { useAuthStore } from '../../auth/stores/auth.store';
+import type { CardVideoChapter, CardVideo as CardVideoModel } from '../models/card-video.model';
 
 interface Props {
     card: CardVideoModel;
@@ -28,7 +25,7 @@ const authStore = useAuthStore();
 const toast = useToast();
 
 const emits = defineEmits({
-    "click:chapter": (chapter: CardVideoChapter) => true,
+    'click:chapter': (chapter: CardVideoChapter) => true,
 });
 
 const copyTwitchDlCommand = (card: CardVideoModel) => {
@@ -37,7 +34,7 @@ const copyTwitchDlCommand = (card: CardVideoModel) => {
     toast.success(`Copied command!`);
 };
 
-export type TwtichDlQuality = '1080p60'| '720p60'| '480p'| 'Audio Only'| '360p'| '160p';
+export type TwtichDlQuality = '1080p60' | '720p60' | '480p' | 'Audio Only' | '360p' | '160p';
 
 const downloadVideoById = async (id: number) => {
     const quality: TwtichDlQuality = '720p60';
@@ -46,7 +43,7 @@ const downloadVideoById = async (id: number) => {
     url.searchParams.set('id', id.toString());
     url.searchParams.set('quality', quality);
 
-    const res = await fetch(url.toString())
+    const res = await fetch(url.toString());
     if (!res.ok) {
         return toast.error(`Failed to download video ${id}: ${res}`);
     }
@@ -63,13 +60,11 @@ const copyVideoId = (card: CardVideoModel) => {
 
 const views = computed(() => NumberService.abbreviateNumber(props.card.views));
 const duration = computed(() => TimeService.formatTime(props.card.duration));
-const timeAgo = computed(() =>
-    DateService.getFormattedTimeBetweenDates(props.card.date)
-);
+const timeAgo = computed(() => DateService.getFormattedTimeBetweenDates(props.card.date));
 const formattedDate = computed(() => {
     const day = props.card.date.getDate();
     const month = props.card.date.toLocaleDateString(undefined, {
-        month: "long",
+        month: 'long',
     });
     const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
     const year = props.card.date.getFullYear();
@@ -78,58 +73,53 @@ const formattedDate = computed(() => {
 </script>
 
 <template>
-    <div class="card-video">
+    <div>
         <a
             :href="props.card.link"
             target="_blank"
-            class="card-video__thumbnail-container"
+            class="group relative block aspect-video overflow-hidden transition duration-200 hover:translate-x-[-5px] hover:translate-y-[5px]"
         >
             <span class="sr-only">Watch {{ props.card.title }} video</span>
             <v-img
                 v-if="props.showThumbnail"
                 :src="props.card.thumbnail"
-                class="card-video__thumbnail"
+                class="h-full w-full rounded opacity-70 transition duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
                 alt="Stream thumbnail"
             />
 
-            <div v-else class="card-video__thumbnail-empty">
-                <div class="card-video__spoiler-text">Spoilers</div>
+            <div v-else class="flex h-full w-full items-center justify-center rounded bg-black-200">
+                <div class="text-sm italic text-black-1900">Spoilers</div>
             </div>
 
-            <div class="card-video__thumbnail-overlay"></div>
+            <div class="absolute inset-0 -z-1 bg-black"></div>
             <!-- <div class="card-video__arrow">
                 <app-myIcon icon="arrow"></app-myIcon>
             </div> -->
-            <div class="card-video__views">{{ views }}</div>
-            <div v-if="props.showDuration" class="card-video__duration">
+            <div class="absolute bottom-1 left-3 text-[#ccc]">{{ views }}</div>
+            <div v-if="props.showDuration" class="absolute bottom-1 right-3 text-primary">
                 {{ duration }}
             </div>
         </a>
 
-        <div class="card-video__body">
-            <div class="card-video__copy">
-                <div class="card-video__title">{{ props.card.title }}</div>
-                <div class="card-video__date-wrapper">
-                    <span class="card-video__time-ago">{{ timeAgo }}</span>
-                    <span class="card-video__date"> / {{ formattedDate }}</span>
+        <div class="flex justify-between gap-5 pt-3">
+            <div class="overflow-hidden">
+                <div class="truncate pb-2 text-white">
+                    {{ props.card.title }}
+                </div>
+                <div class="overflow-hidden text-base text-[#ccc]">
+                    <span class="transition duration-200">{{ timeAgo }}</span>
+                    <span class="text-black-1300"> / {{ formattedDate }}</span>
                 </div>
 
-                <div
-                    v-if="props.card.chapters?.length && props.showCategories"
-                    class="card-video__chapters"
-                >
+                <div v-if="props.card.chapters?.length && props.showCategories" class="flex flex-col gap-2.5 pt-2.5">
                     <div
                         v-for="(chapter, i) in props.card.chapters"
                         :key="i"
                         @click="emits('click:chapter', chapter)"
-                        class="card-video__chapter"
+                        class="group flex cursor-pointer items-center gap-2.5"
                     >
-                        <img
-                            :src="chapter.boxArt"
-                            class="card-video__box-art"
-                            alt="Chapter box art"
-                        />
-                        <div class="card-video__chapter-title">
+                        <img :src="chapter.boxArt" class="w-5 flex-none rounded-[3px]" alt="Chapter box art" />
+                        <div class="text-base text-[#ccc] group-hover:text-white">
                             {{ chapter.title }}
                         </div>
                     </div>
@@ -147,202 +137,17 @@ const formattedDate = computed(() => {
                     />
                 </template>
                 <v-list>
-
-
-                    <v-list-item
-                        prepend-icon="mdi-download"
-                        @click="downloadVideoById(card.id)"
-                        >
+                    <v-list-item prepend-icon="mdi-download" @click="downloadVideoById(card.id)">
                         Download
-                        </v-list-item
-                    >
-                    <v-list-item
-                        prepend-icon="mdi-console-line"
-                        @click="copyTwitchDlCommand(card)"
-                        >
+                    </v-list-item>
+                    <v-list-item prepend-icon="mdi-console-line" @click="copyTwitchDlCommand(card)">
                         Copy twitch-dl cmd
-                        </v-list-item
-                    >
-                    <v-list-item
-                        prepend-icon="mdi-content-copy"
-                        @click="copyVideoId(card)"
-                        >
+                    </v-list-item>
+                    <v-list-item prepend-icon="mdi-content-copy" @click="copyVideoId(card)">
                         Copy video id
-                        </v-list-item
-                    >
+                    </v-list-item>
                 </v-list>
             </v-menu>
         </div>
     </div>
 </template>
-
-<style scoped lang="scss">
-.card-video {
-    $self: &;
-
-    &__thumbnail-container {
-        display: block;
-        position: relative;
-        aspect-ratio: 16 / 9;
-        transition: 0.2s;
-        overflow: hidden;
-
-        &:hover,
-        &:focus-visible {
-            transform: translate(#{rem(-5px)}, #{rem(5px)});
-
-            #{ $self }__arrow {
-                opacity: 1;
-                transform: translate(#{rem(10px)}, #{rem(-10px)});
-            }
-
-            #{ $self }__username {
-                color: $c-white;
-            }
-
-            #{ $self }__thumbnail {
-                opacity: 1;
-            }
-
-            #{ $self }__options {
-                opacity: 0.8;
-            }
-        }
-    }
-
-    &__arrow {
-        position: absolute;
-        top: rem(20px);
-        right: rem(20px);
-        color: $c-black-14;
-        font-size: rem(16px);
-        opacity: 0;
-        transition: 0.2s;
-    }
-
-    &__views {
-        position: absolute;
-        bottom: rem(7px);
-        left: rem(10px);
-        color: $c-white--dark;
-    }
-
-    &__duration {
-        position: absolute;
-        bottom: rem(7px);
-        right: rem(10px);
-        color: $c-primary;
-    }
-
-    &__thumbnail {
-        width: 100%;
-        height: 100%;
-        border-radius: $border-radius-normal;
-        opacity: 0.7;
-        transition: 0.2s;
-    }
-
-    &__thumbnail-empty {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        border-radius: $border-radius-normal;
-        background-color: $c-black-3;
-    }
-
-    &__spoiler-text {
-        font-style: italic;
-        font-size: rem(14px);
-        color: $c-black-20;
-    }
-
-    &__thumbnail-overlay {
-        position: absolute;
-        background-color: black;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-    }
-
-    &__options {
-        transform: translateX(10px);
-        transition: 0.2s;
-    }
-
-    &__body {
-        display: flex;
-        gap: 20px;
-        justify-content: space-between;
-        padding-top: rem(12px);
-    }
-
-    &__title {
-        color: $c-white;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        padding-bottom: rem(8px);
-    }
-
-    &__date-wrapper {
-        font-size: rem(16px);
-        overflow: hidden;
-        color: $c-white--dark;
-    }
-
-    &__time-ago {
-        transition: 0.2s;
-    }
-
-    &__date {
-        color: $c-black-14;
-    }
-
-    &__chapters {
-        padding-top: rem(10px);
-        display: flex;
-        flex-direction: column;
-        gap: rem(10px);
-    }
-
-    &__chapter {
-        display: flex;
-        align-items: center;
-        gap: rem(10px);
-        cursor: pointer;
-
-        &:hover {
-            #{ $self }__chapter-title {
-                color: $c-white;
-            }
-        }
-    }
-
-    &__box-art {
-        flex-grow: 0;
-        width: rem(20px);
-        border-radius: rem(3px);
-    }
-
-    &__chapter-title {
-        font-size: rem(16px);
-        color: $c-white--dark;
-    }
-
-    @include screen(1000px) {
-        &__options {
-            opacity: 0;
-        }
-
-        &:hover {
-            #{ $self }__options {
-                opacity: 1;
-            }
-        }
-    }
-}
-</style>
