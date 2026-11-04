@@ -10,7 +10,7 @@ const followingStore = useFollowingStore();
     <Section v-if="followingStore.nonFavouriteStreams.length" title="Live channels">
         <div>
             <div
-                class="grid overflow-hidden -mx-2 px-2 gap-x-6 gap-y-10 lg:grid-cols-3 l xl:grid-cols-4 2xl:grid-cols-5"
+                class="grid overflow-hidden max-lg:-mx-4 lg:-mx-2 lg:px-2 lg:gap-x-6 lg:gap-y-10 lg:grid-cols-3 l xl:grid-cols-4 2xl:grid-cols-5"
                 v-fade-stagger
                 v-auto-animate
             >
