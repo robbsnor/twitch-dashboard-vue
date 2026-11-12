@@ -58,7 +58,6 @@ async function manageFavourites() {
 
 <template>
     <v-list>
-        <Divider :text="stream.user_name" />
         <v-list-item v-if="isFavourite" class="text-primary" prepend-icon="mdi-heart" @click="manageFavourites()">
             Manage favourites
         </v-list-item>
@@ -74,6 +73,8 @@ async function manageFavourites() {
         <v-list-item v-else prepend-icon="mdi-heart-plus" @click="addToFavourites()" class="text-primary">
             Add to favourites
         </v-list-item>
+
+        <Divider />
 
         <!-- <Divider :text="stream.game_name" /> -->
         <v-list-item v-if="stream.game_name" prepend-icon="mdi-magnify" @click="goToGamePage(stream.game_name)">
