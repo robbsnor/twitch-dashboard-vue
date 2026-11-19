@@ -19,7 +19,7 @@ const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_co
 
 <template>
     <div
-        class="relative grid grid-cols-[150px_1fr] px-5 py-2.5 transition-all hover:bg-black-300"
+        class="relative grid grid-cols-[170px_1fr] px-4 py-2 transition-all hover:bg-black-300"
         :data-user-id="stream.user_id"
     >
         <div class="relative mr-4 shrink-0 grow-0 aspect-video">
@@ -29,6 +29,12 @@ const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_co
             >
                 {{ viewers }}
             </div>
+
+            <img
+                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)"
+                class="w-full aspect-video h-full rounded-md"
+                alt="thumbnail"
+            />
 
             <v-bottom-sheet v-model="sheet" inset>
                 <template v-slot:activator="{ props }">
@@ -57,12 +63,6 @@ const viewers = computed(() => CardLiveService.getViewers(props.stream.viewer_co
                     @add-favourite="dialog = true"
                 />
             </v-bottom-sheet>
-
-            <img
-                :src="TwitchService.getStreamThumbnail(stream.thumbnail_url)"
-                class="w-full h-full rounded-md"
-                alt="thumbnail"
-            />
         </div>
 
         <div class="overflow-hidden flex flex-col items-start">
