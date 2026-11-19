@@ -51,11 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
         twitchUser.value = null;
     };
 
-    let subscribed = false;
     const mirrorSession = () => {
-        if (subscribed) return;
-        subscribed = true;
-
         supabase.auth.onAuthStateChange((_event, newSession) => {
             session.value = newSession;
             twitchUser.value = (newSession?.user.user_metadata as TwitchUserMetadata) ?? null;
