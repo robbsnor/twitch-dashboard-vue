@@ -51,19 +51,20 @@ export const useAuthStore = defineStore('auth', () => {
         twitchUser.value = null;
     };
 
-    const mirrorSession = async () => {
-        const { data, error } = await supabase.auth.getSession();
-        session.value = data.session;
-        twitchUser.value = data.session?.user.user_metadata as TwitchUserMetadata;
-
-        if (!data.session) return;
-        if (data.session.provider_refresh_token && data.session.provider_token) {
-            twitchAccessToken.value = data.session.provider_token;
-            twitchRefreshToken.value = data.session.provider_refresh_token;
-        }
+    let subscribed = false;
+    const mirrorSession = () => {
+        if (subscribed) return;
+        subscribed = true;
 
         supabase.auth.onAuthStateChange((_event, newSession) => {
             session.value = newSession;
+            twitchUser.value = (newSession?.user.user_metadata as TwitchUserMetadata) ?? null;
+
+            // provider tokens are only present right after the OAuth login/refresh
+            if (newSession?.provider_token && newSession.provider_refresh_token) {
+                twitchAccessToken.value = newSession.provider_token;
+                twitchRefreshToken.value = newSession.provider_refresh_token;
+            }
         });
     };
 
