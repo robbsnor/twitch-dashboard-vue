@@ -28,7 +28,7 @@ interface TwitchUserMetadata {
 
 export const useAuthStore = defineStore('auth', () => {
     const twitchUser = useLocalStorage<TwitchUserMetadata | null>('twitch_user', null);
-    const session = useLocalStorage<Session | null>('session', null);
+    const session = useLocalStorage<Session | null>('session', null, {});
     const twitchAccessToken = useStorage<String | null>('twitch_access_token', null);
     const twitchRefreshToken = useStorage<String | null>('twitch_refresh_token', null);
 
@@ -53,6 +53,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     const mirrorSession = () => {
         supabase.auth.onAuthStateChange((_event, newSession) => {
+            if (!newSession) return;
+
             session.value = newSession;
             twitchUser.value = (newSession?.user.user_metadata as TwitchUserMetadata) ?? null;
 
